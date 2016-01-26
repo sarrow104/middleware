@@ -8,7 +8,7 @@ middleware(中间件)
 >>* 进程间
 >>* PC间
 
->* 其中需要引用到 [c++ boost库](http://www.boost.org/)(去官网下载编译下,很简单)
+>* 其中需要引用到 [c++ boost库](http://www.boost.org/)(去官网下载编译)
 
 
 ####以下是现有各个模块,其工程下均有完整的README.md
