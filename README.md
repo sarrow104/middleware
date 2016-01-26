@@ -2,7 +2,6 @@ middleware(中间件)
 ===========================
 
 ####简单介绍
-------------------------------------------
 * **方便两个模块间通信**
   * 线程间
   * 进程间
@@ -12,7 +11,6 @@ middleware(中间件)
 
 
 ####以下是现有各个模块,其工程下均有完整的README.md
-------------------------------------------
 * **通信模块**
   * [循环数组](https://github.com/NingLeixueR/middleware/tree/master/src/loop_array)(用于线程间交互)
   * [共享内存](https://github.com/NingLeixueR/middleware/tree/master/src/shared_memory)(用于进程间交互)
