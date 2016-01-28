@@ -16,11 +16,6 @@ class gateway_socket_base
 	module_communicate m_sendlooparray;
 	function<bool(uint32_t, SOCKET&)> m_callbacksocket;
 	uint32_t m_ieverymaxsize;
-
-#if MORE_THREAD_SEND
-	boost::mutex m_lock;
-#endif //MORE_THREAD_SEND
-
 public:
 	gateway_socket_base(
 		/* loop array相关 */
@@ -45,11 +40,6 @@ public:
 		/*  */
 		static char* lbuf1 = new char[m_ieverymaxsize];
 		static char* lbuf2 = new char[m_ieverymaxsize];
-
-		/* 打开 MORE_THREAD_SEND 开关即可支持多线程 send*/
-		#if MORE_THREAD_SEND
-			boost::mutex::scoped_lock llock(m_mutex);
-		#endif //MORE_THREAD_SEND
 
 		std::swap( lbuf1, lbuf2 );
 

@@ -1,36 +1,36 @@
 ﻿#include "../include/looparray.h"
-#include <iostream>
+
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
-
 #include <cstdint>
+#include <iostream>
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 
 using std::cout;
 using std::endl;
 
-
-
-
+/**
+ ** 循环数组基础
+ **/
 class loop_array
 {
-	size_t m_array_size;					/* 数组容量 */
+	size_t m_array_size;					  /* 数组容量 */
 	char* m_array_beg_ptr;					/* 数组开始指针 */
 	char* m_array_end_ptr;					/* 数组结束指针 */
-	char* m_write;							/* 写指针位置 */
-	char* m_read;							/* 读指针位置 */
+	char* m_write;							    /* 写指针位置 */
+	char* m_read;							      /* 读指针位置 */
 	boost_sem* m_write_sem;					/* 用来通知处理 */
 	boost_sem* m_read_sem;					/* 用来通知接收 */
 
-	uint16_t m_temp_len;					/* 临时缓冲区有效数据长度 */
-	char* m_temp_arr;						/* 临时缓冲区 */
-	boost::mutex  m_lock;					/* 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
+	uint16_t m_temp_len;					  /* 临时缓冲区有效数据长度 */
+	char* m_temp_arr;						    /* 临时缓冲区 */
+	boost::mutex  m_lock;					  /* 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
 	boost::function<bool(const char* , uint32_t)>  m_read_fun;	/* 读回调 */
-	boost::function<bool(char* , uint32_t&)>  m_write_fun;  /* 写回调 */
+	boost::function<bool(char* , uint32_t&)>  m_write_fun;      /* 写回调 */
 
-	uint32_t m_rcount;
-	uint32_t m_wcount;
+	uint32_t m_rcount;   /* 读的次数 */
+	uint32_t m_wcount;   /* 写的次数 */
 
 	bool m_malloc;
 
@@ -42,7 +42,6 @@ class loop_array
 public:
 	~loop_array()
 	{
-
 		delete[] m_temp_arr;
 		m_temp_arr = NULL;
 
@@ -79,10 +78,10 @@ public:
 	}
 
 
-	loop_array( 
+	loop_array(
 		size_t size ,uint32_t aieverymaxsize ,
 		boost::function<bool(const char* ,uint32_t)> areadfun ,
-		boost::function<bool(char* , uint32_t&)> awritefun 
+		boost::function<bool(char* , uint32_t&)> awritefun
 		):
 	m_write_sem(   new boost_sem( 0 )  ),
 		m_read_sem(  new boost_sem( 0 )  ),
@@ -104,25 +103,8 @@ public:
 		m_read = ( m_array_beg_ptr );
 	}
 
-
-	/*void close()
-	{
-		if( m_write_sem != NULL )
-		{
-			delete m_write_sem;
-			m_write_sem = NULL;
-		}
-
-		if( m_read_sem != NULL )
-		{
-			delete m_read_sem;
-			m_read_sem = NULL;
-		}
-	}*/
-
 	loop_array* start_run( bool aibool )
 	{
-		
 		if( m_write_sem != NULL )
 		{
 			delete m_write_sem;
@@ -140,7 +122,6 @@ public:
 		m_write = ( m_array_beg_ptr );
 		m_read = ( m_array_beg_ptr );
 
-
 		boost::thread( boost::bind( &loop_array::write_run , this ) );
 		if( aibool )
 		{
@@ -150,24 +131,21 @@ public:
 		{
 			boost::thread( boost::bind( &loop_array::read_run , this ) ) ;
 		}
-
 		return this;
 	}
-
-
 
 	char* write_start( uint32_t& ailen )
 	{
 		char* ltemp ;
-		uint32_t ltempcount; 
+		uint32_t ltempcount;
 		while( 1 )
 		{
-			{
+			{/* 锁区间 */
 				boost::mutex::scoped_lock llock(m_lock);
 				ltemp = m_read;
 				ltempcount = m_rcount;
 
-			}
+			}/* 锁区间 */
 			if( m_write > ltemp )
 			{
 				ailen = m_array_end_ptr - m_write;
@@ -198,8 +176,7 @@ public:
 
 	void write_finish( uint32_t ailen )
 	{
-		
-		{
+		{/* 锁区间 */
 			boost::mutex::scoped_lock llock(m_lock);
 
 			m_write += ailen;
@@ -208,7 +185,7 @@ public:
 				++m_wcount;
 				m_write = m_array_beg_ptr;
 			}
-		}
+		}/* 锁区间 */
 		m_read_sem->post();
 	}
 
@@ -223,7 +200,6 @@ public:
 				m_write_close = true;
 				return ;
 			}
-
 			p = write_start( llen );
 			if( m_write_fun( p , llen ) )
 			{
@@ -234,7 +210,6 @@ public:
 				break;
 			}
 		}
-
 	}
 
 	void read_run( )
@@ -242,11 +217,10 @@ public:
 
 		char* ltemp_write ;
 		char* ltemp_read = m_read;
-		uint32_t lbodylen;								/* 剩余body长度 */
+		uint32_t lbodylen;								  /* 剩余body长度 */
 		char lclen[ sizeof( uint16_t ) ] = { 0 };		/* 出现数据不足sizeof( uint16_t )时 暂存数据 */
-		bool lcbool = false;							/* lclen中是否有数据 */
-		size_t ailen ;									/* 可用长度 */
-
+		bool lcbool = false;							  /* lclen中是否有数据 */
+		size_t ailen ;									    /* 可用长度 */
 		bool bodyrecvover = true;						/* 是否需要获取头部的size*/
 		uint32_t temp_size = 0;							/*记录前面长度有几字节  一般两字节  也会出现一字节 */
 
@@ -256,22 +230,20 @@ public:
 
 
 		bool is_same = true;					/* 读副本与真正的读指针同步频率  */
-
 		while( 1 )
 		{
-			if (m_close)/*是否被关闭*/
+			if (m_close)/* 是否被关闭 */
 			{
 				m_read_close = true;
 				return;
 			}
 
-			{
+			{/* 锁区间 */
 				boost::mutex::scoped_lock llock(m_lock);
 
 				//重置m_read
 				if( ltemp_read >= m_array_end_ptr )
 				{
-
 					ltemp_read = m_array_beg_ptr;
 					++ltemprcount;
 				}
@@ -282,17 +254,16 @@ public:
 					m_read = ltemp_read;
 					m_rcount = ltemprcount;
 				}
-		
 				//拷贝临时 write ptr 和 写状态
 				ltemp_write = m_write;
 				ltempwcount = m_wcount;
-			}
+			}/* 锁区间 */
 
 
 			/* 获取此刻可用的数据长度 */
 			if( ltemp_read > ltemp_write )
 			{
-				ailen = m_array_end_ptr - ltemp_read; 
+				ailen = m_array_end_ptr - ltemp_read;
 			}
 			else if( ltemp_read < ltemp_write )
 			{
@@ -300,19 +271,16 @@ public:
 			}
 			else//==
 			{
-
 				if( ltemprcount < ltempwcount )
 				{
-					ailen = m_array_end_ptr - ltemp_read; 
+					ailen = m_array_end_ptr - ltemp_read;
 				}
 				else
 				{
 					m_read_sem->wait();
 					continue;
 				}
-
 			}
-
 
 			if( bodyrecvover )
 			{
@@ -327,10 +295,8 @@ public:
 				}
 				else
 				{
-
 					if( ailen < sizeof( uint16_t ) ) //ailen == 1
 					{
-
 						if( ltemp_read + ailen ==  m_array_end_ptr)
 						{
 							lclen[0] = ltemp_read[0];
@@ -349,18 +315,12 @@ public:
 				}
 			}
 
-
-			
-
 			/* 获取body */
 			if( lbodylen + temp_size > ailen )
 			{
-
 				bodyrecvover = false;
-			
 				if( m_temp_len == 0)
 				{
-
 					temp_size = ailen - temp_size;
 					memcpy( m_temp_arr , ltemp_read , temp_size );
 					m_temp_len = temp_size;
@@ -369,20 +329,17 @@ public:
 				}
 				else
 				{
-
 					memcpy( &( m_temp_arr[ m_temp_len ] ) ,  ltemp_read , ailen );
 					m_temp_len += ailen;
 					lbodylen -= ailen ;
 					ltemp_read += ailen;
 				}
 				temp_size = 0;
-
 			}
 			else
 			{
 				if( m_temp_len != 0)
 				{
-
 					memcpy( &( m_temp_arr[ m_temp_len ] ) , ltemp_read , lbodylen );
 					/* ret do sth*/
 					if( !m_read_fun( m_temp_arr , lbodylen_copy ) )
@@ -393,7 +350,6 @@ public:
 				}
 				else
 				{
-					
 					//ret = ltemp_read;
 					if( !m_read_fun( ltemp_read , lbodylen_copy) )
 					{
@@ -401,8 +357,6 @@ public:
 					}
 					ltemp_read += lbodylen_copy;
 				}
-
-
 				is_same = true;
 				bodyrecvover = true;
 				lcbool = false;
@@ -411,15 +365,8 @@ public:
 				temp_size = 0;
 				m_write_sem->post();
 			}
-
-
 		}
-
-
-
 	}
-
-	
 
 	void close()
 	{
@@ -438,7 +385,7 @@ public:
 		boost::thread lt(lfun);
 	}
 
-	
+
 };
 
 
@@ -469,7 +416,6 @@ void start_run( loop_array* ap ,bool aibool )
 	{
 		ap->start_run( aibool );
 	}
-
 }
 
 

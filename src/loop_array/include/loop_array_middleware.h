@@ -3,9 +3,13 @@
 
 #include "looparray.h"
 #include <map>
-#ifndef MIDDLEWARE_BASE
-#define MIDDLEWARE_BASE
+#include <string>
 
+#ifndef MIDDLEWARE_BASE			/* 防止嵌套定义此基类 */
+#define MIDDLEWARE_BASE
+/*
+ *   中间件基类
+ */
 class middleware_base
 {
 public:
@@ -15,8 +19,10 @@ public:
 
 #endif //MIDDLEWARE_BASE
 
-
-/* loop array server */
+/******************************************
+ **  双向循环数组辅助类
+ **  用于保存根据名称生成的两个单向的循环数组
+ *****************************************/
 class middleware_la
 {
 	module_communicate la1;
@@ -47,12 +53,13 @@ public:
 	}
 };
 
-
-/* loop array client */
+/************************
+ **   双向循环数组
+ ***********************/
 class middleware_looparray:
 	public middleware_base
 {
-	static std::map<string, pair<module_communicate*, module_communicate*> > m_module_communicate_tab;
+	static std::map<std::string, std::pair<module_communicate*, module_communicate*> > m_module_communicate_tab;
 	module_communicate la;
 	module_communicate* mpmc;
 	std::string m_name;
@@ -71,39 +78,38 @@ public:
 		mpmc(nullptr)
 	{
 			auto itor = m_module_communicate_tab.find(m_name);
-		
-		
-			m_lock.lock();
-			if (itor == m_module_communicate_tab.end())
-			{
-				/*创建*/
-				if (apisclient)
+
+			{/* 锁作用域 */
+				boost::mutex::scoped_lock llock(m_lock);
+				if (itor == m_module_communicate_tab.end())
 				{
-					m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(&la, nullptr)));
+					/*创建*/
+					if (apisclient)
+					{
+						m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(&la, nullptr)));
+					}
+					else
+					{
+						m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(nullptr,&la)));
+					}
+					itor = m_module_communicate_tab.find(m_name);
 				}
 				else
 				{
-					m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(nullptr,&la)));
+					if (apisclient)
+					{
+						mpmc = itor->second.first;
+					}
+					else
+					{
+						mpmc = itor->second.second;
+					}
+
 				}
-				itor = m_module_communicate_tab.find(m_name);
-			}
-			else
-			{
-				if (apisclient)
-				{
-					mpmc = itor->second.first;
-				}
-				else
-				{
-					mpmc = itor->second.second;
-				}
-				
-			}
-			m_lock.unlock();
-			
+			}/* 锁作用域 */
+
 			while (1)
 			{
-				
 				mpmc = (apisclient ? itor->second.second : itor->second.first );
 				if (mpmc == nullptr)
 				{
@@ -116,21 +122,21 @@ public:
 			}
 	}
 
+  /*
+	 *  发送数据
+	 */
 	virtual bool send(char* apdata, uint32_t aiwlen)
 	{
 		return la.send(apdata, aiwlen);
 	}
 
+  /*
+	 *  关闭
+	 */
 	virtual bool close()
 	{
 		return la.close();
 	}
 };
-
-
-
-
-
-
 
 #endif //LOOP_ARRAY_MIDDLEWARE_H
