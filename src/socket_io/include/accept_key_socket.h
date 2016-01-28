@@ -208,6 +208,20 @@ public:
 
 		return m_sendfailure(ap, aplen);
 	}
+
+	bool closeallconnect()
+	{
+		for( auto itor = m_socket_key.left.begin() ; itor != m_socket_key.left.end(); ++itor)
+		{
+			if ( itor->second.get_stat() )
+			{
+				(const_cast<key_stat*>(&itor->second))->set_stat(false);
+				closesocket(itor->first);
+			}
+		}
+		return true;
+	}
+
 };
 
 

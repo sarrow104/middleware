@@ -10,6 +10,25 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\loop_array\include\looparray.h" />
+    <ClInclude Include="..\..\..\..\loop_array\include\loop_array_middleware.h" />
+    <ClInclude Include="..\..\..\..\loop_array\include\loop_array_write_callback_helper.h" />
+    <ClInclude Include="..\..\..\include\accept_key_socket.h" />
+    <ClInclude Include="..\..\..\include\connect_key_socket.h" />
+    <ClInclude Include="..\..\..\include\gateway_client.h" />
+    <ClInclude Include="..\..\..\include\gateway_server.h" />
+    <ClInclude Include="..\..\..\include\gateway_socket_base.h" />
+    <ClInclude Include="..\..\..\include\socket_head.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\loop_array\src\looparray.cpp" />
+    <ClCompile Include="..\..\..\..\loop_array\src\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\connect_key_socket .cpp" />
+    <ClCompile Include="..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\src\socket_head.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FA8FF1B-7834-443C-A17E-3FD6AC880E8D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -78,25 +97,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\loop_array\src\looparray.cpp" />
-    <ClCompile Include="..\..\..\..\..\loop_array\src\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\..\include\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\..\include\connect_key_socket.cpp" />
-    <ClCompile Include="..\..\..\..\include\main.cpp" />
-    <ClCompile Include="..\..\..\..\include\socket_head.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\loop_array\include\looparray.h" />
-    <ClInclude Include="..\..\..\..\..\loop_array\include\loop_array_middleware.h" />
-    <ClInclude Include="..\..\..\..\..\loop_array\include\loop_array_write_callback_helper.h" />
-    <ClInclude Include="..\..\..\..\include\accept_key_socket.h" />
-    <ClInclude Include="..\..\..\..\include\connect_key_socket.h" />
-    <ClInclude Include="..\..\..\..\include\gateway_client.h" />
-    <ClInclude Include="..\..\..\..\include\gateway_server.h" />
-    <ClInclude Include="..\..\..\..\include\gateway_socket_base.h" />
-    <ClInclude Include="..\..\..\..\include\socket_head.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

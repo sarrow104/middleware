@@ -42,7 +42,7 @@ public:
 	}
 
 
-	bool closekey( uint32_t aikey )
+	bool close( uint32_t aikey )
 	{
 		return m_connect.closekey(aikey);
 	}

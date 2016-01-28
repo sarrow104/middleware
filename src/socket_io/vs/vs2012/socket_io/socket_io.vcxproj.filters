@@ -18,52 +18,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\include\accept_key_socket.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\include\socket_head.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\include\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\include\connect_key_socket.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\loop_array\src\loop_array_middleware.cpp">
+    <ClInclude Include="..\..\..\..\loop_array\include\loop_array_middleware.h">
       <Filter>源文件\loop_array</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\loop_array\src\looparray.cpp">
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\loop_array\include\loop_array_write_callback_helper.h">
       <Filter>源文件\loop_array</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\loop_array\include\looparray.h">
+      <Filter>源文件\loop_array</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\accept_key_socket.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\connect_key_socket.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gateway_client.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gateway_server.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\gateway_socket_base.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\socket_head.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\include\accept_key_socket.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\gateway_client.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\gateway_server.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\gateway_socket_base.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\socket_head.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\include\connect_key_socket.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\loop_array\include\loop_array_middleware.h">
+    <ClCompile Include="..\..\..\..\loop_array\src\loop_array_middleware.cpp">
       <Filter>源文件\loop_array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\loop_array\include\loop_array_write_callback_helper.h">
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\loop_array\src\looparray.cpp">
       <Filter>源文件\loop_array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\loop_array\include\looparray.h">
-      <Filter>源文件\loop_array</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\accept_key_socket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\connect_key_socket .cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\socket_head.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

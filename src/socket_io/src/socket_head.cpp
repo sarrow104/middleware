@@ -1,4 +1,4 @@
-﻿#include "socket_head.h"
+﻿#include "../include/socket_head.h"
 #include <iostream>
 
 int g_send(SOCKET aisocket , const char* aiSendMessage,int aiSendMessageLen)

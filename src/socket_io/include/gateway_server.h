@@ -35,6 +35,11 @@ public:
 
 		return m_accept.close(aisocket, ap, aplen);
 	}
+
+	bool close()
+	{
+		return m_accept.closeallconnect();
+	}
 };
 
 
