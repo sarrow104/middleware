@@ -38,7 +38,7 @@ class loop_array;
 typedef boost::function<bool(char*, uint32_t&)> FUN_WRITE_CALLBACK;
 
 /* ¶Á»Øµ÷ */
-typedef boost::function<bool(char*, uint32_t)>   FUN_READ_CALLBACK;
+typedef boost::function<bool(const char*, uint32_t)>   FUN_READ_CALLBACK;
 
 DLL_SAMPLE_API loop_array* new_loop_array(uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun, FUN_WRITE_CALLBACK aiwritefun);
 

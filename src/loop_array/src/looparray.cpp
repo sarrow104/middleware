@@ -25,7 +25,7 @@ class loop_array
 	uint16_t m_temp_len;					/* 临时缓冲区有效数据长度 */
 	char* m_temp_arr;						/* 临时缓冲区 */
 	boost::mutex  m_lock;					/* 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
-	boost::function<bool(char* , uint32_t)>  m_read_fun;	/* 读回调 */
+	boost::function<bool(const char* , uint32_t)>  m_read_fun;	/* 读回调 */
 	boost::function<bool(char* , uint32_t&)>  m_write_fun;  /* 写回调 */
 
 	uint32_t m_rcount;
@@ -54,7 +54,7 @@ public:
 
 	loop_array(
 		char* aibuffer , size_t size ,
-		uint32_t aieverymaxsize , boost::function<bool(char* ,uint32_t)> areadfun ,
+		uint32_t aieverymaxsize , boost::function<bool(const char* ,uint32_t)> areadfun ,
 		boost::function<bool(char* , uint32_t&)> awritefun
 		):
 	m_write_sem(  new boost_sem( 0 ) ),
@@ -80,7 +80,7 @@ public:
 
 	loop_array( 
 		size_t size ,uint32_t aieverymaxsize ,
-		boost::function<bool(char* ,uint32_t)> areadfun ,
+		boost::function<bool(const char* ,uint32_t)> areadfun ,
 		boost::function<bool(char* , uint32_t&)> awritefun 
 		):
 	m_write_sem(   new boost_sem( 0 )  ),

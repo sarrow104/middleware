@@ -13,10 +13,22 @@ class connect_key_socket
 		uint32_t m_key;
 		std::string m_ip;
 		uint32_t m_port;
-		key_ip_port( uint32_t aikey,std::string aiip, uint32_t aiport ):
+		bool m_socket_stat;
+		/* 发送失败的回调 */
+		boost::function<bool(const char*, uint32_t)> m_sendfailure_callback;
+
+
+		key_ip_port( 
+			uint32_t aikey,
+			const char* aiip, 
+			uint32_t aiport, 
+			const boost::function<bool(const char*, uint32_t)>& aisendfailure_callback
+			):
 			m_key( aikey),
 			m_ip( aiip),
-			m_port( aiport)
+			m_port( aiport),
+			m_socket_stat(true),
+			m_sendfailure_callback(aisendfailure_callback)
 		{}
 		key_ip_port( uint32_t aikey):
 			m_key( aikey)
@@ -25,6 +37,16 @@ class connect_key_socket
 		{
 			return m_key < r.m_key;
 		}
+
+		bool get_stat()const
+		{
+			return m_socket_stat;
+		}
+		void set_stat( bool aistat )
+		{
+			m_socket_stat = aistat;
+		}
+
 	};
 	SOCKET m_socket;
 	static boost::bimap<SOCKET,key_ip_port>  m_socket_key;
@@ -49,7 +71,7 @@ public:
 		return ;
 	}
 
-	SOCKET create_con( uint32_t aikey ,const char* aiserverip, int32_t aiserverport   )
+	SOCKET create_con( uint32_t aikey ,const char* aiserverip, int32_t aiserverport)
 	{
 
 		SOCKET lsock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);  
@@ -74,7 +96,7 @@ public:
 
 	}
 
-	bool send_key(  uint32_t aikey ,const char* aiserverip, int32_t aiserverport )
+	bool send_key(  uint32_t aikey ,const char* aiserverip, int32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
 	{
 		
 		m_socket = create_con( aikey, aiserverip, aiserverport );
@@ -90,6 +112,7 @@ public:
 			if( lrecvlen < sizeof( uint32_t ) )
 			{
 				//失败
+				closehandle( m_socket );
 				return false;
 			}
 			else
@@ -97,15 +120,20 @@ public:
 				if( *( (uint32_t*)(lrecvkey) ) != aikey)
 				{
 					//失败
+					closehandle( m_socket );
 					return false;
 				}
 			}
 		}
 
-		key_ip_port lkey_ip_port( aikey , aiserverip, aiserverport );
+		key_ip_port lkey_ip_port( aikey , aiserverip, aiserverport, aisendfailure);
 
-
-		m_socket_key.insert( boost::bimap<SOCKET,key_ip_port>::value_type(  m_socket, lkey_ip_port ) );
+		auto itor = m_socket_key.right.find(lkey_ip_port);
+		if (itor != m_socket_key.right.end())
+		{
+			m_socket_key.right.erase(itor);
+		}
+		( m_socket_key.insert( boost::bimap<SOCKET,key_ip_port>::value_type(  m_socket, lkey_ip_port ) ) ).second;
 
 		boost::thread( boost::bind( &connect_key_socket::recv, this, m_socket) );
 		return true;
@@ -116,19 +144,67 @@ public:
 		m_recvfun( aisocket );
 	}
 
-
-	SOCKET get_socket( uint32_t aikey )
+	bool get_socket(uint32_t aikey, SOCKET& aisocket)
 	{
-		auto itor = m_socket_key.right.find( key_ip_port(aikey) );
-		if( itor != m_socket_key.right.end() )
+		auto itor = m_socket_key.right.find(aikey);
+		if (itor != m_socket_key.right.end())
 		{
-			return itor->second;
+			aisocket = itor->second;
+			return true;
 		}
 		else
 		{
-			return 0;
+			aisocket = 0;
+			return false;
 		}
 	}
+
+	void closehandle(SOCKET aisocket)
+	{
+		closesocket(m_socket);
+	}
+	bool closekey(uint32_t key)
+	{
+		auto itor = m_socket_key.right.find(key);
+		if (itor == m_socket_key.right.end())
+		{
+			return false;
+		}
+		closehandle(itor->second);
+		m_socket_key.right.erase(itor);
+		return true;
+	}
+
+	/* 重连 */
+	bool reconnect(SOCKET aisocket)
+	{
+		/* 移除 */
+		auto itor = m_socket_key.left.find(aisocket);
+		if (itor == m_socket_key.left.end())
+		{
+			return false;
+		}
+
+		if (itor->second.get_stat())
+		{
+			(const_cast<key_ip_port*>(&itor->second))->set_stat(false);
+			closehandle(aisocket);
+			boost::thread( 
+				boost::bind( 
+					&connect_key_socket::send_key, 
+					this, 
+					itor->second.m_key, 
+					itor->second.m_ip.c_str(), 
+					itor->second.m_port,
+					boost::ref(itor->second.m_sendfailure_callback)
+					) 
+				);
+		}
+		
+		return true;
+	}
+
+	/**/
 };
 
 

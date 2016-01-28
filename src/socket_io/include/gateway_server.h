@@ -11,29 +11,30 @@ class gateway_socket_server_con :
 {
 
 	accept_key_socket m_accept;
-	SOCKET get_socket( uint32_t aikey )
-	{
-		return m_accept.get_socket( aikey );
-	}
 public:
 
 	gateway_socket_server_con(
 		uint32_t aiport,
-		boost::function<bool ( char* ,uint32_t )> logic_recv_callback ,
+		boost::function<bool (const char* ,uint32_t )> logic_recv_callback ,
 		uint32_t aimaxsize,
-		uint32_t aievery_once_max_size
+		uint32_t aievery_once_max_size,
+		boost::function<bool( const char*, uint32_t)> aisendfailure
 		) :
+		m_accept(aiport, boost::bind(&gateway_socket_base::recv, (gateway_socket_base*)this, _1), aisendfailure),
 		gateway_socket_base(
 			aimaxsize ,
 			aievery_once_max_size ,
 			logic_recv_callback ,
-			boost::bind( &gateway_socket_server_con::get_socket, this, _1)
-			),
-		m_accept( aiport, boost::bind( &gateway_socket_base::recv, (gateway_socket_base*)this, _1 ) )
+			boost::bind( &accept_key_socket::get_socket, &m_accept, _1, _2)
+			)
 	{
 	}
 	
+	virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
+	{
 
+		return m_accept.close(aisocket, ap, aplen);
+	}
 };
 
 

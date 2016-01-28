@@ -18,7 +18,7 @@ void test( uint32_t aisize)
 {
 	cout << "————————————开始测试循环数组————————————————————" << endl;
 	time_t lnow;
-	auto fun = [&lnow,&aisize](char* ap, uint32_t aplen)
+	auto fun = [&lnow,&aisize](const char* ap, uint32_t aplen)
 	{
 		cout << "[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
 		return true;
@@ -51,7 +51,7 @@ void test( uint32_t aisize)
 void test2( bool aibo ,uint32_t aisize)
 {
 	time_t lnow;
-	auto fun = [&lnow,&aisize,&aibo](char* ap, uint32_t aplen)
+	auto fun = [&lnow,&aisize,&aibo](const char* ap, uint32_t aplen)
 	{
 		if(aibo)
 			cout << "[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;

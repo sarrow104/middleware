@@ -6,19 +6,31 @@ using namespace std;
 
 void test_client()
 {
-	auto callfun = [](char* ap,uint32_t aplen)
+	/* recv call back */
+	auto rcb = [](const char* ap,uint32_t aplen)
 	{
-		cout << ap << endl;
+
+		cout << *( (uint32_t*)ap) << endl;
 		aplen = 0;
 		return true;
 	};
 
-	gateway_socket_client_con lclient( callfun, 10240, 1024);
-	lclient.create_con( 0 ,"127.0.0.1", 13140);
-	char lbuf[] = "ÎÒ°®Äã";
+	/* send failure call back*/
+	auto sfcb = [](const char* ap, uint32_t aplen)
+	{
+
+		//cout << *((uint32_t*)ap) << endl;
+		aplen = 0;
+		return true;
+	};
+
+
+	gateway_socket_client_con lclient(rcb, 10240, 1024);
+	lclient.create_con( 0 ,"127.0.0.1", 13140, sfcb);
+	//char lbuf[] = "ÎÒ°®Äã";
 	while(1)
 	{
-		lclient.send( 0,lbuf, sizeof( lbuf ) );
+		//lclient.send( 0,lbuf, sizeof( lbuf ) );
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 
@@ -29,21 +41,30 @@ void test_client()
 void test_server()
 {
 	gateway_socket_server_con* lp;
-	auto callfun = [&lp](char* ap,uint32_t aplen)
+	/* recv call back */
+	auto rcb = [&lp](const char* ap, uint32_t aplen)
 	{
-		//cout << ap << endl;
-		//aplen = 0;
-		//lp->send( 0, "haha",sizeof("haha"));
+		cout << *((uint32_t*)ap) << endl;
+		aplen = 0;
 		return true;
 	};
 
-	gateway_socket_server_con lclient( 13140, callfun, 10240, 1024);
-	lp = &lclient;
-	char lbuf[] = "ÎÒ°®Äã";
+	/* send failure call back*/
+	auto sfcb = [](const char* ap, uint32_t aplen)
+	{
+
+		//cout << *((uint32_t*)ap) << endl;
+		aplen = 0;
+		return true;
+	};
+
+	gateway_socket_server_con lserver( 13140, rcb, 10240, 1024, sfcb);
+	lp = &lserver;
+	uint32_t lnum = 0;
 	while(1)
 	{
-		lclient.send( 0,lbuf, sizeof( lbuf ) );
-		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+		lserver.send( 0, (const char*)&(++lnum), sizeof(uint32_t) );
+		//boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 
 	return;

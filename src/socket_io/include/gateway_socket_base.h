@@ -11,14 +11,14 @@ class gateway_socket_base
 {
 	module_communicate m_recvlooparray;
 	module_communicate m_sendlooparray;
-	function<SOCKET(uint32_t)> m_callbacksocket;
+	function<bool(uint32_t, SOCKET&)> m_callbacksocket;
 	uint32_t m_ieverymaxsize;
 public:
 	gateway_socket_base(
 		/* loop array相关 */
 		uint32_t apbuffersize, uint32_t aieverymaxsize,FUN_READ_CALLBACK aireadfun,/* bool apstartthread,*/
 		/* send回调方法从子类获取socket句柄 */
-		function<SOCKET(uint32_t)> aicallbacksocket
+		function<bool(uint32_t, SOCKET&)> aicallbacksocket
 		):
 		m_recvlooparray( apbuffersize, aieverymaxsize, aireadfun, false),
 		m_sendlooparray( apbuffersize, aieverymaxsize, boost::bind( &gateway_socket_base::send_callback, this, _1, _2 ), false),
@@ -55,24 +55,22 @@ public:
 	{
 		/* 获取key */
 		uint32_t lkey = *( (uint32_t*)(ap) );
-
-
-		SOCKET lsocket = m_callbacksocket( lkey );
-		if( lsocket == 0 )
+		SOCKET lsocket;
+		if( m_callbacksocket(lkey, lsocket) )
 		{
-			/* 未找到 */
-
+			if (g_send(lsocket, ap + sizeof(uint32_t), aplen - sizeof(uint32_t)) <= 0)
+			{
+				/* 发送失败 */
+				sendfailure(lsocket, ap, aplen);
+			}
 		}
 		else
 		{
-			if( g_send( lsocket, ap + sizeof(uint32_t), aplen - sizeof(uint32_t) ) <= 0 )
+			if (lsocket != 0)
 			{
-				/* 发送失败 */
-			}
+				sendfailure(lsocket, ap, aplen);
+			}			
 		}
-
-		
-
 		return true;
 	}
 
@@ -97,6 +95,10 @@ public:
 		}
 		return true;
 	}
+
+
+
+	virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen) = 0;
 };
 
 
