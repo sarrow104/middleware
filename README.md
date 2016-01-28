@@ -15,7 +15,7 @@ middleware-中间件
 * **通信模块**
   * [循环数组](https://github.com/NingLeixueR/middleware/tree/master/src/loop_array)(用于线程间交互)
   * [共享内存](https://github.com/NingLeixueR/middleware/tree/master/src/shared_memory)(用于进程间交互)
-  * [简单socket](https://github.com/NingLeixueR/middleware/tree/master/src/socket_io)(用于pc间模块通信)
+  * [socket](https://github.com/NingLeixueR/middleware/tree/master/src/socket_io)(用于pc间模块通信)
 
 * **工具模块**
   * [序列化与反序列化](https://github.com/NingLeixueR/middleware/tree/master/src/tools/serializecpp)
