@@ -6,6 +6,9 @@
 #include <function.hpp>
 #include <algorithm>
 
+#define MORE_THREAD_SEND  0    //是否支持多线程send
+
+
 
 class gateway_socket_base
 {
@@ -13,6 +16,11 @@ class gateway_socket_base
 	module_communicate m_sendlooparray;
 	function<bool(uint32_t, SOCKET&)> m_callbacksocket;
 	uint32_t m_ieverymaxsize;
+
+#if MORE_THREAD_SEND
+	boost::mutex m_lock;
+#endif //MORE_THREAD_SEND
+
 public:
 	gateway_socket_base(
 		/* loop array相关 */
@@ -26,8 +34,6 @@ public:
 		m_callbacksocket( aicallbacksocket )
 	{}
 
-
-
 	bool send(uint32_t aikey, const char* ap, uint32_t aplen)
 	{
 		static uint32_t lmaxsize = m_ieverymaxsize - sizeof(uint32_t);
@@ -39,7 +45,12 @@ public:
 		/*  */
 		static char* lbuf1 = new char[m_ieverymaxsize];
 		static char* lbuf2 = new char[m_ieverymaxsize];
-		
+
+		/* 打开 MORE_THREAD_SEND 开关即可支持多线程 send*/
+		#if MORE_THREAD_SEND
+			boost::mutex::scoped_lock llock(m_mutex);
+		#endif //MORE_THREAD_SEND
+
 		std::swap( lbuf1, lbuf2 );
 
 		memcpy( lbuf1, &aikey, aplen );
@@ -69,7 +80,7 @@ public:
 			if (lsocket != 0)
 			{
 				sendfailure(lsocket, ap, aplen);
-			}			
+			}
 		}
 		return true;
 	}
