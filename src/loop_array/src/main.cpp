@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "..\include\looparray.h"
+#include "../include/looparray.h"
 #include <string>
 #include <cstdio>
 #if _MSC_VER
@@ -79,6 +79,12 @@ void test2( bool aibo ,uint32_t aisize)
 
 int main(int argc,char** argv)
 {
+	if( argc == 1 )
+	{
+		cout << "缺少测试参数 num" << endl;
+		return 0;
+	}
+
 	/* 单向的循环数组,一般发消息与回调模块交互 */
 	boost::thread(boost::bind(&test, atoi(argv[1])) );
 	/* 双向的循环数组,可以相互交互,不过在线程2里我们故意让第二个不输出 */

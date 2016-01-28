@@ -1,8 +1,9 @@
 ﻿#include "../include/looparray.h"
 #include <iostream>
-#include <interprocess/sync/interprocess_semaphore.hpp>
-#include <thread.hpp>
-#include <function.hpp>
+#include <boost/interprocess/sync/interprocess_semaphore.hpp>
+#include <boost/thread.hpp>
+#include <boost/function.hpp>
+
 #include <cstdint>
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 

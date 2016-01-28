@@ -1,4 +1,4 @@
-#ifndef LOOP_ARRAY_MIDDLEWARE_H
+ï»¿#ifndef LOOP_ARRAY_MIDDLEWARE_H
 #define LOOP_ARRAY_MIDDLEWARE_H
 
 #include "looparray.h"
@@ -76,7 +76,7 @@ public:
 			m_lock.lock();
 			if (itor == m_module_communicate_tab.end())
 			{
-				/*´´½¨*/
+				/*åˆ›å»º*/
 				if (apisclient)
 				{
 					m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(&la, nullptr)));

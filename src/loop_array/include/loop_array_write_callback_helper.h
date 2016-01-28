@@ -1,43 +1,50 @@
-#ifndef LOOP_ARRAY_WRITE_CALLBACK_HELPER_H
+ï»¿#ifndef LOOP_ARRAY_WRITE_CALLBACK_HELPER_H
 #define LOOP_ARRAY_WRITE_CALLBACK_HELPER_H
 
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
-#include <interprocess/sync/interprocess_semaphore.hpp>
-#include <thread.hpp>
-#include <function.hpp>
+#include <boost/interprocess/sync/interprocess_semaphore.hpp>
+#include <boost/thread.hpp>
+#include <boost/function.hpp>
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 
+// #define _DLL_SAMPLE
+#ifdef _MSC_VER
+#
 #define _DLL_SAMPLE
+#
 #ifdef _DLL_SAMPLE
-#define DLL_SAMPLE_API __declspec(dllexport)
+#       define DLL_SAMPLE_API __declspec(dllexport)
 #else
-#define DLL_SAMPLE_API __declspec(dllimport)
-#endif
-
+#       define DLL_SAMPLE_API __declspec(dllimport)
+#endif //_DLL_SAMPLE 
+#
+#else
+#       define DLL_SAMPLE_API
+#endif  //_MSC_VER
 
 #define DEFAULT_BUFFER_SIZE   10240
 
 /*
 new_loop_array
-ÊäÈë²ÎÊı
-ÊÇ·ñ¼ÓÒÔÀûÓÃµ÷ÓÃnew_loop_arrayµÄÏß³Ì  Èô·Ç¼ÓÒÔÀûÓÃ º¯Êı»á´´½¨Á½¸öÏß³Ì writeºÍread ·ñÔò ³ÌĞòÖ»´´½¨Ò»¸ö ÁíÒ»¸öÀûÓÃµ÷ÓÃÏß³Ì½øĞĞ
-aiwritefun  Ğ´»Øµ÷
-aireadfun	¶Á»Øµ÷
-apbuffersize Ö¸¶¨»º³åÇøbufferµÄ³¤¶È
-aieverymaxsize µ¥ÌõÊı¾İ×î´ó³¤¶È,ÕâÀïµÄµ¥ÌõÖ¸µÄÊÇ
-µ¥ÌõÊı¾İ°üÀ¨ bodysize Óë body  write¿ÉÒÔÒ»´ÎĞ´ÈëÈÎÒâÊıÁ¿µÄµ¥ÌõÊı¾İ,²¢ÇÒÔÊĞíĞ´Èë²»ÍêÕûµÄµ¥ÌõÊı¾İ
-Ö»ĞèÒªÏÂ´Î¼ÌĞøĞ´ÈëÊ±±£Ö¤Ë³Ğò¼´¿É
+è¾“å…¥å‚æ•°
+æ˜¯å¦åŠ ä»¥åˆ©ç”¨è°ƒç”¨new_loop_arrayçš„çº¿ç¨‹  è‹¥éåŠ ä»¥åˆ©ç”¨ å‡½æ•°ä¼šåˆ›å»ºä¸¤ä¸ªçº¿ç¨‹ writeå’Œread å¦åˆ™ ç¨‹åºåªåˆ›å»ºä¸€ä¸ª å¦ä¸€ä¸ªåˆ©ç”¨è°ƒç”¨çº¿ç¨‹è¿›è¡Œ
+aiwritefun  å†™å›è°ƒ
+aireadfun	è¯»å›è°ƒ
+apbuffersize æŒ‡å®šç¼“å†²åŒºbufferçš„é•¿åº¦
+aieverymaxsize å•æ¡æ•°æ®æœ€å¤§é•¿åº¦,è¿™é‡Œçš„å•æ¡æŒ‡çš„æ˜¯
+å•æ¡æ•°æ®åŒ…æ‹¬ bodysize ä¸ body  writeå¯ä»¥ä¸€æ¬¡å†™å…¥ä»»æ„æ•°é‡çš„å•æ¡æ•°æ®,å¹¶ä¸”å…è®¸å†™å…¥ä¸å®Œæ•´çš„å•æ¡æ•°æ®
+åªéœ€è¦ä¸‹æ¬¡ç»§ç»­å†™å…¥æ—¶ä¿è¯é¡ºåºå³å¯
 */
 
 class loop_array;
 
 
-/* Ğ´»Øµ÷ */
+/* å†™å›è°ƒ */
 typedef boost::function<bool(char*, uint32_t&)> FUN_WRITE_CALLBACK;
 
-/* ¶Á»Øµ÷ */
+/* è¯»å›è°ƒ */
 typedef boost::function<bool(const char*, uint32_t)>   FUN_READ_CALLBACK;
 
 DLL_SAMPLE_API loop_array* new_loop_array(uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun, FUN_WRITE_CALLBACK aiwritefun);
@@ -49,7 +56,7 @@ DLL_SAMPLE_API void start_run(loop_array*, bool aibool);
 
 DLL_SAMPLE_API void delete_loop_array(loop_array* ap);
 
-/* »ù´¡ */
+/* åŸºç¡€ */
 //DLL_SAMPLE_API loop_array* new_loop_array( bool aibool , uint32_t apbuffersize, uint32_t aieverymaxsize , FUN_READ_CALLBACK aireadfun  );
 
 DLL_SAMPLE_API char* loop_write_start(uint32_t& ailen);
@@ -57,14 +64,14 @@ DLL_SAMPLE_API char* loop_write_start(uint32_t& ailen);
 DLL_SAMPLE_API void write_finish(uint32_t ailen);
 
 
-/* ¸¨Öúlooparray write call back  */
-/* µ÷ÓÃpush_write_once
-´«ÈëµÄÖ¸ÕëÊÇ²»ÄÜÔÙµÚ¶ş´Î³É¹¦µ÷ÓÃÇ°ĞŞ¸ÄÆäÊı¾İµÄ
-ÒòÎªËûÖ»²»¹ıÊÇ±£´æÁËÖ¸Õë  ÕæÕıµÄ¿½±´ÊÇÔÚÏß³ÌÀï½øĞĞµÄ*/
+/* è¾…åŠ©looparray write call back  */
+/* è°ƒç”¨push_write_once
+ä¼ å…¥çš„æŒ‡é’ˆæ˜¯ä¸èƒ½å†ç¬¬äºŒæ¬¡æˆåŠŸè°ƒç”¨å‰ä¿®æ”¹å…¶æ•°æ®çš„
+å› ä¸ºä»–åªä¸è¿‡æ˜¯ä¿å­˜äº†æŒ‡é’ˆ  çœŸæ­£çš„æ‹·è´æ˜¯åœ¨çº¿ç¨‹é‡Œè¿›è¡Œçš„*/
 
 class loop_array_write_callback_helper
 {
-	/* send_run_fun º¯ÊıË½ÓĞ±äÁ¿*/
+	/* send_run_fun å‡½æ•°ç§æœ‰å˜é‡*/
 	bool write_once____the_first;
 	uint32_t write_once____ltemp;
 	uint32_t write_once____ltemp2;
@@ -108,7 +115,7 @@ public:
 		{
 			if (aplen < write_once____ltemp)
 			{
-				/* Î´Ğ´Íêsize */
+				/* æœªå†™å®Œsize */
 				ap[0] = ((char*)(&write_once____lsize))[write_once____ltemp2];
 				++write_once____ltemp2;
 				if (write_once____ltemp == sizeof(uint16_t))
@@ -148,7 +155,7 @@ public:
 		{
 
 			memcpy(ap, (sendbuffer), (aplen - write_once____ltemp));
-			/* ÖØÖÃ */
+			/* é‡ç½® */
 			sendbuffersize -= (aplen - write_once____ltemp);
 			sendbuffer += (aplen - write_once____ltemp);
 			write_once____ltemp = 0;
@@ -168,7 +175,7 @@ public:
 	}
 
 
-	/* ¿ÉÒÔ±»¶àÏß³Ìµ÷ÓÃ */
+	/* å¯ä»¥è¢«å¤šçº¿ç¨‹è°ƒç”¨ */
 	bool push_write_once(char* ap, uint32_t aplen)
 	{
 

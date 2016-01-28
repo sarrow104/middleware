@@ -1,4 +1,4 @@
-#include "../include/gateway_client.h"
+ï»¿#include "../include/gateway_client.h"
 #include "../include/gateway_server.h"
 #include <iostream>
 using namespace std;
@@ -25,7 +25,7 @@ void test_client()
 
 	gateway_socket_client_con lclient(rcb, 10240, 1024);
 	lclient.create_con( 0 ,"127.0.0.1", 13140, sfcb);
-	char lbuf[] = "ÎÒ°®Äã";
+	char lbuf[] = "æˆ‘çˆ±ä½ ";
 	while(1)
 	{
 		lclient.send( 0,lbuf, sizeof( lbuf ) );
