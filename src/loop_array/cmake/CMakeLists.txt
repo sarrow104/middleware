@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
+
 add_definitions(-I./include)
 add_definitions(-std=c++11)
 add_definitions(-W -fexceptions -Wunused-variable -Wfatal-errors)
+
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 	set(target_name "loop_array")
 	add_definitions(-DNODEBUG -O2 -s)
@@ -9,10 +11,11 @@ else()
 	set(target_name "loop_arrayD")
 	add_definitions(-O0 -g -ggdb)
 endif()
+
 project(${target_name})
+
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}")
-#set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}")
-file(GLOB SRC "**/*.cpp")
+file(GLOB SRC "../**/*.cpp")
 
 find_package(Boost COMPONENTS date_time filesystem system thread)
 
@@ -27,7 +30,5 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
 		POST_BUILD
 		COMMAND ${CMAKE_STRIP} ${TARGET_OUTPUT_FULL_PATH})
 endif()
-#include_directories(~/extra/sss/include)
-#link_directories(~/extra/sss/lib/)
-target_link_libraries(${target_name} ${Boost_LIBRARIES} Threads::Threads) # must below the bin target definition!
+target_link_libraries(${target_name} ${Boost_LIBRARIES} Threads::Threads)
 
