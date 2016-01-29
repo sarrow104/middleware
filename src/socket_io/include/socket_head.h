@@ -15,7 +15,7 @@
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #define SOCKET int
-#define closesocket close
+#define closesocket ::close
 #include <cstring>
 #include <cstdlib>
 #define _itoa_s(a,b,c) sprintf(b, "%d", a);

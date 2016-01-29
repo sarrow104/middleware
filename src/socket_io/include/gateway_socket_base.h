@@ -1,7 +1,10 @@
 ﻿#ifndef GATEWAY_SOCKET_BASE_H
 #define GATEWAY_SOCKET_BASE_H
-#include <function.hpp>
+
+#include <boost/function.hpp>
+
 #include <algorithm>
+
 #include "socket_head.h"
 #include "lpthread.h"
 #include "../../loop_array/include/looparray.h"

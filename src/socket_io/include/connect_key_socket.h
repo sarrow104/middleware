@@ -2,8 +2,9 @@
 #define CONNECT_KEY_SOCKET_H
 #include "lpthread.h"
 #include "socket_head.h"
-#include <function.hpp>
-#include <bimap.hpp>
+
+#include <boost/function.hpp>
+#include <boost/bimap.hpp>
 
 namespace middleware {
   /***************************

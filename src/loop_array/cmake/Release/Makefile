@@ -48,10 +48,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sarrow/Sources/NingLeixueR/middleware/src/loop_array
+CMAKE_SOURCE_DIR = /home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/cmake
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sarrow/Sources/NingLeixueR/middleware/src/loop_array/Release
+CMAKE_BINARY_DIR = /home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/cmake/Release
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarrow/Sources/NingLeixueR/middleware/src/loop_array/Release/CMakeFiles /home/sarrow/Sources/NingLeixueR/middleware/src/loop_array/Release/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/cmake/Release/CMakeFiles /home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/cmake/Release/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarrow/Sources/NingLeixueR/middleware/src/loop_array/Release/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/cmake/Release/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,86 +123,86 @@ loop_array/fast:
 	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/build
 .PHONY : loop_array/fast
 
-src/loop_array_middleware.o: src/loop_array_middleware.cpp.o
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.o: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.o
 
-.PHONY : src/loop_array_middleware.o
-
-# target to build an object file
-src/loop_array_middleware.cpp.o:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/loop_array_middleware.cpp.o
-.PHONY : src/loop_array_middleware.cpp.o
-
-src/loop_array_middleware.i: src/loop_array_middleware.cpp.i
-
-.PHONY : src/loop_array_middleware.i
-
-# target to preprocess a source file
-src/loop_array_middleware.cpp.i:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/loop_array_middleware.cpp.i
-.PHONY : src/loop_array_middleware.cpp.i
-
-src/loop_array_middleware.s: src/loop_array_middleware.cpp.s
-
-.PHONY : src/loop_array_middleware.s
-
-# target to generate assembly for a file
-src/loop_array_middleware.cpp.s:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/loop_array_middleware.cpp.s
-.PHONY : src/loop_array_middleware.cpp.s
-
-src/looparray.o: src/looparray.cpp.o
-
-.PHONY : src/looparray.o
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.o
 
 # target to build an object file
-src/looparray.cpp.o:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/looparray.cpp.o
-.PHONY : src/looparray.cpp.o
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.o:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.o
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.o
 
-src/looparray.i: src/looparray.cpp.i
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.i: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.i
 
-.PHONY : src/looparray.i
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.i
 
 # target to preprocess a source file
-src/looparray.cpp.i:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/looparray.cpp.i
-.PHONY : src/looparray.cpp.i
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.i:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.i
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.i
 
-src/looparray.s: src/looparray.cpp.s
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.s: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.s
 
-.PHONY : src/looparray.s
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.s
 
 # target to generate assembly for a file
-src/looparray.cpp.s:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/looparray.cpp.s
-.PHONY : src/looparray.cpp.s
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.s:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.s
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.cpp.s
 
-src/main.o: src/main.cpp.o
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.o: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.o
 
-.PHONY : src/main.o
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.o:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.o
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.o
 
-src/main.i: src/main.cpp.i
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.i: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.i
 
-.PHONY : src/main.i
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.i:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.i
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.i
 
-src/main.s: src/main.cpp.s
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.s: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.s
 
-.PHONY : src/main.s
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.s:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.s
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.cpp.s
+
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.o: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.o
+
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.o
+
+# target to build an object file
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.o
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.o
+
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.i: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.i
+
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.i
+
+# target to preprocess a source file
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.i
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.i
+
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.s: home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.s
+
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.s
+
+# target to generate assembly for a file
+home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/loop_array.dir/build.make CMakeFiles/loop_array.dir/home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.s
+.PHONY : home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.cpp.s
 
 # Help Target
 help:
@@ -213,15 +213,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... loop_array"
-	@echo "... src/loop_array_middleware.o"
-	@echo "... src/loop_array_middleware.i"
-	@echo "... src/loop_array_middleware.s"
-	@echo "... src/looparray.o"
-	@echo "... src/looparray.i"
-	@echo "... src/looparray.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.o"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.i"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/loop_array_middleware.s"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.o"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.i"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/looparray.s"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.o"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.i"
+	@echo "... home/sarrow/Sources/NingLeixueR/sarrow104/middleware/src/loop_array/src/main.s"
 .PHONY : help
 
 
