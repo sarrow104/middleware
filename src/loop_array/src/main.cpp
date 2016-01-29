@@ -23,7 +23,7 @@ void test( uint32_t aisize)
     cout << "[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
     return true;
   };
-  module_communicate lmc(TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false);
+  middleware::module_communicate lmc(TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false);
   lnow = time(NULL);
   uint32_t lsize = aisize;
   char lchar1[64];
@@ -57,7 +57,7 @@ void test2( bool aibo ,uint32_t aisize)
       cout << "[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
     return true;
   };
-  middleware_looparray lmc( "lb", TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false,aibo);
+  middleware::middleware_looparray lmc( "lb", TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false,aibo);
   lnow = time(NULL);
   uint32_t lsize = aisize;
   char lchar1[64];

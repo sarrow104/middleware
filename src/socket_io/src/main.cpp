@@ -23,7 +23,7 @@ void test_client()
 	};
 
 
-	gateway_socket_client_con lclient(rcb, 10240, 1024);
+	middleware::gateway_socket_client_con lclient(rcb, 10240, 1024);
 	lclient.create_con( 0 ,"127.0.0.1", 13140, sfcb);
 	char lbuf[] = "我爱你";
 	while(1)
@@ -38,7 +38,7 @@ void test_client()
 
 void test_server()
 {
-	gateway_socket_server_con* lp;
+	middleware::gateway_socket_server_con* lp;
 	/* recv call back */
 	auto rcb = [](const char* ap, uint32_t aplen)
 	{
@@ -55,7 +55,7 @@ void test_server()
 		return true;
 	};
 
-	gateway_socket_server_con lserver( 13140, rcb, 10240, 1024, sfcb);
+	middleware::gateway_socket_server_con lserver( 13140, rcb, 10240, 1024, sfcb);
 	lp = &lserver;
 	uint32_t lnum = 0;
 	while(1)

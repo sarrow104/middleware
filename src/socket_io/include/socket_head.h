@@ -23,8 +23,17 @@
 #
 #endif //_MSC_VER
 
-int g_send(SOCKET aisocket , const char* aiSendMessage,int aiSendMessageLen);
+namespace middleware {
 
-int g_recv(SOCKET aisocket , char* aiRecvMessage,int aiRecvMessageLen);
+  /*
+   * 包装下 socket send 函数
+   */
+  int g_send(SOCKET aisocket, const char* aiSendMessage, int aiSendMessageLen);
+  /*
+   * 包装下 socket recv 函数
+   */
+  int g_recv(SOCKET aisocket, char* aiRecvMessage, int aiRecvMessageLen);
+
+} //namespace middleware 
 
 #endif
