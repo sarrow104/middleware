@@ -1,12 +1,14 @@
 ﻿#ifndef LOOP_ARRAY_WRITE_CALLBACK_HELPER_H
 #define LOOP_ARRAY_WRITE_CALLBACK_HELPER_H
 
-#include <cstddef>
-#include <cstdint>
-#include <iostream>
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
+
+#include <cstddef>
+#include <cstdint>
+#include <iostream>
+
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 
 // #define _DLL_SAMPLE

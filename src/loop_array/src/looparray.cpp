@@ -3,8 +3,10 @@
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
+
 #include <cstdint>
 #include <iostream>
+
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 
 namespace middleware {

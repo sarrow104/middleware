@@ -4,9 +4,10 @@
 #include "lpthread.h"
 #include "socket_head.h"
 
-#include <bimap.hpp>
+#include <boost/bimap.hpp>
+#include <boost/function.hpp>
+
 #include <iostream>
-#include <function.hpp>
 
   
 namespace middleware{

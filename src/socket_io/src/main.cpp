@@ -1,6 +1,8 @@
 ﻿#include "../include/gateway_client.h"
 #include "../include/gateway_server.h"
+
 #include <iostream>
+
 using namespace std;
 
 

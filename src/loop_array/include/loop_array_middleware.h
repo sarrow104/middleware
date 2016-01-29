@@ -2,6 +2,7 @@
 #define LOOP_ARRAY_MIDDLEWARE_H
 
 #include "looparray.h"
+
 #include <map>
 #include <string>
 

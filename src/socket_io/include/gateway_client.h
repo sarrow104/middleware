@@ -3,7 +3,9 @@
 
 #include "connect_key_socket.h"
 #include "gateway_socket_base.h"
+
 #include <unordered_map>
+
 using std::unordered_map;
 
 namespace middleware {

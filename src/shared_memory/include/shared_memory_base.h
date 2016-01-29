@@ -1,11 +1,11 @@
 ﻿#ifndef GATEWAY_SHARED_MEMORY_BASE_H
 #define GATEWAY_SHARED_MEMORY_BASE_H
 
-
-#include <interprocess/sync/named_semaphore.hpp>
-#include <function.hpp>
-#include <thread.hpp>
 #include "shared_memory.h"
+
+#include <boost/interprocess/sync/named_semaphore.hpp>
+#include <boost/function.hpp>
+#include <boost/thread.hpp>
 
 
 using boost::interprocess::named_semaphore;
