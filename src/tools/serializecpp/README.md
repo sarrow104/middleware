@@ -7,7 +7,7 @@
 ------------------------------------------
 * 以二进制形式将c++中基础类型、类等数据成员序列化与反序列化
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
-* [`main.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/src/tools/serializecpp/main.cpp)为测试示例
+* [`main.cpp文件`](middleware/src/tools/serializecpp/main.cpp)为测试示例
 * 组件通信能力
 
 
