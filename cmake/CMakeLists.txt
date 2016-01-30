@@ -42,6 +42,5 @@ add_executable(socket_io ../example/socket_io.cpp)
 target_link_libraries(socket_io  ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
 # ------------------
-install (TARGETS ${target_name} LIBRARY DESTINATION lib)
-file(GLOB HEADERS "../middleware/**/*.h")
+install(TARGETS ${target_name} LIBRARY DESTINATION lib)
 install(DIRECTORY ../middleware DESTINATION include)
