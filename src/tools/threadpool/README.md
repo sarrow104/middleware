@@ -1,19 +1,16 @@
-循环数组
+线程池
 ==========================================
 
 
 
 ####简单介绍
 ------------------------------------------
-* 用于同进程两个模块间通信
-* 也是中间件的基础部件
-* 首先我需要整理下循环数组,在接下来的日子里,将依靠它拼凑出更多的功能
+* 统一管理线程,通过回调进行work分配
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
-* [`example_loop_array.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_loop_array.cpp)为测试示例
-* 组件通信能力
+* [`example_threadpool.cpp文件](https://github.com/NingLeixueR/middleware/blob/master/example/example_threadpool.cpp)为测试示例
 
 
-####以下是单向数据传递示例
+####以下是简单针对各个小用法的例子
 ------------------------------------------
 * 我们先写个回调函数,假设他就是另一个模块的入口
 ```cpp
@@ -97,10 +94,3 @@
     boost::thread(boost::bind(&test2, false,atoi(argv[1])) );
 ```
 * 以上代码均摘自[`main.cpp文件`](https://github.com/NingLeixueR/loop_array/blob/dee393b71e0c3aad05b1f24ca2052f10e1aa7fca/src/main.cpp)
-
-
-####题外话
-------------------------------------------
-简单的示例做完了,您只需要把他用在正确的模块间通信,
-可能示例确实有些简单,那么等以后的日子里,
-我会将更多的东西融入到一个项目中,他更加复杂与灵活的用法将会得以体现

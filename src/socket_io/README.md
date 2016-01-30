@@ -7,7 +7,7 @@ SOCKET IO
 ------------------------------------------
 * 用于不同pc间两个模块间通信
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
-* [`main.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/src/socket_io/main.cpp)为测试示例
+* [`example_socket_io.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_socket_io.cpp)为测试示例
 * 组件通信能力
 * 鉴于boost asio实现服务器间大规模的连接,所以目前版本使用socket send recv实现,未考虑多连接,虽然也支持多连接,但希望数量上有所控制,之后会完善socket select的实现渐进的增长可稍微有效运用线程,asio可能是同pc间两个模块的终点,目前这么设计
 
