@@ -26,3 +26,12 @@
 *.exe
 *.out
 *.app
+
+# 
+**/Release/
+**/Debug/
+
+#
+/cmake/*
+!/cmake/CMakeLists.txt
+!/cmake/Makefile

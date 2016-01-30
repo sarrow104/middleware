@@ -5,6 +5,8 @@
 #define   MSG_BASE_C_H
 #include "serializecpp_buffer.h"
 
+#include <string.h>
+
 namespace middleware{
   namespace tools{
 
@@ -27,7 +29,7 @@ namespace middleware{
       {
 
         uint16_t lsetsize = aivaluesarr.size();
-        uint32_t lsize = sizeof(T_DATA::value_type) * aivaluesarr.size() + sizeof(uint16_t);
+        uint32_t lsize = sizeof(typename T_DATA::value_type) * aivaluesarr.size() + sizeof(uint16_t);
         if (aplen < lsize)
         {
           return 0;
@@ -39,9 +41,9 @@ namespace middleware{
 
         for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
-          serializecpp_base::push(ap, (void*)&(*itor), sizeof(T_DATA::value_type));
-          ap += sizeof(T_DATA::value_type);
-          aplen -= sizeof(T_DATA::value_type);
+          serializecpp_base::push(ap, (void*)&(*itor), sizeof(typename T_DATA::value_type));
+          ap += sizeof(typename T_DATA::value_type);
+          aplen -= sizeof(typename T_DATA::value_type);
         }
         return lsize;
       }
@@ -54,7 +56,7 @@ namespace middleware{
       {
 
         uint16_t lsetsize = aivaluesarr.size();
-        uint32_t lsize = sizeof(T_DATA::value_type::first_type) * aivaluesarr.size() + sizeof(T_DATA::value_type::second_type) * aivaluesarr.size() + sizeof(uint16_t);
+        uint32_t lsize = sizeof(typename T_DATA::value_type::first_type) * aivaluesarr.size() + sizeof(typename T_DATA::value_type::second_type) * aivaluesarr.size() + sizeof(uint16_t);
         if (aplen < lsize)
         {
           return 0;
@@ -64,15 +66,15 @@ namespace middleware{
         serializecpp_base::push(ap, &lsetsize, sizeof(uint16_t));
         ap += sizeof(uint16_t);
 
-        uint32_t ltemp = sizeof(T_DATA::value_type::first_type) + sizeof(T_DATA::value_type::second_type);
+        uint32_t ltemp = sizeof(typename T_DATA::value_type::first_type) + sizeof(typename T_DATA::value_type::second_type);
         for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
-          serializecpp_base::push(ap, (void*)&(itor->first), sizeof(T_DATA::value_type::first_type));
-          ap += sizeof(T_DATA::value_type::first_type);
-          aplen -= sizeof(T_DATA::value_type::first_type);
-          serializecpp_base::push(ap, (void*)&(itor->second), sizeof(T_DATA::value_type::second_type));
-          ap += sizeof(T_DATA::value_type::second_type);
-          aplen -= sizeof(T_DATA::value_type::second_type);
+          serializecpp_base::push(ap, (void*)&(itor->first), sizeof(typename T_DATA::value_type::first_type));
+          ap += sizeof(typename T_DATA::value_type::first_type);
+          aplen -= sizeof(typename T_DATA::value_type::first_type);
+          serializecpp_base::push(ap, (void*)&(itor->second), sizeof(typename T_DATA::value_type::second_type));
+          ap += sizeof(typename T_DATA::value_type::second_type);
+          aplen -= sizeof(typename T_DATA::value_type::second_type);
         }
         return lsize;
       }
