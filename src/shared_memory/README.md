@@ -7,7 +7,7 @@
  *  如果两个模块进程中有一个崩溃了,数据不会丢失,另一个进程会在共享内存被存满后阻塞,这样我们重启即可继续处理我们的数据了
  *  其中需要引用到 [c++ boost库](http://www.boost.org/)(去官网下载编译下,很简单)
  *  组件通信能力
- *  [main.cpp文件](https://github.com/NingLeixueR/shared_memory/blob/4b030c7e7a046eb4d92eadb0b9e9006b23aecd97/src/main.cpp)为测试示例中测试了此模块
+ *  [main.cpp文件](https://github.com/NingLeixueR/middleware/blob/master/src/shared_memory/main.cpp)为测试示例中测试了此模块
 
 ####以下是简单针对各个小用法的例子
 ------------------------------------------
