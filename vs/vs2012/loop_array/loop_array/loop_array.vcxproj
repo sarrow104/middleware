@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\example\example_loop_array.cpp" />
     <ClCompile Include="..\..\..\..\src\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\..\src\loop_array\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\..\src\loop_array\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EDFCBC80-ABEB-44E1-AA91-014518B25F7F}</ProjectGuid>

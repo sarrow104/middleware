@@ -30,10 +30,10 @@
     <ClCompile Include="..\..\..\..\src\socket_io\connect_key_socket .cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\socket_io\main.cpp">
+    <ClCompile Include="..\..\..\..\src\socket_io\socket_head.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\socket_io\socket_head.cpp">
+    <ClCompile Include="..\..\..\..\example\example_socket_io.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

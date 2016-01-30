@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\shared_memory\main.cpp" />
+    <ClCompile Include="..\..\..\..\example\example_shared_memory.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC613EA6-FF8B-4868-90FC-A9FAD4815F60}</ProjectGuid>

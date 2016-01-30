@@ -21,7 +21,7 @@
     <ClCompile Include="..\..\..\..\src\loop_array\looparray.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\loop_array\main.cpp">
+    <ClCompile Include="..\..\..\..\example\example_loop_array.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

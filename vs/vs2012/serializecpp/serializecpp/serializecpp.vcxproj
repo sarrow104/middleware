@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\tools\serializecpp\main.cpp" />
+    <ClCompile Include="..\..\..\..\example\example_serializecpp.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{41974BC1-9133-47FC-88D3-D39860881105}</ProjectGuid>
