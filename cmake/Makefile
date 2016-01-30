@@ -3,7 +3,7 @@
 all: release
 release:
 	@mkdir -p Release
-	cd Release && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=~/bin .. && make
+	cd Release && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} .. && make
 
 debug:
 	@mkdir -p Debug
