@@ -4,6 +4,7 @@
 #ifndef UNSERIALIZECPP_H
 #define UNSERIALIZECPP_H
 
+#include <cstdlib>
 
 namespace middleware {
   namespace tools {
@@ -23,8 +24,8 @@ namespace middleware {
       template <typename T_DATA>
       static uint32_t pop_map(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
       {
-        typedef T_DATA::value_type::first_type    first_type;
-        typedef T_DATA::value_type::second_type    second_type;
+        typedef typename T_DATA::value_type::first_type    first_type;
+        typedef typename T_DATA::value_type::second_type   second_type;
 
         if (aplen < sizeof(uint16_t))
         {
@@ -64,13 +65,13 @@ namespace middleware {
         uint16_t larraysize;
         pop(ap, aplen, larraysize);
         ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(T_DATA::value_type);
+        uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(typename T_DATA::value_type);
 
-        T_DATA::value_type ltemp;
+        typename T_DATA::value_type ltemp;
         for (uint16_t i = 0; i < larraysize; ++i)
         {
-          unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(T_DATA::value_type));
-          ap += sizeof(T_DATA::value_type);
+          unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(typename T_DATA::value_type));
+          ap += sizeof(typename T_DATA::value_type);
           aivaluesarr.insert(ltemp);
         }
 

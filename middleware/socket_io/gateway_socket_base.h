@@ -9,7 +9,7 @@
 #include "lpthread.h"
 #include "middleware/loop_array/looparray.h"
 
-#include <function.hpp>
+#include <boost/function.hpp>
 
 #include <algorithm>
 
