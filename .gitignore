@@ -30,9 +30,11 @@
 # 
 **/Release/
 **/Debug/
-**/vs/
 
 #
 /cmake/*
 !/cmake/CMakeLists.txt
 !/cmake/Makefile
+
+# ignore vs path
+/vs/*
