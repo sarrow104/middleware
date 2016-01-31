@@ -20,7 +20,7 @@ middleware-中间件
 * **工具模块**
   * [序列化与反序列化](https://github.com/NingLeixueR/middleware/tree/master/src/tools/serializecpp)
   * [线程池](https://github.com/NingLeixueR/middleware/tree/master/src/tools/threadpool)
-
+  * [日志](https://github.com/NingLeixueR/middleware/tree/master/src/tools/logsys)
 
 #####最后
 * 如果您有更好的建议,可以通过邮件方式联系我,希望与您共同进步
