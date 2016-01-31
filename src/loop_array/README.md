@@ -9,7 +9,7 @@
 * 也是中间件的基础部件
 * 首先我需要整理下循环数组,在接下来的日子里,将依靠它拼凑出更多的功能
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
-* [`main.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/src/loop_array/main.cpp)为测试示例
+* [`example_loop_array.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_loop_array.cpp)为测试示例
 * 组件通信能力
 
 
@@ -86,10 +86,10 @@
 	}
    }   
 
-``` 
+```
 * 调用线程,模拟两个模块通信
 ```cpp
-    /* 
+    /*
        我们刻意让其中一个不打印回调,另一个打印别人传递给他的数据,
        因为两个数据不同,所以很明显能看出,回调在对方写入后立马被调用
     */

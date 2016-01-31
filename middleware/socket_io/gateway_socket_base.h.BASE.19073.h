@@ -9,7 +9,11 @@
 #include "lpthread.h"
 #include "middleware/loop_array/looparray.h"
 
+<<<<<<< Temporary merge branch 1:middleware/socket_io/gateway_socket_base.h
+#include <function.hpp>
+=======
 #include <boost/function.hpp>
+>>>>>>> Temporary merge branch 2:middleware/socket_io/gateway_socket_base.h
 
 #include <algorithm>
 

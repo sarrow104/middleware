@@ -9,7 +9,15 @@
 #include "lpthread.h"
 #include "middleware/loop_array/looparray.h"
 
+<<<<<<< HEAD
+<<<<<<< HEAD:middleware/socket_io/gateway_socket_base.h
+#include <function.hpp>
+=======
 #include <boost/function.hpp>
+>>>>>>> master:middleware/socket_io/gateway_socket_base.h
+=======
+#include <boost/function.hpp>
+>>>>>>> 3dbec5f64ffca566ea54ade181326a5020fabf40
 
 #include <algorithm>
 
@@ -113,7 +121,7 @@ namespace middleware {
   };
 
 
-} //namespace middleware 
+} //namespace middleware
 
 
 

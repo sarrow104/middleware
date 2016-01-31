@@ -5,9 +5,9 @@
  *  用于同pc间两进程通信，
  *  也是中间件的基础部件，
  *  如果两个模块进程中有一个崩溃了,数据不会丢失,另一个进程会在共享内存被存满后阻塞,这样我们重启即可继续处理我们的数据了
- *  其中需要引用到 [c++ boost库](http://www.boost.org/)(去官网下载编译下,很简单)
+ *  其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
  *  组件通信能力
- *  [main.cpp文件](https://github.com/NingLeixueR/middleware/blob/master/src/shared_memory/main.cpp)为测试示例中测试了此模块
+ *  [`example_shared_memory.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_shared_memory.cpp)为测试示例中测试了此模块
 
 ####以下是简单针对各个小用法的例子
 ------------------------------------------

@@ -29,8 +29,8 @@ namespace middleware{
     {}
 
     /*
-    *  比较函数
-    */
+     *  比较函数
+     */
     bool operator<(const key_stat& r)const
     {
       return m_key < r.m_key;

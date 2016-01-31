@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\tools\serializecpp\main.cpp">
+    <ClCompile Include="..\..\..\..\example\example_serializecpp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

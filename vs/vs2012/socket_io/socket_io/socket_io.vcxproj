@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\example\example_socket_io.cpp" />
     <ClCompile Include="..\..\..\..\src\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\..\src\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\..\src\socket_io\accept_key_socket.cpp" />
     <ClCompile Include="..\..\..\..\src\socket_io\connect_key_socket .cpp" />
-    <ClCompile Include="..\..\..\..\src\socket_io\main.cpp" />
     <ClCompile Include="..\..\..\..\src\socket_io\socket_head.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

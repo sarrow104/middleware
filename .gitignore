@@ -35,3 +35,7 @@
 /cmake/*
 !/cmake/CMakeLists.txt
 !/cmake/Makefile
+
+# ignore vs path
+/vs/vs2012/
+!/vs/vs2012/middleware.sln
