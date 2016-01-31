@@ -56,7 +56,7 @@ namespace middleware{
     static boost::bimap<SOCKET, key_stat>  m_socket_key;
     SOCKET m_ssock;
     uint32_t m_port;
-    boost::mutex m_lock;
+   // boost::mutex m_lock;
 #ifdef WIN32
     int m_len;
 #else
