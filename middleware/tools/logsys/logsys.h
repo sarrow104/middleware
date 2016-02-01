@@ -3,6 +3,7 @@
 
 #include "middleware/socket_io/lpthread.h"
 #include "middleware/loop_array/looparray.h"
+#include "logdef.h"
 
 #include <boost/filesystem.hpp>
 

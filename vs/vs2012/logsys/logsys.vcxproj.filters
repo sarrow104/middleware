@@ -21,22 +21,22 @@
     <ClCompile Include="..\..\..\example\example_logsys.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp">
-      <Filter>源文件\loop_array</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\loop_array\looparray.cpp">
       <Filter>源文件\loop_array</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp">
       <Filter>源文件\loop_array</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp">
-      <Filter>源文件\loop_array</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.h">
-      <Filter>源文件\loop_array</Filter>
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

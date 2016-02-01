@@ -1,4 +1,4 @@
-///        Copyright 2016 libo. All rights reserved
+ï»¿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #ifndef LOG_DEF_H
@@ -6,16 +6,18 @@
 
 
 namespace middleware {
+	namespace tools{
 
-	/** ¶¨ÒåÄ£¿é´æ´¢idµÄÈ«¾Ö±äÁ¿ */
-	extern int g_log_socked_io_id;
+		/** å®šä¹‰æ¨¡å—å­˜å‚¨idçš„å…¨å±€å˜é‡ */
+		extern int g_log_socked_io_id;
 
-}//namespace middleware 
+	} //namespace tools
+}//namespace middleware
 
 
-/** ÎªÃ¿¸öÊ¹ÓÃlogsysÄ£¿éµÄ¶¨ÒåÒ»¸öºê */
-/** socket ioÄ£¿é */
-#define LOG_SOCKET_IO_ID   ( g_log_socked_io_id )
+/** ä¸ºæ¯ä¸ªä½¿ç”¨logsysæ¨¡å—çš„å®šä¹‰ä¸€ä¸ªå® */
+/** socket ioæ¨¡å— */
+#define LOG_SOCKET_IO_ID   ( middleware::tools::g_log_socked_io_id )
 #define LOG_SOCKET_IO_STR  ( "socket_io"  )
 
 

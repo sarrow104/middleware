@@ -25,6 +25,7 @@ int main()
 
   middleware::tools::logsys::get_examples(iz, "庄心妍")->write(LOG_LEVE_WARN, "有一种爱叫做放手,为爱放弃天长地久.");
 
+  LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"看星星%d颗%d颗连成线", 1, 2 );
   boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
   lp->flush();
   lp2->flush();
