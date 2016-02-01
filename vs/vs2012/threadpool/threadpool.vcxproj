@@ -79,11 +79,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\example\example_threadpool.cpp" />
-    <ClCompile Include="..\..\..\..\src\tools\threadpool\threadpool.cpp" />
+    <ClCompile Include="..\..\..\example\example_threadpool.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\middleware\tools\threadpool\threadpool.h" />
+    <ClInclude Include="..\..\..\middleware\tools\threadpool\threadpool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

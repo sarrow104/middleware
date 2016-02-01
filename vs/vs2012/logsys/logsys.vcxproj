@@ -10,18 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\example\example_socket_io.cpp" />
-    <ClCompile Include="..\..\..\..\src\loop_array\looparray.cpp" />
-    <ClCompile Include="..\..\..\..\src\loop_array\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\..\src\socket_io\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\..\src\socket_io\connect_key_socket .cpp" />
-    <ClCompile Include="..\..\..\..\src\socket_io\socket_head.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7FA8FF1B-7834-443C-A17E-3FD6AC880E8D}</ProjectGuid>
+    <ProjectGuid>{153C58BB-7103-478B-8BE2-BA3DF0EC95A2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>socket_io</RootNamespace>
+    <RootNamespace>logsys</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -86,6 +78,15 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_logsys.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
