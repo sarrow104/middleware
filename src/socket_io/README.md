@@ -5,7 +5,7 @@ SOCKET IO
 
 ####简单介绍
 ------------------------------------------
-* 用于不同pc间两个模块间通信
+* 用于不同pc间两个模块间通信,模块引用[`looparray`](https://github.com/NingLeixueR/middleware/tree/master/src/loop_array)模块
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
 * [`example_socket_io.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_socket_io.cpp)为测试示例
 * 组件通信能力
