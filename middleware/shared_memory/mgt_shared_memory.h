@@ -1,7 +1,6 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-
 #ifndef MGT_SOCKET_SHARED_MEMORY_H
 #define MGT_SOCKET_SHARED_MEMORY_H
 
@@ -10,9 +9,9 @@
 
 namespace middleware {
 
-  /********************
-   **  双向通信共享内存
-   ********************/
+  /**
+   *  双向通信共享内存
+   */
   class communicate_module
   {
     gateway_shared_memory* m_client_gsm;
@@ -39,9 +38,9 @@ namespace middleware {
       return lret_gsm;
     }
 
-    /*
-	 *  设置回调
-	 */
+   /**
+	  *  设置回调
+	  */
     void set_callback()
     {
       if (m_recv_callbackfun != NULL)
@@ -50,7 +49,7 @@ namespace middleware {
       }
     }
 
-	/*
+	/**
 	 *  获取服务器端
 	 */
     shared_memory_server* get_server()
@@ -58,7 +57,7 @@ namespace middleware {
       return (shared_memory_server*)m_server;
     }
 
-	/*
+	/**
 	 *  获取客户端
 	 */
     shared_memory_client* get_client()
@@ -66,7 +65,7 @@ namespace middleware {
       return (shared_memory_client*)m_client;
     }
 
-	/*
+	/**
 	 *  设置操纵共享内存的对象
 	 */
     void set_operator_shared_memory()
@@ -98,7 +97,7 @@ namespace middleware {
       m_namestr(aismname),
       m_ok(aiok)
     {
-      /*定义共享内存对象*/
+      /** 定义共享内存对象 */
       m_client_gsm = create_shared_memory_obj((m_namestr + "_client").c_str(), m_client_byte_sum);
       m_server_gsm = create_shared_memory_obj((m_namestr + "_server").c_str(), m_server_byte_sum);
 
@@ -106,7 +105,7 @@ namespace middleware {
       set_callback();
     }
 
-    /* 读进程专用 */
+    /** 读进程专用 */
     char* rget_strat(uint32_t& ailen)
     {
       return get_client()->rget_strat(ailen);
@@ -117,7 +116,7 @@ namespace middleware {
       get_client()->rget_finish();
     }
 
-    /* 写进程专用 */
+    /** 写进程专用 */
     char* wget_start()
     {
       return get_server()->wget_start();

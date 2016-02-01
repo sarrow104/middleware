@@ -1,9 +1,8 @@
-///        Copyright 2016 libo. All rights reserved
+ï»¿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #ifndef GETEWAY_SHARED_MEMORY_H
 #define GETEWAY_SHARED_MEMORY_H
-
 
 #include <boost/interprocess/managed_shared_memory.hpp>
 #include <boost/interprocess/mapped_region.hpp>
@@ -20,13 +19,13 @@ using boost::interprocess::read_only;
 using boost::interprocess::open_only;
 
 namespace middleware {
-  
-  /* ¹²ÏíÄÚ´æÍ· */
+
+  /** å…±äº«å†…å­˜å¤´ */
   struct shared_memory_head;
 
   /**
-   **  ´´½¨¹²ÏíÄÚ´æ
-   **/
+   *  åˆ›å»ºå…±äº«å†…å­˜
+   */
   class gateway_shared_memory
   {
     shared_memory_object* mp_smobj;
@@ -40,7 +39,7 @@ namespace middleware {
       mp_smobj->truncate(aibufsize);
       mp_mmap = new mapped_region(*mp_smobj, read_write);
     }
-#endif
+#endif //0
     gateway_shared_memory() :
       mp_smobj(nullptr),
       mp_mmap(nullptr)
@@ -55,7 +54,7 @@ namespace middleware {
     }
 
 	/*
-	 *   ´´½¨¹²ÏíÄÚ´æÍ· 
+	 *   åˆ›å»ºå…±äº«å†…å­˜å¤´
 	 */
     void create_shared_memort_head(const char* aismname, uint64_t aibufsize)
     {
@@ -66,7 +65,7 @@ namespace middleware {
     }
 
 	/*
-	 *  ´ò¿ª¹²ÏíÄÚ´æÍ·
+	 *  æ‰“å¼€å…±äº«å†…å­˜å¤´
 	 */
     bool open_shared_memort_head(const char* aismname)
     {
@@ -97,24 +96,22 @@ namespace middleware {
     }
 #endif //0
 
-	/*
-	 *  »ñÈ¡µØÖ·
+	/**
+	 *  èŽ·å–åœ°å€
 	 */
     void* address()
     {
       return  mp_mmap->get_address();
     }
 
-	/*
-	 *  »ñÈ¡×Ö½ÚÊý
+	/**
+	 *  èŽ·å–å­—èŠ‚æ•°
 	 */
     std::size_t size()
     {
       return  mp_mmap->get_size();
     }
-
   };
 
-}
-
-#endif
+} //namespace middleware
+#endif //GETEWAY_SHARED_MEMORY_H

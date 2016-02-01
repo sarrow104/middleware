@@ -11,7 +11,7 @@ using namespace std;
 
 void test_client()
 {
-	/* recv call back */
+	/** recv call back */
 	auto rcb = [](const char* ap,uint32_t aplen)
 	{
 		cout << *( (uint32_t*)ap) << endl;
@@ -19,14 +19,13 @@ void test_client()
 		return true;
 	};
 
-	/* send failure call back*/
+	/** send failure call back*/
 	auto sfcb = [](const char* ap, uint32_t aplen)
 	{
 		cout << *((uint32_t*)ap) << endl;
 		aplen = 0;
 		return true;
 	};
-
 
 	middleware::gateway_socket_client_con lclient(rcb, 10240, 1024);
 	lclient.create_con( 0 ,"127.0.0.1", 13140, sfcb);
@@ -36,15 +35,13 @@ void test_client()
 		lclient.send( 0,lbuf, sizeof( lbuf ) );
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
-
-
 	return;
 }
 
 void test_server()
 {
 	middleware::gateway_socket_server_con* lp;
-	/* recv call back */
+	/** recv call back */
 	auto rcb = [](const char* ap, uint32_t aplen)
 	{
 		cout << ap << endl;
@@ -52,7 +49,7 @@ void test_server()
 		return true;
 	};
 
-	/* send failure call back*/
+	/** send failure call back*/
 	auto sfcb = [](const char* ap, uint32_t aplen)
 	{
 		cout << ap << endl;
@@ -68,7 +65,6 @@ void test_server()
 		lserver.send( 0, (const char*)&(++lnum), sizeof(uint32_t) );
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
-
 	return;
 }
 
@@ -77,7 +73,6 @@ int main()
 {
 	boost::thread( function<void()>(test_server) );
 	boost::thread( function<void()>(test_client) );
-
 	while (1)
 	{
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));

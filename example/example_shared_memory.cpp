@@ -1,25 +1,19 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-///        Copyright 2016 libo. All rights reserved
-///   (Home at https://github.com/NingLeixueR/middleware/)
-
 #include "middleware/shared_memory/shared_memory_middleware.h"
 
 #include <iostream>
 
 using namespace std;
 
-
-
-
-int main(int argc, char *argv[])  
+int main(int argc, char *argv[])
 {
 	if( argc >= 2  )
 	{
 		if(memcmp(argv[1],"-s",sizeof("-s")  ) == 0)
 		{
-			//boost::function<bool ( char* ,uint32_t& )>
+			/** boost::function<bool ( char* ,uint32_t& )> */
 			auto funservercallback = []( char* ap ,uint32_t& aplen)
 			{
 				cout << ap << endl;
@@ -38,7 +32,7 @@ int main(int argc, char *argv[])
 		}
 		else if(memcmp(argv[1],"-c",sizeof("-c")  ) == 0)
 		{
-			//boost::function<bool ( char* ,uint32_t& )>
+			/** boost::function<bool ( char* ,uint32_t& )> */
 			auto funclientcallback = []( char* ap ,uint32_t& aplen)
 			{
 				cout << ap << endl;
@@ -61,7 +55,6 @@ int main(int argc, char *argv[])
 			goto PRINT_ERR_RET;
 		}
 
-
 		while (1)
 		{
 			boost::this_thread::sleep(boost::posix_time::milliseconds(20));
@@ -72,6 +65,6 @@ PRINT_ERR_RET:
 	cout << "确保您输入正确的参数:" << endl;
 	cout << "-s" << endl;
 	cout << "-c" << endl;
-	
+
 	return 0;
 }

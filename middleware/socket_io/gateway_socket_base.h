@@ -16,8 +16,8 @@
 namespace middleware {
 
   /**
-   ** socket 基类
-   **/
+   * socket 基类
+   */
   class gateway_socket_base
   {
     module_communicate m_recvlooparray;
@@ -25,22 +25,22 @@ namespace middleware {
     boost::function<bool(uint32_t&, SOCKET)> m_socket2key;
     boost::function<bool(uint32_t, SOCKET&)> m_key2socket;
     uint32_t m_ieverymaxsize;
-    char* lbuf1; /* 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
-    char* lbuf2; /* 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
+    char* lbuf1; /** 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
+    char* lbuf2; /** 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
 
-    /*
+    /**
      *  发送回调
      */
     bool send_callback(const char* ap, uint32_t aplen)
     {
-      /* 获取key */
+      /** 获取key */
       uint32_t lkey = *((uint32_t*)(ap));
       SOCKET lsocket;
       if (m_key2socket(lkey, lsocket))
       {
         if (g_send(lsocket, ap + sizeof(uint32_t), aplen - sizeof(uint32_t)) <= 0)
         {
-          /* 发送失败 */
+          /** 发送失败 */
           sendfailure(lsocket, ap, aplen);
         }
       }
@@ -56,9 +56,9 @@ namespace middleware {
 
   public:
     gateway_socket_base(
-      /* loop array相关 */
-      uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun,/* bool apstartthread,*/
-      boost::function<bool(uint32_t, SOCKET&)> aikey2socket /* send回调方法从子类获取socket句柄 */
+      /** loop array相关 */
+      uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun,/** bool apstartthread,*/
+      boost::function<bool(uint32_t, SOCKET&)> aikey2socket /** send回调方法从子类获取socket句柄 */
       ) :
       m_recvlooparray(apbuffersize, aieverymaxsize, aireadfun, false),
       m_sendlooparray(apbuffersize, aieverymaxsize, boost::bind(&gateway_socket_base::send_callback, this, _1, _2), false),
@@ -68,7 +68,7 @@ namespace middleware {
       lbuf2(new char[m_ieverymaxsize])
     {}
 
-    /*
+    /**
      *  发送消息
      */
     bool send(uint32_t aikey, const char* ap, uint32_t aplen)
@@ -87,7 +87,7 @@ namespace middleware {
     }
 
 
-    /*
+    /**
      *  接收回调
      */
     bool recv(SOCKET sisocket)
@@ -101,7 +101,7 @@ namespace middleware {
         llen = g_recv(sisocket, lbuf1, m_ieverymaxsize);
         if (llen <= 0)
         {
-          /* socket err */
+          /** socket err */
           return false;
         }
         m_recvlooparray.send(lbuf1, llen);
@@ -113,16 +113,5 @@ namespace middleware {
   };
 
 
-} //namespace middleware 
-
-
-
-
-
-
-
-
-
-
-
-#endif
+} //namespace middleware
+#endif //GATEWAY_SOCKET_BASE_H

@@ -11,11 +11,11 @@
 
 namespace middleware {
 
-#ifndef MIDDLEWARE_BASE      /* 防止嵌套定义此基类 */
+#ifndef MIDDLEWARE_BASE      /** 防止嵌套定义此基类 */
 #define MIDDLEWARE_BASE
-  /*********************
-   **   中间件基类
-   ********************/
+  /**
+   *   中间件基类
+   */
   class middleware_base
   {
   public:
@@ -24,10 +24,10 @@ namespace middleware {
   };
 #endif //MIDDLEWARE_BASE
 
-  /******************************************
-   **  双向循环数组辅助类
-   **  用于保存根据名称生成的两个单向的循环数组
-   *****************************************/
+  /**
+   *  双向循环数组辅助类
+   *  用于保存根据名称生成的两个单向的循环数组
+   */
   class middleware_la
   {
     module_communicate la1;
@@ -58,9 +58,9 @@ namespace middleware {
     }
   };
 
-  /************************
-   **   双向循环数组
-   ***********************/
+  /**
+   *   双向循环数组
+   */
   class middleware_looparray :
     public middleware_base
   {
@@ -84,11 +84,11 @@ namespace middleware {
     {
       auto itor = m_module_communicate_tab.find(m_name);
 
-      {/* 锁作用域 */
+      {/** 锁作用域 */
         boost::mutex::scoped_lock llock(m_lock);
         if (itor == m_module_communicate_tab.end())
         {
-          /*创建*/
+          /** 创建 */
           if (apisclient)
           {
             m_module_communicate_tab.insert(std::make_pair(ainame, std::make_pair(&la, nullptr)));
@@ -111,7 +111,7 @@ namespace middleware {
           }
 
         }
-      }/* 锁作用域 */
+      }/** 锁作用域 */
 
       while (1)
       {
@@ -127,16 +127,16 @@ namespace middleware {
       }
     }
 
-    /*
-     *  发送数据
+    /**
+     * 发送数据
      */
     virtual bool send(char* apdata, uint32_t aiwlen)
     {
       return la.send(apdata, aiwlen);
     }
 
-    /*
-     *  关闭
+    /**
+     * 关闭
      */
     virtual bool close()
     {

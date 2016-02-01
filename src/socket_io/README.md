@@ -5,7 +5,7 @@ SOCKET IO
 
 ####简单介绍
 ------------------------------------------
-* 用于不同pc间两个模块间通信
+* 用于不同pc间两个模块间通信,模块引用[`looparray`](https://github.com/NingLeixueR/middleware/tree/master/src/loop_array)模块
 * 其中需要引用到 [`c++ boost库`](http://www.boost.org/)(去官网下载编译下,很简单)
 * [`example_socket_io.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_socket_io.cpp)为测试示例
 * 组件通信能力
@@ -89,3 +89,5 @@ SOCKET IO
   /* 关闭指定key对应的连接 */
   lserver.close(0);
   ```
+####最后
+* 如果您有更好的建议,可以通过邮件方式联系我,希望与您共同进步

@@ -30,6 +30,7 @@
 # 
 **/Release/
 **/Debug/
+**/log/
 
 #
 /cmake/*
@@ -37,5 +38,7 @@
 !/cmake/Makefile
 
 # ignore vs path
-/vs/vs2012/
-!/vs/vs2012/middleware.sln
+#/vs/vs2012/
+*.sdf
+*.suo
+*.opensdf

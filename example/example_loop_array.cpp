@@ -13,15 +13,14 @@
 
 using std::cout;
 using std::endl;
-/*
-  可生成exe 测试dll中的各段代码
-*/
-#define TEST_BUFFER_SIZE    (10240)
+
+/** 循环数组buffer大小 */
+#define TEST_BUFFER_SIZE       (10240)
+/** 单条数据最大字节 */
 #define TEST_ONCE_BUFFER_SIZE   (1024)
-  
+
 void test( uint32_t aisize)
 {
-  cout << "————————————开始测试循环数组————————————————————" << endl;
   time_t lnow;
   auto fun = [&lnow,&aisize](const char* ap, uint32_t aplen)
   {
@@ -46,11 +45,7 @@ void test( uint32_t aisize)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
   }
-
 }
-
-
-
 
 void test2( bool aibo ,uint32_t aisize)
 {
@@ -85,13 +80,12 @@ int main(int argc,char** argv)
 {
   if( argc == 1 )
   {
-    cout << "缺少测试参数 num" << endl;
+    cout << "|缺少测试参数|num|" << endl;
     return 0;
   }
-
-  /* 单向的循环数组,一般发消息与回调模块交互 */
+  /** 单向的循环数组,一般发消息与回调模块交互 */
   boost::thread(boost::bind(&test, atoi(argv[1])) );
-  /* 双向的循环数组,可以相互交互,不过在线程2里我们故意让第二个不输出 */
+  /** 双向的循环数组,可以相互交互,不过在线程2里我们故意让第二个不输出 */
   boost::thread(boost::bind(&test2, true,atoi(argv[1])*100) );
   boost::thread(boost::bind(&test2, false,atoi(argv[1])) );
   while (1)
