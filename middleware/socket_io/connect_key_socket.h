@@ -10,18 +10,17 @@
 #include <boost/bimap.hpp>
 
 namespace middleware {
-  /***************************
-   ** connect_key_socket的辅助类
-   ***************************/
+  /**
+   * connect_key_socket的辅助类
+   */
   struct key_ip_port
   {
     uint32_t m_key;
     std::string m_ip;
     uint32_t m_port;
     bool m_socket_stat;
-    /* 发送失败的回调 */
+    /** 发送失败的回调 */
     boost::function<bool(const char*, uint32_t)> m_sendfailure_callback;
-
 
     key_ip_port(
       uint32_t aikey,
@@ -35,9 +34,11 @@ namespace middleware {
       m_socket_stat(true),
       m_sendfailure_callback(aisendfailure_callback)
     {}
+
     key_ip_port(uint32_t aikey) :
       m_key(aikey)
     {}
+
     bool operator<(const key_ip_port& r)const
     {
       return m_key < r.m_key;
@@ -47,24 +48,24 @@ namespace middleware {
     {
       return m_socket_stat;
     }
+
     void set_stat(bool aistat)
     {
       m_socket_stat = aistat;
     }
-
   };
 
-  /***************************
-   **负责维护 socket client连接 
-   ***************************/
+  /**
+   * 负责维护 socket client连接
+   */
   class connect_key_socket
   {
     SOCKET m_socket;
     static boost::bimap<SOCKET, key_ip_port>  m_socket_key;
     boost::function<bool(SOCKET)> m_recvfun;
 	/**
-	 **  初始化socket
-	 **/
+	 *  初始化socket
+	 */
 	void initsocket()
 	{
 #ifdef _MSC_VER
@@ -78,19 +79,18 @@ namespace middleware {
 		return;
 	}
 
-	/*
-	* 创建连接
-	*/
+	/**
+	 * 创建连接
+	 */
 	SOCKET create_con(uint32_t aikey, const char* aiserverip, int32_t aiserverport)
 	{
-
 		SOCKET lsock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		//构建服务器地址信息  
+		/** 构建服务器地址信息 */
 		struct sockaddr_in laddr;
 		laddr.sin_family = AF_INET;
 		laddr.sin_port = htons(aiserverport);
 		laddr.sin_addr.s_addr = inet_addr(aiserverip);
-		//连接服务器  
+		/** 连接服务器 */
 		while (connect(lsock, (struct sockaddr *)&laddr, sizeof(laddr)) == SOCKET_ERROR)
 		{
 			//ErrlogWrite(G_LOGMSG_SOCKET,ERROR_SOCKET_INIT_NUM,"connect()");
@@ -103,7 +103,6 @@ namespace middleware {
 		return lsock;
 	}
 
-	
   public:
     connect_key_socket(boost::function<bool(SOCKET)> airecv) :
       m_recvfun(airecv)
@@ -111,10 +110,9 @@ namespace middleware {
       initsocket();
     }
 
-   
-	/*
-	* 进一步确认创建连接
-	*/
+	/**
+	 * 进一步确认创建连接
+	 */
 	bool send_key(uint32_t aikey, const char* aiserverip, int32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
 	{
 		m_socket = create_con(aikey, aiserverip, aiserverport);
@@ -126,7 +124,7 @@ namespace middleware {
 			size_t lrecvlen = g_recv(m_socket, lrecvkey, 32);
 			if (lrecvlen < sizeof(uint32_t))
 			{
-				//失败
+				/** 失败 */
 				closehandle(m_socket);
 				return false;
 			}
@@ -134,7 +132,7 @@ namespace middleware {
 			{
 				if (*((uint32_t*)(lrecvkey)) != aikey)
 				{
-					//失败
+					/** 失败 */
 					closehandle(m_socket);
 					return false;
 				}
@@ -152,15 +150,14 @@ namespace middleware {
 		return true;
 	}
 
+  void recv(SOCKET aisocket)
+  {
+    m_recvfun(aisocket);
+  }
 
-    void recv(SOCKET aisocket)
-    {
-      m_recvfun(aisocket);
-    }
-
-	/*
-	 *  通过key获取socket
-	 */
+	 /*
+	  *  通过key获取socket
+	  */
     bool get_socket(uint32_t aikey, SOCKET& aisocket)
     {
       auto itor = m_socket_key.right.find(aikey);
@@ -217,8 +214,8 @@ namespace middleware {
       return true;
     }
 
-    /* 
-	 *  重连 
+    /*
+	 *  重连
 	 */
     bool reconnect(SOCKET aisocket)
     {
@@ -244,15 +241,9 @@ namespace middleware {
             )
           );
       }
-
       return true;
     }
-
   };
 
 } //namespace middleware
-
-
-
-
-#endif
+#endif //CONNECT_KEY_SOCKET_H

@@ -9,12 +9,12 @@
 namespace middleware {
 
   /**
-   **  共享内存服务器
-   **/
+   *  共享内存服务器
+   */
   class shared_memory_server :
     public shared_memory_base
   {
-	  /*
+	  /**
 	   *  初始化
 	   */
 	  void init(void* apdress, uint64_t ai_smbyte, const char* ainame, bool aicreate_sem)
@@ -87,7 +87,7 @@ namespace middleware {
           }
           else
           {
-            //未有空闲资源
+            /** 未有空闲资源 */
             m_wsem->wait();
           }
         }

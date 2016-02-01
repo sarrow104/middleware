@@ -35,9 +35,9 @@
 namespace middleware{
   namespace tools{
 
-   /********************
-    ** 写日志类
-    ********************/
+   /**
+    * 写日志类
+    */
   class logsys
   {
     std::ofstream m_logfile;
@@ -50,8 +50,10 @@ namespace middleware{
     boost::mutex m_lock;
     static boost::mutex m_creat_lock;
     static std::vector<logsys*> m_log_list;
-    
-    /* 获取当前时间字符串 */
+
+    /**
+     * 获取当前时间字符串
+     */
     bool get_now( char* ap, uint32_t aplen, char aseparator1 = '-', char aseparator2 = ':', time_t aitimep = 0 )
     {
       if( aitimep == 0)
@@ -62,32 +64,33 @@ namespace middleware{
       tm* lptm = gmtime(&aitimep);
       int lhour = lptm->tm_hour+8;
       lhour = lhour > 23 ? lhour - 24 : lhour;
-          
+
       return snprintf(
         ap,
         aplen,
         "%d%c%d%c%d %d%c%d%c%d",
-        lptm->tm_year + 1970,        /* 年 */
-        aseparator1,            /* 分隔符 */
-        lptm->tm_mon + 1,          /* 月 */
-        aseparator1,            /* 分隔符 */
-        lptm->tm_mday,            /* 日 */
-        
-        lhour,                /* 小时 */
-        aseparator2,            /* 分隔符 */
+        lptm->tm_year + 1970,         /* 年 */
+        aseparator1,                  /* 分隔符 */
+        lptm->tm_mon + 1,             /* 月 */
+        aseparator1,                  /* 分隔符 */
+        lptm->tm_mday,                /* 日 */
+
+        lhour,                   /* 小时 */
+        aseparator2,             /* 分隔符 */
         lptm->tm_min,            /* 分钟 */
-        aseparator2,            /* 分隔符 */
-        lptm->tm_sec            /* 秒 */
+        aseparator2,             /* 分隔符 */
+        lptm->tm_sec             /* 秒 */
         ) >= 0;
     }
 
     bool creat_log()
     {
-      boost::filesystem::path path("./log"); // random pathname
-      bool result = boost::filesystem::is_directory(path);  
+      boost::filesystem::path path("./log");
+      /** 检查创建路径 */
+      bool result = boost::filesystem::is_directory(path);
       if( !result )
       {
-        boost::filesystem::create_directory(path); 
+        boost::filesystem::create_directory(path);
       }
 
       char lpbuf[256];
@@ -112,7 +115,8 @@ namespace middleware{
         return false;
       }
     }
-    
+
+    /** 写log  */
     bool write_log( const char* ap, uint32_t aplen )
     {
       m_logfile<< ap << '\n';
@@ -141,6 +145,9 @@ namespace middleware{
       }
     }
 
+    /**
+     *  获取类型对应字符串
+     */
     const char* get_type_str( uint32_t aitype)
     {
       const char* lret = nullptr;
@@ -168,6 +175,13 @@ namespace middleware{
       }
     }
 
+    /**
+     * 获取实例
+     * 1.ainame == "" 并且 ainum有正常值 则返回该ainum对应的日志对象
+     * 2.ainume != ""
+     *  一 ainum正常值  直接返回ainum对应的日志对象
+     *  二  如果ainum非正常值则新建
+     */
     static logsys* get_examples( int& ainum , const char* ainame = "")
     {
       if( ainame == "")
@@ -190,12 +204,19 @@ namespace middleware{
         }
         else
         {
-          return m_log_list[ainum];
+          if( m_log_list[ainum]->m_logname ==  ainame)
+          {
+             return m_log_list[ainum];
+          }
+          else
+          {
+             return nullptr;
+          }
         }
       }
-    }    
-    
-    /*
+    }
+
+    /**
      *  写日志
      */
     void write( uint32_t aitype, const char* ap )
@@ -219,7 +240,7 @@ namespace middleware{
       }
     }
 
-    /*
+    /**
      *  刷新文件流
      */
     void flush()
@@ -231,5 +252,3 @@ namespace middleware{
 
   } //namespace tools
 } //namespace middleware
-
-

@@ -12,12 +12,11 @@
 
 #include <iostream>
 
-  
 namespace middleware{
 
-  /*****************************
-   ** accept_key_socket内部使用类
-   *****************************/
+  /**
+   * accept_key_socket内部使用类
+   */
   struct key_stat
   {
     uint32_t m_key;
@@ -46,13 +45,12 @@ namespace middleware{
     }
   };
 
-  /*****************************
-   ** socket server 辅助函数
-   ** 处理有关socket初始化,端口监听,
-   *****************************/
+  /**
+   * socket server 辅助函数
+   * 处理有关socket初始化,端口监听,
+   */
   class accept_key_socket
   {
-
     static boost::bimap<SOCKET, key_stat>  m_socket_key;
     SOCKET m_ssock;
     uint32_t m_port;
@@ -65,14 +63,13 @@ namespace middleware{
     boost::function<bool(SOCKET)> m_recvfun;
     boost::function<bool(const char*, uint32_t)> m_sendfailure;     /*  发送失败回调  */
 
-    /*
+    /**
      *  accept等待线程
      */
     void run_accept()
     {
       SOCKET l_csock;
       struct sockaddr_in l_caddr;
-
       while (1)
       {
         l_csock = accept(m_ssock, (struct sockaddr *)&l_caddr, &m_len);
@@ -106,8 +103,6 @@ namespace middleware{
       }
 
       uint32_t lkey = *((uint32_t*)(lirecv));
-
-
       auto itor = m_socket_key.right.find(lkey);
       if (itor != m_socket_key.right.end())
       {
@@ -117,8 +112,7 @@ namespace middleware{
 
       m_socket_key.insert(boost::bimap<SOCKET, key_stat>::value_type(aisocket, lkey));
 
-
-      /* 回复 */
+      /** 回复 */
       if (g_send(aisocket, lirecv, liret) <= 0)
       {
         closesocket(aisocket);
@@ -136,7 +130,7 @@ namespace middleware{
       boost::thread(boost::bind(&accept_key_socket::initsocket, this));
     }
 
-    /*
+    /**
      *  初始化socket
      */
     void initsocket()
@@ -177,7 +171,7 @@ namespace middleware{
       run_accept();
     }
 
-    /*
+    /**
      *  关闭socket连接
      */
     void close_accept_socket()
@@ -185,7 +179,7 @@ namespace middleware{
       closesocket(m_ssock);
     }
 
-    /*
+    /**
      * 接收数据
      */
     void recv(SOCKET aisocket)
@@ -193,7 +187,7 @@ namespace middleware{
       m_recvfun(aisocket);
     }
 
-    /*
+    /**
      * 根据key获取socket
      */
     bool get_socket(uint32_t aikey, SOCKET& aisocket)
@@ -211,12 +205,12 @@ namespace middleware{
       }
     }
 
-    /*
+    /**
      *  关闭socket
      */
     bool close(SOCKET aisocket, const char* ap, uint32_t aplen)
     {
-      /* 移除 */
+      /** 移除 */
       auto itor = m_socket_key.left.find(aisocket);
       if (itor == m_socket_key.left.end())
       {
@@ -233,8 +227,8 @@ namespace middleware{
     }
 
     /*
-    *  关闭所有连接
-    */
+     *  关闭所有连接
+     */
     bool closeallconnect()
     {
       for (auto itor = m_socket_key.left.begin(); itor != m_socket_key.left.end(); ++itor)
@@ -247,13 +241,7 @@ namespace middleware{
       }
       return true;
     }
-
   };
 
 } //namespace middleware
-
-
-
-
-
-#endif
+#endif //ACCEPT_KEY_SOCKET_H

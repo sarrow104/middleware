@@ -9,9 +9,9 @@
 
 namespace middleware {
 
-  /*****************************
-   **  负责维护 socket server连接 
-   *****************************/
+  /**
+   * 负责维护 socket server连接
+   */
   class gateway_socket_server_con :
     public gateway_socket_base
   {
@@ -34,29 +34,22 @@ namespace middleware {
     {
     }
 
-	/*
-	 *  处理发送失败
+	/**
+	 * 处理发送失败
 	 */
-    virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
-	{
+   virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
+	 {
       return m_accept.close(aisocket, ap, aplen);
-    }
+   }
 
-	/*
-	 *  关闭所有连接
+	/**
+	 * 关闭所有连接
 	 */
     bool close()
     {
       return m_accept.closeallconnect();
     }
-
   };
 
-
-} //namespace middleware 
-
-
-
-
-
-#endif
+} //namespace middleware
+#endif //GATEWAY_SERVER_H

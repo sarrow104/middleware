@@ -14,58 +14,55 @@
 
 typedef boost::interprocess::interprocess_semaphore boost_sem;
 
-// #define _DLL_SAMPLE
+/** #define _DLL_SAMPLE */
 #ifdef _MSC_VER
-#
-#define _DLL_SAMPLE
-#
-#ifdef _DLL_SAMPLE
+#   define _DLL_SAMPLE
+#   ifdef _DLL_SAMPLE
 #       define DLL_SAMPLE_API __declspec(dllexport)
-#else
+#   else
 #       define DLL_SAMPLE_API __declspec(dllimport)
-#endif //_DLL_SAMPLE
-#
+#   endif //_DLL_SAMPLE
 #else
-#       define DLL_SAMPLE_API
+#   define DLL_SAMPLE_API
 #endif  //_MSC_VER
 
 namespace middleware {
 
   class loop_array;
 
-  /* 写回调 */
+  /** 写回调 */
   typedef boost::function<bool(char*, uint32_t&)> FUN_WRITE_CALLBACK;
 
-  /* 读回调 */
+  /** 读回调 */
   typedef boost::function<bool(const char*, uint32_t)>   FUN_READ_CALLBACK;
 
-  /*
-   *  new_loop_array:创建循环数组
-   *  parameter 1 缓冲区字节数
-   *  parameter 2 发送单条数据最大字节
-   *  parameter 3 写回调
-   *  parameter 4  读回调
+  /**
+   *  创建循环数组
+   *  @param 缓冲区字节数
+   *  @param 发送单条数据最大字节
+   *  @param 写回调
+   *  @param 读回调
    */
   DLL_SAMPLE_API loop_array* new_loop_array(uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun, FUN_WRITE_CALLBACK aiwritefun);
 
 
-  /*
-   *  new_loop_array:创建循环数组
-   *  parameter 1 已分配的缓冲区
-   *  parameter 2 缓冲区字节数
-   *  parameter 3 发送单条数据最大字节
-   *  parameter 4 写回调
-   *  parameter 5  读回调
+  /**
+   *  创建循环数组
+   *  @param 已分配的缓冲区
+   *  @param 缓冲区字节数
+   *  @param 发送单条数据最大字节
+   *  @param 写回调
+   *  @param 读回调
    */
   DLL_SAMPLE_API loop_array* new_loop_array(char* aibuffer, uint32_t apbuffersize, uint32_t aieverymaxsize, FUN_READ_CALLBACK aireadfun, FUN_WRITE_CALLBACK aiwritefun);
 
-  /*
-   *  start_run:开启循环数组
+  /**
+   *  开启循环数组
    */
   DLL_SAMPLE_API void start_run(loop_array*, bool aibool);
 
-  /*
-   *  delete_loop_array:销毁循环数组
+  /**
+   *  销毁循环数组
    */
   DLL_SAMPLE_API void delete_loop_array(loop_array* ap);
 
@@ -76,10 +73,10 @@ namespace middleware {
 
 
 
-  /******************************************
-   **  辅助循环数组 写 回调
-   **  用于保存根据名称生成的两个单向的循环数组
-   *****************************************/
+  /**
+   *  辅助循环数组 写 回调
+   *  用于保存根据名称生成的两个单向的循环数组
+   */
   class loop_array_write_callback_helper
   {
     /* send_run_fun 函数私有变量*/
@@ -123,7 +120,7 @@ namespace middleware {
       {
         if (aplen < write_once____ltemp)
         {
-          /* 未写完size */
+          /** 未写完size */
           ap[0] = ((char*)(&write_once____lsize))[write_once____ltemp2];
           ++write_once____ltemp2;
           if (write_once____ltemp == sizeof(uint16_t))
@@ -175,7 +172,8 @@ namespace middleware {
       return true;
     }
 
-    /*  push_write_once:发送数组
+    /*
+     *  发送数组
      *  传入的指针是不能再第二次成功调用前修改其数据的,
      *  因为他只不过是保存了指针,真正的拷贝是在线程里进行的
      *  可被多线程调用

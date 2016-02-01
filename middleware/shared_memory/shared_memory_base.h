@@ -16,25 +16,23 @@ using boost::interprocess::create_only_t;
 using boost::interprocess::open_only_t;
 using boost::interprocess::open_or_create;
 
-
 namespace middleware {
 
-#define EVERY_ONE_SIZE_SIZE    ( sizeof(uint16_t) )                  /* 每条消息包装时加上的SIZE所占的空间 */
+#define EVERY_ONE_SIZE_SIZE    ( sizeof(uint16_t) )                  /** 每条消息包装时加上的SIZE所占的空间 */
 
-  /* 共享内存头 */
+  /** 共享内存头 */
   struct SHARED_HEAD
   {
-    uint64_t m_smbyte;          /* 共享内存的字节数 */
+    uint64_t m_smbyte;          /** 共享内存的字节数 */
+    void* m_create_w;           /** 写指针 */
+    void* m_create_r;           /** 读指针 */
+    void* m_create_beg;         /** 首地址 */
+    void* m_create_end;         /** 末地址 */
 
-    void* m_create_w;          /* 写指针 */
-    void* m_create_r;          /* 读指针 */
-    void* m_create_beg;          /* 首地址 */
-    void* m_create_end;          /* 末地址 */
-
-    void* m_open_w;            /* 写指针 */
-    void* m_open_r;            /* 读指针 */
-    void* m_open_beg;          /* 首地址 */
-    void* m_open_end;          /* 末地址 */
+    void* m_open_w;             /** 写指针 */
+    void* m_open_r;             /** 读指针 */
+    void* m_open_beg;           /** 首地址 */
+    void* m_open_end;           /** 末地址 */
 
     uint32_t m_wcount;
     uint32_t m_rcount;
@@ -42,8 +40,8 @@ namespace middleware {
   };
 
   /**
-   **  共享内存基类
-   **/
+   *  共享内存基类
+   */
   class shared_memory_base
   {
 
@@ -70,7 +68,7 @@ namespace middleware {
       delete m_rsem;
       m_rsem = NULL;
     }
-#endif
+#endif //0
 
     void set_every_one_maxsize(uint32_t aieverymaxsize)
     {
@@ -103,34 +101,26 @@ namespace middleware {
 
 
     /* 以下函数可以用来测试  */
-
-    //void print()
-    //{
-    //  std::cout<< "[Create Message ]"  << std::endl;
-    //  std::cout<< "共享内存的字节数[ " << m_head->m_smbyte          << " ]"  << std::endl;
-    //  std::cout<< "写指针所在位置[ "   << (uint32_t)m_head->m_create_w    << " ]" << std::endl;
-    //  std::cout<< "读指针所在位置[ "   << (uint32_t)m_head->m_create_r    << " ]" << std::endl;
-    //  std::cout<< "首地址[ "       << (uint32_t)m_head->m_create_beg    << " ]" << std::endl;
-    //  std::cout<< "末地址[ "       << (uint32_t)m_head->m_create_end    << " ]" << std::endl;
-    //  std::cout<< "[Worker Message ]"  << std::endl;
-    //  std::cout<< "写指针所在位置[ "   << (uint32_t)m_head->m_open_w      << " ]" << std::endl;
-    //  std::cout<< "读指针所在位置[ "   << (uint32_t)m_head->m_open_r      << " ]" << std::endl;
-    //  std::cout<< "首地址[ "       << (uint32_t)m_head->m_open_beg    << " ]" << std::endl;
-    //  std::cout<< "末地址[ "       << (uint32_t)m_head->m_open_end    << " ]" << std::endl;
-    //  std::cout<< "[ "       << (uint32_t)m_head->m_create_beg - (uint32_t)m_head->m_create_end    << " ]" << std::endl;
-    //  std::cout<< "[ "       << (uint32_t)m_head->m_open_beg - (uint32_t)m_head->m_open_end    << " ]" << std::endl;
-    //}
-
+#if  0
+    void print()
+    {
+      std::cout<< "[Create Message ]"  << std::endl;
+      std::cout<< "共享内存的字节数[ " << m_head->m_smbyte          << " ]"  << std::endl;
+      std::cout<< "写指针所在位置[ "   << (uint32_t)m_head->m_create_w    << " ]" << std::endl;
+      std::cout<< "读指针所在位置[ "   << (uint32_t)m_head->m_create_r    << " ]" << std::endl;
+      std::cout<< "首地址[ "       << (uint32_t)m_head->m_create_beg    << " ]" << std::endl;
+      std::cout<< "末地址[ "       << (uint32_t)m_head->m_create_end    << " ]" << std::endl;
+      std::cout<< "[Worker Message ]"  << std::endl;
+      std::cout<< "写指针所在位置[ "   << (uint32_t)m_head->m_open_w      << " ]" << std::endl;
+      std::cout<< "读指针所在位置[ "   << (uint32_t)m_head->m_open_r      << " ]" << std::endl;
+      std::cout<< "首地址[ "       << (uint32_t)m_head->m_open_beg    << " ]" << std::endl;
+      std::cout<< "末地址[ "       << (uint32_t)m_head->m_open_end    << " ]" << std::endl;
+      std::cout<< "[ "       << (uint32_t)m_head->m_create_beg - (uint32_t)m_head->m_create_end    << " ]" << std::endl;
+      std::cout<< "[ "       << (uint32_t)m_head->m_open_beg - (uint32_t)m_head->m_open_end    << " ]" << std::endl;
+    }
+#endif //0
 
   };
 
-
 } // namespace middleware
-
-
-
-
-
-
-
-#endif
+#endif //GATEWAY_SHARED_MEMORY_BASE_H

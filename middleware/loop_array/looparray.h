@@ -8,12 +8,12 @@
 
 namespace middleware{
 
-  /********************
-   **  单向循环数组
-   *********************/
+  /**
+   *  单向循环数组
+   */
   class module_communicate
   {
-    bool            m_startthread;    //是否开启线程支持
+    bool            m_startthread;    /** 是否开启线程支持 */
     loop_array*      m_la_handle;
     uint32_t        m_buffer_size;
     uint32_t        m_every_once_max_size;
@@ -41,7 +41,7 @@ namespace middleware{
       start_run(m_la_handle, m_startthread);
     }
 
-    /*
+    /**
      *  发送字符串
      */
     bool send(char* ap, uint32_t aplen)
@@ -49,7 +49,7 @@ namespace middleware{
       return m_callback_helper.push_write_once(ap, aplen);
     }
 
-    /*
+    /**
      *  关闭通信组件
      */
     bool close()
@@ -60,4 +60,4 @@ namespace middleware{
   };
 
 } //namespace middleware
-#endif  //LOOP_ARRAY_H
+#endif //LOOP_ARRAY_H

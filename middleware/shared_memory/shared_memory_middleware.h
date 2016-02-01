@@ -20,11 +20,10 @@ namespace middleware {
 
 #endif //MIDDLEWARE_BASE
 
-
-  /** 
-   ** 共享内存服务器
-   ** shared memory server 
-   **/
+  /**
+   * 共享内存服务器
+   * shared memory server
+   */
   class middleware_sms :
     public middleware_base
   {
@@ -40,18 +39,19 @@ namespace middleware {
       m_sms.wget_finish(aiwlen);
       return true;
     }
+    
     virtual bool close()
     {
-      /*未实现*/
+      /** 未实现*/
       return true;
     }
   };
 
 
-  /** 
-   **  共享内存客户端
-   **  shared memory client 
-   **/
+  /**
+   *  共享内存客户端
+   *  shared memory client
+   */
   class middleware_smc :
     public middleware_base
   {
@@ -68,9 +68,10 @@ namespace middleware {
       m_smc.wget_finish(aiwlen);
       return true;
     }
+
     virtual bool close()
     {
-      /*未实现*/
+      /** 未实现 */
       return true;
     }
   };

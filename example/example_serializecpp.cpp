@@ -7,26 +7,27 @@
 #include "middleware/tools/serializecpp/serializecpp_class.h"
 using namespace std;
 
-
-/* 基础类型 */
+/**
+ *  测试基础类型
+ */
 void test_1( )
 {
   middleware::tools::serializecpp_buffer lsbuf(10240);
   cout<< "************基础类型序列化与反序列化测试*************"<< endl;
-  /* 序列化*/
+  /** 序列化*/
   int linum = 1023;
   middleware::tools::serializecpp::push( &lsbuf, linum );
   uint16_t lsnum = 123;
   middleware::tools::serializecpp::push( &lsbuf, lsnum );
   char lcnum = 'a';
   middleware::tools::serializecpp::push( &lsbuf, lcnum );
-  
-  /* 反序列化 */
+
+  /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   int linum2 = 0;
   middleware::tools::unserializecpp::pop( &lsbuf2, linum2 );
-  
+
   cout<< "linum=["<<linum<<"],"<<"linum2=["<< linum2<<"]"<< endl;
 
   uint16_t lsnum2 = 0;
@@ -38,8 +39,10 @@ void test_1( )
   cout<< "lcnum=["<<lcnum<<"],"<<"lcnum2=["<< lcnum2<<"]"<< endl;
 
 }
-/* 结构类型(没有指针的那种结构体) */
 
+ /**
+  *  测试结构类型(没有指针的那种结构体)
+  */
 void test_2()
 {
   cout<< "************结构类型(没有指针的那种结构体)序列化与反序列化测试*************"<< endl;
@@ -56,7 +59,7 @@ void test_2()
   lstruct.arg2 = 15;
   lstruct.arg3 = 'x';
   middleware::tools::serializecpp::push( &lsbuf, lstruct );
-  /* 数组 */
+  /** 数组 */
   test_struct larray[3];
   std::string ltempstr = "z";
   for( uint32_t i = 0;i<3;++i)
@@ -69,7 +72,7 @@ void test_2()
   middleware::tools::serializecpp::push( &lsbuf, larray , 3 );
 
 
-  /* 反序列化 */
+  /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   test_struct lstruct2;
@@ -90,7 +93,9 @@ void test_2()
 }
 
 
-/* 数组 字符串  std::string std::vector  不支持嵌套解析容器 */
+/*
+ * 测试 数组、字符串、std::string、std::vector、不支持嵌套解析容器
+ */
 void test_3()
 {
   cout<< "**(数组 字符串  std::string std::vector  不支持嵌套解析容器)序列化与反序列化测试**"<< endl;
@@ -132,16 +137,15 @@ void test_3()
   }
   middleware::tools::serializecpp::push( &lsbuf, lunset );
 
-  /* 反序列化 */
+  /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   char lcarray2[13];
   middleware::tools::unserializecpp::pop( &lsbuf2, lcarray2, 13 );
-
   cout<<"lcarray[13]";
   cout<< ( ( memcmp( lcarray, lcarray2,13 ) == 0) ? "==" : "!=" );
   cout<<"lcarray2[13]"<<endl;
-  
+
   char lcstr2[128];
   middleware::tools::unserializecpp::pop( &lsbuf2, lcstr2, 128 );
   cout<<"lcstr";
@@ -186,7 +190,7 @@ class test_class1:
   public middleware::tools::serializecpp_class
 {
 public:
-  /* 测试成员 */
+  /* 测试成员,暂且定义为public */
   char arg1[1024];
   int  arg2;
   std::vector<int> arg3;
@@ -197,7 +201,6 @@ public:
     return middleware::tools::serializecpp::push( get_serializecpp_buffer(), arg3 );
   }
 
-
   virtual bool pop()
   {
     check( middleware::tools::unserializecpp::pop( get_serializecpp_buffer(), arg1 ) );
@@ -205,7 +208,7 @@ public:
     return middleware::tools::unserializecpp::pop( get_serializecpp_buffer(), arg3 );
   }
 
-
+  /** 非必须,只为测试 */
   bool operator==(test_class1& r)
   {
     return ( memcmp( arg1, r.arg1,1024 ) == 0) && arg2==r.arg2  && arg3==r.arg3;
@@ -225,9 +228,8 @@ void test_4()
   memcpy( abc.arg1,"I love WangAiCai,But her not love me!",sizeof("I love WangAiCai,But her not love me!")+1 );
   abc.arg2 = 1234;
   int t[] = {1,2,3,4};
-  std::copy( abc.arg3.begin(), abc.arg3.end(),t ); 
+  std::copy( abc.arg3.begin(), abc.arg3.end(),t );
   ((middleware::tools::serializecpp_class*)(&abc))->push( &lsbuf );
-
 
   /* 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
@@ -240,9 +242,6 @@ void test_4()
   cout<<"abc2"<<endl;
 
 }
-
-
-
 
 int main()
 {
