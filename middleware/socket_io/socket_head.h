@@ -4,6 +4,11 @@
 #ifndef SOCKET_HEAD_H
 #define SOCKET_HEAD_H
 
+
+#include "middleware/tools/logsys/logsys.h"
+#include "middleware/tools/logsys/logdef.h"
+
+
 #ifdef _MSC_VER
 #   include "winsock2.h"
 #   pragma  comment(lib,"WS2_32.LIB")
@@ -14,12 +19,13 @@
 #   include <netinet/in.h>
 #   include <cstring>
 #   include <cstdlib>
+#	include <errno.h>
 #   define INVALID_SOCKET    -1
 #   define SOCKET_ERROR      -1
 #   define SOCKET            int
 #   define closesocket       ::close
 #   define _itoa_s(a,b,c)     sprintf(b, "%d", a);
-#   define WSAGetLastError()  0
+#   define WSAGetLastError()  errno
 #endif //_MSC_VER
 
 namespace middleware {

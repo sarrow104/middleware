@@ -17,6 +17,12 @@
     <ClCompile Include="..\..\..\src\socket_io\accept_key_socket.cpp" />
     <ClCompile Include="..\..\..\src\socket_io\connect_key_socket .cpp" />
     <ClCompile Include="..\..\..\src\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logdef.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FA8FF1B-7834-443C-A17E-3FD6AC880E8D}</ProjectGuid>

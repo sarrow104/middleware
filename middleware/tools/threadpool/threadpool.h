@@ -7,12 +7,15 @@
 
 #include <vector>
 
+
+#define DEFAULT_MAX_THREAD  (128)
+
 namespace middleware {
   namespace tools{
 
-    /*****************************
-    ** 工作线程
-    *****************************/
+    /**
+     * 工作线程
+     */
     class workthread:
       public pthread
     {
@@ -82,7 +85,7 @@ namespace middleware {
         return true;
       }
     public:
-      /*
+      /**
        * 如果没有可用线程且超过最大数目限制,不会阻塞
        */
       static bool asyn_thread( boost::function<void(void)> aifun)
@@ -91,7 +94,7 @@ namespace middleware {
       }
 
 
-      /*
+      /**
        * 如果失败则阻塞  等待 直到有空闲的线程
        */
       static void syn_thread( boost::function<void(void)> aifun)
@@ -103,7 +106,7 @@ namespace middleware {
 
       }
 
-      /*
+      /**
        *  获取线程数目
        */
       static uint32_t thread_size()
@@ -111,7 +114,7 @@ namespace middleware {
         return m_threadsize;
       }
 
-      /*
+      /**
        *  设置最大线程
        */
       static void set_maxthread( uint32_t ainum)
@@ -122,6 +125,14 @@ namespace middleware {
           m_max_thread = ainum;
         }
       }
+
+	  /** 
+	   * 获取最大线程数
+	   */
+	  static uint32_t get_maxthread()
+	  {
+		  return m_max_thread;
+	  }
 
     };
 

@@ -5,6 +5,7 @@
 #define CONNECT_KEY_SOCKET_H
 #include "lpthread.h"
 #include "socket_head.h"
+#include "middleware/tools/threadpool/threadpool.h"
 
 #include <boost/function.hpp>
 #include <boost/bimap.hpp>
@@ -126,12 +127,14 @@ namespace middleware {
 			{
 				/** 失败 */
 				closehandle(m_socket);
+				LOG_INFO(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
 				return false;
 			}
 			else
 			{
 				if (*((uint32_t*)(lrecvkey)) != aikey)
 				{
+					LOG_INFO(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
 					/** 失败 */
 					closehandle(m_socket);
 					return false;
@@ -146,7 +149,8 @@ namespace middleware {
 		}
 		(m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(m_socket, lkey_ip_port))).second;
 
-		boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
+		//boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
+		 middleware::tools::threadpool::asyn_thread( boost::bind(&connect_key_socket::recv, this, m_socket) );
 		return true;
 	}
 

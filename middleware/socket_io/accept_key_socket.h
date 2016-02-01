@@ -152,19 +152,19 @@ namespace middleware{
 
       if (m_ssock == INVALID_SOCKET)
       {
-        std::cout << WSAGetLastError() << std::endl;
+		LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"m_ssock == INVALID_SOCKET,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
       if (::bind(m_ssock, (struct sockaddr*)&m_saddr, sizeof(m_saddr)) == SOCKET_ERROR)
       {
-        std::cout << WSAGetLastError() << std::endl;
+        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"bind() == SOCKET_ERROR,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
       m_len = sizeof(sockaddr_in);
 
       if (listen(m_ssock, 10) == SOCKET_ERROR)
       {
-        std::cout << WSAGetLastError() << std::endl;
+        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"listen() == SOCKET_ERROR,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
 
@@ -214,7 +214,7 @@ namespace middleware{
       auto itor = m_socket_key.left.find(aisocket);
       if (itor == m_socket_key.left.end())
       {
-        return false;
+		 return false;
       }
 
       if (itor->second.get_stat())
