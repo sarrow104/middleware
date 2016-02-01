@@ -96,7 +96,7 @@
     boost::thread(boost::bind(&test2, true,atoi(argv[1])*100) );
     boost::thread(boost::bind(&test2, false,atoi(argv[1])) );
 ```
-* 以上代码均摘自[`main.cpp文件`](https://github.com/NingLeixueR/loop_array/blob/dee393b71e0c3aad05b1f24ca2052f10e1aa7fca/src/main.cpp)
+* 以上代码均摘自[`example_loop_array.cpp文件`](https://github.com/NingLeixueR/middleware/blob/master/example/example_loop_array.cpp)
 
 
 ####题外话
