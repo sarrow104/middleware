@@ -30,6 +30,7 @@
 # 
 **/Release/
 **/Debug/
+**/log/
 
 #
 /cmake/*
