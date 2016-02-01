@@ -39,4 +39,5 @@
 
 # ignore vs path
 #/vs/vs2012/
-!/vs/vs2012/middleware.sln
+*.sdf
+*.suo
