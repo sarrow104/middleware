@@ -23,6 +23,8 @@
    lp->write( LOG_LEVE_WARN, "承诺 我已说出口." );
    lp->write( LOG_LEVE_WARN, "沉默 把时间偷走 ." );
    lp->write( LOG_LEVE_WARN, "回忆 它在我左右 ." );
+   /** 使用宏,方便排版 */
+   LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"看星星%d颗%d颗连成线", 1, 2 );
 ```
 * 刷新文件流
 ```cpp
