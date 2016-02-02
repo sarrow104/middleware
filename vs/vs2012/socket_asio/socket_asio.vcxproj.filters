@@ -13,30 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="源文件\loop_array">
-      <UniqueIdentifier>{3d9eb76c-c7e5-4ac1-990e-99c27f304bd6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_logsys.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp">
-      <Filter>源文件\loop_array</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp">
-      <Filter>源文件\loop_array</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.h">
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

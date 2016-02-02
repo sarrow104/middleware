@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_io", "socket_io\sock
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "threadpool", "threadpool\threadpool.vcxproj", "{B94F295F-A0F9-4E7C-B2EC-0C8A6B51F067}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_asio", "..\vs2012\socket_asio\socket_asio.vcxproj", "{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,10 @@ Global
 		{B94F295F-A0F9-4E7C-B2EC-0C8A6B51F067}.Debug|Win32.Build.0 = Debug|Win32
 		{B94F295F-A0F9-4E7C-B2EC-0C8A6B51F067}.Release|Win32.ActiveCfg = Release|Win32
 		{B94F295F-A0F9-4E7C-B2EC-0C8A6B51F067}.Release|Win32.Build.0 = Release|Win32
+		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Debug|Win32.Build.0 = Debug|Win32
+		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Release|Win32.ActiveCfg = Release|Win32
+		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -166,8 +166,6 @@ namespace middleware{
 					  lptm->tm_hour,
 					  lptm->tm_min);
 
-
-
 					while (1)
 					{
 						boost::this_thread::sleep(boost::posix_time::seconds(59));
@@ -186,15 +184,15 @@ namespace middleware{
 								}
 
 								if (
-									(lptm->tm_mon<8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 != 0)) ||  /** 1.3.5.7.8.10.12 */
-									(lptm->tm_mon>8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 == 0))  /** 4.6.9.11 */
+									(lptm->tm_mon<8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 != 0)) ||  /** 1.3.5.7. */
+									(lptm->tm_mon>=8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 == 0))     /** 8.10.12 */
 									)/** 31天月份 */
 								{
 									lptm->tm_mday = 1;
 									++lptm->tm_mon;
 									break;
 								}
-								else/** 30天月份 */
+								else/** 30天月份 *//** 4.6.9.11 */
 								{
 									lptm->tm_mday = 0;
 									++lptm->tm_mon;
@@ -340,12 +338,7 @@ namespace middleware{
 		    lstr += "%d|";
 			lstr += get_type_str(aitype);
 			lstr += "|%s|%s|";
-			/**
-			 * 不知道为什么下面这样出错  全局函数原因?
-			 * int llen = snprintf(lbuf, 256, lstr.c_str(), (time(NULL) % 60), m_logname.c_str(), ap);
-			 */
-			uint32_t lsec = (time(NULL) % 60);
-			int llen = snprintf(lbuf, 256, lstr.c_str(), lsec, m_logname.c_str(), ap);
+			int llen = snprintf(lbuf, 256, lstr.c_str(), (uint32_t)(time(NULL) % 60), m_logname.c_str(), ap);
 			if (llen > 0)
 			{
 				boost::mutex::scoped_lock llock(m_lock);
