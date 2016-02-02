@@ -81,11 +81,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.h" />
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.h" />
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.h" />
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

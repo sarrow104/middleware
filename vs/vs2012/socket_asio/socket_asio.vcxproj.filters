@@ -21,9 +21,15 @@
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\..\example\example_socket_asio.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

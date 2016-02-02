@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "threadpool", "threadpool\th
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_asio", "..\vs2012\socket_asio\socket_asio.vcxproj", "{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segmentation_pack", "segmentation_pack\segmentation_pack.vcxproj", "{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,10 @@ Global
 		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Debug|Win32.Build.0 = Debug|Win32
 		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Release|Win32.ActiveCfg = Release|Win32
 		{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}.Release|Win32.Build.0 = Release|Win32
+		{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}.Debug|Win32.Build.0 = Debug|Win32
+		{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}.Release|Win32.ActiveCfg = Release|Win32
+		{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

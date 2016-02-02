@@ -48,20 +48,16 @@ namespace middleware{
 			boost::mutex* m_lock;
 
 			bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
-
 			{
 
 				char* ldata_copy = aidata;
 				uint32_t ldatalen_copy = aidatalen;
-
 
 				//获取len
 				uint32_t llen;
 				if( ldatalen_copy > sizeof( uint32_t ) )
 				{
 					llen = GET_LEN( ldata_copy );
-					//ldata_copy += sizeof( uint16_t );
-					//ldatalen_copy -= sizeof( uint16_t );
 				}
 				else
 				{
@@ -93,15 +89,11 @@ namespace middleware{
 			/* hash中有存货 */
 			bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)
 			{
-				//char* ldata_copy = aidata;
-				//uint32_t ldatalen_copy = aidatalen;
-
 				//获取len
 				uint32_t llen;
 				if( itor->second->m_size >= sizeof( uint32_t ) )
 				{
 					llen = GET_LEN( itor->second->m_data );
-					//ltemp = itor->second->m_size/* - sizeof( uint16_t )*/;
 				}
 				else
 				{
@@ -147,12 +139,7 @@ namespace middleware{
 					aidatalen = 0 ;
 					return false;
 				}
-
-
 			}
-
-
-
 
 			segmentation_pack();
 			segmentation_pack( const segmentation_pack&);
