@@ -82,6 +82,7 @@
     <ClCompile Include="..\..\..\example\example_logsys.cpp" />
     <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ namespace middleware {
     std::vector<workthread*> threadpool::m_thread_list;
     boost::mutex threadpool::m_lock;
     uint32_t threadpool::m_threadsize = 0;
-    uint32_t threadpool::m_max_thread = 0;
+    uint32_t threadpool::m_max_thread = DEFAULT_MAX_THREAD;
     boost_sem threadpool::m_sem(0);
 
     int workthread::run()
