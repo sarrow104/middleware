@@ -8,3 +8,5 @@ namespace middleware {
   boost::bimap<SOCKET, key_stat>  accept_key_socket::m_socket_key;
 
 } //namespace middleware 
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

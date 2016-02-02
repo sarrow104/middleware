@@ -28,3 +28,5 @@ struct pool_tag{};                  //仅仅用于标记的空类
 #define FREE_POOL(TYPE,TYPE_PTR)		spl_##TYPE::free(TYPE_PTR)
 
 #endif
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
