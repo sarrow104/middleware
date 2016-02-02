@@ -17,7 +17,7 @@ project("${target_name}Lib")
 
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/example")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
-file(GLOB SRC "../src/**/*.cpp")
+file(GLOB SRC "../src/**/*.cpp""../src/**/**/*.cpp" )
 
 find_package(Boost COMPONENTS date_time filesystem system thread)
 
@@ -29,17 +29,33 @@ set(TARGET_OUTPUT_FULL_PATH ${LIBRARY_OUTPUT_PATH}/${target_name})
 
 target_link_libraries(${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
-add_executable(loop_array ../example/loop_array.cpp)
+#logsys
+add_executable(logsys ../example/example_logsys.cpp)
+target_link_libraries(logsys ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
+#loop_array
+add_executable(loop_array ../example/example_loop_array.cpp)
 target_link_libraries(loop_array ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
-add_executable(serializecpp ../example/serializecpp.cpp)
+#serializecpp
+add_executable(serializecpp ../example/example_serializecpp.cpp)
 target_link_libraries(serializecpp ${target_name}  ${Boost_LIBRARIES} Threads::Threads rt)
 
-add_executable(shared_memory ../example/shared_memory.cpp)
+#shared_memory
+add_executable(shared_memory ../example/example_shared_memory.cpp)
 target_link_libraries(shared_memory ${target_name}  ${Boost_LIBRARIES} Threads::Threads rt)
 
-add_executable(socket_io ../example/socket_io.cpp)
+#socket_asio
+add_executable(socket_asio ../example/example_socket_asio.cpp)
+target_link_libraries(socket_asio  ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
+#socket_io
+add_executable(socket_io ../example/example_socket_io.cpp)
 target_link_libraries(socket_io  ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
+#threadpool
+add_executable(threadpool ../example/example_threadpool.cpp)
+target_link_libraries(threadpool  ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
 # ------------------
 install(TARGETS ${target_name} LIBRARY DESTINATION lib)

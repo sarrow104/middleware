@@ -6,12 +6,12 @@
 
 
 namespace middleware {
-	namespace tools{
+  namespace tools{
 
-		/** 定义模块存储id的全局变量 */
-		extern int g_log_socked_io_id;
+    /** 定义模块存储id的全局变量 */
+    extern int g_log_socked_io_id;
 
-	} //namespace tools
+  } //namespace tools
 }//namespace middleware
 
 
@@ -24,3 +24,5 @@ namespace middleware {
 
 
 #endif //LOG_DEF_H
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
