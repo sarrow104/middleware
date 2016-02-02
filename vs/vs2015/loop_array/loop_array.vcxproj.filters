@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_loop_array.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp">
+      <Filter>logsys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp">
+      <Filter>logsys</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="logsys">
+      <UniqueIdentifier>{bba187c7-9480-4c98-a353-852ba27f8881}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

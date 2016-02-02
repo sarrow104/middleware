@@ -108,6 +108,7 @@ namespace middleware {
     connect_key_socket(boost::function<bool(SOCKET)> airecv) :
       m_recvfun(airecv)
     {
+	  CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
       initsocket();
     }
 
@@ -127,14 +128,14 @@ namespace middleware {
 			{
 				/** 失败 */
 				closehandle(m_socket);
-				LOG_INFO(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
+				LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
 				return false;
 			}
 			else
 			{
 				if (*((uint32_t*)(lrecvkey)) != aikey)
 				{
-					LOG_INFO(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
+					LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
 					/** 失败 */
 					closehandle(m_socket);
 					return false;
