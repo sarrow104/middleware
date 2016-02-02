@@ -118,7 +118,7 @@ namespace middleware{
 				  {
 					  continue;
 				  }
-				 
+
 				  boost::mutex::scoped_lock llock(m_lock);
 				  {/** 锁作用域 */
 					  m_logfile.close();
@@ -128,18 +128,18 @@ namespace middleware{
 					  if (get_now(lpbuf, 256, '_', '_'))
 					  {
 						  rename(m_logname_beg.c_str(), (m_logname_beg + "__" + lpbuf + ".log").c_str());
-						  //boost::filesystem::rename(path, m_logname_beg + "__" + lpbuf + ".log");  
+						  //boost::filesystem::rename(path, m_logname_beg + "__" + lpbuf + ".log");
 					  }
 
 				  }/** 锁作用域 */
 			  }
 		  }
 
-		  /** 
+		  /**
 		   * 不用每次写日志都重新获取一下时间,
 		   * 我们用一个线程,轮训,每分钟就更新一下值
 		   */
-		 
+
 		  static void run2()
 		  {
 			  time_t ltimep;
@@ -154,7 +154,7 @@ namespace middleware{
 			  /** lptm->tm_min; 0-59 */
 			  /** int lhour = lptm->tm_hour+8; */
 			  /** lhour = lhour > 23 ? lhour - 24 : lhour; */
-			  
+
 			  while (1)
 			  {
 				  snprintf(
@@ -167,7 +167,7 @@ namespace middleware{
 					  lptm->tm_hour,
 					  lptm->tm_min);
 
-				  
+
 
 					while (1)
 					{
@@ -185,10 +185,10 @@ namespace middleware{
 									++lptm->tm_mon;
 									break;
 								}
-						  
+
 								if (
 									(lptm->tm_mon<8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 != 0)) ||  /** 1.3.5.7.8.10.12 */
-									(lptm->tm_mon>8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 == 0))  /** 4.6.9.11 */							  
+									(lptm->tm_mon>8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 == 0))  /** 4.6.9.11 */
 									)/** 31天月份 */
 								{
 									lptm->tm_mday = 1;
@@ -204,7 +204,7 @@ namespace middleware{
 										lptm->tm_mon = 1;
 										lptm->tm_year += 1;
 									}
-								} 
+								}
 							}
 						}
 					}
@@ -212,8 +212,8 @@ namespace middleware{
 		  }
 
 
-		  /** 
-		   *  写log  
+		  /**
+		   *  写log
 		   */
  		  bool write_log(const char* ap, uint32_t aplen)
 		  {
@@ -336,37 +336,32 @@ namespace middleware{
 		  */
 		  bool write(uint32_t aitype, const char* ap)
 		  {
-			char lbuf[256];
-			std::string lstr(ltimebuf);
-		    lstr += "%d|";
-			lstr += get_type_str(aitype);
-			lstr += "|%s|%s|";
-			/**
-			 * 不知道为什么下面这样出错  全局函数原因?
-			 * int llen = snprintf(lbuf, 256, lstr.c_str(), (time(NULL) % 60), m_logname.c_str(), ap);
-			 */
-			uint32_t lsec = (time(NULL) % 60);
-			int llen = snprintf(lbuf, 256, lstr.c_str(), lsec, m_logname.c_str(), ap);
-			if (llen > 0)
-			{
-				boost::mutex::scoped_lock llock(m_lock);
-				std::swap(mp_buf1, mp_buf2);
-				++llen;
-				memcpy(mp_buf1, lbuf, llen);
-				m_looparray.send(mp_buf1, llen);
-				return true;
-			}
-			else
-		    {
-				return false;
-			}
+			    char lbuf[256];
+			    std::string lstr(ltimebuf);
+		      lstr += "%d|";
+			    lstr += get_type_str(aitype);
+			    lstr += "|%s|%s|";
+			    int llen = snprintf(lbuf, 256, lstr.c_str(), (uint32_t)(time(NULL) % 60), m_logname.c_str(), ap);
+			    if (llen > 0)
+			    {
+				      boost::mutex::scoped_lock llock(m_lock);
+				      std::swap(mp_buf1, mp_buf2);
+				      ++llen;
+				      memcpy(mp_buf1, lbuf, llen);
+				      m_looparray.send(mp_buf1, llen);
+				      return true;
+			    }
+			    else
+		      {
+				      return false;
+			    }
 		  }
 
 		  /**
 		   *  刷新文件流
 		   */
 		  void flush()
-		  {	
+		  {
 			  boost::mutex::scoped_lock llock(m_lock);
 			  m_logfile.flush();
 		  }
