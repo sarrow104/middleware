@@ -1,8 +1,7 @@
-﻿///        Copyright 2016 libo. All rights reserved
+///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include "middleware/tools/logsys/logsys.h"
-
 
 namespace middleware{
   namespace tools{
@@ -336,25 +335,30 @@ namespace middleware{
 		  */
 		  bool write(uint32_t aitype, const char* ap)
 		  {
-			    char lbuf[256];
-			    std::string lstr(ltimebuf);
-		      lstr += "%d|";
-			    lstr += get_type_str(aitype);
-			    lstr += "|%s|%s|";
-			    int llen = snprintf(lbuf, 256, lstr.c_str(), (uint32_t)(time(NULL) % 60), m_logname.c_str(), ap);
-			    if (llen > 0)
-			    {
-				      boost::mutex::scoped_lock llock(m_lock);
-				      std::swap(mp_buf1, mp_buf2);
-				      ++llen;
-				      memcpy(mp_buf1, lbuf, llen);
-				      m_looparray.send(mp_buf1, llen);
-				      return true;
-			    }
-			    else
-		      {
-				      return false;
-			    }
+			char lbuf[256];
+			std::string lstr(ltimebuf);
+		    lstr += "%d|";
+			lstr += get_type_str(aitype);
+			lstr += "|%s|%s|";
+			/**
+			 * 不知道为什么下面这样出错  全局函数原因?
+			 * int llen = snprintf(lbuf, 256, lstr.c_str(), (time(NULL) % 60), m_logname.c_str(), ap);
+			 */
+			uint32_t lsec = (time(NULL) % 60);
+			int llen = snprintf(lbuf, 256, lstr.c_str(), lsec, m_logname.c_str(), ap);
+			if (llen > 0)
+			{
+				boost::mutex::scoped_lock llock(m_lock);
+				std::swap(mp_buf1, mp_buf2);
+				++llen;
+				memcpy(mp_buf1, lbuf, llen);
+				m_looparray.send(mp_buf1, llen);
+				return true;
+			}
+			else
+		    {
+				return false;
+			}
 		  }
 
 		  /**
