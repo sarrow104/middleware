@@ -13,7 +13,6 @@
 #include <cstdint>
 #include <cstdio>
 
-<<<<<<< HEAD
 #define FLUSH_TIME				(5)				/** 多久向文件刷一次数据 */
 #define LOG_LEVE_WARN     		(0)   			/** 警告 */
 #define LOG_LEVE_INFO     		(1)   			/** 输出 */
@@ -30,20 +29,6 @@
 #define CHECK_PRINTF_LOG( OPEN_LOG_TYPE )      ( ( OPEN_LOGFILE_PRINTF || OPEN_CONSOLE_PRINTF ) && OPEN_LOG_TYPE ) /** 检查是否打印 */
 
 #define DEFAULT_SAVE_LOG_TIME			(12*60*60*60)  /** 12 hour */
-=======
-#define LOG_LEVE_WARN           0       /** 警告 */
-#define LOG_LEVE_INFO           1       /** 输出 */
-#define LOG_LEVE_ERROR          2       /** 错误 */
-#define LOG_LEVE_WARN_STR       "WARN"  /** 警告 */
-#define LOG_LEVE_INFO_STR       "INFO"  /** 输出 */
-#define LOG_LEVE_ERROR_STR      "ERROR" /** 错误 */
-
-
-#define OPEN_CONSOLE_PRINTF     (1)     /** 是否打开控制台输出,多个文件输出可能会乱 */
-
-#define DEFAULT_SAVE_LOG_TIME   (20)    //(12*60*60*60)  /** 12 hour */
-
->>>>>>> 851e4d4c1f16c4a0d974ed7074d7eeac44ceb1f0
 
 #define LOG_SYS_BUFFER_SIZE             (2048)
 #define LOG_SYS_EVERY_MAX_BUFFER_SIZE   (256)
@@ -56,19 +41,11 @@
 
 #define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)  \
 {\
-<<<<<<< HEAD
 	char lch[256];\
 	if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )\
 	{\
 		 middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);\
 	}\
-=======
-        char lch[256];\
-        if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )\
-        {\
-                 middleware::tools::logsys::get_examples(LOG_ID, LOG_NAME)->write(LOG_LEVE_ERROR, lch);\
-        }\
->>>>>>> 851e4d4c1f16c4a0d974ed7074d7eeac44ceb1f0
 }
 
 /**
@@ -97,7 +74,7 @@ namespace middleware{
 	 *  创建日志
 	 */
 	bool CLOG(int& LOG_ID, const char* LOG_NAME);
-	
+
    /**
     *  写日志
 	*/
@@ -166,7 +143,7 @@ namespace middleware{
         }
 
         /* 东八区 +8小时 */
-        // aitimep += 1800;  
+        // aitimep += 1800;
         // tm* lptm = gmtime(&aitimep);
 
         struct tm lt;
@@ -239,13 +216,13 @@ namespace middleware{
           boost::mutex::scoped_lock llock(m_lock);
           {/** 锁作用域 */
             m_logfile.close();
-            boost::filesystem::path path(m_logname_beg); 
+            boost::filesystem::path path(m_logname_beg);
 
             char lpbuf[256];
             if( get_now( lpbuf, 256, '_', '_' ) )
             {
               rename( m_logname_beg.c_str(), ( m_logname_beg + "__" + lpbuf + ".log" ).c_str() );
-              //boost::filesystem::rename(path, m_logname_beg + "__" + lpbuf + ".log");  
+              //boost::filesystem::rename(path, m_logname_beg + "__" + lpbuf + ".log");
             }
 
           }/** 锁作用域 */
