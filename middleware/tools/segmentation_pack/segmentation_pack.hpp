@@ -50,12 +50,12 @@ namespace middleware{
      *  ����TCPճ������
      *  �ְ�ģ��
      */
-    template <typename T>
+	  template <typename T>
       class  segmentation_pack
       {
         typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
         type_ump* m_ump;
-        boost::function<bool(T,char*,uint32_t)>* m_logic_fun;
+        boost::function<bool(char*,uint32_t)>* m_logic_fun;
         boost::mutex* m_lock;
 
         bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
