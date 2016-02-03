@@ -284,7 +284,7 @@ namespace middleware{
 				type_ump::iterator itor = m_ump->find( aiip );
 				if( itor != m_ump->end() )
 				{
-					FREE_POOL( not_recv , itor->second );
+					FREE_POOL( not_recv , pool_not_recv, itor->second );
 					m_ump->erase( itor );
 				}
 			}
