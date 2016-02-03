@@ -175,7 +175,12 @@ namespace middleware{
               {
                 /* 依赖stl 关联容器 insert返回值 */
                 not_recv* lp = MALLOC_POOL(not_recv, pool_not_recv);
-                type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
+
+                // NOTE
+                // gcc is more strict about const reference from a tmp rvalue;
+                // comment-out by sarrow104 2016-02-03
+                // type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
+                const type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
                 itor->second->set();
                 memcpy( itor->second->m_data , ldata_copy , ldatalen_copy );
                 itor->second->m_size = ldatalen_copy;
@@ -284,7 +289,7 @@ namespace middleware{
           type_ump::iterator itor = m_ump->find( aiip );
           if( itor != m_ump->end() )
           {
-            FREE_POOL( not_recv , itor->second );
+            FREE_POOL( not_recv , pool_not_recv, itor->second );
             m_ump->erase( itor );
           }
         }
