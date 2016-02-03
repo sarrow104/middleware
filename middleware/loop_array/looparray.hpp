@@ -4,7 +4,7 @@
 #ifndef LOOP_ARRAY_H
 #define LOOP_ARRAY_H
 
-#include "loop_array_write_callback_helper.h"
+#include "middleware/loop_array/loop_array_write_callback_helper.hpp"
 
 namespace middleware{
 

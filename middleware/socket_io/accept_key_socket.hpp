@@ -4,8 +4,8 @@
 #ifndef ACCEPT_KEY_SOCKET_H
 #define ACCEPT_KEY_SOCKET_H
 
-#include "lpthread.h"
-#include "socket_head.h"
+#include "middleware/socket_io/lpthread.hpp"
+#include "middleware/socket_io/socket_head.hpp"
 
 #include <boost/bimap.hpp>
 #include <boost/function.hpp>

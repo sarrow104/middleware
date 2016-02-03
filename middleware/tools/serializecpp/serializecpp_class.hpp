@@ -4,8 +4,8 @@
 #ifndef SERIALIZECPP_CLASS_H
 #define SERIALIZECPP_CLASS_H
 
-#include "middleware/tools/serializecpp/serializecpp.h"
-#include "middleware/tools/serializecpp/unserializecpp.h"
+#include "middleware/tools/serializecpp/serializecpp.hpp"
+#include "middleware/tools/serializecpp/unserializecpp.hpp"
 
 
 

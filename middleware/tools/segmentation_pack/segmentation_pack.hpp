@@ -1,4 +1,4 @@
-///        Copyright 2016 libo. All rights reserved
+﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #ifndef SEGMENTATION_PACK_H

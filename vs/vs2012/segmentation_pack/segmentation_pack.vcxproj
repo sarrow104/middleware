@@ -79,10 +79,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\segmentation_pack\segmentation_pack.h" />
+    <ClCompile Include="..\..\..\example\example_segmentation_pack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_segmentation_pack.cpp" />
+    <ClInclude Include="..\..\..\middleware\tools\segmentation_pack\segmentation_pack.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

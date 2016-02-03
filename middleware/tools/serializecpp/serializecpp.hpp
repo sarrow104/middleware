@@ -3,7 +3,7 @@
 
 #ifndef   MSG_BASE_C_H
 #define   MSG_BASE_C_H
-#include "serializecpp_buffer.h"
+#include "middleware/tools/serializecpp/serializecpp_buffer.hpp"
 
 #include <string.h>
 

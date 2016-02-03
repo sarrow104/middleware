@@ -1,7 +1,7 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/tools/logsys/logsys.h"
+#include "middleware/tools/logsys/logsys.hpp"
 
 namespace middleware{
   namespace tools{

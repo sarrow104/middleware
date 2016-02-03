@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -10,8 +10,17 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.hpp" />
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.hpp" />
+    <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5D5737B4-8D3C-40F6-808D-C8A4EB86228B}</ProjectGuid>
+    <ProjectGuid>{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>socket_asio</RootNamespace>
   </PropertyGroup>
@@ -19,13 +28,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -43,8 +52,6 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>Debug</OutDir>
     <IntDir>Debug</IntDir>
-    <ReferencePath>
-    </ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -56,7 +63,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\3part;$(ProjectDir)..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,15 +87,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.h" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.h" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.h" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,8 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/loop_array/looparray.h"
-#include "middleware/loop_array/loop_array_middleware.h"
+#include "middleware/loop_array/looparray.hpp"
+#include "middleware/loop_array/loop_array_middleware.hpp"
 
 #include <iostream>
 #include <string>
