@@ -44,4 +44,5 @@
 *.suo
 *.opensdf
 *.opendb
+*.filters
 
