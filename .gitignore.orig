@@ -53,6 +53,9 @@
 *.suo
 *.opensdf
 *.opendb
+<<<<<<< HEAD
+=======
 *.filters
 *.user
+>>>>>>> nlx-master
 

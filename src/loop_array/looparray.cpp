@@ -2,6 +2,7 @@
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include "middleware/loop_array/looparray.h"
+#include "middleware/tools/logsys/logsys.h"
 
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/thread.hpp>
@@ -15,30 +16,30 @@ typedef boost::interprocess::interprocess_semaphore boost_sem;
 namespace middleware {
 
   /**
-   ** 循环数组基础
-   **/
+   * 循环数组基础
+   */
   class loop_array
   {
-    size_t m_array_size;            /* 数组容量 */
-    char* m_array_beg_ptr;          /* 数组开始指针 */
-    char* m_array_end_ptr;          /* 数组结束指针 */
-    char* m_write;                  /* 写指针位置 */
-    char* m_read;                    /* 读指针位置 */
-    boost_sem* m_write_sem;          /* 用来通知处理 */
-    boost_sem* m_read_sem;          /* 用来通知接收 */
+    size_t m_array_size;            /** 数组容量 */
+    char* m_array_beg_ptr;          /** 数组开始指针 */
+    char* m_array_end_ptr;          /** 数组结束指针 */
+    char* m_write;                  /** 写指针位置 */
+    char* m_read;                    /** 读指针位置 */
+    boost_sem* m_write_sem;          /** 用来通知处理 */
+    boost_sem* m_read_sem;          /** 用来通知接收 */
 
-    uint16_t m_temp_len;            /* 临时缓冲区有效数据长度 */
-    char* m_temp_arr;                /* 临时缓冲区 */
-    boost::mutex  m_lock;            /* 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
-    boost::function<bool(const char*, uint32_t)>  m_read_fun;  /* 读回调 */
-    boost::function<bool(char*, uint32_t&)>  m_write_fun;      /* 写回调 */
+    uint16_t m_temp_len;            /** 临时缓冲区有效数据长度 */
+    char* m_temp_arr;                /** 临时缓冲区 */
+    boost::mutex  m_lock;            /** 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
+    boost::function<bool(const char*, uint32_t)>  m_read_fun;  /** 读回调 */
+    boost::function<bool(char*, uint32_t&)>  m_write_fun;      /** 写回调 */
 
-    uint32_t m_rcount;   /* 读的次数 */
-    uint32_t m_wcount;   /* 写的次数 */
+    uint32_t m_rcount;   /** 读的次数 */
+    uint32_t m_wcount;   /** 写的次数 */
 
     bool m_malloc;
 
-    /*与close相关*/
+    /** 与close相关 */
     bool m_close;
     bool m_write_close;
     bool m_read_close;
@@ -221,22 +222,22 @@ namespace middleware {
 
       char* ltemp_write;
       char* ltemp_read = m_read;
-      uint32_t lbodylen;                  /* 剩余body长度 */
-      char lclen[sizeof(uint16_t)] = { 0 };    /* 出现数据不足sizeof( uint16_t )时 暂存数据 */
-      bool lcbool = false;                /* lclen中是否有数据 */
-      size_t ailen;                      /* 可用长度 */
-      bool bodyrecvover = true;            /* 是否需要获取头部的size*/
-      uint32_t temp_size = 0;              /*记录前面长度有几字节  一般两字节  也会出现一字节 */
+      uint32_t lbodylen;                            /** 剩余body长度 */
+      char lclen[sizeof(uint16_t)] = { 0 };         /** 出现数据不足sizeof( uint16_t )时 暂存数据 */
+      bool lcbool = false;                          /** lclen中是否有数据 */
+      size_t ailen;                                 /** 可用长度 */
+      bool bodyrecvover = true;                     /** 是否需要获取头部的size*/
+      uint32_t temp_size = 0;                       /** 记录前面长度有几字节  一般两字节  也会出现一字节 */
 
       uint32_t lbodylen_copy;
       uint32_t ltempwcount;
       uint32_t ltemprcount = m_rcount;
 
 
-      bool is_same = true;          /* 读副本与真正的读指针同步频率  */
+      bool is_same = true;			                 /** 读副本与真正的读指针同步频率  */
       while (1)
       {
-        if (m_close)/* 是否被关闭 */
+        if (m_close)  /** 是否被关闭 */
         {
           m_read_close = true;
           return;
@@ -288,7 +289,7 @@ namespace middleware {
 
         if (bodyrecvover)
         {
-          /* 获取body len uint16_t */
+          /** 获取body len uint16_t */
           if (lcbool)
           {
             lclen[1] = ltemp_read[0];
@@ -319,7 +320,7 @@ namespace middleware {
           }
         }
 
-        /* 获取body */
+        /** 获取body */
         if (lbodylen + temp_size > ailen)
         {
           bodyrecvover = false;
@@ -432,6 +433,5 @@ namespace middleware {
     }
   }
 
-}
-
+}  //namespace middleware
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

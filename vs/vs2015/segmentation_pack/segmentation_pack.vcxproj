@@ -11,23 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_socket_io.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\socket_head.cpp" />
-    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
-    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
-    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
+    <ClCompile Include="..\..\..\example\example_segmentation_pack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\logsys\logdef.h" />
+    <ClInclude Include="..\..\..\middleware\tools\segmentation_pack\segmentation_pack.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7FA8FF1B-7834-443C-A17E-3FD6AC880E8D}</ProjectGuid>
+    <ProjectGuid>{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>socket_io</RootNamespace>
+    <RootNamespace>segmentation_pack</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

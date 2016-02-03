@@ -14,21 +14,39 @@
 ------------------------------------------
 * 获取logsys对象
 ```cpp
-   int i = 0;
-   middleware::tools::logsys* lp = middleware::tools::logsys::get_examples( i, "庄心妍");
+  int iz = 0;
+  CREATE_LOG(iz, "庄心妍")
+  int ic = 0;
+  CREATE_LOG(ic, "陈奕迅")
 ```
 * 写日志
 ```cpp
-   lp->write( LOG_LEVE_WARN, "一人 独自唱情歌 却越唱越难过." );
-   lp->write( LOG_LEVE_WARN, "承诺 我已说出口." );
-   lp->write( LOG_LEVE_WARN, "沉默 把时间偷走 ." );
-   lp->write( LOG_LEVE_WARN, "回忆 它在我左右 ." );
-   /** 使用宏,方便排版 */
-   LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"看星星%d颗%d颗连成线", 1, 2 );
+  int iz = 0;
+  int i = 0;
+  CREATE_LOG(iz, "庄心妍")
+  LOG_ERROR(iz,  "一人 独自唱情歌 %s.%d", "却越唱越难过" ,1314521)
+  LOG_ERROR(iz, "承诺 %s", "我已说出口")
+  LOG_ERROR(iz,  "沉默 %s", "把时间偷走")
+  LOG_ERROR(iz,  "回忆 %s", "它在我左右")
+  int ic = 0;
+  CREATE_LOG(ic, "陈奕迅")
+  LOG_ERROR(ic, "想起我不完美.")
+  LOG_ERROR(ic, "你会不会逃离我生命的范围.")
+  LOG_ERROR(ic, "一个人失眠  .")
+  LOG_ERROR(ic, "全世界失眠 .")
+  LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"看星星%d颗%d颗连成线", 1, 2 );
 ```
 * 刷新文件流
 ```cpp
-   lp->flush();
+  LOG_PLUSH(iz)
+  LOG_PLUSH(ic)
+```
+* 更多用法（为了避免管理 id 和 name 造成混乱, 我们可以在['logdef.h'](https://github.com/NingLeixueR/middleware/tree/master/middleware/tools/logsys/logdef.h)中定义id和name ）
+```cpp
+  CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
+  /** 那么我们可以在任意代码中写日志了 */
+  LOG_ERROR(LOG_SOCKET_IO_ID, "看星星%d颗%s颗连成线.", 1, "两" )
+  LOG_PLUSH(LOG_SOCKET_IO_ID)
 ```
 
 ####最后
