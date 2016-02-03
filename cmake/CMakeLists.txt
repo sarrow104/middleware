@@ -37,6 +37,10 @@ target_link_libraries(logsys ${target_name} ${Boost_LIBRARIES} Threads::Threads 
 add_executable(loop_array ../example/example_loop_array.cpp)
 target_link_libraries(loop_array ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
+#segmentation_pack
+add_executable(segmentation_pack ../example/example_segmentation_pack.cpp)
+target_link_libraries(segmentation_pack ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
 #serializecpp
 add_executable(serializecpp ../example/example_serializecpp.cpp)
 target_link_libraries(serializecpp ${target_name}  ${Boost_LIBRARIES} Threads::Threads rt)

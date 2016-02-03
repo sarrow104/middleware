@@ -17,282 +17,286 @@
 #define FREE_POOL(TYPE,NAME,TYPE_PTR)		NAME::free(TYPE_PTR)
 
 #ifndef RESERVED_AREA_SIZE
-# define RESERVED_AREA_SIZE		(0)							/** ±£ÁôÇøÓò */
+# define RESERVED_AREA_SIZE		(0)							/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 #endif //RESERVED_AREA_SIZE
 
-#define SINGLE_DATA_SIZE		(1024)						/** µ¥ÌõÊý¾ÝµÄ×Ö½Ú */
-#define GET_LEN( DATA )			*( (uint32_t*)(DATA) )  
+#define SINGLE_DATA_SIZE		(1024)						/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ö½ï¿½ */
+#define GET_LEN( DATA )			*( (uint32_t*)(DATA) )
 
 typedef unsigned long IP_ADDRESS_TYPE;
 
 
 
 namespace middleware{
-	namespace tools{
+  namespace tools{
 
-		/** ½ö½öÓÃÓÚMAKE_POOLµÄ ±ê¼Ç¿ÕÀà */
-		struct pool_tag {};     
-		/** ÓÃÓÚ±£´æÎ´½ÓÊÕÍêµÄÊý¾Ý */
-		struct  not_recv
-		{
-			uint32_t m_size;
-			char  m_dataarr[SINGLE_DATA_SIZE];
-			char* m_data;
-			void set()
-			{
-				m_data = m_dataarr + RESERVED_AREA_SIZE;
-			}
-		};
-		/** ´´½¨ÄÚ´æ³Ø */
-		MAKE_POOL(not_recv, pool_not_recv);			/** ÄÚ´æ³Ø */
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MAKE_POOLï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ */
+    struct pool_tag {};
+    /** ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    struct  not_recv
+    {
+      uint32_t m_size;
+      char  m_dataarr[SINGLE_DATA_SIZE];
+      char* m_data;
+      void set()
+      {
+        m_data = m_dataarr + RESERVED_AREA_SIZE;
+      }
+    };
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ */
+    MAKE_POOL(not_recv, pool_not_recv);			/** ï¿½Ú´ï¿½ï¿½ï¿½ */
 
-		/**
-		 *  ´¦ÀíTCPÕ³°üÎÊÌâ
-		 *  ·Ö°üÄ£¿é 
-		 */
-		template <typename T>
-		class  segmentation_pack
-		{
-			typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
-			type_ump* m_ump;
-			boost::function<bool(T,char*,uint32_t)>* m_logic_fun;
-			boost::mutex* m_lock;
+    /**
+     *  ï¿½ï¿½ï¿½ï¿½TCPÕ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *  ï¿½Ö°ï¿½Ä£ï¿½ï¿½
+     */
+    template <typename T>
+      class  segmentation_pack
+      {
+        typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
+        type_ump* m_ump;
+        boost::function<bool(T,char*,uint32_t)>* m_logic_fun;
+        boost::mutex* m_lock;
 
-			bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
-			{
-				char* ldata_copy = aidata;
-				uint32_t ldatalen_copy = aidatalen;
+        bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
+        {
+          char* ldata_copy = aidata;
+          uint32_t ldatalen_copy = aidatalen;
 
-				/* »ñÈ¡len */
-				uint32_t llen;
-				if( ldatalen_copy > sizeof( uint32_t ) )
-				{
-					llen = GET_LEN( ldata_copy );
-				}
-				else
-				{
-					return false; /* Êý¾ÝÒÑ¾­·Ö¸îÍê³É */
-				}
+          /* ï¿½ï¿½È¡len */
+          uint32_t llen;
+          if( ldatalen_copy > sizeof( uint32_t ) )
+          {
+            llen = GET_LEN( ldata_copy );
+          }
+          else
+          {
+            return false; /* ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ */
+          }
 
-				/* ¼ìÑéÊý¾ÝlenÊÇ·ñºÏ·¨ */
-				if( llen > SINGLE_DATA_SIZE || llen == 0  )
-				{
-					airet = false;
-				}
+          /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lenï¿½Ç·ï¿½ï¿½Ï·ï¿½ */
+          if( llen > SINGLE_DATA_SIZE || llen == 0  )
+          {
+            airet = false;
+          }
 
-				if( ldatalen_copy >= llen )
-				{
-					aidatalen = ldatalen_copy- llen;
-					aidata =  ldata_copy;
-					aidata += llen;
-					airet = (*m_logic_fun)( aithis , ldata_copy , llen );
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-
-
-			/* hashÖÐÓÐ´æ»õ */
-			bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)
-			{
-				/* »ñÈ¡len */
-				uint32_t llen;
-				if( itor->second->m_size >= sizeof( uint32_t ) )
-				{
-					llen = GET_LEN( itor->second->m_data );
-				}
-				else
-				{
-					if( itor->second->m_size + aidatalen > sizeof( uint32_t ) )
-					{
-						uint32_t litemp = sizeof( uint32_t ) - itor->second->m_size;
-						memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , litemp  );
-						itor->second->m_size = sizeof( uint32_t );
-
-						aidata += litemp;
-						aidatalen -= litemp;
-						llen = GET_LEN( itor->second->m_data );
-					}
-					else
-					{
-						return false;
-					}
-				}
-
-				/* ¼ìÑéÊý¾ÝlenÊÇ·ñºÏ·¨ */
-				if( llen > SINGLE_DATA_SIZE || llen == 0  )
-				{
-					airet = false;
-				}
-
-				/* Êý¾ÝÕæÊµ×Ü³¤¶È llen */
-				/* ÒÑ½ÓÊÕÊý¾Ý³¤¶È itor->second->m_size + ldatalen_copy */
-				if( llen <= itor->second->m_size + aidatalen )
-				{
-					/* »¹ÐèÒª¶àÉÙÊý¾Ý×é³É lhavedatalen */
-					uint32_t lhavedatalen = llen - itor->second->m_size;
-					memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , lhavedatalen  );
-					aidata += lhavedatalen;
-					aidatalen -= lhavedatalen;
-					airet = (*m_logic_fun)( aithis , itor->second->m_data , itor->second->m_size );
-
-					return true;
-				}
-				else/* Ã»½ÓÊÕÈ« */
-				{
-					memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , aidatalen  );
-					itor->second->m_size += aidatalen;
-					aidata += aidatalen;
-					aidatalen = 0 ;
-					return false;
-				}
-			}
-
-			segmentation_pack();
-			segmentation_pack( const segmentation_pack&);
-			bool segmentation_data( T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
-
-			{
-				char* ldata_copy = aidata;
-				uint32_t ldatalen_copy = aidatalen;
-				bool lbret1 = true;
-				bool lbret2 = true;
-
-				while( 1 )
-				{
-					lbret2 = every_seg( aithis , ldata_copy , ldatalen_copy , lbret1);
-					if( !lbret1 )/* Êý¾Ý´íÎó */
-					{
-						return false;
-					}
-
-					if( !lbret2 )
-					{
-						if( ldatalen_copy != 0 )
-						{
-							/* ÒÀÀµstl ¹ØÁªÈÝÆ÷ insert·µ»ØÖµ */
-							not_recv* lp = MALLOC_POOL(not_recv, pool_not_recv);
-							type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
-							itor->second->set();
-							memcpy( itor->second->m_data , ldata_copy , ldatalen_copy );
-							itor->second->m_size = ldatalen_copy;
-						}
-						else
-						{
-							/* ÊÍ·Å·½Ê½ */
-							/* 1.Ö±½ÓÊÍ·ÅÈ«²¿×ÊÔ´*/
-							type_ump::iterator itor;
-							if( find_ump( itor , aiip ) )
-							{
-								FREE_POOL( not_recv , pool_not_recv, itor->second );
-								m_ump->erase( itor );
-							}
-						}
-						break;
-					}
-				}
-				return true;
-			}
+          if( ldatalen_copy >= llen )
+          {
+            aidatalen = ldatalen_copy- llen;
+            aidata =  ldata_copy;
+            aidata += llen;
+            airet = (*m_logic_fun)( aithis , ldata_copy , llen );
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
 
 
-			bool segmentation_data( T aithis,type_ump::iterator& itor , IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
-			{
-				char* ldata_copy = aidata;
-				uint32_t ldatalen_copy = aidatalen;
-				bool lbret1 = true;
-				bool lbret2 = true;
+        /* hashï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ */
+        bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)
+        {
+          /* ï¿½ï¿½È¡len */
+          uint32_t llen;
+          if( itor->second->m_size >= sizeof( uint32_t ) )
+          {
+            llen = GET_LEN( itor->second->m_data );
+          }
+          else
+          {
+            if( itor->second->m_size + aidatalen > sizeof( uint32_t ) )
+            {
+              uint32_t litemp = sizeof( uint32_t ) - itor->second->m_size;
+              memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , litemp  );
+              itor->second->m_size = sizeof( uint32_t );
 
-				lbret2 = every_seg( aithis , itor , ldata_copy , ldatalen_copy , lbret1);
-				if( !lbret1 )/* Êý¾Ý´íÎó */
-				{
-					FREE_POOL( not_recv , pool_not_recv, itor->second );
-					m_ump->erase( itor );
-					return false;
-				}
+              aidata += litemp;
+              aidatalen -= litemp;
+              llen = GET_LEN( itor->second->m_data );
+            }
+            else
+            {
+              return false;
+            }
+          }
 
-				if( !lbret2 )/* ËµÃ÷ÒÑ¾­ÎÞ¿ÉÓÃÊý¾Ý */
-				{
-					return true;
-				}
+          /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lenï¿½Ç·ï¿½ï¿½Ï·ï¿½ */
+          if( llen > SINGLE_DATA_SIZE || llen == 0  )
+          {
+            airet = false;
+          }
 
-				return segmentation_data( aithis , aiip , ldata_copy , ldatalen_copy );
+          /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ü³ï¿½ï¿½ï¿½ llen */
+          /* ï¿½Ñ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ itor->second->m_size + ldatalen_copy */
+          if( llen <= itor->second->m_size + aidatalen )
+          {
+            /* ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ lhavedatalen */
+            uint32_t lhavedatalen = llen - itor->second->m_size;
+            memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , lhavedatalen  );
+            aidata += lhavedatalen;
+            aidatalen -= lhavedatalen;
+            airet = (*m_logic_fun)( aithis , itor->second->m_data , itor->second->m_size );
 
-			}
+            return true;
+          }
+          else/* Ã»ï¿½ï¿½ï¿½ï¿½È« */
+          {
+            memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , aidatalen  );
+            itor->second->m_size += aidatalen;
+            aidata += aidatalen;
+            aidatalen = 0 ;
+            return false;
+          }
+        }
 
-		public:
-			segmentation_pack( boost::function<bool(T,char*,uint32_t)> ailogic_fun ):
-				m_logic_fun( new boost::function<bool(T,char*,uint32_t)>() ),
-				m_ump( new type_ump() ),
-				m_lock( new boost::mutex() )
-			{
-				*m_logic_fun = ailogic_fun;
-			}
+        segmentation_pack();
+        segmentation_pack( const segmentation_pack&);
+        bool segmentation_data( T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
+
+        {
+          char* ldata_copy = aidata;
+          uint32_t ldatalen_copy = aidatalen;
+          bool lbret1 = true;
+          bool lbret2 = true;
+
+          while( 1 )
+          {
+            lbret2 = every_seg( aithis , ldata_copy , ldatalen_copy , lbret1);
+            if( !lbret1 )/* ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
+            {
+              return false;
+            }
+
+            if( !lbret2 )
+            {
+              if( ldatalen_copy != 0 )
+              {
+                /* ï¿½ï¿½ï¿½ï¿½stl ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ insertï¿½ï¿½ï¿½ï¿½Öµ */
+                not_recv* lp = MALLOC_POOL(not_recv, pool_not_recv);
+
+                // NOTE
+                // gcc is more strict about const reference from a tmp rvalue;
+                // comment-out by sarrow104 2016-02-03
+                // type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
+                const type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
+                itor->second->set();
+                memcpy( itor->second->m_data , ldata_copy , ldatalen_copy );
+                itor->second->m_size = ldatalen_copy;
+              }
+              else
+              {
+                /* ï¿½Í·Å·ï¿½Ê½ */
+                /* 1.Ö±ï¿½ï¿½ï¿½Í·ï¿½È«ï¿½ï¿½ï¿½ï¿½Ô´*/
+                type_ump::iterator itor;
+                if( find_ump( itor , aiip ) )
+                {
+                  FREE_POOL( not_recv , pool_not_recv, itor->second );
+                  m_ump->erase( itor );
+                }
+              }
+              break;
+            }
+          }
+          return true;
+        }
 
 
-			~segmentation_pack(){
-				delete m_ump;
-				delete m_lock;
-				delete m_logic_fun;
-			}
+        bool segmentation_data( T aithis,type_ump::iterator& itor , IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
+        {
+          char* ldata_copy = aidata;
+          uint32_t ldatalen_copy = aidatalen;
+          bool lbret1 = true;
+          bool lbret2 = true;
+
+          lbret2 = every_seg( aithis , itor , ldata_copy , ldatalen_copy , lbret1);
+          if( !lbret1 )/* ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ */
+          {
+            FREE_POOL( not_recv , pool_not_recv, itor->second );
+            m_ump->erase( itor );
+            return false;
+          }
+
+          if( !lbret2 )/* Ëµï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½Þ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+          {
+            return true;
+          }
+
+          return segmentation_data( aithis , aiip , ldata_copy , ldatalen_copy );
+
+        }
+
+      public:
+        segmentation_pack( boost::function<bool(T,char*,uint32_t)> ailogic_fun ):
+          m_logic_fun( new boost::function<bool(T,char*,uint32_t)>() ),
+          m_ump( new type_ump() ),
+          m_lock( new boost::mutex() )
+        {
+          *m_logic_fun = ailogic_fun;
+        }
 
 
-			/* ²éÕÒip¶ÔÓ¦µÄ×ÊÔ´*/
-			bool find_ump( type_ump::iterator& itor , IP_ADDRESS_TYPE aiip  ){
-				itor = m_ump->find( aiip );
-				return itor != m_ump->end() ;
-			}
+        ~segmentation_pack(){
+          delete m_ump;
+          delete m_lock;
+          delete m_logic_fun;
+        }
 
 
-			bool segmentation(T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen)
-			{
-				boost::mutex::scoped_lock lock(*m_lock);
+        /* ï¿½ï¿½ï¿½ï¿½ipï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ô´*/
+        bool find_ump( type_ump::iterator& itor , IP_ADDRESS_TYPE aiip  ){
+          itor = m_ump->find( aiip );
+          return itor != m_ump->end() ;
+        }
 
-				type_ump::iterator itor;
-				bool lbret1 = true;
-				bool lbret2 = true;
 
-				if(  find_ump( itor , aiip ) )
-				{
-					/* ÕÒµ½ */
-					return segmentation_data( aithis , itor, aiip , aidata , aidatalen );
-				}
-				else
-				{
-					//if( aidatalen >= protocol_server_head::POS::END_POS - server_head::POS::END_POS )
-					//{
-						return segmentation_data( aithis , aiip , aidata , aidatalen );
-					//}
-					//else
-					//{
-					//	return false;
-					//}
-				}
+        bool segmentation(T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen)
+        {
+          boost::mutex::scoped_lock lock(*m_lock);
 
-			}
-			/* Ç¿ÖÆÉ¾³ýÄ³¸öipºÍÆäÕ¼ÓÃµÄ×ÊÔ´*/
-			void close( IP_ADDRESS_TYPE aiip ){
-				boost::mutex::scoped_lock lock(*m_lock);
+          type_ump::iterator itor;
+          bool lbret1 = true;
+          bool lbret2 = true;
 
-				if( m_ump == NULL)
-				{
-					return ;
-				}
+          if(  find_ump( itor , aiip ) )
+          {
+            /* ï¿½Òµï¿½ */
+            return segmentation_data( aithis , itor, aiip , aidata , aidatalen );
+          }
+          else
+          {
+            //if( aidatalen >= protocol_server_head::POS::END_POS - server_head::POS::END_POS )
+            //{
+            return segmentation_data( aithis , aiip , aidata , aidatalen );
+            //}
+            //else
+            //{
+            //	return false;
+            //}
+          }
 
-				type_ump::iterator itor = m_ump->find( aiip );
-				if( itor != m_ump->end() )
-				{
-					FREE_POOL( not_recv , pool_not_recv, itor->second );
-					m_ump->erase( itor );
-				}
-			}
-		};
+        }
+        /* Ç¿ï¿½ï¿½É¾ï¿½ï¿½Ä³ï¿½ï¿½ipï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ãµï¿½ï¿½ï¿½Ô´*/
+        void close( IP_ADDRESS_TYPE aiip ){
+          boost::mutex::scoped_lock lock(*m_lock);
 
-	} //namespace tools
+          if( m_ump == NULL)
+          {
+            return ;
+          }
+
+          type_ump::iterator itor = m_ump->find( aiip );
+          if( itor != m_ump->end() )
+          {
+            FREE_POOL( not_recv , pool_not_recv, itor->second );
+            m_ump->erase( itor );
+          }
+        }
+      };
+
+  } //namespace tools
 } //namespace middleware
 #endif //SEGMENTATION_PACK_H
 
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
-
