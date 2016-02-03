@@ -39,9 +39,13 @@
 !/cmake/Makefile
 
 # ctags & cscope
+# NOTE ag can not recongnize "**/"
 **/cscope.files
 **/cscope.out
 **/tags
+cscope.files
+cscope.out
+tags
 
 # vim:YCM
 **/.ycm_extra_conf.py
