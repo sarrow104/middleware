@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_socket_io.cpp" />
     <ClCompile Include="..\..\..\src\socket_io\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket .cpp" />
     <ClCompile Include="..\..\..\src\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp">
       <Filter>looparray</Filter>
@@ -20,6 +19,7 @@
     <ClCompile Include="..\..\..\src\loop_array\looparray.cpp">
       <Filter>looparray</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="logsys">

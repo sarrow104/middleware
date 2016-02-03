@@ -15,7 +15,7 @@
     <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\src\socket_io\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket .cpp" />
+    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket.cpp" />
     <ClCompile Include="..\..\..\src\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />

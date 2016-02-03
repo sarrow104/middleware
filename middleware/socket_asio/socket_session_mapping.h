@@ -1,8 +1,10 @@
-﻿#ifndef SOCKET_SESSION_MAPPING
+﻿///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
+#ifndef SOCKET_SESSION_MAPPING
 #define SOCKET_SESSION_MAPPING
 
 #include <array>
-
 
 namespace middleware {
 

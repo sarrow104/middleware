@@ -1,4 +1,7 @@
-﻿#ifndef SOCKET_ASIO_TCP_IO_SERVICE_POOL
+﻿///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
+#ifndef SOCKET_ASIO_TCP_IO_SERVICE_POOL
 #define SOCKET_ASIO_TCP_IO_SERVICE_POOL
 
 #include <boost/asio.hpp>
