@@ -6,6 +6,9 @@
 namespace middleware{
   namespace tools{
 
+#define LOG_TIME_STANDARD			("%Y-%m-%d %I:%M:%S")   /** 标准日志时间 */
+#define LOG_TIME_FILE				("%Y_%m_%d %I_%M_%S")   /** 日志文件时间 */
+	  
 	  /**
 	  * 写日志类
 	  */
@@ -25,49 +28,25 @@ namespace middleware{
 		  static boost::mutex m_creat_lock;
 		  static std::vector<logsys*> m_log_list;
 		  static char ltimebuf[32];
+		  
 		  /**
 		  * 获取当前时间字符串
 		  */
-		  bool get_now(char* ap, uint32_t aplen, char aseparator1 = '-', char aseparator2 = ':', time_t aitimep = 0)
+		  bool get_time_str( char* ap, uint32_t aplen,const char* aiformat, time_t aitimep = 0 )
 		  {
 			  if (aitimep == 0)
 			  {
 				  time(&aitimep);
 			  }
-
 			  /** 东八区 +8小时 */
 			  aitimep += 1800;
 			  tm* lptm = gmtime(&aitimep);
-			  /** int lhour = lptm->tm_hour+8; */
-			  /** lhour = lhour > 23 ? lhour - 24 : lhour; */
-
-			  return snprintf(
-				  ap,
-				  aplen,
-				  "%d%c%d%c%d %d%c%d%c%d",
-				  lptm->tm_year + 1900,         /** 年 */
-				  aseparator1,                  /** 分隔符 */
-				  lptm->tm_mon + 1,             /** 月 */
-				  aseparator1,                  /** 分隔符 */
-				  lptm->tm_mday,                /** 日 */
-
-				  lptm->tm_hour,                /** 小时 */
-				  aseparator2,                  /** 分隔符 */
-				  lptm->tm_min,                 /** 分钟 */
-				  aseparator2,                  /** 分隔符 */
-				  lptm->tm_sec                  /** 秒 */
-				  ) >= 0;
+			  strftime(ap, aplen, aiformat, lptm);
+			  return true;
 		  }
 
 		  bool creat_log()
 		  {
-			  static bool init_time_run2 = true;
-			  if (init_time_run2)
-			  {
-				  init_time_run2 = false;
-				  boost::thread( boost::bind(&logsys::run2) );
-			  }
-
 			  boost::filesystem::path path("./log");
 			  /** 检查创建路径 */
 			  bool result = boost::filesystem::is_directory(path);
@@ -77,12 +56,12 @@ namespace middleware{
 			  }
 
 			  char lpbuf[256];
-			  if (get_now(lpbuf, 256, '_', '_'))
+			  m_logname_beg = "";
+			  if (get_time_str(lpbuf, 256, LOG_TIME_FILE))
 			  {
 				  m_logname_beg += "./log/";
 				  m_logname_beg += m_logname;
 				  m_logname_beg += lpbuf;
-				  m_logname_beg += ".log";
 				  m_logfile.open(m_logname_beg.c_str(), std::ios::trunc | std::ios::out);
 				  if (m_logfile.is_open())
 				  {
@@ -99,15 +78,13 @@ namespace middleware{
 			  }
 		  }
 
-
 		  virtual int run()
 		  {
-			  uint32_t ltemp = DEFAULT_SAVE_LOG_TIME;
-			  uint32_t lflush = FLUSH_TIME * 60;
+			  int ltemp = DEFAULT_SAVE_LOG_TIME;
 			  while (1)
 			  {
-				  boost::this_thread::sleep(boost::posix_time::seconds(FLUSH_TIME*60));
-				  ltemp -= lflush;
+				  boost::this_thread::sleep(boost::posix_time::seconds(FLUSH_TIME));
+				  ltemp -= FLUSH_TIME;
 				  if (ltemp <= 0)
 				  {
 					  ltemp = DEFAULT_SAVE_LOG_TIME;
@@ -124,87 +101,15 @@ namespace middleware{
 					  boost::filesystem::path path(m_logname_beg);
 
 					  char lpbuf[256];
-					  if (get_now(lpbuf, 256, '_', '_'))
+					  if (get_time_str(lpbuf, 256, LOG_TIME_FILE))
 					  {
 						  rename(m_logname_beg.c_str(), (m_logname_beg + "__" + lpbuf + ".log").c_str());
 						  //boost::filesystem::rename(path, m_logname_beg + "__" + lpbuf + ".log");
 					  }
 
 				  }/** 锁作用域 */
-			  }
-		  }
 
-		  /**
-		   * 不用每次写日志都重新获取一下时间,
-		   * 我们用一个线程,轮训,每分钟就更新一下值
-		   */
-
-		  static void run2()
-		  {
-			  time_t ltimep;
-			  time(&ltimep);
-			  /** 东八区 +8小时 */
-			  ltimep += 1800;
-			  tm* lptm = gmtime(&ltimep);
-			  lptm->tm_year += 1900;
-			  lptm->tm_mon += 1;  /** 0-11*/
-			  /** lptm->tm_mday; */
-			  /** lptm->tm_hour;0-23 */
-			  /** lptm->tm_min; 0-59 */
-			  /** int lhour = lptm->tm_hour+8; */
-			  /** lhour = lhour > 23 ? lhour - 24 : lhour; */
-
-			  while (1)
-			  {
-				  snprintf(
-					  ltimebuf,
-					  32,
-					  "%d-%d-%d %d:%d:",
-					  lptm->tm_year,
-					  lptm->tm_mon,
-					  lptm->tm_mday,
-					  lptm->tm_hour,
-					  lptm->tm_min);
-
-					while (1)
-					{
-						boost::this_thread::sleep(boost::posix_time::seconds(59));
-						if (++lptm->tm_min == 60)
-						{
-							lptm->tm_min = 1;
-							if (++lptm->tm_hour == 24)
-							{
-								lptm->tm_hour = 1;
-								++lptm->tm_mday;
-								if (lptm->tm_mday == 29 && lptm->tm_mon == 2)/** 二月 */
-								{
-									lptm->tm_mday = 1;
-									++lptm->tm_mon;
-									break;
-								}
-
-								if (
-									(lptm->tm_mon<8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 != 0)) ||  /** 1.3.5.7. */
-									(lptm->tm_mon>=8 && lptm->tm_mday == 32 && (lptm->tm_mon % 2 == 0))     /** 8.10.12 */
-									)/** 31天月份 */
-								{
-									lptm->tm_mday = 1;
-									++lptm->tm_mon;
-									break;
-								}
-								else/** 30天月份 *//** 4.6.9.11 */
-								{
-									lptm->tm_mday = 0;
-									++lptm->tm_mon;
-									if (lptm->tm_mon == 13)
-									{
-										lptm->tm_mon = 1;
-										lptm->tm_year += 1;
-									}
-								}
-							}
-						}
-					}
+				  creat_log();
 			  }
 		  }
 
@@ -334,11 +239,12 @@ namespace middleware{
 		  bool write(uint32_t aitype, const char* ap)
 		  {
 			char lbuf[256];
-			std::string lstr(ltimebuf);
-		    lstr += "%d|";
-			lstr += get_type_str(aitype);
+			get_time_str(lbuf, 256, LOG_TIME_STANDARD);
+			std::string lstr(lbuf);
+			lstr += '|';
+		    lstr += get_type_str(aitype);
 			lstr += "|%s|%s|";
-			int llen = snprintf(lbuf, 256, lstr.c_str(), (uint32_t)(time(NULL) % 60), m_logname.c_str(), ap);
+			int llen = snprintf(lbuf, 256, lstr.c_str(), m_logname.c_str(), ap);
 			if (llen > 0)
 			{
 				boost::mutex::scoped_lock llock(m_lock);
