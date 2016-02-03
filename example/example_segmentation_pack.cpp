@@ -4,6 +4,7 @@
 #include "middleware/tools/segmentation_pack/segmentation_pack.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 int main()
 {
@@ -32,7 +33,11 @@ int main()
 	uint32_t j = 0;
 	for (uint32_t i = 0; i <102400;++i)
 	{
+#if defined(_MSC_VER)
 		itoa(i, bufftemp, 10);
+#else
+    sprintf(bufftemp, "%d", i);
+#endif
 		*(uint32_t*)&(buff[j]) = (uint32_t)(strlen(bufftemp) + sizeof(uint32_t) +1);
 		j += sizeof(uint32_t);
 
@@ -42,7 +47,7 @@ int main()
 	}
 
 	uint32_t ltemp;
-	for (int i = 0; i < j; )
+	for (int i = 0; i < int(j); )
 	{
 		ltemp = rand() % 100;
 		if (ltemp + i > j)
