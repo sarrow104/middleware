@@ -17,40 +17,40 @@
 
 namespace middleware {
 
-	class socket_asio_session_base
-	{
-	protected:
-		class tools_help
-		{
-		public:
+  class socket_asio_session_base
+  {
+  protected:
+    class tools_help
+    {
+    public:
 
-			std::vector< unordered_set<uint32_t> > m_server;  /* 服务器之间保持的连接 */
+      std::vector< unordered_set<uint32_t> > m_server;  /* 服务器之间保持的连接 */
 
-			session_mapping<socket_asio_session_base*>  m_sessionidmapp;
-			std::vector<middleware_base*> m_middlewarearr;
-			std::vector<middleware_base*> m_extern_middlewarearr;
-			std::vector<close_socket_player* > m_closesocket_help;
-			std::vector<check_crc* > m_check_crc;
-			std::vector< protocol_server_head > m_php;
-			uint32_t m_everyoncemaxsize;		/* 单条最大数据 */
-			uint32_t m_timeout;
-			bool m_s2s;							/* 服务器与服务器的连接断开是否通知上层 */
-			bool m_s2c;							/* 服务器与客户端的连接断开是否通知上层 */
+      session_mapping<socket_asio_session_base*>  m_sessionidmapp;
+      std::vector<middleware_base*> m_middlewarearr;
+      std::vector<middleware_base*> m_extern_middlewarearr;
+      std::vector<close_socket_player* > m_closesocket_help;
+      std::vector<check_crc* > m_check_crc;
+      std::vector< protocol_server_head > m_php;
+      uint32_t m_everyoncemaxsize;    /* 单条最大数据 */
+      uint32_t m_timeout;
+      bool m_s2s;             /* 服务器与服务器的连接断开是否通知上层 */
+      bool m_s2c;             /* 服务器与客户端的连接断开是否通知上层 */
 
-			tools_help()
-			{}
+      tools_help()
+      {}
 
-			void init(uint32_t aisize)
-			{
-				m_middlewarearr.resize(aisize);
-				m_extern_middlewarearr.resize(aisize);
-				m_closesocket_help.resize(aisize);
-				m_check_crc.resize(aisize);
-				m_server.resize(aisize);
-				m_php.resize(aisize);
-			}
-		};
-	};
+      void init(uint32_t aisize)
+      {
+        m_middlewarearr.resize(aisize);
+        m_extern_middlewarearr.resize(aisize);
+        m_closesocket_help.resize(aisize);
+        m_check_crc.resize(aisize);
+        m_server.resize(aisize);
+        m_php.resize(aisize);
+      }
+    };
+  };
 
 
 

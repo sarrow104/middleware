@@ -53,9 +53,9 @@ namespace middleware {
       mp_smobj = nullptr;
     }
 
-	/*
-	 *   创建共享内存头
-	 */
+  /*
+   *   创建共享内存头
+   */
     void create_shared_memort_head(const char* aismname, uint64_t aibufsize)
     {
       shared_memory_object::remove(aismname);
@@ -64,9 +64,9 @@ namespace middleware {
       mp_mmap = new mapped_region(*mp_smobj, read_write);
     }
 
-	/*
-	 *  打开共享内存头
-	 */
+  /*
+   *  打开共享内存头
+   */
     bool open_shared_memort_head(const char* aismname)
     {
       try
@@ -96,17 +96,17 @@ namespace middleware {
     }
 #endif //0
 
-	/**
-	 *  获取地址
-	 */
+  /**
+   *  获取地址
+   */
     void* address()
     {
       return  mp_mmap->get_address();
     }
 
-	/**
-	 *  获取字节数
-	 */
+  /**
+   *  获取字节数
+   */
     std::size_t size()
     {
       return  mp_mmap->get_size();

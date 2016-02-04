@@ -38,25 +38,25 @@ namespace middleware {
     {
     }
 
-	/**
-	 * 根据指定key ip 端口 创建连接
-	 */
+    /**
+     * 根据指定key ip 端口 创建连接
+     */
     bool create_con(uint32_t aikey, std::string aiserverip, uint32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
     {
       return m_connect.send_key(aikey, aiserverip.c_str(), aiserverport, aisendfailure);
     }
 
-	/**
-	 * 处理发送失败
-	 */
+    /**
+     * 处理发送失败
+     */
     virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
     {
       return m_connect.reconnect(aisocket);
     }
 
-	/**
-	 *  通过key,关闭指定连接
-	 */
+    /**
+     *  通过key,关闭指定连接
+     */
     bool close(uint32_t aikey)
     {
       return m_connect.closekey(aikey);

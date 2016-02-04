@@ -17,11 +17,11 @@ void test_thread(int ainum)
 
 int main(int argc,char *argv[])
 { 
-  middleware::tools::threadpool::set_maxthread( 5 );  /** ×î´óÏß³ÌÊıÄ¬ÈÏÊÇ128±È128Ğ¡²»»áÉèÖÃ³É¹¦ */
-	for (uint32_t i = 0; i < 128; ++i)
-	{
-		middleware::tools::threadpool::syn_thread(boost::bind(&test_thread, rand() % 10));
-	}
+  middleware::tools::threadpool::set_maxthread( 5 );  /** æœ€å¤§çº¿ç¨‹æ•°é»˜è®¤æ˜¯128æ¯”128å°ä¸ä¼šè®¾ç½®æˆåŠŸ */
+  for (uint32_t i = 0; i < 128; ++i)
+  {
+    middleware::tools::threadpool::syn_thread(boost::bind(&test_thread, rand() % 10));
+  }
 
   cout << "thread num = [" << middleware::tools::threadpool::thread_size() << "]" << endl;
 

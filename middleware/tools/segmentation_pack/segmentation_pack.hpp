@@ -11,27 +11,27 @@
 #include <cstdint>
 #include <unordered_map>
 
-#define MAKE_POOL(TYPE,NAME)						typedef boost::singleton_pool<pool_tag, sizeof(TYPE)> NAME;
-#define MALLOC_POOL(TYPE,NAME)					(TYPE*)NAME::malloc()
-#define FREE_POOL(TYPE,NAME,TYPE_PTR)		NAME::free(TYPE_PTR)
+#define MAKE_POOL(TYPE,NAME)            typedef boost::singleton_pool<pool_tag, sizeof(TYPE)> NAME;
+#define MALLOC_POOL(TYPE,NAME)          (TYPE*)NAME::malloc()
+#define FREE_POOL(TYPE,NAME,TYPE_PTR)   NAME::free(TYPE_PTR)
 
-#define CLOSE_COPY_READY_RESERVED			  (0)							/** 由系统为我预留空间 */
-//#define CLOSE_COPY_READY_RESERVED			(1)							/** 输入数据队首由自己保留空间 */
+#define CLOSE_COPY_READY_RESERVED       (0)             /** 由系统为我预留空间 */
+//#define CLOSE_COPY_READY_RESERVED     (1)             /** 输入数据队首由自己保留空间 */
 
 #ifndef RESERVED_AREA_SIZE
-# define RESERVED_AREA_SIZE						(0)							/** 保留区域 */
+# define RESERVED_AREA_SIZE           (0)             /** 保留区域 */
 #endif //RESERVED_AREA_SIZE
 
-#define SINGLE_DATA_SIZE							(1024)						/** 单条数据的字节 */
-#define GET_LEN( DATA )								*( (uint32_t*)(DATA) )
+#define SINGLE_DATA_SIZE              (1024)            /** 单条数据的字节 */
+#define GET_LEN( DATA )               *( (uint32_t*)(DATA) )
 typedef unsigned long IP_ADDRESS_TYPE;
 
 namespace middleware{
   namespace tools{
 
-		/** 仅仅用于MAKE_POOL的 标记空类 */
+    /** 仅仅用于MAKE_POOL的 标记空类 */
     struct pool_tag {};
-		/** 用于保存未接收完的数据 */
+    /** 用于保存未接收完的数据 */
     struct  not_recv
     {
       uint32_t m_size;
@@ -42,14 +42,14 @@ namespace middleware{
         m_data = m_dataarr + RESERVED_AREA_SIZE;
       }
     };
-		/** 创建内存池 */
-		MAKE_POOL(not_recv, pool_not_recv);			/** 内存池 */
+    /** 创建内存池 */
+    MAKE_POOL(not_recv, pool_not_recv);     /** 内存池 */
 
     /**
-		 *  处理TCP粘包问题
-		 *  分包模块 
+     *  处理TCP粘包问题
+     *  分包模块 
      */
-	  template <typename T>
+    template <typename T>
       class  segmentation_pack
       {
         typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
@@ -62,7 +62,7 @@ namespace middleware{
           char* ldata_copy = aidata;
           uint32_t ldatalen_copy = aidatalen;
 
-				/* 获取len */
+          /* 获取len */
           uint32_t llen;
           if( ldatalen_copy > sizeof( uint32_t ) )
           {
@@ -70,10 +70,10 @@ namespace middleware{
           }
           else
           {
-					  return false; /* 数据已经分割完成 */
+            return false; /* 数据已经分割完成 */
           }
 
-				/* 检验数据len是否合法 */
+          /* 检验数据len是否合法 */
           if( llen > SINGLE_DATA_SIZE || llen == 0  )
           {
             airet = false;
@@ -94,10 +94,10 @@ namespace middleware{
         }
 
 
-			/* hash中有存货 */
+        /* hash中有存货 */
         bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)
         {
-				/* 获取len */
+          /* 获取len */
           uint32_t llen;
           if( itor->second->m_size >= sizeof( uint32_t ) )
           {
@@ -121,17 +121,17 @@ namespace middleware{
             }
           }
 
-				/* 检验数据len是否合法 */
+          /* 检验数据len是否合法 */
           if( llen > SINGLE_DATA_SIZE || llen == 0  )
           {
             airet = false;
           }
 
-				/* 数据真实总长度 llen */
-				/* 已接收数据长度 itor->second->m_size + ldatalen_copy */
+          /* 数据真实总长度 llen */
+          /* 已接收数据长度 itor->second->m_size + ldatalen_copy */
           if( llen <= itor->second->m_size + aidatalen )
           {
-					/* 还需要多少数据组成 lhavedatalen */
+            /* 还需要多少数据组成 lhavedatalen */
             uint32_t lhavedatalen = llen - itor->second->m_size;
             memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , lhavedatalen  );
             aidata += lhavedatalen;
@@ -140,7 +140,7 @@ namespace middleware{
 
             return true;
           }
-				else/* 没接收全 */
+          else/* 没接收全 */
           {
             memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , aidatalen  );
             itor->second->m_size += aidatalen;
@@ -150,21 +150,21 @@ namespace middleware{
           }
         }
 
-       
+
         bool segmentation_data( T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
         {
-					/** CLOSE_COPY_READY_RESERVED定义为1,
-					 *  你么你需要确保aidata指针所指向的数据前面已经预留保留空间,
-					 *  否则系统将自动分配一个有保留区域的buffer 
-					 */
+          /** CLOSE_COPY_READY_RESERVED定义为1,
+           *  你么你需要确保aidata指针所指向的数据前面已经预留保留空间,
+           *  否则系统将自动分配一个有保留区域的buffer 
+           */
 #if  ( CLOSE_COPY_READY_RESERVED && (RESERVED_AREA_SIZE != 0) )
-					char ldata_buff[ RESERVED_AREA_SIZE + SINGLE_DATA_SIZE ];
-					char* ldata_copy = &(ldata_buff[RESERVED_AREA_SIZE]);
-					memcpy( ldata_copy, aidata, aidatalen);
+          char ldata_buff[ RESERVED_AREA_SIZE + SINGLE_DATA_SIZE ];
+          char* ldata_copy = &(ldata_buff[RESERVED_AREA_SIZE]);
+          memcpy( ldata_copy, aidata, aidatalen);
 #else
-					char* ldata_copy = aidata;
+          char* ldata_copy = aidata;
 #endif
-          
+
           uint32_t ldatalen_copy = aidatalen;
           bool lbret1 = true;
           bool lbret2 = true;
@@ -172,7 +172,7 @@ namespace middleware{
           while( 1 )
           {
             lbret2 = every_seg( aithis , ldata_copy , ldatalen_copy , lbret1);
-						if( !lbret1 )/* 数据错误 */
+            if( !lbret1 )/* 数据错误 */
             {
               return false;
             }
@@ -181,24 +181,24 @@ namespace middleware{
             {
               if( ldatalen_copy != 0 )
               {
-								/* 依赖stl 关联容器 insert返回值 */
+                /* 依赖stl 关联容器 insert返回值 */
                 // NOTE
                 // gcc is more strict about const reference from a tmp rvalue;
                 // comment-out by sarrow104 2016-02-03
                 // type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
                 const type_ump::iterator& itor = m_ump->insert( 
-									std::make_pair( 
-										aiip , MALLOC_POOL(not_recv, pool_not_recv)
-										)
-									).first;
+                  std::make_pair( 
+                    aiip , MALLOC_POOL(not_recv, pool_not_recv)
+                    )
+                  ).first;
                 itor->second->set();
                 memcpy( itor->second->m_data , ldata_copy , ldatalen_copy );
                 itor->second->m_size = ldatalen_copy;
               }
               else
               {
-							/* 释放方式 */
-							/* 1.直接释放全部资源*/
+                /* 释放方式 */
+                /* 1.直接释放全部资源*/
                 type_ump::iterator itor;
                 if( find_ump( itor , aiip ) )
                 {
@@ -220,14 +220,14 @@ namespace middleware{
           bool lbret2 = true;
 
           lbret2 = every_seg( aithis , itor , ldata_copy , ldatalen_copy , lbret1);
-				if( !lbret1 )/* 数据错误 */
+          if( !lbret1 )/* 数据错误 */
           {
             FREE_POOL( not_recv , pool_not_recv, itor->second );
             m_ump->erase( itor );
             return false;
           }
 
-				if( !lbret2 )/* 说明已经无可用数据 */
+          if( !lbret2 )/* 说明已经无可用数据 */
           {
             return true;
           }
@@ -236,9 +236,9 @@ namespace middleware{
 
         }
 
-				/** 禁止默认构造与拷贝 */
-				segmentation_pack();
-				segmentation_pack(const segmentation_pack&);
+        /** 禁止默认构造与拷贝 */
+        segmentation_pack();
+        segmentation_pack(const segmentation_pack&);
       public:
         segmentation_pack( boost::function<bool(T,char*,uint32_t)> ailogic_fun ):
           m_logic_fun( new boost::function<bool(T,char*,uint32_t)>() ),
@@ -254,7 +254,7 @@ namespace middleware{
           delete m_logic_fun;
         }
 
-				/* 查找ip对应的资源*/
+        /* 查找ip对应的资源*/
         bool find_ump( type_ump::iterator& itor , IP_ADDRESS_TYPE aiip  ){
           itor = m_ump->find( aiip );
           return itor != m_ump->end() ;
@@ -270,7 +270,7 @@ namespace middleware{
 
           if(  find_ump( itor , aiip ) )
           {
-					/* 找到 */
+            /* 找到 */
             return segmentation_data( aithis , itor, aiip , aidata , aidatalen );
           }
           else
@@ -279,7 +279,7 @@ namespace middleware{
           }
 
         }
-			/* 强制删除某个ip和其占用的资源*/
+        /* 强制删除某个ip和其占用的资源*/
         void close( IP_ADDRESS_TYPE aiip ){
           boost::mutex::scoped_lock lock(*m_lock);
 

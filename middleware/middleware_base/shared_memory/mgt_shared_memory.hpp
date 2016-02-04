@@ -25,9 +25,9 @@ namespace middleware {
     boost::function<bool(char*, uint32_t&)> m_recv_callbackfun;
     bool m_ok;
 
-	/*
-	 *  创建共享内存对象
-	 */
+  /*
+   *  创建共享内存对象
+   */
     gateway_shared_memory* create_shared_memory_obj(const char* aismname, uint64_t  ai_client_byte_sum)
     {
       gateway_shared_memory* lret_gsm = new gateway_shared_memory();
@@ -39,8 +39,8 @@ namespace middleware {
     }
 
    /**
-	  *  设置回调
-	  */
+    *  设置回调
+    */
     void set_callback()
     {
       if (m_recv_callbackfun != NULL)
@@ -49,25 +49,25 @@ namespace middleware {
       }
     }
 
-	/**
-	 *  获取服务器端
-	 */
+  /**
+   *  获取服务器端
+   */
     shared_memory_server* get_server()
     {
       return (shared_memory_server*)m_server;
     }
 
-	/**
-	 *  获取客户端
-	 */
+  /**
+   *  获取客户端
+   */
     shared_memory_client* get_client()
     {
       return (shared_memory_client*)m_client;
     }
 
-	/**
-	 *  设置操纵共享内存的对象
-	 */
+  /**
+   *  设置操纵共享内存的对象
+   */
     void set_operator_shared_memory()
     {
       if (m_ok)

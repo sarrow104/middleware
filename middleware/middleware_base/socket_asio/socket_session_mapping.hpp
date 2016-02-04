@@ -8,34 +8,34 @@
 
 namespace middleware {
 
-	template <typename T>
-	class session_mapping
-	{
-		std::vector<T> m_sessionidmapp;
-		uint32_t m_max_session_count;
-	public:
-		session_mapping():
-			m_max_session_count( 0 )
-		{}
-		T find( uint32_t aisessionid )
-		{
-			if( aisessionid < m_max_session_count  )
-			{
-				return m_sessionidmapp[ aisessionid ];
-			}
-			else
-			{
-				return NULL;
-			}
-		}
+  template <typename T>
+  class session_mapping
+  {
+    std::vector<T> m_sessionidmapp;
+    uint32_t m_max_session_count;
+  public:
+    session_mapping():
+      m_max_session_count( 0 )
+    {}
+    T find( uint32_t aisessionid )
+    {
+      if( aisessionid < m_max_session_count  )
+      {
+        return m_sessionidmapp[ aisessionid ];
+      }
+      else
+      {
+        return NULL;
+      }
+    }
 
-		std::vector<T>& get_sessionmapp( uint32_t aisize)
-		{
-			m_sessionidmapp.resize( aisize );
-			m_max_session_count = aisize;
-			return m_sessionidmapp;
-		}
-	};
+    std::vector<T>& get_sessionmapp( uint32_t aisize)
+    {
+      m_sessionidmapp.resize( aisize );
+      m_max_session_count = aisize;
+      return m_sessionidmapp;
+    }
+  };
 
 
 

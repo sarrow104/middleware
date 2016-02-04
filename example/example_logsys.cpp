@@ -20,7 +20,7 @@ int main()
   LOG_ERROR(ic, "一个人失眠  .", i++)
   LOG_ERROR(ic, "全世界失眠 .", i++)
 
-	 
+   
   LOG_PLUSH(iz)
   LOG_PLUSH(ic)
 

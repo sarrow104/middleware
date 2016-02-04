@@ -14,7 +14,7 @@ namespace middleware {
   namespace tools{
 
     /**
-     * ¹¤×÷Ïß³Ì
+     * å·¥ä½œçº¿ç¨‹
      */
     class workthread:
       public pthread
@@ -48,7 +48,7 @@ namespace middleware {
 
       friend class workthread;
 
-      /* workthread »Ø¹é */
+      /* workthread å›å½’ */
       static void push( workthread* aipthread )
       {
         boost::mutex::scoped_lock llock(m_lock);
@@ -86,7 +86,7 @@ namespace middleware {
       }
     public:
       /**
-       * Èç¹ûÃ»ÓĞ¿ÉÓÃÏß³ÌÇÒ³¬¹ı×î´óÊıÄ¿ÏŞÖÆ,²»»á×èÈû
+       * å¦‚æœæ²¡æœ‰å¯ç”¨çº¿ç¨‹ä¸”è¶…è¿‡æœ€å¤§æ•°ç›®é™åˆ¶,ä¸ä¼šé˜»å¡
        */
       static bool asyn_thread( boost::function<void(void)> aifun)
       {
@@ -95,7 +95,7 @@ namespace middleware {
 
 
       /**
-       * Èç¹ûÊ§°ÜÔò×èÈû  µÈ´ı Ö±µ½ÓĞ¿ÕÏĞµÄÏß³Ì
+       * å¦‚æœå¤±è´¥åˆ™é˜»å¡  ç­‰å¾… ç›´åˆ°æœ‰ç©ºé—²çš„çº¿ç¨‹
        */
       static void syn_thread( boost::function<void(void)> aifun)
       {
@@ -107,7 +107,7 @@ namespace middleware {
       }
 
       /**
-       *  »ñÈ¡Ïß³ÌÊıÄ¿
+       *  è·å–çº¿ç¨‹æ•°ç›®
        */
       static uint32_t thread_size()
       {
@@ -115,7 +115,7 @@ namespace middleware {
       }
 
       /**
-       *  ÉèÖÃ×î´óÏß³Ì
+       *  è®¾ç½®æœ€å¤§çº¿ç¨‹
        */
       static void set_maxthread( uint32_t ainum )
       {
@@ -126,13 +126,13 @@ namespace middleware {
         }
       }
 
-	  /** 
-	   * »ñÈ¡×î´óÏß³ÌÊı
-	   */
-	  static uint32_t get_maxthread()
-	  {
-		  return m_max_thread;
-	  }
+    /** 
+     * è·å–æœ€å¤§çº¿ç¨‹æ•°
+     */
+    static uint32_t get_maxthread()
+    {
+      return m_max_thread;
+    }
 
     };
 

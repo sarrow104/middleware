@@ -20,17 +20,17 @@ namespace middleware {
    */
   class loop_array
   {
-    size_t m_array_size;            /** 数组容量 */
-    char* m_array_beg_ptr;          /** 数组开始指针 */
-    char* m_array_end_ptr;          /** 数组结束指针 */
-    char* m_write;                  /** 写指针位置 */
-    char* m_read;                    /** 读指针位置 */
-    boost_sem* m_write_sem;          /** 用来通知处理 */
-    boost_sem* m_read_sem;          /** 用来通知接收 */
+    size_t m_array_size;              /** 数组容量 */
+    char* m_array_beg_ptr;            /** 数组开始指针 */
+    char* m_array_end_ptr;            /** 数组结束指针 */
+    char* m_write;                    /** 写指针位置 */
+    char* m_read;                     /** 读指针位置 */
+    boost_sem* m_write_sem;           /** 用来通知处理 */
+    boost_sem* m_read_sem;            /** 用来通知接收 */
 
-    uint16_t m_temp_len;            /** 临时缓冲区有效数据长度 */
-    char* m_temp_arr;                /** 临时缓冲区 */
-    boost::mutex  m_lock;            /** 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
+    uint16_t m_temp_len;              /** 临时缓冲区有效数据长度 */
+    char* m_temp_arr;                 /** 临时缓冲区 */
+    boost::mutex  m_lock;             /** 用于保证 在读中m_write,m_write_bool的拷贝 与 写中m_write,m_write_bool修改 互斥  同理还有 m_read  m_read_bool */
     boost::function<bool(const char*, uint32_t)>  m_read_fun;  /** 读回调 */
     boost::function<bool(char*, uint32_t&)>  m_write_fun;      /** 写回调 */
 
@@ -234,7 +234,7 @@ namespace middleware {
       uint32_t ltemprcount = m_rcount;
 
 
-      bool is_same = true;			                 /** 读副本与真正的读指针同步频率  */
+      bool is_same = true;                       /** 读副本与真正的读指针同步频率  */
       while (1)
       {
         if (m_close)  /** 是否被关闭 */

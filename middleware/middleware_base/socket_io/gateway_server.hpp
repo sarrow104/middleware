@@ -34,17 +34,17 @@ namespace middleware {
     {
     }
 
-	/**
-	 * 处理发送失败
-	 */
-   virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
-	 {
+    /**
+     * 处理发送失败
+     */
+    virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen)
+    {
       return m_accept.close(aisocket, ap, aplen);
-   }
+    }
 
-	/**
-	 * 关闭所有连接
-	 */
+    /**
+     * 关闭所有连接
+     */
     bool close()
     {
       return m_accept.closeallconnect();

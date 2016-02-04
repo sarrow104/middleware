@@ -13,22 +13,22 @@
 #include <cstdint>
 #include <cstdio>
 
-#define FLUSH_TIME				(5)				/** 多久向文件刷一次数据 */
-#define LOG_LEVE_WARN     		(0)   			/** 警告 */
-#define LOG_LEVE_INFO     		(1)   			/** 输出 */
-#define LOG_LEVE_ERROR    		(2)   			/** 错误 */
-#define LOG_LEVE_WARN_STR     "WARN"   	  /** 警告 */
-#define LOG_LEVE_INFO_STR     "INFO"   	  /** 输出 */
+#define FLUSH_TIME        (5)       /** 多久向文件刷一次数据 */
+#define LOG_LEVE_WARN         (0)         /** 警告 */
+#define LOG_LEVE_INFO         (1)         /** 输出 */
+#define LOG_LEVE_ERROR        (2)         /** 错误 */
+#define LOG_LEVE_WARN_STR     "WARN"      /** 警告 */
+#define LOG_LEVE_INFO_STR     "INFO"      /** 输出 */
 #define LOG_LEVE_ERROR_STR    "ERROR"     /** 错误 */
 
-#define OPEN_LOGFILE_PRINTF				(true)			   /** 是否文本输出 */
-#define OPEN_CONSOLE_PRINTF				(true)			   /** 是否打开控制台输出,多个线程输出可能会乱,因为 */
-#define OPEN_LOG_ERROR    				(1)						 /** 是否开始标志为错误的打印 */
-#define OPEN_LOG_INFO     				(0)						 /** 是否开启标志为普通输出信息的打印 */
-#define OPEN_LOG_WARN     				(1)						 /** 是否开启标志为警告的打印 */
+#define OPEN_LOGFILE_PRINTF       (true)         /** 是否文本输出 */
+#define OPEN_CONSOLE_PRINTF       (true)         /** 是否打开控制台输出,多个线程输出可能会乱,因为 */
+#define OPEN_LOG_ERROR            (1)            /** 是否开始标志为错误的打印 */
+#define OPEN_LOG_INFO             (0)            /** 是否开启标志为普通输出信息的打印 */
+#define OPEN_LOG_WARN             (1)            /** 是否开启标志为警告的打印 */
 #define CHECK_PRINTF_LOG( OPEN_LOG_TYPE )      ( ( OPEN_LOGFILE_PRINTF || OPEN_CONSOLE_PRINTF ) && OPEN_LOG_TYPE ) /** 检查是否打印 */
 
-#define DEFAULT_SAVE_LOG_TIME			(12*60*60*60)  /** 12 hour */
+#define DEFAULT_SAVE_LOG_TIME     (12*60*60*60)  /** 12 hour */
 
 #define LOG_SYS_BUFFER_SIZE             (2048)
 #define LOG_SYS_EVERY_MAX_BUFFER_SIZE   (256)
@@ -39,13 +39,13 @@
 
 #endif //_MSC_VER
 
-#define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)						\
-{																																				\
-	char lch[256];																												\
-	if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )										\
-	{																																			\
-		 middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);				\
-	}																																			\
+#define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)           \
+{                                                                       \
+  char lch[256];                                                        \
+  if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )                    \
+  {                                                                     \
+     middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);        \
+  }                                                                     \
 }
 
 /**
@@ -69,14 +69,14 @@ namespace middleware{
    * 但却无法硬性限制
    */
 
-	/**
-	 *  创建日志
-	 */
-	bool CLOG(int& LOG_ID, const char* LOG_NAME);
+  /**
+   *  创建日志
+   */
+  bool CLOG(int& LOG_ID, const char* LOG_NAME);
 
    /**
     *  写日志
-	*/
+  */
    bool WLOG(uint32_t LOG_LEVEL, int& LOG_ID, const char* LOG_NAME, const char* ap);
 
   /**
