@@ -13,6 +13,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_shared_memory.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\shared_memory\mgt_shared_memory.hpp" />
+    <ClInclude Include="..\..\..\middleware\shared_memory\shared_memory.hpp" />
+    <ClInclude Include="..\..\..\middleware\shared_memory\shared_memory_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\shared_memory\shared_memory_client.hpp" />
+    <ClInclude Include="..\..\..\middleware\shared_memory\shared_memory_middleware.hpp" />
+    <ClInclude Include="..\..\..\middleware\shared_memory\shared_memory_server.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC613EA6-FF8B-4868-90FC-A9FAD4815F60}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

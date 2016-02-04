@@ -1,7 +1,7 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/socket_io/lpthread.h"
+#include "middleware/socket_io/lpthread.hpp"
 
 #include <boost/function.hpp>
 

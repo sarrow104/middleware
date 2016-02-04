@@ -1,7 +1,7 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/tools/segmentation_pack/segmentation_pack.h"
+#include "middleware/tools/segmentation_pack/segmentation_pack.hpp"
 
 #include <iostream>
 #include <stdlib.h>

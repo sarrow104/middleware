@@ -4,8 +4,8 @@
 #ifndef MGT_SOCKET_SHARED_MEMORY_H
 #define MGT_SOCKET_SHARED_MEMORY_H
 
-#include "shared_memory_client.h"
-#include "shared_memory_server.h"
+#include "middleware/shared_memory/shared_memory_client.hpp"
+#include "middleware/shared_memory/shared_memory_server.hpp"
 
 namespace middleware {
 

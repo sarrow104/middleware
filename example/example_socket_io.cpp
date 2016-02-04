@@ -1,8 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/socket_io/gateway_client.h"
-#include "middleware/socket_io/gateway_server.h"
+#include "middleware/socket_io/gateway_client.hpp"
+#include "middleware/socket_io/gateway_server.hpp"
 
 #include <iostream>
 

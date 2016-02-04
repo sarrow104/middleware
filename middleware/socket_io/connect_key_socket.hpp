@@ -3,9 +3,9 @@
 
 #ifndef CONNECT_KEY_SOCKET_H
 #define CONNECT_KEY_SOCKET_H
-#include "lpthread.h"
-#include "socket_head.h"
-#include "middleware/tools/threadpool/threadpool.h"
+#include "middleware/socket_io/lpthread.hpp"
+#include "middleware/socket_io/socket_head.hpp"
+#include "middleware/tools/threadpool/threadpool.hpp"
 
 #include <boost/function.hpp>
 #include <boost/bimap.hpp>

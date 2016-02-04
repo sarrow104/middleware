@@ -15,6 +15,11 @@
     <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\loop_array\looparray.hpp" />
+    <ClInclude Include="..\..\..\middleware\loop_array\loop_array_middleware.hpp" />
+    <ClInclude Include="..\..\..\middleware\loop_array\loop_array_write_callback_helper.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EDFCBC80-ABEB-44E1-AA91-014518B25F7F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

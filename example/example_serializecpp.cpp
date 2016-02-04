@@ -2,9 +2,9 @@
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include <iostream>
-#include "middleware/tools/serializecpp/serializecpp.h"
-#include "middleware/tools/serializecpp/unserializecpp.h"
-#include "middleware/tools/serializecpp/serializecpp_class.h"
+#include "middleware/tools/serializecpp/serializecpp.hpp"
+#include "middleware/tools/serializecpp/unserializecpp.hpp"
+#include "middleware/tools/serializecpp/serializecpp_class.hpp"
 using namespace std;
 
 /**

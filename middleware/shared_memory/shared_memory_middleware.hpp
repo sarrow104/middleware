@@ -4,7 +4,7 @@
 #ifndef SHARED_MEMORY_MIDDLEARE_H
 #define SHARED_MEMORY_MIDDLEARE_H
 
-#include "mgt_shared_memory.h"
+#include "middleware/shared_memory/mgt_shared_memory.hpp"
 
 namespace middleware {
 

@@ -4,7 +4,7 @@
 #ifndef GATEWAY_SHARED_MEMORY_SERVER_H
 #define GATEWAY_SHARED_MEMORY_SERVER_H
 
-#include "shared_memory_base.h"
+#include "middleware/shared_memory/shared_memory_base.hpp"
 
 namespace middleware {
 

@@ -5,8 +5,8 @@
 #define SOCKET_HEAD_H
 
 
-#include "middleware/tools/logsys/logsys.h"
-#include "middleware/tools/logsys/logdef.h"
+#include "middleware/tools/logsys/logsys.hpp"
+#include "middleware/tools/logsys/logdef.hpp"
 
 
 #ifdef _MSC_VER
