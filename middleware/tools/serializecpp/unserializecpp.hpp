@@ -7,18 +7,18 @@
 #include <cstdlib>
 
 /* 宏定义为了方便添加 set map 类的关联容器 */
-#define DEF_POP_SET_TYPE( TYPE )													                          \
-  template <typename T_DATA>															                          \
-  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)					\
-  {																							                                    \
-    return pop_set( ap, aplen, aivaluesarr);											                 	\
+#define DEF_POP_SET_TYPE( TYPE )                                                    \
+  template <typename T_DATA>                                                        \
+  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)          \
+  {                                                                                 \
+    return pop_set( ap, aplen, aivaluesarr);                                        \
   }
 
-#define DEF_POP_MAP_TYPE( TYPE )															                       \
-  template <typename T_DATA1,typename T_DATA2>												               \
+#define DEF_POP_MAP_TYPE( TYPE )                                                     \
+  template <typename T_DATA1,typename T_DATA2>                                       \
   static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
-  {																							                                     \
-    return pop_map( ap, aplen, aivaluesarr );												                 \
+  {                                                                                  \
+    return pop_map( ap, aplen, aivaluesarr );                                        \
   }
 namespace middleware {
   namespace tools {

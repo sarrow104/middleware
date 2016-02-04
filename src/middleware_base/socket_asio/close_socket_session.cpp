@@ -6,36 +6,36 @@
 
 namespace middleware {
 
-	void close_socket_session::close_run()
-	{
-		std::vector< data_pair > m_temp_ls;
-		std::vector< data_pair >::iterator itor;
-		while (1)
-		{
-			m_sem.wait();
-			m_lock.lock();
-			if (m_ls.empty())
-			{
-				m_lock.unlock();
-				continue;
-			}
-			else
-			{
-				m_temp_ls.swap(m_ls);
-				m_lock.unlock();
-			}
+  void close_socket_session::close_run()
+  {
+    std::vector< data_pair > m_temp_ls;
+    std::vector< data_pair >::iterator itor;
+    while (1)
+    {
+      m_sem.wait();
+      m_lock.lock();
+      if (m_ls.empty())
+      {
+        m_lock.unlock();
+        continue;
+      }
+      else
+      {
+        m_temp_ls.swap(m_ls);
+        m_lock.unlock();
+      }
 
-			itor = m_temp_ls.begin();
+      itor = m_temp_ls.begin();
 
-			while (itor != m_temp_ls.end())
-			{
-				(*itor).m_ptr->close((*itor).closesocketcount, (*itor).m_send_protocol);
-				++itor;
-			}
+      while (itor != m_temp_ls.end())
+      {
+        (*itor).m_ptr->close((*itor).closesocketcount, (*itor).m_send_protocol);
+        ++itor;
+      }
 
-			m_temp_ls.clear();
-		}
-	}
+      m_temp_ls.clear();
+    }
+  }
 
 } //namespace middleware 
 

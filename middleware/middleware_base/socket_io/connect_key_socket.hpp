@@ -64,105 +64,105 @@ namespace middleware {
     SOCKET m_socket;
     static boost::bimap<SOCKET, key_ip_port>  m_socket_key;
     boost::function<bool(SOCKET)> m_recvfun;
-	/**
-	 *  初始化socket
-	 */
-	void initsocket()
-	{
+  /**
+   *  初始化socket
+   */
+  void initsocket()
+  {
 #ifdef _MSC_VER
-		WSADATA wsaData;
-		if (WSAStartup(MAKEWORD(2, 2), &wsaData))
-		{
-			WSACleanup();
-			return;
-		}
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData))
+    {
+      WSACleanup();
+      return;
+    }
 #endif
-		return;
-	}
+    return;
+  }
 
-	/**
-	 * 创建连接
-	 */
-	SOCKET create_con(uint32_t aikey, const char* aiserverip, int32_t aiserverport)
-	{
-		SOCKET lsock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		/** 构建服务器地址信息 */
-		struct sockaddr_in laddr;
-		laddr.sin_family = AF_INET;
-		laddr.sin_port = htons(aiserverport);
-		laddr.sin_addr.s_addr = inet_addr(aiserverip);
-		/** 连接服务器 */
-		while (connect(lsock, (struct sockaddr *)&laddr, sizeof(laddr)) == SOCKET_ERROR)
-		{
-			//ErrlogWrite(G_LOGMSG_SOCKET,ERROR_SOCKET_INIT_NUM,"connect()");
-			closesocket(lsock);
+  /**
+   * 创建连接
+   */
+  SOCKET create_con(uint32_t aikey, const char* aiserverip, int32_t aiserverport)
+  {
+    SOCKET lsock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    /** 构建服务器地址信息 */
+    struct sockaddr_in laddr;
+    laddr.sin_family = AF_INET;
+    laddr.sin_port = htons(aiserverport);
+    laddr.sin_addr.s_addr = inet_addr(aiserverip);
+    /** 连接服务器 */
+    while (connect(lsock, (struct sockaddr *)&laddr, sizeof(laddr)) == SOCKET_ERROR)
+    {
+      //ErrlogWrite(G_LOGMSG_SOCKET,ERROR_SOCKET_INIT_NUM,"connect()");
+      closesocket(lsock);
 #ifdef WIN32
-			WSACleanup();
+      WSACleanup();
 #endif
-			boost::this_thread::sleep(boost::posix_time::seconds(1));
-		}
-		return lsock;
-	}
+      boost::this_thread::sleep(boost::posix_time::seconds(1));
+    }
+    return lsock;
+  }
 
   public:
     connect_key_socket(boost::function<bool(SOCKET)> airecv) :
       m_recvfun(airecv)
     {
-	  CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
+    CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
       initsocket();
     }
 
-	/**
-	 * 进一步确认创建连接
-	 */
-	bool send_key(uint32_t aikey, const char* aiserverip, int32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
-	{
-		m_socket = create_con(aikey, aiserverip, aiserverport);
-		char lsendkey[32] = { 0 };
-		char lrecvkey[32] = { 0 };
-		size_t lsendlen = strlen(lsendkey) + 1;
-		if (g_send(m_socket, (const char*)&aikey, sizeof(uint32_t)) > 0)
-		{
-			size_t lrecvlen = g_recv(m_socket, lrecvkey, 32);
-			if (lrecvlen < sizeof(uint32_t))
-			{
-				/** 失败 */
-				closehandle(m_socket);
-				LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
-				return false;
-			}
-			else
-			{
-				if (*((uint32_t*)(lrecvkey)) != aikey)
-				{
-					LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
-					/** 失败 */
-					closehandle(m_socket);
-					return false;
-				}
-			}
-		}
-		key_ip_port lkey_ip_port(aikey, aiserverip, aiserverport, aisendfailure);
-		auto itor = m_socket_key.right.find(lkey_ip_port);
-		if (itor != m_socket_key.right.end())
-		{
-			m_socket_key.right.erase(itor);
-		}
-		(m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(m_socket, lkey_ip_port))).second;
+  /**
+   * 进一步确认创建连接
+   */
+  bool send_key(uint32_t aikey, const char* aiserverip, int32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
+  {
+    m_socket = create_con(aikey, aiserverip, aiserverport);
+    char lsendkey[32] = { 0 };
+    char lrecvkey[32] = { 0 };
+    size_t lsendlen = strlen(lsendkey) + 1;
+    if (g_send(m_socket, (const char*)&aikey, sizeof(uint32_t)) > 0)
+    {
+      size_t lrecvlen = g_recv(m_socket, lrecvkey, 32);
+      if (lrecvlen < sizeof(uint32_t))
+      {
+        /** 失败 */
+        closehandle(m_socket);
+        LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
+        return false;
+      }
+      else
+      {
+        if (*((uint32_t*)(lrecvkey)) != aikey)
+        {
+          LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
+          /** 失败 */
+          closehandle(m_socket);
+          return false;
+        }
+      }
+    }
+    key_ip_port lkey_ip_port(aikey, aiserverip, aiserverport, aisendfailure);
+    auto itor = m_socket_key.right.find(lkey_ip_port);
+    if (itor != m_socket_key.right.end())
+    {
+      m_socket_key.right.erase(itor);
+    }
+    (m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(m_socket, lkey_ip_port))).second;
 
-		//boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
-		 middleware::tools::threadpool::asyn_thread( boost::bind(&connect_key_socket::recv, this, m_socket) );
-		return true;
-	}
+    //boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
+     middleware::tools::threadpool::asyn_thread( boost::bind(&connect_key_socket::recv, this, m_socket) );
+    return true;
+  }
 
   void recv(SOCKET aisocket)
   {
     m_recvfun(aisocket);
   }
 
-	 /*
-	  *  通过key获取socket
-	  */
+   /*
+    *  通过key获取socket
+    */
     bool get_socket(uint32_t aikey, SOCKET& aisocket)
     {
       auto itor = m_socket_key.right.find(aikey);
@@ -178,9 +178,9 @@ namespace middleware {
       }
     }
 
-	/*
-	 *  通过socket获取key
-	 */
+  /*
+   *  通过socket获取key
+   */
     bool get_key(uint32_t& aikey, SOCKET aisocket)
     {
       auto itor = m_socket_key.left.find(aisocket);
@@ -196,17 +196,17 @@ namespace middleware {
       }
     }
 
-	/*
-	 *  关闭socket
-	 */
+  /*
+   *  关闭socket
+   */
     void closehandle(SOCKET aisocket)
     {
       closesocket(m_socket);
     }
 
-	/*
-	 *  通过key关闭socket
-	 */
+  /*
+   *  通过key关闭socket
+   */
     bool closekey(uint32_t key)
     {
       auto itor = m_socket_key.right.find(key);
@@ -220,8 +220,8 @@ namespace middleware {
     }
 
     /*
-	 *  重连
-	 */
+     * 重连
+     */
     bool reconnect(SOCKET aisocket)
     {
       /* 移除 */

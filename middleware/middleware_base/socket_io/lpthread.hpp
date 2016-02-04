@@ -14,12 +14,12 @@ typedef boost::interprocess::interprocess_semaphore boost_sem;
 class pthread
 {
 public:
-	pthread():
-		thrd( boost::bind( &pthread::run, this ) )
-	{}
-	virtual int run()=0;
+  pthread():
+    thrd( boost::bind( &pthread::run, this ) )
+  {}
+  virtual int run()=0;
 private:
-	boost::thread thrd;
+  boost::thread thrd;
 };
 
 

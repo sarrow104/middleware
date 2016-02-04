@@ -13,7 +13,7 @@
 #include <iostream>
 
 namespace middleware{
-	
+  
   /**
    * accept_key_socket内部使用类
    */
@@ -152,7 +152,7 @@ namespace middleware{
 
       if (m_ssock == INVALID_SOCKET)
       {
-		LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"m_ssock == INVALID_SOCKET,errornum=[%d]", WSAGetLastError() );
+    LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"m_ssock == INVALID_SOCKET,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
       if (::bind(m_ssock, (struct sockaddr*)&m_saddr, sizeof(m_saddr)) == SOCKET_ERROR)
@@ -214,7 +214,7 @@ namespace middleware{
       auto itor = m_socket_key.left.find(aisocket);
       if (itor == m_socket_key.left.end())
       {
-		 return false;
+     return false;
       }
 
       if (itor->second.get_stat())

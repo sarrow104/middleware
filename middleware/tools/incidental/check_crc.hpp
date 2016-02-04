@@ -13,7 +13,7 @@ namespace middleware{
    */
   class check_crc
   {
-    boost::crc_32_type m_result;		/** crc 校验 */
+    boost::crc_32_type m_result;    /** crc 校验 */
   public:
     /**
      *  检查crc
@@ -23,7 +23,7 @@ namespace middleware{
 
       m_result.reset();
       m_result.process_bytes(  aibuf  , aisize );
-      /**	std::cout << "crc:[" << aicrc_values <<"]["<< m_result.checksum() << "]" << std::endl; */
+      /** std::cout << "crc:[" << aicrc_values <<"]["<< m_result.checksum() << "]" << std::endl; */
       return ( aicrc_values ==  m_result.checksum() ? true : false );
     }
 
