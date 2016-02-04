@@ -33,6 +33,9 @@
 **/log/
 **/v14/
 
+# backup
+*.bak
+
 # cmake/ clean
 /cmake/*
 !/cmake/CMakeLists.txt
