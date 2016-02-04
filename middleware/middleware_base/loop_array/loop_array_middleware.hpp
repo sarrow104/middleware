@@ -4,7 +4,7 @@
 #ifndef LOOP_ARRAY_MIDDLEWARE_H
 #define LOOP_ARRAY_MIDDLEWARE_H
 
-#include "middleware/loop_array/looparray.hpp"
+#include "middleware/middleware_base/loop_array/looparray.hpp"
 
 #include <map>
 #include <string>

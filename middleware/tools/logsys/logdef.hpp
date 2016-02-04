@@ -4,7 +4,6 @@
 #ifndef LOG_DEF_H
 #define LOG_DEF_H
 
-
 namespace middleware {
   namespace tools{
 

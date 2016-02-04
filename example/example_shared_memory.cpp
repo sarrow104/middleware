@@ -1,7 +1,7 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/shared_memory/shared_memory_middleware.hpp"
+#include "middleware/middleware_base/shared_memory/shared_memory_middleware.hpp"
 
 #include <iostream>
 

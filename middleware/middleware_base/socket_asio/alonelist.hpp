@@ -4,7 +4,7 @@
 #ifndef ALONE_LIST_H
 #define ALONE_LIST_H
 
-#include "middleware/socket_io/lpthread.hpp"
+#include "middleware/middleware_base/socket_io/lpthread.hpp"
 
 #include <boost/thread.hpp>
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
@@ -88,16 +88,6 @@ boost_sem alonelist<T>::mo_semls(0);
 
 
 
-
-
-
-
-
-
-
-
-
-
 /**
  *  普通链表,但是支持多线程获取元素和释放元素
  *  获取和添加元素加锁同步
@@ -170,11 +160,6 @@ public:
 		return m_size;
 	}
 };
-
-
-
-
-
 
 
 

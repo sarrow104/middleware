@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\protocol_head_handle_base.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\alonelist.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\close_socket_session.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\protocol_head_handle_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_asio_server_arg.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_asio_session_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_asio_tcp_io_service_pool.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_session_mapping.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />

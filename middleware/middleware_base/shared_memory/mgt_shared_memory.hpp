@@ -4,8 +4,8 @@
 #ifndef MGT_SOCKET_SHARED_MEMORY_H
 #define MGT_SOCKET_SHARED_MEMORY_H
 
-#include "middleware/shared_memory/shared_memory_client.hpp"
-#include "middleware/shared_memory/shared_memory_server.hpp"
+#include "middleware/middleware_base/shared_memory/shared_memory_client.hpp"
+#include "middleware/middleware_base/shared_memory/shared_memory_server.hpp"
 
 namespace middleware {
 
@@ -85,8 +85,8 @@ namespace middleware {
     communicate_module(
       const char* aismname,
       uint64_t  ai_client_byte_sum,
-      uint64_t ai_server_byte_sum,
-      uint32_t aieveryonemaxsize,
+      uint64_t  ai_server_byte_sum,
+      uint32_t  aieveryonemaxsize,
       boost::function<bool(char*, uint32_t&)> aifun,
       bool aiok = true
       ) :

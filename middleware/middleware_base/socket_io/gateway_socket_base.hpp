@@ -5,9 +5,9 @@
 #define GATEWAY_SOCKET_BASE_H
 
 
-#include "middleware/socket_io/socket_head.hpp"
-#include "middleware/socket_io/lpthread.hpp"
-#include "middleware/loop_array/looparray.hpp"
+#include "middleware/middleware_base/socket_io/socket_head.hpp"
+#include "middleware/middleware_base/socket_io/lpthread.hpp"
+#include "middleware/middleware_base/loop_array/looparray.hpp"
 
 #include <boost/function.hpp>
 

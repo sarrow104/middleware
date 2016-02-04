@@ -1,8 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/socket_io/lpthread.hpp"
-#include "middleware/loop_array/looparray.hpp"
+#include "middleware/middleware_base/socket_io/lpthread.hpp"
+#include "middleware/middleware_base/loop_array/looparray.hpp"
 #include "middleware/tools/logsys/logdef.hpp"
 
 #include <boost/filesystem.hpp>

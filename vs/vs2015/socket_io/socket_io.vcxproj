@@ -11,21 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\socket_io\accept_key_socket.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\connect_key_socket.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\gateway_client.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\gateway_server.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\gateway_socket_base.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\lpthread.hpp" />
-    <ClInclude Include="..\..\..\middleware\socket_io\socket_head.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\looparray.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\loop_array_middleware.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\loop_array_write_callback_helper.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\accept_key_socket.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\connect_key_socket.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\gateway_client.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\gateway_server.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\gateway_socket_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\lpthread.hpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\socket_io\socket_head.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logdef.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\threadpool\threadpool.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_socket_io.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\accept_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\connect_key_socket.cpp" />
-    <ClCompile Include="..\..\..\src\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />

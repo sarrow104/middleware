@@ -1,7 +1,7 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/loop_array/looparray.hpp"
+#include "middleware/middleware_base/loop_array/looparray.hpp"
 #include "middleware/tools/logsys/logsys.hpp"
 
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>

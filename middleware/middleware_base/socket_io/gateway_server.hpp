@@ -4,8 +4,8 @@
 #ifndef GATEWAY_SERVER_H
 #define GATEWAY_SERVER_H
 
-#include "middleware/socket_io/accept_key_socket.hpp"
-#include "middleware/socket_io/gateway_socket_base.hpp"
+#include "middleware/middleware_base/socket_io/accept_key_socket.hpp"
+#include "middleware/middleware_base/socket_io/gateway_socket_base.hpp"
 
 namespace middleware {
 

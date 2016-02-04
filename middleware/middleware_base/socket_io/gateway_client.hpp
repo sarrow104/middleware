@@ -4,8 +4,8 @@
 #ifndef GATEWAY_CLIENT_H
 #define GATEWAY_CLIENT_H
 
-#include "middleware/socket_io/connect_key_socket.hpp"
-#include "middleware/socket_io/gateway_socket_base.hpp"
+#include "middleware/middleware_base/socket_io/connect_key_socket.hpp"
+#include "middleware/middleware_base/socket_io/gateway_socket_base.hpp"
 
 #include <unordered_map>
 

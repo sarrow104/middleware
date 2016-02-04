@@ -4,7 +4,7 @@
 #ifndef GATEWAY_SHARED_MEMORY_BASE_H
 #define GATEWAY_SHARED_MEMORY_BASE_H
 
-#include "middleware/shared_memory/shared_memory.hpp"
+#include "middleware/middleware_base/shared_memory/shared_memory.hpp"
 
 #include <boost/interprocess/sync/named_semaphore.hpp>
 #include <boost/function.hpp>
