@@ -11,6 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_buffer.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_class.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\unserializecpp.hpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\..\example\example_serializecpp.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

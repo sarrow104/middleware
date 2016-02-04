@@ -7,9 +7,6 @@
 #include "middleware/tools/serializecpp/serializecpp.hpp"
 #include "middleware/tools/serializecpp/unserializecpp.hpp"
 
-
-
-
 namespace middleware {
   namespace tools {
 
@@ -68,7 +65,6 @@ namespace middleware {
         mp = nullptr;
         return lret;
       }
-
 
       serializecpp_buffer* get_serializecpp_buffer()
       {

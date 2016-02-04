@@ -33,11 +33,7 @@ int main()
 	uint32_t j = 0;
 	for (uint32_t i = 0; i <102400;++i)
 	{
-#if defined(_MSC_VER)
-		itoa(i, bufftemp, 10);
-#else
-    sprintf(bufftemp, "%d", i);
-#endif
+		sprintf(bufftemp, "%d", i);
 		*(uint32_t*)&(buff[j]) = (uint32_t)(strlen(bufftemp) + sizeof(uint32_t) +1);
 		j += sizeof(uint32_t);
 

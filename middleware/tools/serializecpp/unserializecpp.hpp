@@ -6,6 +6,20 @@
 
 #include <cstdlib>
 
+/* 宏定义为了方便添加 set map 类的关联容器 */
+#define DEF_POP_SET_TYPE( TYPE )													                          \
+  template <typename T_DATA>															                          \
+  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)					\
+  {																							                                    \
+    return pop_set( ap, aplen, aivaluesarr);											                 	\
+  }
+
+#define DEF_POP_MAP_TYPE( TYPE )															                       \
+  template <typename T_DATA1,typename T_DATA2>												               \
+  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
+  {																							                                     \
+    return pop_map( ap, aplen, aivaluesarr );												                 \
+  }
 namespace middleware {
   namespace tools {
     /*****************
@@ -19,7 +33,7 @@ namespace middleware {
       }
 
       /*
-       *  map pop 
+       *  map pop
        */
       template <typename T_DATA>
       static uint32_t pop_map(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
@@ -51,8 +65,8 @@ namespace middleware {
         return lsize;
       }
 
-      /* 
-       *  set pop 
+      /*
+       *  set pop
        */
       template <typename T_DATA>
       static uint32_t pop_set(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
@@ -181,20 +195,7 @@ namespace middleware {
       }
 
 
-/* 宏定义为了方便添加 set map 类的关联容器 */
-#define DEF_POP_SET_TYPE( TYPE )    \
-  template <typename T_DATA>\
-  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)\
-  {\
-    return pop_set( ap, aplen, aivaluesarr);\
-  }
 
-#define DEF_POP_MAP_TYPE( TYPE )  \
-  template <typename T_DATA1,typename T_DATA2>\
-  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)\
-  {\
-    return pop_map( ap, aplen, aivaluesarr );\
-  }
 
 #if 0
       template <typename T_DATA>
@@ -239,7 +240,7 @@ namespace middleware {
     class unserializecpp
     {
       /*
-       *  返回可用空间 
+       *  返回可用空间
        */
       static uint32_t get_have_len(serializecpp_buffer* mp_buffer_data)
       {

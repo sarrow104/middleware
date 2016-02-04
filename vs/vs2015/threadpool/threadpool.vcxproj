@@ -84,7 +84,7 @@
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\threadpool\threadpool.h" />
+    <ClInclude Include="..\..\..\middleware\tools\threadpool\threadpool.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

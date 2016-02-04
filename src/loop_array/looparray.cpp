@@ -335,8 +335,8 @@ namespace middleware {
           else
           {
             memcpy(&(m_temp_arr[m_temp_len]), ltemp_read, ailen);
-            m_temp_len += ailen;
-            lbodylen -= ailen;
+            m_temp_len += (uint16_t)ailen;
+            lbodylen -= (uint32_t)ailen;
             ltemp_read += ailen;
           }
           temp_size = 0;

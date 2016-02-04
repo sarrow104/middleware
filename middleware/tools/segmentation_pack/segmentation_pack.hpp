@@ -55,7 +55,7 @@ namespace middleware{
       {
         typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
         type_ump* m_ump;
-        boost::function<bool(char*,uint32_t)>* m_logic_fun;
+        boost::function<bool(T,char*,uint32_t)>* m_logic_fun;
         boost::mutex* m_lock;
 
         bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
@@ -93,7 +93,6 @@ namespace middleware{
             return false;
           }
         }
-
 
         /* hash���д��� */
         bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)

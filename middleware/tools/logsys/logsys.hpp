@@ -39,13 +39,13 @@
 
 #endif //_MSC_VER
 
-#define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)  \
-{\
-	char lch[256];\
-	if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )\
-	{\
-		 middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);\
-	}\
+#define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)						\
+{																																				\
+	char lch[256];																												\
+	if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )										\
+	{																																			\
+		 middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);				\
+	}																																			\
 }
 
 /**

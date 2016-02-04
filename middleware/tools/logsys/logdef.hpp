@@ -14,14 +14,10 @@ namespace middleware {
   } //namespace tools
 }//namespace middleware
 
-
 /** 为每个使用logsys模块的定义一个宏 */
 /** socket io模块 */
 #define LOG_SOCKET_IO_ID   ( middleware::tools::g_log_socked_io_id )
 #define LOG_SOCKET_IO_STR  ( "socket_io"  )
-
-
-
 
 #endif //LOG_DEF_H
 

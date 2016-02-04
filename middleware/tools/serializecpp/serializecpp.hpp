@@ -7,6 +7,21 @@
 
 #include <string.h>
 
+/* 宏定义为了方便添加 set map 类的关联容器 */
+#define DEF_PUSH_SET_TYPE( TYPE )													                      \
+  template <typename T_DATA>														                        \
+  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)			\
+  {																					                                    \
+    return push_set( ap, aplen, aivaluesarr);										                \
+  }
+
+#define DEF_PUSH_MAP_TYPE( TYPE )													                            \
+  template <typename T_DATA1,typename T_DATA2>										                    \
+  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
+  {																					                                          \
+    return push_map( ap, aplen, aivaluesarr );										                    \
+  }
+
 namespace middleware{
   namespace tools{
 
@@ -22,7 +37,7 @@ namespace middleware{
       }
 
       /*
-       *  关联容器中的set类 
+       *  关联容器中的set类
        */
       template <typename T_DATA>
       static uint32_t push_set(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
@@ -134,21 +149,6 @@ namespace middleware{
       {
         return serializecpp_base::push(ap, aplen, aivaluesarr.c_str(), aivaluesarr.size());
       }
-
-/* 宏定义为了方便添加 set map 类的关联容器 */
-#define DEF_PUSH_SET_TYPE( TYPE )    \
-  template <typename T_DATA>\
-  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)\
-  {\
-    return push_set( ap, aplen, aivaluesarr);\
-  }
-
-#define DEF_PUSH_MAP_TYPE( TYPE )  \
-  template <typename T_DATA1,typename T_DATA2>\
-  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)\
-  {\
-    return push_map( ap, aplen, aivaluesarr );\
-  }
 
 #if 0
       /*set*/

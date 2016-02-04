@@ -14,7 +14,7 @@
     <ClCompile Include="..\..\..\example\example_segmentation_pack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\segmentation_pack\segmentation_pack.h" />
+    <ClInclude Include="..\..\..\middleware\tools\segmentation_pack\segmentation_pack.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F28C8B45-C37C-49CC-B0DF-F23B74061E6C}</ProjectGuid>

@@ -10,6 +10,20 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\loop_array\looparray.hpp" />
+    <ClInclude Include="..\..\..\middleware\loop_array\loop_array_middleware.hpp" />
+    <ClInclude Include="..\..\..\middleware\loop_array\loop_array_write_callback_helper.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logdef.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_logsys.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{153C58BB-7103-478B-8BE2-BA3DF0EC95A2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -79,16 +93,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_logsys.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\looparray.cpp" />
-    <ClCompile Include="..\..\..\src\loop_array\loop_array_middleware.cpp" />
-    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
-    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
