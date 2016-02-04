@@ -11,9 +11,8 @@
 #include <cstdint>
 #include <unordered_map>
 
-
-#define MAKE_POOL(TYPE,NAME)				typedef boost::singleton_pool<pool_tag, sizeof(TYPE)> NAME;
-#define MALLOC_POOL(TYPE,NAME)				(TYPE*)NAME::malloc()
+#define MAKE_POOL(TYPE,NAME)						typedef boost::singleton_pool<pool_tag, sizeof(TYPE)> NAME;
+#define MALLOC_POOL(TYPE,NAME)					(TYPE*)NAME::malloc()
 #define FREE_POOL(TYPE,NAME,TYPE_PTR)		NAME::free(TYPE_PTR)
 
 #define CLOSE_COPY_READY_RESERVED			  (0)							/** 由系统为我预留空间 */
@@ -23,13 +22,9 @@
 # define RESERVED_AREA_SIZE						(0)							/** 保留区域 */
 #endif //RESERVED_AREA_SIZE
 
-
-
 #define SINGLE_DATA_SIZE							(1024)						/** 单条数据的字节 */
 #define GET_LEN( DATA )								*( (uint32_t*)(DATA) )
 typedef unsigned long IP_ADDRESS_TYPE;
-
-
 
 namespace middleware{
   namespace tools{
@@ -155,8 +150,7 @@ namespace middleware{
           }
         }
 
-        segmentation_pack();
-        segmentation_pack( const segmentation_pack&);
+       
         bool segmentation_data( T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
         {
 					/** CLOSE_COPY_READY_RESERVED定义为1,
@@ -242,6 +236,9 @@ namespace middleware{
 
         }
 
+				/** 禁止默认构造与拷贝 */
+				segmentation_pack();
+				segmentation_pack(const segmentation_pack&);
       public:
         segmentation_pack( boost::function<bool(T,char*,uint32_t)> ailogic_fun ):
           m_logic_fun( new boost::function<bool(T,char*,uint32_t)>() ),
@@ -251,20 +248,17 @@ namespace middleware{
           *m_logic_fun = ailogic_fun;
         }
 
-
         ~segmentation_pack(){
           delete m_ump;
           delete m_lock;
           delete m_logic_fun;
         }
 
-
-			/* 查找ip对应的资源*/
+				/* 查找ip对应的资源*/
         bool find_ump( type_ump::iterator& itor , IP_ADDRESS_TYPE aiip  ){
           itor = m_ump->find( aiip );
           return itor != m_ump->end() ;
         }
-
 
         bool segmentation(T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen)
         {
@@ -281,14 +275,7 @@ namespace middleware{
           }
           else
           {
-            //if( aidatalen >= protocol_server_head::POS::END_POS - server_head::POS::END_POS )
-            //{
             return segmentation_data( aithis , aiip , aidata , aidatalen );
-            //}
-            //else
-            //{
-            //	return false;
-            //}
           }
 
         }
