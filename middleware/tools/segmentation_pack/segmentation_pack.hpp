@@ -17,10 +17,10 @@
 #define FREE_POOL(TYPE,NAME,TYPE_PTR)		NAME::free(TYPE_PTR)
 
 #ifndef RESERVED_AREA_SIZE
-# define RESERVED_AREA_SIZE		(0)							/** �������� */
+# define RESERVED_AREA_SIZE		(0)							/** 保留区域 */
 #endif //RESERVED_AREA_SIZE
 
-#define SINGLE_DATA_SIZE		(1024)						/** �������ݵ��ֽ� */
+#define SINGLE_DATA_SIZE		(1024)						/** 单条数据的字节 */
 #define GET_LEN( DATA )			*( (uint32_t*)(DATA) )
 
 typedef unsigned long IP_ADDRESS_TYPE;
@@ -30,9 +30,9 @@ typedef unsigned long IP_ADDRESS_TYPE;
 namespace middleware{
   namespace tools{
 
-    /** ��������MAKE_POOL�� ���ǿ��� */
+		/** 仅仅用于MAKE_POOL的 标记空类 */
     struct pool_tag {};
-    /** ���ڱ���δ������������ */
+		/** 用于保存未接收完的数据 */
     struct  not_recv
     {
       uint32_t m_size;
@@ -43,12 +43,12 @@ namespace middleware{
         m_data = m_dataarr + RESERVED_AREA_SIZE;
       }
     };
-    /** �����ڴ��� */
-    MAKE_POOL(not_recv, pool_not_recv);			/** �ڴ��� */
+		/** 创建内存池 */
+		MAKE_POOL(not_recv, pool_not_recv);			/** 内存池 */
 
     /**
-     *  ����TCPճ������
-     *  �ְ�ģ��
+		 *  处理TCP粘包问题
+		 *  分包模块 
      */
 	  template <typename T>
       class  segmentation_pack
@@ -63,7 +63,7 @@ namespace middleware{
           char* ldata_copy = aidata;
           uint32_t ldatalen_copy = aidatalen;
 
-          /* ��ȡlen */
+				/* 获取len */
           uint32_t llen;
           if( ldatalen_copy > sizeof( uint32_t ) )
           {
@@ -71,10 +71,10 @@ namespace middleware{
           }
           else
           {
-            return false; /* �����Ѿ��ָ����� */
+					return false; /* 数据已经分割完成 */
           }
 
-          /* ��������len�Ƿ��Ϸ� */
+				/* 检验数据len是否合法 */
           if( llen > SINGLE_DATA_SIZE || llen == 0  )
           {
             airet = false;
@@ -95,10 +95,10 @@ namespace middleware{
         }
 
 
-        /* hash���д��� */
+			/* hash中有存货 */
         bool every_seg( T aithis,type_ump::iterator& itor , char*& aidata , uint32_t& aidatalen , bool& airet)
         {
-          /* ��ȡlen */
+				/* 获取len */
           uint32_t llen;
           if( itor->second->m_size >= sizeof( uint32_t ) )
           {
@@ -122,17 +122,17 @@ namespace middleware{
             }
           }
 
-          /* ��������len�Ƿ��Ϸ� */
+				/* 检验数据len是否合法 */
           if( llen > SINGLE_DATA_SIZE || llen == 0  )
           {
             airet = false;
           }
 
-          /* ������ʵ�ܳ��� llen */
-          /* �ѽ������ݳ��� itor->second->m_size + ldatalen_copy */
+				/* 数据真实总长度 llen */
+				/* 已接收数据长度 itor->second->m_size + ldatalen_copy */
           if( llen <= itor->second->m_size + aidatalen )
           {
-            /* ����Ҫ������������ lhavedatalen */
+					/* 还需要多少数据组成 lhavedatalen */
             uint32_t lhavedatalen = llen - itor->second->m_size;
             memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , lhavedatalen  );
             aidata += lhavedatalen;
@@ -141,7 +141,7 @@ namespace middleware{
 
             return true;
           }
-          else/* û����ȫ */
+				else/* 没接收全 */
           {
             memcpy( &( itor->second->m_data[ itor->second->m_size ] ) , aidata , aidatalen  );
             itor->second->m_size += aidatalen;
@@ -164,7 +164,7 @@ namespace middleware{
           while( 1 )
           {
             lbret2 = every_seg( aithis , ldata_copy , ldatalen_copy , lbret1);
-            if( !lbret1 )/* ���ݴ��� */
+					if( !lbret1 )/* 数据错误 */
             {
               return false;
             }
@@ -173,7 +173,7 @@ namespace middleware{
             {
               if( ldatalen_copy != 0 )
               {
-                /* ����stl �������� insert����ֵ */
+							/* 依赖stl 关联容器 insert返回值 */
                 not_recv* lp = MALLOC_POOL(not_recv, pool_not_recv);
 
                 // NOTE
@@ -187,8 +187,8 @@ namespace middleware{
               }
               else
               {
-                /* �ͷŷ�ʽ */
-                /* 1.ֱ���ͷ�ȫ����Դ*/
+							/* 释放方式 */
+							/* 1.直接释放全部资源*/
                 type_ump::iterator itor;
                 if( find_ump( itor , aiip ) )
                 {
@@ -211,14 +211,14 @@ namespace middleware{
           bool lbret2 = true;
 
           lbret2 = every_seg( aithis , itor , ldata_copy , ldatalen_copy , lbret1);
-          if( !lbret1 )/* ���ݴ��� */
+				if( !lbret1 )/* 数据错误 */
           {
             FREE_POOL( not_recv , pool_not_recv, itor->second );
             m_ump->erase( itor );
             return false;
           }
 
-          if( !lbret2 )/* ˵���Ѿ��޿������� */
+				if( !lbret2 )/* 说明已经无可用数据 */
           {
             return true;
           }
@@ -244,7 +244,7 @@ namespace middleware{
         }
 
 
-        /* ����ip��Ӧ����Դ*/
+			/* 查找ip对应的资源*/
         bool find_ump( type_ump::iterator& itor , IP_ADDRESS_TYPE aiip  ){
           itor = m_ump->find( aiip );
           return itor != m_ump->end() ;
@@ -261,7 +261,7 @@ namespace middleware{
 
           if(  find_ump( itor , aiip ) )
           {
-            /* �ҵ� */
+					/* 找到 */
             return segmentation_data( aithis , itor, aiip , aidata , aidatalen );
           }
           else
@@ -277,7 +277,7 @@ namespace middleware{
           }
 
         }
-        /* ǿ��ɾ��ĳ��ip����ռ�õ���Դ*/
+			/* 强制删除某个ip和其占用的资源*/
         void close( IP_ADDRESS_TYPE aiip ){
           boost::mutex::scoped_lock lock(*m_lock);
 
