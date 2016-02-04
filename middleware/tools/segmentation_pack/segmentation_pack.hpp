@@ -16,13 +16,17 @@
 #define MALLOC_POOL(TYPE,NAME)				(TYPE*)NAME::malloc()
 #define FREE_POOL(TYPE,NAME,TYPE_PTR)		NAME::free(TYPE_PTR)
 
+#define CLOSE_COPY_READY_RESERVED			  (0)							/** 由系统为我预留空间 */
+//#define CLOSE_COPY_READY_RESERVED			(1)							/** 输入数据队首由自己保留空间 */
+
 #ifndef RESERVED_AREA_SIZE
-# define RESERVED_AREA_SIZE		(0)							/** 保留区域 */
+# define RESERVED_AREA_SIZE						(0)							/** 保留区域 */
 #endif //RESERVED_AREA_SIZE
 
-#define SINGLE_DATA_SIZE		(1024)						/** 单条数据的字节 */
-#define GET_LEN( DATA )			*( (uint32_t*)(DATA) )
 
+
+#define SINGLE_DATA_SIZE							(1024)						/** 单条数据的字节 */
+#define GET_LEN( DATA )								*( (uint32_t*)(DATA) )
 typedef unsigned long IP_ADDRESS_TYPE;
 
 
@@ -55,7 +59,7 @@ namespace middleware{
       {
         typedef std::unordered_map< IP_ADDRESS_TYPE , not_recv*  >  type_ump;
         type_ump* m_ump;
-        boost::function<bool(char*,uint32_t)>* m_logic_fun;
+        boost::function<bool(T, char*,uint32_t)>* m_logic_fun;
         boost::mutex* m_lock;
 
         bool every_seg( T aithis,char*& aidata , uint32_t& aidatalen , bool& airet )
@@ -71,7 +75,7 @@ namespace middleware{
           }
           else
           {
-					return false; /* 数据已经分割完成 */
+					  return false; /* 数据已经分割完成 */
           }
 
 				/* 检验数据len是否合法 */
@@ -154,9 +158,19 @@ namespace middleware{
         segmentation_pack();
         segmentation_pack( const segmentation_pack&);
         bool segmentation_data( T aithis,IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
-
         {
-          char* ldata_copy = aidata;
+					/** CLOSE_COPY_READY_RESERVED定义为1,
+					 *  你么你需要确保aidata指针所指向的数据前面已经预留保留空间,
+					 *  否则系统将自动分配一个有保留区域的buffer 
+					 */
+#if  ( CLOSE_COPY_READY_RESERVED && (RESERVED_AREA_SIZE != 0) )
+					char ldata_buff[ RESERVED_AREA_SIZE + SINGLE_DATA_SIZE ];
+					char* ldata_copy = &(ldata_buff[RESERVED_AREA_SIZE]);
+					memcpy( ldata_copy, aidata, aidatalen);
+#else
+					char* ldata_copy = aidata;
+#endif
+          
           uint32_t ldatalen_copy = aidatalen;
           bool lbret1 = true;
           bool lbret2 = true;
@@ -164,7 +178,7 @@ namespace middleware{
           while( 1 )
           {
             lbret2 = every_seg( aithis , ldata_copy , ldatalen_copy , lbret1);
-					if( !lbret1 )/* 数据错误 */
+						if( !lbret1 )/* 数据错误 */
             {
               return false;
             }
@@ -173,14 +187,16 @@ namespace middleware{
             {
               if( ldatalen_copy != 0 )
               {
-							/* 依赖stl 关联容器 insert返回值 */
-                not_recv* lp = MALLOC_POOL(not_recv, pool_not_recv);
-
+								/* 依赖stl 关联容器 insert返回值 */
                 // NOTE
                 // gcc is more strict about const reference from a tmp rvalue;
                 // comment-out by sarrow104 2016-02-03
                 // type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
-                const type_ump::iterator& itor = m_ump->insert( std::make_pair( aiip , lp )).first;
+                const type_ump::iterator& itor = m_ump->insert( 
+									std::make_pair( 
+										aiip , MALLOC_POOL(not_recv, pool_not_recv)
+										)
+									).first;
                 itor->second->set();
                 memcpy( itor->second->m_data , ldata_copy , ldatalen_copy );
                 itor->second->m_size = ldatalen_copy;
@@ -201,7 +217,6 @@ namespace middleware{
           }
           return true;
         }
-
 
         bool segmentation_data( T aithis,type_ump::iterator& itor , IP_ADDRESS_TYPE aiip , char* aidata , uint32_t aidatalen )
         {
