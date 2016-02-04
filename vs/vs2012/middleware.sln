@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segmentation_pack", "segmen
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_asio", "socket_asio\socket_asio.vcxproj", "{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "middleware_base", "middleware_base\middleware_base.vcxproj", "{DFAEFC5D-E7B3-40DB-A707-839A23E33441}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -55,6 +57,10 @@ Global
 		{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}.Debug|Win32.Build.0 = Debug|Win32
 		{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}.Release|Win32.ActiveCfg = Release|Win32
 		{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}.Release|Win32.Build.0 = Release|Win32
+		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Debug|Win32.Build.0 = Debug|Win32
+		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Release|Win32.ActiveCfg = Release|Win32
+		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

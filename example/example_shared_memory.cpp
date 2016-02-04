@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         aplen = 0;
         return true;
       };
-      middleware::middleware_sms  abc( "kk" , 1024 , 1024 , 128, funservercallback );
+      middleware::middleware_sm_server  abc( "kk" , 1024 , 1024 , 128, funservercallback );
       uint32_t lnum = 900;
       char cbuf[128];
       uint32_t litemp;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         aplen = 0;
         return true;
       };
-      middleware::middleware_smc  abc( "kk", 1024, 1024, 128, funclientcallback );
+      middleware::middleware_sm_client  abc( "kk", 1024, 1024, 128, funclientcallback );
 
       uint32_t lnum = 0;
       char cbuf[128];
