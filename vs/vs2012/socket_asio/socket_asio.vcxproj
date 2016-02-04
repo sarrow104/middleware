@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\socket_asio\alonelist.hpp" />
+    <ClInclude Include="..\..\..\middleware\socket_asio\protocol_head_handle_base.hpp" />
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_session_base.hpp" />
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_asio_tcp_io_service_pool.hpp" />
     <ClInclude Include="..\..\..\middleware\socket_asio\socket_session_mapping.hpp" />

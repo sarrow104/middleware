@@ -7,7 +7,7 @@
 
 #include "middleware/socket_asio/socket_asio_tcp_io_service_pool.hpp"
 #include "middleware/socket_asio/socket_session_mapping.hpp"
-
+#include "middleware/tools/segmentation_pack/segmentation_pack.hpp"
 
 #include <array>
 

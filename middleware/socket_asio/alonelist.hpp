@@ -4,12 +4,21 @@
 #ifndef ALONE_LIST_H
 #define ALONE_LIST_H
 
-#include "middleware/socket_io/lpthread.h"
+#include "middleware/socket_io/lpthread.hpp"
 
 #include <boost/thread.hpp>
 #include <boost/interprocess/sync/interprocess_semaphore.hpp>
 
 #include <vector>
+
+//2
+#include <list>
+#include <map>
+
+#include <boost/multi_index_container.hpp> 
+#include <boost/multi_index/member.hpp> 
+#include <boost/multi_index/ordered_index.hpp> 
+
 
 namespace middleware {
 
@@ -167,15 +176,8 @@ public:
 
 
 
-#include <list>
-#include <map>
 
-#include <multi_index_container.hpp> 
-#include <multi_index/member.hpp> 
-#include <multi_index/ordered_index.hpp> 
 
-using namespace boost;  
-using namespace boost::multi_index;  
 
 struct key_values
 {
@@ -186,11 +188,11 @@ struct key_values
 struct stu_count{};   // 索引-uid 
 struct stu_pos{};  // 索引-uname  
   
-typedef  multi_index_container<  
-	 key_values,  
-	 indexed_by<  
-	 ordered_non_unique<  tag<stu_count>, BOOST_MULTI_INDEX_MEMBER(key_values,uint32_t,m_key_count)> , 
-	 ordered_unique<  tag<stu_pos>,  BOOST_MULTI_INDEX_MEMBER(key_values,uint32_t,m_values_pos)> 
+typedef  boost::multi_index::multi_index_container<
+		key_values,  
+		boost::multi_index::indexed_by<
+		boost::multi_index::ordered_non_unique<  boost::multi_index::tag<stu_count>, BOOST_MULTI_INDEX_MEMBER(key_values,uint32_t,m_key_count)> ,
+		boost::multi_index::ordered_unique<  boost::multi_index::tag<stu_pos>,  BOOST_MULTI_INDEX_MEMBER(key_values,uint32_t,m_values_pos)>
 	 >  
  > map_key_values;  
 
@@ -228,7 +230,6 @@ public:
 		arr_copy[ m_count-1 ].reserve( aivec.size() );
 		std::copy( aivec.begin() , aivec.end() , arr[ m_count-1 ].begin() );
 
-
 		key_values ltemp;
 		ltemp.m_key_count = 0;
 		ltemp.m_values_pos = m_count - 1;
@@ -243,7 +244,6 @@ public:
 		key_values lkv;
 		while(1)
 		{
-			
 			map_key_values__count& lkvc = arr_key_size.get<stu_count>();
 			itor = lkvc.begin();
 			lkv = *itor;
@@ -264,10 +264,6 @@ public:
 				continue;
 			}
 			
-
-
-			
-
 			T* ret = *( (*parr)[ lkv.m_values_pos  ] ).rbegin();
 			( (*parr)[ lkv.m_values_pos  ] ).pop_back();
 

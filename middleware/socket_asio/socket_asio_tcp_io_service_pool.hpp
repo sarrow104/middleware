@@ -22,8 +22,8 @@ namespace middleware {
 		{ 
 			for (std::size_t i = 0; i < m_recvthreadsize + 1 ; ++ i)
 			{
-				io_service_sptr lio_service(new boost::asio::io_service());
-				work_sptr work(new boost::asio::io_service::work(*lio_service));
+				boost::shared_ptr<boost::asio::io_service> lio_service(new boost::asio::io_service());
+				boost::shared_ptr<boost::asio::io_service::work> work(new boost::asio::io_service::work(*lio_service));
 				io_services_.push_back( lio_service );
 				work_.push_back(work);
 			}
@@ -59,12 +59,9 @@ namespace middleware {
 
 
 	private:
-		typedef boost::shared_ptr<boost::asio::io_service> io_service_sptr;
-		typedef boost::shared_ptr<boost::asio::io_service::work> work_sptr;
-		typedef boost::shared_ptr<boost::thread> thread_sptr;
-		std::vector<io_service_sptr> io_services_;
-		std::vector<work_sptr> work_;
-		std::vector<thread_sptr> threads_; 
+		std::vector< boost::shared_ptr<boost::asio::io_service> > io_services_;
+		std::vector< boost::shared_ptr<boost::asio::io_service::work>> work_;
+		//std::vector< boost::shared_ptr<boost::thread> > threads_;
 		std::size_t next_io_service_;
 		uint32_t m_recvthreadsize;
 	};
