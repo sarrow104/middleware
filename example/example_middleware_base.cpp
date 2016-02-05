@@ -1,7 +1,7 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-﻿#include "middleware/middleware_base/middleware_base.hpp"
+#include "middleware/middleware_base/middleware_base.hpp"
 
 #include <iostream>
 
@@ -127,20 +127,6 @@ int main(int argc, char *argv[])
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 PRINT_ERR_RET:
 	cout <<
 				 "/** "<<endl;
@@ -157,5 +143,5 @@ PRINT_ERR_RET:
 
 	return 0;
 }
-﻿
+
  /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
