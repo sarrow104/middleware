@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\3part;$(ProjectDir)..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -148,11 +148,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.h" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\cmiddleware_base.h" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\middleware\middleware_base\Source.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\cmiddleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
+    <ClCompile Include="example_middleware_base.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

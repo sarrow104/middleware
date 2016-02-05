@@ -22,7 +22,7 @@ namespace middleware {
     shared_memory_base* m_server;
     std::string m_namestr;
     uint32_t m_everyone_maxsize;
-    boost::function<bool(char*, uint32_t&)> m_recv_callbackfun;
+    boost::function<bool(const char*, uint32_t)> m_recv_callbackfun;
     bool m_ok;
 
   /*
@@ -87,7 +87,7 @@ namespace middleware {
       uint64_t  ai_client_byte_sum,
       uint64_t  ai_server_byte_sum,
       uint32_t  aieveryonemaxsize,
-      boost::function<bool(char*, uint32_t&)> aifun,
+      boost::function<bool(const char*, uint32_t)> aifun,
       bool aiok = true
       ) :
       m_client_byte_sum(ai_client_byte_sum),

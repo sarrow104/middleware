@@ -1,4 +1,4 @@
-///        Copyright 2016 libo. All rights reserved
+ï»¿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 
@@ -12,11 +12,11 @@
 namespace middleware {
 	
 	/**
-	*  ÖĞ¼ä¼ş
-	*  ÓÃ¹¹Ôìº¯Êı
-	*  Çø·Ö
-	*  Ñ­»·Êı×é,
-	*  ¹²ÏíÄÚ´æ,
+	*  ä¸­é—´ä»¶
+	*  ç”¨æ„é€ å‡½æ•°
+	*  åŒºåˆ†
+	*  å¾ªç¯æ•°ç»„,
+	*  å…±äº«å†…å­˜,
 	*  socket
 	*/
 	class middleware_base
@@ -27,14 +27,14 @@ namespace middleware {
 	};
 	
  /**
-  *  ¹²ÏíÄÚ´æ¿Í»§¶Ë
+  *  å…±äº«å†…å­˜å®¢æˆ·ç«¯
   */
   class middleware_sm_server :
 		public middleware_base
 	{
 		communicate_module m_sms;
 	public:
-		middleware_sm_server(const char* aismname, uint64_t  ai_client_byte_sum, uint64_t ai_server_byte_sum, uint32_t aieveryonemaxsize, boost::function<bool(char*, uint32_t&)> logic_fun) :
+		middleware_sm_server(const char* aismname, uint64_t  ai_client_byte_sum, uint64_t ai_server_byte_sum, uint32_t aieveryonemaxsize, boost::function<bool(const char*, uint32_t)> logic_fun) :
 			m_sms(aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun, true)
 		{}
 
@@ -47,13 +47,13 @@ namespace middleware {
 
 		virtual bool close()
 		{
-			/** Î´ÊµÏÖ*/
+			/** æœªå®ç°*/
 			return true;
 		}
 	};
 
   /**
-   *  ¹²ÏíÄÚ´æ¿Í»§¶Ë
+   *  å…±äº«å†…å­˜å®¢æˆ·ç«¯
    *  shared memory client
    */
   class middleware_sm_client :
@@ -61,7 +61,7 @@ namespace middleware {
   {
     communicate_module m_smc;
   public:
-    middleware_sm_client(const char* aismname, uint64_t  ai_client_byte_sum, uint64_t ai_server_byte_sum, uint32_t aieveryonemaxsize, boost::function<bool(char*, uint32_t&)> logic_fun) :
+    middleware_sm_client(const char* aismname, uint64_t  ai_client_byte_sum, uint64_t ai_server_byte_sum, uint32_t aieveryonemaxsize, boost::function<bool(const char*, uint32_t)> logic_fun) :
       m_smc(aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun, false)
     {
     }
@@ -75,14 +75,14 @@ namespace middleware {
 
     virtual bool close()
     {
-      /** Î´ÊµÏÖ */
+      /** æœªå®ç° */
       return true;
     }
   };
 
 
   /**
-   *  Ñ­»·Êı×é·şÎñÆ÷
+   *  å¾ªç¯æ•°ç»„æœåŠ¡å™¨
    */
   class middleware_la_server :
 		public middleware_base
@@ -93,9 +93,8 @@ namespace middleware {
 			uint32_t apbuffersize,
 			uint32_t aieverymaxsize,
 			FUN_READ_CALLBACK aireadfun,
-			bool apstartthread,
-			bool apisclient) :
-		m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, apisclient)
+			bool apstartthread) :
+		m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, true)
 		{}
 
 		virtual bool send(char* apdata, uint32_t aiwlen)
@@ -110,7 +109,7 @@ namespace middleware {
 	};
 
   /**
-   *  Ñ­»·Êı×é¿Í»§¶Ë
+   *  å¾ªç¯æ•°ç»„å®¢æˆ·ç«¯
    */
   class middleware_la_client :
 	  public middleware_base
@@ -121,9 +120,8 @@ namespace middleware {
 		  uint32_t apbuffersize,
 		  uint32_t aieverymaxsize,
 		  FUN_READ_CALLBACK aireadfun,
-		  bool apstartthread,
-		  bool apisclient) :
-	  m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, apisclient)
+		  bool apstartthread) :
+	  m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, false)
 	  {}
 
 	  virtual bool send(char* apdata, uint32_t aiwlen)
@@ -140,10 +138,10 @@ namespace middleware {
 
 
 	/**
-	*  Ò»¶Ô¶àÖĞ¼ä¼ş
-	*  ·şÎñÆ÷Í¨¹ıkeyÓë¿Í»§¶ËÁªÏµ  
-	*  ÓÃ¹¹Ôìº¯Êı
-	*  Çø·Ö
+	*  å¤šå¯¹å¤šä¸­é—´ä»¶
+	*  æœåŠ¡å™¨é€šè¿‡keyä¸å®¢æˆ·ç«¯è”ç³»  
+	*  ç”¨æ„é€ å‡½æ•°
+	*  åŒºåˆ†
 	*  socket io
 	*  socket asio
 	*/
@@ -156,7 +154,7 @@ namespace middleware {
 
 
   /**
-   *  socket io ·şÎñÆ÷
+   *  socket io æœåŠ¡å™¨
    */
   class middleware_soio_server :
 		public multi_middleware_base
@@ -184,7 +182,7 @@ namespace middleware {
 	};
 
   /**
-   *  socket io ¿Í»§¶Ë
+   *  socket io å®¢æˆ·ç«¯
    */
   class middleware_soio_client :
 	  public multi_middleware_base

@@ -4,7 +4,7 @@
 #ifndef SHARED_MEMORY_MIDDLEARE_H
 #define SHARED_MEMORY_MIDDLEARE_H
 
-#include "middleware/middleware_base/middleware_base.h"
+#include "middleware/middleware_base/middleware_base.hpp"
 
 #endif //SHARED_MEMORY_MIDDLEARE_H
 

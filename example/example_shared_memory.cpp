@@ -14,10 +14,9 @@ int main(int argc, char *argv[])
     if(memcmp(argv[1],"-s",sizeof("-s")  ) == 0)
     {
       /** boost::function<bool ( char* ,uint32_t& )> */
-      auto funservercallback = []( char* ap ,uint32_t& aplen)
+      auto funservercallback = []( const char* ap ,uint32_t aplen)
       {
         cout << ap << endl;
-        aplen = 0;
         return true;
       };
       middleware::middleware_sm_server  abc( "kk" , 1024 , 1024 , 128, funservercallback );
@@ -33,10 +32,9 @@ int main(int argc, char *argv[])
     else if(memcmp(argv[1],"-c",sizeof("-c")  ) == 0)
     {
       /** boost::function<bool ( char* ,uint32_t& )> */
-      auto funclientcallback = []( char* ap ,uint32_t& aplen)
+      auto funclientcallback = [](const char* ap ,uint32_t aplen)
       {
         cout << ap << endl;
-        aplen = 0;
         return true;
       };
       middleware::middleware_sm_client  abc( "kk", 1024, 1024, 128, funclientcallback );
