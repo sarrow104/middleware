@@ -100,7 +100,6 @@ namespace middleware {
           break;
         }
       }
-
       return &((static_cast<char*>(m_head->m_create_w))[EVERY_ONE_SIZE_SIZE]);
     }
 

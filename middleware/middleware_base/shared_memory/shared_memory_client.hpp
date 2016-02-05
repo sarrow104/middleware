@@ -17,7 +17,7 @@ namespace middleware {
     shared_memory_client();
     shared_memory_client(const shared_memory_client&);
     bool m_start;/*只有调用过start 才能调用finish*/
-    boost::function<bool(char*, uint32_t&)> m_fun;
+    boost::function<bool(const char*, uint32_t)> m_fun;
 
   /**
    *  初始化
@@ -58,7 +58,7 @@ namespace middleware {
   /**
    *  设置回调
    */
-  void set_callback(boost::function<bool(char*, uint32_t&)> aifun)
+  void set_callback(boost::function<bool(const char*, uint32_t)> aifun)
   {
     m_fun = aifun;
     boost::thread(boost::bind(&shared_memory_client::rget, this));
@@ -107,16 +107,15 @@ namespace middleware {
 
     void rget()
     {
-      uint32_t llen;
-      bool lbret = false;
-      while (1)
+      static int i = 0;
+      uint32_t llen  = 0;
+      char* ap       = nullptr;
+      bool lbret     = true;
+      while (lbret)
       {
-        lbret = m_fun(rget_strat(llen), llen);
+        ap = rget_strat(llen);
+        lbret = m_fun(ap, llen);
         rget_finish();
-        if (!lbret)
-        {
-          break;
-        }
       }
     }
 

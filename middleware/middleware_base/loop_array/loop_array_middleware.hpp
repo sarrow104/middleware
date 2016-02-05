@@ -11,19 +11,6 @@
 
 namespace middleware {
 
-#ifndef MIDDLEWARE_BASE      /** 防止嵌套定义此基类 */
-#define MIDDLEWARE_BASE
-  /**
-   *   中间件基类
-   */
-  class middleware_base
-  {
-  public:
-    virtual bool send(char* apdata, uint32_t aiwlen) = 0;
-    virtual bool close() = 0;
-  };
-#endif //MIDDLEWARE_BASE
-
   /**
    *  双向循环数组辅助类
    *  用于保存根据名称生成的两个单向的循环数组
@@ -61,8 +48,7 @@ namespace middleware {
   /**
    *   双向循环数组
    */
-  class middleware_looparray :
-    public middleware_base
+  class middleware_looparray 
   {
     static std::map<std::string, std::pair<module_communicate*, module_communicate*> > m_module_communicate_tab;
     module_communicate la;
