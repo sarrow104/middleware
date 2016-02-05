@@ -1,7 +1,7 @@
-///        Copyright 2016 libo. All rights reserved
+//        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-﻿#include "middleware/middleware_base/middleware_base.hpp"
+#include "middleware/middleware_base/middleware_base.hpp"
 
 #include <iostream>
 
@@ -93,14 +93,10 @@ void test_middleware_la_client()
 }
 
 
-//void test_middleware_
-
 int main(int argc, char *argv[])
 {
-
 	if (argc >= 3)
 	{
-		
 		if (memcmp(argv[1], "-sm", sizeof("-sm")) == 0)/** 共享内存测试 */
 		{
 			if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
@@ -112,38 +108,22 @@ int main(int argc, char *argv[])
 				test_middleware_sm_server();
 			}
 		}
-		else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)
+		else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)/** 循环数组测试 */
 		{
 			boost::thread(boost::function<void()>(test_middleware_la_server));
 			boost::thread(boost::function<void()>(test_middleware_la_client));
 		}
-		else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)
-		{
-		}
+		//else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)
+		//{
+		//}
 
-		getchar();
+		//getchar();
 
-
+		return 0;
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-PRINT_ERR_RET:
-	cout <<
-				 "/** "<<endl;
+	cout << "/** "<<endl;
 	cout <<" *  THIS.EXE -TYPE  -CLIENT OR SERVER "<< endl;
 	cout <<" *  -TYPE      sm   共享内存" << endl;
 	cout <<" *             la   循环数组" << endl;
@@ -157,5 +137,5 @@ PRINT_ERR_RET:
 
 	return 0;
 }
-﻿
- /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

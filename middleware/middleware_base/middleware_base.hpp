@@ -1,9 +1,11 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#ifndef __MIDDLEWARE_BASE_H_1454666775__
-#define __MIDDLEWARE_BASE_H_1454666775__
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
 
+#ifndef MIDDLEWARE_BASE_HPP
+#define MIDDLEWARE_BASE_HPP
 
 #include "middleware/middleware_base/shared_memory/mgt_shared_memory.hpp"
 #include "middleware/middleware_base/loop_array/loop_array_middleware.hpp"
@@ -14,8 +16,7 @@
 
 namespace middleware {
   
-#ifndef MIDDLEWARE_BASE
-#define MIDDLEWARE_BASE
+
   /**
   *  中间件
   *  用构造函数
@@ -30,7 +31,6 @@ namespace middleware {
     virtual bool send(char* apdata, uint32_t aiwlen) = 0;
     virtual bool close() = 0;
   };
-#endif //MIDDLEWARE_BASE
 
  /**
   *  共享内存客户端
@@ -217,7 +217,7 @@ namespace middleware {
 }
 
 
-#endif /* __MIDDLEWARE_BASE_H_1454666775__ */
+#endif /* MIDDLEWARE_BASE_HPP */
 
 
- /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

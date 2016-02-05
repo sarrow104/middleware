@@ -54,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\server\github\middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,10 +79,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.h" />
+    <ClCompile Include="..\..\..\example\example_middleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\cmiddleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\middleware\middleware_base\Source.cpp" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\cmiddleware_base.h" />
+    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
