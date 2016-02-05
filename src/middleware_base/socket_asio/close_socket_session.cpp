@@ -1,7 +1,10 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/socket_asio/close_socket_session.hpp"
+#include "middleware/middleware_base/socket_asio/close_socket_session.hpp"
+#include "middleware/middleware_base/socket_asio/socket_asio_session_base.hpp"
+
+#include <unordered_set>
 //#include "socket_asio_session_keep.h"
 
 namespace middleware {

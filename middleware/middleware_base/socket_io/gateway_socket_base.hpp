@@ -27,7 +27,7 @@ namespace middleware {
     uint32_t m_ieverymaxsize;
     char* lbuf1; /** 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
     char* lbuf2; /** 双buffer,loop array在第二次调用send成功前,不能修改第一次的buffer*/
-	boost::function<bool(uint32_t ,const char*, uint32_t)> m_recv_callback;
+  boost::function<bool(uint32_t ,const char*, uint32_t)> m_recv_callback;
     /**
      *  发送回调
      */
@@ -60,7 +60,7 @@ namespace middleware {
       uint32_t apbuffersize, uint32_t aieverymaxsize, boost::function<bool(uint32_t ,const char*, uint32_t)> aireadfun,/** bool apstartthread,*/
       boost::function<bool(uint32_t, SOCKET&)> aikey2socket /** send回调方法从子类获取socket句柄 */
       ) :
-	  m_recv_callback(aireadfun),
+    m_recv_callback(aireadfun),
       m_recvlooparray(apbuffersize, aieverymaxsize, boost::bind( &gateway_socket_base::recv_callback, this, _1, _2), false),
       m_sendlooparray(apbuffersize, aieverymaxsize, boost::bind(&gateway_socket_base::send_callback, this, _1, _2), false),
       m_ieverymaxsize(aieverymaxsize),
@@ -99,7 +99,7 @@ namespace middleware {
       while (1)
       {
         std::swap(lbuf1, lbuf2);
-		*(uint32_t*)(lbuf1) = aikey;
+    *(uint32_t*)(lbuf1) = aikey;
         llen = g_recv(sisocket, &(lbuf1[sizeof(uint32_t)]), m_ieverymaxsize);
         if (llen <= 0)
         {
@@ -112,10 +112,10 @@ namespace middleware {
     }
 
 
-	bool recv_callback(const char* ap, uint32_t aplen)
-	{
-		return m_recv_callback( *(uint32_t*)(ap),&(ap[sizeof(uint32_t)]), aplen );
-	}
+  bool recv_callback(const char* ap, uint32_t aplen)
+  {
+    return m_recv_callback( *(uint32_t*)(ap),&(ap[sizeof(uint32_t)]), aplen );
+  }
 
     virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen) = 0;
   };
