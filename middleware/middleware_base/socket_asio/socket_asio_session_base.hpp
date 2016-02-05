@@ -10,12 +10,15 @@
 #include "middleware/tools/segmentation_pack/segmentation_pack.hpp"
 
 #include <array>
+#include <unordered_set>
 
 #if WIN32
 #define snprintf sprintf_s
 #endif
 
 namespace middleware {
+
+  class middleware_base;
 
   class socket_asio_session_base
   {
@@ -24,7 +27,7 @@ namespace middleware {
     {
     public:
 
-      std::vector< unordered_set<uint32_t> > m_server;  /* 服务器之间保持的连接 */
+      std::vector< std::unordered_set<uint32_t> > m_server;  /* 服务器之间保持的连接 */
 
       session_mapping<socket_asio_session_base*>  m_sessionidmapp;
       std::vector<middleware_base*> m_middlewarearr;
