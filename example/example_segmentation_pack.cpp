@@ -26,7 +26,7 @@ int main()
   abc la;
   
 
-  /** | len(sizeof(uint16_t)) | data(len) |  */
+  /** 数据格式 = | len(sizeof(uint16_t)) | data(len) |  */
   char buff[1024000];
   char bufftemp[16];
   

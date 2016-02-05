@@ -88,7 +88,7 @@ namespace middleware {
       }
     public:
       /**
-       * 如果没有可用线程且超过最大数目限�?不会阻塞
+       * 如果没有可用线程且超过最大数目限???不会阻塞
        */
       static bool asyn_thread( boost::function<void(void)> aifun)
       {
@@ -97,7 +97,7 @@ namespace middleware {
 
 
       /**
-       * 如果失败则阻�? 等待 直到有空闲的线程
+       * 如果失败则阻塞  等待 直到有空闲的线程
        */
       static void syn_thread( boost::function<void(void)> aifun)
       {
@@ -117,7 +117,7 @@ namespace middleware {
       }
 
       /**
-       *  设置最大线�?
+       *  设置最大线程
        */
       static void set_maxthread( uint32_t ainum )
       {

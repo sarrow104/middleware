@@ -107,13 +107,13 @@ namespace middleware {
 
     void rget()
     {
-			static int i = 0;
+      static int i = 0;
       uint32_t llen  = 0;
-			char* ap			 = nullptr;
-      bool lbret		 = true;
+      char* ap       = nullptr;
+      bool lbret     = true;
       while (lbret)
       {
-				ap = rget_strat(llen);
+        ap = rget_strat(llen);
         lbret = m_fun(ap, llen);
         rget_finish();
       }
