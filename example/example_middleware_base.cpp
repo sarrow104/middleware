@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
 ﻿#include "middleware/middleware_base/middleware_base.hpp"
 
 #include <iostream>
@@ -155,7 +157,5 @@ PRINT_ERR_RET:
 
 	return 0;
 }
-=======
 ﻿
  /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
->>>>>>> 3cb4ef3332b789dc350e712f8661246d5c3ec938
