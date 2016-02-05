@@ -61,9 +61,9 @@ namespace middleware {
    */
   class connect_key_socket
   {
-    SOCKET m_socket;
+    
     static boost::bimap<SOCKET, key_ip_port>  m_socket_key;
-    boost::function<bool(SOCKET)> m_recvfun;
+    boost::function<bool(SOCKET,uint32_t)> m_recvfun;
   /**
    *  初始化socket
    */
@@ -105,7 +105,7 @@ namespace middleware {
   }
 
   public:
-    connect_key_socket(boost::function<bool(SOCKET)> airecv) :
+    connect_key_socket(boost::function<bool(SOCKET,uint32_t)> airecv) :
       m_recvfun(airecv)
     {
     CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
@@ -117,17 +117,17 @@ namespace middleware {
    */
   bool send_key(uint32_t aikey, const char* aiserverip, int32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
   {
-    m_socket = create_con(aikey, aiserverip, aiserverport);
+    SOCKET lsocket = create_con(aikey, aiserverip, aiserverport);
     char lsendkey[32] = { 0 };
     char lrecvkey[32] = { 0 };
     size_t lsendlen = strlen(lsendkey) + 1;
-    if (g_send(m_socket, (const char*)&aikey, sizeof(uint32_t)) > 0)
+    if (g_send(lsocket, (const char*)&aikey, sizeof(uint32_t)) > 0)
     {
-      size_t lrecvlen = g_recv(m_socket, lrecvkey, 32);
+      size_t lrecvlen = g_recv(lsocket, lrecvkey, 32);
       if (lrecvlen < sizeof(uint32_t))
       {
         /** 失败 */
-        closehandle(m_socket);
+        closehandle(lsocket);
         LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
         return false;
       }
@@ -137,7 +137,7 @@ namespace middleware {
         {
           LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
           /** 失败 */
-          closehandle(m_socket);
+          closehandle(lsocket);
           return false;
         }
       }
@@ -148,18 +148,17 @@ namespace middleware {
     {
       m_socket_key.right.erase(itor);
     }
-    (m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(m_socket, lkey_ip_port))).second;
+    (m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(lsocket, lkey_ip_port))).second;
 
     //boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
-     middleware::tools::threadpool::asyn_thread( boost::bind(&connect_key_socket::recv, this, m_socket) );
+	middleware::tools::threadpool::asyn_thread( boost::bind( &connect_key_socket::recv, this, lsocket, aikey) );
     return true;
   }
 
-  void recv(SOCKET aisocket)
+  void recv( SOCKET aisocket, uint32_t aikey )
   {
-    m_recvfun(aisocket);
+	  m_recvfun(aisocket, aikey);
   }
-
    /*
     *  通过key获取socket
     */
@@ -201,7 +200,7 @@ namespace middleware {
    */
     void closehandle(SOCKET aisocket)
     {
-      closesocket(m_socket);
+      closesocket(aisocket);
     }
 
   /*

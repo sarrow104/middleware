@@ -1,3 +1,5 @@
+#ifndef THREADPOOL_H
+#define THREADPOOL_H
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
@@ -86,7 +88,7 @@ namespace middleware {
       }
     public:
       /**
-       * 如果没有可用线程且超过最大数目限制,不会阻塞
+       * 如果没有可用线程且超过最大数目限�?不会阻塞
        */
       static bool asyn_thread( boost::function<void(void)> aifun)
       {
@@ -95,7 +97,7 @@ namespace middleware {
 
 
       /**
-       * 如果失败则阻塞  等待 直到有空闲的线程
+       * 如果失败则阻�? 等待 直到有空闲的线程
        */
       static void syn_thread( boost::function<void(void)> aifun)
       {
@@ -115,7 +117,7 @@ namespace middleware {
       }
 
       /**
-       *  设置最大线程
+       *  设置最大线�?
        */
       static void set_maxthread( uint32_t ainum )
       {
@@ -138,5 +140,6 @@ namespace middleware {
 
   }  //namespace tools
 }  //namespace middleware
+#endif //THREADPOOL_H
 
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

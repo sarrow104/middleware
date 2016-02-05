@@ -12,7 +12,7 @@ using namespace std;
 void test_client()
 {
   /** recv call back */
-  auto rcb = [](const char* ap,uint32_t aplen)
+  auto rcb = [](uint32_t aikey,const char* ap,uint32_t aplen)
   {
     cout << *( (uint32_t*)ap) << endl;
     aplen = 0;
@@ -42,7 +42,7 @@ void test_server()
 {
   middleware::gateway_socket_server_con* lp;
   /** recv call back */
-  auto rcb = [](const char* ap, uint32_t aplen)
+  auto rcb = [](uint32_t aikey,const char* ap, uint32_t aplen)
   {
     cout << ap << endl;
     aplen = 0;

@@ -19,12 +19,12 @@ namespace middleware {
   public:
     gateway_socket_server_con(
       uint32_t aiport,
-      boost::function<bool(const char*, uint32_t)> logic_recv_callback,
+      boost::function<bool(uint32_t ,const char*, uint32_t)> logic_recv_callback,
       uint32_t aimaxsize,
       uint32_t aievery_once_max_size,
       boost::function<bool(const char*, uint32_t)> aisendfailure
       ) :
-      m_accept(aiport, boost::bind(&gateway_socket_base::recv, (gateway_socket_base*)this, _1), aisendfailure),
+      m_accept(aiport, boost::bind(&gateway_socket_base::recv, (gateway_socket_base*)this, _1, _2), aisendfailure),
       gateway_socket_base(
         aimaxsize,
         aievery_once_max_size,
@@ -43,11 +43,11 @@ namespace middleware {
     }
 
     /**
-     * 关闭所有连接
+     * 关闭连接
      */
-    bool close()
+    bool close( uint32_t aikey )
     {
-      return m_accept.closeallconnect();
+      return m_accept.close( aikey);
     }
   };
 

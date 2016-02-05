@@ -22,13 +22,14 @@ namespace middleware {
     connect_key_socket m_connect;
     uint32_t m_serverport;
     std::string m_serverip;
+
   public:
     gateway_socket_client_con(
-      boost::function<bool(const char*, uint32_t)> logic_recv_callback,
+      boost::function<bool(uint32_t ,const char*, uint32_t)> logic_recv_callback,
       uint32_t aimaxsize,
       uint32_t aievery_once_max_size
       ) :
-      m_connect(boost::bind(&gateway_socket_base::recv, (gateway_socket_base*)this, _1)),
+      m_connect(boost::bind(&gateway_socket_base::recv, this, _1, _2)),
       gateway_socket_base(
         aimaxsize,
         aievery_once_max_size,

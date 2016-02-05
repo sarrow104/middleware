@@ -10,21 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_shared_memory.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\mgt_shared_memory.hpp" />
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\shared_memory.hpp" />
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\shared_memory_base.hpp" />
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\shared_memory_client.hpp" />
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\shared_memory_middleware.hpp" />
-    <ClInclude Include="..\..\..\middleware\middleware_base\shared_memory\shared_memory_server.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FC613EA6-FF8B-4868-90FC-A9FAD4815F60}</ProjectGuid>
+    <ProjectGuid>{DFAEFC5D-E7B3-40DB-A707-839A23E33441}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>shared_memory</RootNamespace>
+    <RootNamespace>middleware_base</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)Debug</OutDir>
-    <IntDir>$(ProjectDir)Debug</IntDir>
+    <OutDir>Debug</OutDir>
+    <IntDir>Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -89,6 +78,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\middleware\middleware_base\Source.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
