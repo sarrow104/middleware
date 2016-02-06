@@ -44,7 +44,7 @@ namespace middleware{
     /**
      *  发送字符串
      */
-    bool send(char* ap, uint32_t aplen)
+    bool send(const char* ap, uint32_t aplen)
     {
       return m_callback_helper.push_write_once(ap, aplen);
     }

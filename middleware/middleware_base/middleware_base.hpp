@@ -28,7 +28,7 @@ namespace middleware {
   class middleware_base
   {
   public:
-    virtual bool send(char* apdata, uint32_t aiwlen) = 0;
+    virtual bool send( const char* apdata, uint32_t aiwlen) = 0;
     virtual bool close() = 0;
   };
 
@@ -44,7 +44,7 @@ namespace middleware {
       m_sms(aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun, true)
     {}
 
-    virtual bool send(char* apdata, uint32_t aiwlen)
+    virtual bool send(const char* apdata, uint32_t aiwlen)
     {
       memcpy(m_sms.wget_start(), apdata, aiwlen);
       m_sms.wget_finish(aiwlen);
@@ -72,7 +72,7 @@ namespace middleware {
     {
     }
 
-    virtual bool send(char* apdata, uint32_t aiwlen)
+    virtual bool send(const char* apdata, uint32_t aiwlen)
     {
       memcpy(m_smc.wget_start(), apdata, aiwlen);
       m_smc.wget_finish(aiwlen);
@@ -103,7 +103,7 @@ namespace middleware {
     m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, true)
     {}
 
-    virtual bool send(char* apdata, uint32_t aiwlen)
+    virtual bool send(const char* apdata, uint32_t aiwlen)
     {
        return m_las.send(apdata, aiwlen);
     }
@@ -130,7 +130,7 @@ namespace middleware {
     m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, false)
     {}
 
-    virtual bool send(char* apdata, uint32_t aiwlen)
+    virtual bool send(const char* apdata, uint32_t aiwlen)
     {
       return m_las.send(apdata, aiwlen);
     }
@@ -151,11 +151,23 @@ namespace middleware {
   *  socket io
   *  socket asio
   */
-  class multi_middleware_base
+  class socket_middleware_base
   {
   public:
-    virtual bool send(uint32_t aikey, char* apdata, uint32_t aiwlen) = 0;
+    virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen) = 0;
     virtual bool close(uint32_t aikey) = 0;
+		/** client 需要实现*/
+		bool create_connect(
+			uint32_t aikey, 
+			std::string aiserverip, 
+			uint32_t aiserverport, 
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			)
+		{
+			return false;
+		}
+
+
   };
 
 
@@ -163,7 +175,7 @@ namespace middleware {
    *  socket io 服务器
    */
   class middleware_soio_server :
-    public multi_middleware_base
+    public socket_middleware_base
   {
     gateway_socket_server_con m_asi;
   public:
@@ -176,7 +188,7 @@ namespace middleware {
       m_asi(aiport, logic_recv_callback, aimaxsize, aievery_once_max_size, aisendfailure)
     {}
 
-    virtual bool send(uint32_t aikey, char* apdata, uint32_t aiwlen)
+    virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen)
     {
        return m_asi.send( aikey, apdata, aiwlen);
     }
@@ -191,7 +203,7 @@ namespace middleware {
    *  socket io 客户端
    */
   class middleware_soio_client :
-    public multi_middleware_base
+    public socket_middleware_base
   {
     gateway_socket_client_con m_asi;
   public:
@@ -203,7 +215,9 @@ namespace middleware {
     m_asi(logic_recv_callback, aimaxsize, aievery_once_max_size)
     {}
 
-    virtual bool send(uint32_t aikey, char* apdata, uint32_t aiwlen)
+		void create_connect()
+		{}
+    virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
     {
       return m_asi.send(aikey, apdata, aiwlen);
     }
@@ -212,6 +226,17 @@ namespace middleware {
     {
       return m_asi.close(aikey);
     }
+
+		bool create_connect(
+			uint32_t aikey,
+			std::string aiserverip,
+			uint32_t aiserverport,
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			)
+		{
+			return m_asi.create_con(aikey, aiserverip, aiserverport, aisendfailure);
+		}
+
   };
 
 }

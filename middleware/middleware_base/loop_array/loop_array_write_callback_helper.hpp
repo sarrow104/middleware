@@ -88,7 +88,7 @@ namespace middleware {
 
     boost_sem m_ready_sem1;
     boost_sem m_ready_sem2;
-    char* sendbuffer;
+    const char* sendbuffer;
     uint16_t sendbuffersize;
     boost::mutex  m_mutex;
 
@@ -178,7 +178,7 @@ namespace middleware {
      *  因为他只不过是保存了指针,真正的拷贝是在线程里进行的
      *  可被多线程调用
      */
-    bool push_write_once(char* ap, uint32_t aplen)
+    bool push_write_once(const char* ap, uint32_t aplen)
     {
       boost::mutex::scoped_lock llock(m_mutex);
       while (1)

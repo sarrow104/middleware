@@ -152,6 +152,7 @@
     <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_middleware_base.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\cmiddleware_base.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
@@ -162,7 +163,6 @@
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
-    <ClCompile Include="example_middleware_base.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

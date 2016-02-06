@@ -95,15 +95,16 @@ namespace middleware {
     {
       char* lbuf1 = new char[m_ieverymaxsize];
       char* lbuf2 = new char[m_ieverymaxsize];
-      uint32_t llen = 0;
+      int llen = 0;
       while (1)
       {
         std::swap(lbuf1, lbuf2);
-    *(uint32_t*)(lbuf1) = aikey;
+				*(uint32_t*)(lbuf1) = aikey;
         llen = g_recv(sisocket, &(lbuf1[sizeof(uint32_t)]), m_ieverymaxsize);
         if (llen <= 0)
         {
           /** socket err */
+					sendfailure(sisocket, NULL, 0);
           return false;
         }
         m_recvlooparray.send(lbuf1, llen+sizeof(uint32_t));
@@ -117,7 +118,7 @@ namespace middleware {
     return m_recv_callback( *(uint32_t*)(ap),&(ap[sizeof(uint32_t)]), aplen );
   }
 
-    virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen) = 0;
+  virtual bool sendfailure(SOCKET aisocket, const char* ap, uint32_t aplen) = 0;
   };
 
 

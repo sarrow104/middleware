@@ -116,7 +116,7 @@ namespace middleware {
     /**
      * 发送数据
      */
-    virtual bool send(char* apdata, uint32_t aiwlen)
+    virtual bool send( const char* apdata, uint32_t aiwlen)
     {
       return la.send(apdata, aiwlen);
     }
