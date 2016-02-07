@@ -176,12 +176,11 @@ int main(int argc, char *argv[])
 		}
 
 		getchar();
-
+		return 0;
 
 	}
 
 
-PRINT_ERR_RET:
 	cout << "/** " << endl;
 	cout << " *  THIS.EXE -TYPE  -CLIENT OR SERVER " << endl;
 	cout << " *  -TYPE      sm   共享内存" << endl;

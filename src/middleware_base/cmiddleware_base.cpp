@@ -111,6 +111,13 @@ void* init_middleware_soio_client(
     logic_recv_callback, aimaxsize, aievery_once_max_size);
 }
 
+
+bool create_connect_client(void* ap,uint32_t aikey,const char* aiserverip,uint32_t aiserverport,sendfailure_fun aisendfailure)
+{
+	return static_cast<middleware::gateway_socket_client_con*>(ap)->create_con(aikey, aiserverip, aiserverport, aisendfailure);
+}
+
+
 bool send_middleware_soio_client(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen)
 {
   return static_cast<middleware::gateway_socket_client_con*>(ap)->send(aikey, apdata, aiwlen);
@@ -130,6 +137,12 @@ bool close_middleware_soio_server(void* ap, uint32_t aikey)
 {
   return static_cast<middleware::gateway_socket_server_con*>(ap)->close(aikey);
 }
+
+void test_thread( test_fun fun)
+{
+	boost::thread( boost::function<void()>(fun) );
+}
+
 
 }
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
