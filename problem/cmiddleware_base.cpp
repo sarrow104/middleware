@@ -55,11 +55,10 @@ void* init_middleware_la_server(
   uint32_t apbuffersize,
   uint32_t aieverymaxsize,
   callbackfun aireadfun,
-  bool apstartthread,
-  bool apisclient)
+  bool apstartthread)
 {
   return new middleware::middleware_looparray(
-    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, apisclient);
+    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, true);
 }
 
 
@@ -68,11 +67,10 @@ void* init_middleware_la_client(
   uint32_t apbuffersize,
   uint32_t aieverymaxsize,
   callbackfun aireadfun,
-  bool apstartthread,
-  bool apisclient)
+  bool apstartthread)
 {
   return new middleware::middleware_looparray(
-    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, apisclient);
+    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, false);
 }
 
 
@@ -141,6 +139,11 @@ bool close_middleware_soio_server(void* ap, uint32_t aikey)
 void test_thread( test_fun fun)
 {
 	boost::thread( boost::function<void()>(fun) );
+}
+
+void boost_sleep(uint32_t ainum)
+{
+	boost::this_thread::sleep(boost::posix_time::milliseconds(ainum));
 }
 
 

@@ -68,6 +68,10 @@ void test_middleware_la_server()
     llen = snprintf(p1, 64, "%d", lsize);
     lmc.send(p1, llen + 1);
   }
+    while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
 }
 
 void test_middleware_la_client()
@@ -89,6 +93,10 @@ void test_middleware_la_client()
     std::swap(p1, p2);
     llen = snprintf(p1, 64, "%d", lsize);
     lmc.send(p1, llen + 1);
+  }
+    while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
   }
 }
 

@@ -8,9 +8,24 @@
 
 bool callback_printf(const char* ap, uint32_t aplen)
 {
-	printf(ap);
+	static int i1 = 0;
+	static int i2 = 0;
+	if( ap[0] == '1' && i1 == 0)
+	{
+		i1 = 1;
+		printf("%s\n",ap);
+	}
+
+	if( ap[0] == '2' && i2 == 0)
+	{
+		i2 = 1;
+		printf("%s\n",ap);
+	}
+	
 	return 1;
 };
+
+
 
 void test_middleware_sm_server()
 {
@@ -22,6 +37,10 @@ void test_middleware_sm_server()
   {
     litemp = sprintf(cbuf, "server2client %d", lnum--);
     send_middleware_sm( lserver, cbuf, litemp + 1);
+  }
+  while(1)
+  {
+	  boost_sleep(20);
   }
 }
 
@@ -37,32 +56,44 @@ void test_middleware_sm_client()
     litemp = sprintf(cbuf, "client2server %d", lnum++);
      send_middleware_sm( lclient, cbuf, litemp + 1);
   }
+  while(1)
+  {
+	  boost_sleep(20);
+  }
 }
 
 void test_middleware_la_server()
 {
-	void* lclient = init_middleware_la_server("kk", 1024, 128, callback_printf, false, true);
+	void* lserver = init_middleware_la_server("kk", 1024, 128, callback_printf, false);
 	uint32_t lnum = 10000;
 	char cbuf[128];
 	uint32_t litemp;
 	while (lnum != 0)
 	{
-		litemp = sprintf(cbuf, "client2server %d", lnum--);
-		send_middleware_la(lclient,cbuf, litemp + 1);
+		litemp = sprintf(cbuf, "22222222222222222222222222222222%d", lnum--);
+		send_middleware_la(lserver,cbuf, litemp + 1);
 	}
+	 while(1)
+  {
+	  boost_sleep(20);
+  }
 }
 void test_middleware_la_client()
 {
-	void* lclient = init_middleware_la_client("kk", 1024, 1024, callback_printf, false, false);
+	void* lclient = init_middleware_la_client("kk", 1024, 1024, callback_printf, false);
 
 	uint32_t lnum = 0;
 	char cbuf[128];
 	uint32_t litemp;
 	while (lnum != 900)
 	{
-		litemp = sprintf(cbuf, "client2server %d", lnum++);
+		litemp = sprintf(cbuf, "111111111111111111111111111111%d", lnum++);
 		send_middleware_la(lclient,cbuf, litemp + 1);
 	}
+	 while(1)
+  {
+	  boost_sleep(20);
+  }
 }
 
 
@@ -109,10 +140,6 @@ int main(int argc, char *argv[])
 {
 	if (argc >= 3)
 	{
-		printf( argv[1]);
-		printf( "\n" );
-		printf( argv[2]);
-		printf("\n%d",memcmp(argv[1], "-soio", sizeof("-soio")-1));
 		if (memcmp(argv[1], "-sm", sizeof("-sm")-1) == 0)/** π≤œÌƒ⁄¥Ê≤‚ ‘ */
 		{
 			if (memcmp(argv[2], "-c", sizeof("-c")-1) == 0)

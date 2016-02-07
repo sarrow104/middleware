@@ -79,16 +79,14 @@ extern "C"
     uint32_t apbuffersize,
     uint32_t aieverymaxsize,
     callbackfun aireadfun,
-    bool apstartthread,
-    bool apisclient);
+    bool apstartthread);
 
   void* init_middleware_la_client(
     const char* ainame,
     uint32_t apbuffersize,
     uint32_t aieverymaxsize,
     callbackfun aireadfun,
-    bool apstartthread,
-    bool apisclient);
+    bool apstartthread);
 
   /** 发送数据 */
   bool send_middleware_la(void* ap, char* apdata, uint32_t aiwlen);
@@ -145,6 +143,7 @@ extern "C"
 #endif //__cplusplus
 	typedef void (*test_fun)();
 	void test_thread( test_fun fun);
+	void boost_sleep(uint32_t ainum);
 
 #ifdef __cplusplus
 }//extern "C"

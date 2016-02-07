@@ -107,7 +107,6 @@ namespace middleware {
 
     void rget()
     {
-      static int i = 0;
       uint32_t llen  = 0;
       char* ap       = nullptr;
       bool lbret     = true;
