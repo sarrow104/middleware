@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "socket_asio", "socket_asio\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "middleware_base", "middleware_base\middleware_base.vcxproj", "{DFAEFC5D-E7B3-40DB-A707-839A23E33441}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cmiddleware_base", "cmiddleware_base\cmiddleware_base.vcxproj", "{678D4668-3078-4BB1-B270-7B60683204A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,10 @@ Global
 		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Debug|Win32.Build.0 = Debug|Win32
 		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Release|Win32.ActiveCfg = Release|Win32
 		{DFAEFC5D-E7B3-40DB-A707-839A23E33441}.Release|Win32.Build.0 = Release|Win32
+		{678D4668-3078-4BB1-B270-7B60683204A5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{678D4668-3078-4BB1-B270-7B60683204A5}.Debug|Win32.Build.0 = Debug|Win32
+		{678D4668-3078-4BB1-B270-7B60683204A5}.Release|Win32.ActiveCfg = Release|Win32
+		{678D4668-3078-4BB1-B270-7B60683204A5}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

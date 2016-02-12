@@ -56,7 +56,7 @@ extern "C"
     callbackfun logic_fun);
 
   /** 发送数据 */
-  bool send_middleware_sm(void* ap, char* apdata, uint32_t aiwlen);
+  bool send_middleware(void* ap, char* apdata, uint32_t aiwlen);
 
   /** 关闭 */
   bool close_middleware_sm(void* ap);
@@ -87,12 +87,6 @@ extern "C"
     uint32_t aieverymaxsize,
     callbackfun aireadfun,
     bool apstartthread);
-
-  /** 发送数据 */
-  bool send_middleware_la(void* ap, char* apdata, uint32_t aiwlen);
-
-  /** 关闭 */
-  bool close_middleware_la(void* ap);
 
 #ifdef __cplusplus
 }//extern "C"
@@ -125,11 +119,9 @@ extern "C"
 
   bool create_connect_client(void* ap,uint32_t aikey,const char* aiserverip,uint32_t aiserverport,sendfailure_fun aisendfailure);
 
-  bool send_middleware_soio_client(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen);
-  bool send_middleware_soio_server(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen);
+  bool send_middleware_soio(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen);
 
-  bool close_middleware_soio_client(void* ap, uint32_t aikey);
-  bool close_middleware_soio_server(void* ap, uint32_t aikey);
+  bool close_middleware_soio(void* ap, uint32_t aikey);
 
 #ifdef __cplusplus
 }//extern "C"

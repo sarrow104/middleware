@@ -16,6 +16,25 @@
 
 namespace middleware {
   
+	enum E_MW_TYPE
+	{
+		E_SM_SERVER,
+		E_SM_CLIENT,
+		E_LA_SERVER,
+		E_LA_CLIENT,
+
+		E_MIDDLE_RANGE = 64,
+
+		E_SOIO_SERVER,
+		E_SOIO_CLIENT,
+	};
+
+	class middleware_type
+	{
+	public:
+		virtual uint8_t type() = 0;
+
+	};
 
   /**
   *  中间件
@@ -25,12 +44,13 @@ namespace middleware {
   *  共享内存,
   *  socket
   */
-  class middleware_base
-  {
-  public:
-    virtual bool send( const char* apdata, uint32_t aiwlen) = 0;
-    virtual bool close() = 0;
-  };
+	class middleware_base:
+		public middleware_type
+	{
+	public:
+		virtual bool send( const char* apdata, uint32_t aiwlen) = 0;
+		virtual bool close() = 0;
+	};
 
  /**
   *  共享内存客户端
@@ -56,6 +76,11 @@ namespace middleware {
       /** 未实现*/
       return true;
     }
+
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_SM_SERVER;
+	}
   };
 
   /**
@@ -84,6 +109,11 @@ namespace middleware {
       /** 未实现 */
       return true;
     }
+
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_SM_CLIENT;
+	}
   };
 
 
@@ -112,6 +142,12 @@ namespace middleware {
     {
       return m_las.close();
     }
+
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_LA_SERVER;
+	}
+
   };
 
   /**
@@ -139,6 +175,11 @@ namespace middleware {
     {
       return m_las.close();
     }
+
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_LA_CLIENT;
+	}
   };
 
 
@@ -151,13 +192,14 @@ namespace middleware {
   *  socket io
   *  socket asio
   */
-  class socket_middleware_base
+  class socket_middleware_base:
+	  public middleware_type
   {
   public:
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen) = 0;
     virtual bool close(uint32_t aikey) = 0;
-		/** client 需要实现*/
-		bool create_connect(
+	/** client 需要实现*/
+	bool create_connect(
 			uint32_t aikey, 
 			std::string aiserverip, 
 			uint32_t aiserverport, 
@@ -166,8 +208,6 @@ namespace middleware {
 		{
 			return false;
 		}
-
-
   };
 
 
@@ -197,6 +237,11 @@ namespace middleware {
     {
       return m_asi.close( aikey);
     }
+
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_SOIO_SERVER;
+	}
   };
 
   /**
@@ -236,7 +281,10 @@ namespace middleware {
 		{
 			return m_asi.create_con(aikey, aiserverip, aiserverport, aisendfailure);
 		}
-
+	virtual uint8_t type()
+	{
+		return E_MW_TYPE::E_SOIO_CLIENT;
+	}
   };
 
 }

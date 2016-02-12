@@ -199,10 +199,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		while (1)
-		{
-			boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-		}
+		getchar();
 		return 0;
 
 	}
@@ -210,8 +207,9 @@ int main(int argc, char *argv[])
 
 	cout << "/** " << endl;
 	cout << " *  THIS.EXE -TYPE  -CLIENT OR SERVER " << endl;
-	cout << " *  -TYPE      sm   共享内存" << endl;
-	cout << " *             la   循环数组" << endl;
+	cout << " *  -TYPE      -sm    [-c|-s]  共享内存" << endl;
+	cout << " *             -la    0		循环数组" << endl;
+	cout << " *             -soio  [-c|-s]  简单socket" << endl;
 	cout << " *" << endl;
 	cout << " *" << endl;
 	cout << " *  -CLIENT OR SERVER" << endl;
