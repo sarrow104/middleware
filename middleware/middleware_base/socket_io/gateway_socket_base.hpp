@@ -46,10 +46,10 @@ namespace middleware {
       }
       else
       {
-        if (lsocket != 0)
-        {
+        //if (lsocket != 0)
+        //{
           sendfailure(lsocket, ap, aplen);
-        }
+        //}
       }
       return true;
     }
@@ -74,17 +74,24 @@ namespace middleware {
      */
     bool send(uint32_t aikey, const char* ap, uint32_t aplen)
     {
-      static uint32_t lmaxsize = m_ieverymaxsize - sizeof(uint32_t);
-      if (aplen > lmaxsize)
-      {
-        return false;
-      }
-
-      std::swap(lbuf1, lbuf2);
-      memcpy(lbuf1, &aikey, aplen);
-      memcpy(&(lbuf1[sizeof(uint32_t)]), ap, aplen);
-      m_sendlooparray.send(lbuf1, aplen + sizeof(uint32_t));
-      return true;
+		SOCKET lsocket;
+		if (m_key2socket(aikey, lsocket))
+		{
+			static uint32_t lmaxsize = m_ieverymaxsize - sizeof(uint32_t);
+			if (aplen > lmaxsize)
+			{
+				return false;
+			}
+			std::swap(lbuf1, lbuf2);
+			memcpy(lbuf1, &aikey, aplen);
+			memcpy(&(lbuf1[sizeof(uint32_t)]), ap, aplen);
+			m_sendlooparray.send(lbuf1, aplen + sizeof(uint32_t));
+			return true;
+		}
+		else
+		{
+			return false;
+		}
     }
 
 
@@ -104,7 +111,7 @@ namespace middleware {
         if (llen <= 0)
         {
           /** socket err */
-					sendfailure(sisocket, NULL, 0);
+		  sendfailure(sisocket, NULL, 0);
           return false;
         }
         m_recvlooparray.send(lbuf1, llen+sizeof(uint32_t));
