@@ -38,7 +38,7 @@ bool send_middleware(void* ap, char* apdata, uint32_t aiwlen)
   return static_cast<middleware::middleware_base*>(ap)->send( apdata, aiwlen );
 }
 
-bool close_middleware_sm(void* ap)
+bool close_middleware(void* ap)
 {
   return static_cast<middleware::middleware_base*>(ap)->close( );
 }
