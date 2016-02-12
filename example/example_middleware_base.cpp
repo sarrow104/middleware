@@ -212,7 +212,6 @@ int main(int argc, char *argv[])
 	cout << " *             -soio  [-c|-s]  简单socket" << endl;
 	cout << " *" << endl;
 	cout << " *" << endl;
-	cout << " *  -CLIENT OR SERVER" << endl;
 	cout << "example:" << endl;
 	cout << " *          THIS.EXE -sm -c " << endl;
 	cout << " *" << endl;

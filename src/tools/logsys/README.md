@@ -19,7 +19,7 @@
   int ic = 0;
   CREATE_LOG(ic, "陈奕迅")
 ```
-* 写日志
+*  写日志
 ```cpp
   int iz = 0;
   int i = 0;

@@ -167,14 +167,13 @@ int main(int argc, char *argv[])
 PRINT_MESSAGE:
 	printf(  "/** \n" );
 	printf(  " *  THIS.EXE -TYPE  -CLIENT OR SERVER \n" );
-	printf(  " *  -TYPE      sm   共享内存\n" );
-	printf(  " *             la   循环数组\n" );
+	printf(  " *  -TYPE      -sm    [-c|-s]  共享内存\n" );
+	printf(  " *             -la    0		循环数组\n" );
+	printf(  " *             -soio  [-c|-s]  简单socket\n" );
 	printf(  " *\n" );
 	printf(  " *\n" );
-	printf(  " *  -CLIENT OR SERVER\n" );
-	printf(  "example:\n" );
+	printf(  " *  example:\n" );
 	printf(  " *          THIS.EXE -sm -c \n" );
-	printf(  " *\n" );
 	printf(  " */\n" );
 
 	return 0;
