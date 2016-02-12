@@ -26,6 +26,10 @@ void test_middleware_sm_server()
     litemp = sprintf(cbuf, "server2client %d", lnum--);
     abc.send(cbuf, litemp + 1);
   }
+  while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
 }
 
 void test_middleware_sm_client()
@@ -46,17 +50,21 @@ void test_middleware_sm_client()
     litemp = sprintf(cbuf, "client2server %d", lnum++);
     abc.send(cbuf, litemp + 1);
   }
+  while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
 }
 
 void test_middleware_la_server()
 {
-  auto fun = [](const char* ap, uint32_t aplen)
+  auto funs = [](const char* ap, uint32_t aplen)
   {
-    cout << "server callback[" << ap << "]"<< endl;
+    cout << "[" << ap << "]"<< endl;
     return true;
   };
-  middleware::middleware_la_server lmc("lb", 10240, 1024, fun, false);
-  uint32_t lsize = 1000;
+  middleware::middleware_la_server lmc("lb", 10240, 1024, funs, false);
+  uint32_t lsize = 3;
   char lchar1[64];
   char lchar2[64];
   char*p1 = lchar1;
@@ -65,7 +73,7 @@ void test_middleware_la_server()
   while (lsize--)
   {
     std::swap(p1, p2);
-    llen = snprintf(p1, 64, "%d", lsize);
+    llen = snprintf(p1, 64, "server%d", lsize);
     lmc.send(p1, llen + 1);
   }
     while (1)
@@ -76,13 +84,13 @@ void test_middleware_la_server()
 
 void test_middleware_la_client()
 {
-  auto fun = [](const char* ap, uint32_t aplen)
+  auto func = [](const char* ap, uint32_t aplen)
   {
-    cout << "server callback[" << ap << "]" << endl;
+    cout << "[" << ap << "]" << endl;
     return true;
   };
-  middleware::middleware_la_client lmc("lb", 10240, 1024, fun, false);
-  uint32_t lsize = 1000;
+  middleware::middleware_la_client lmc("lb", 10240, 1024, func, false);
+  uint32_t lsize = 3;
   char lchar1[64];
   char lchar2[64];
   char*p1 = lchar1;
@@ -91,7 +99,7 @@ void test_middleware_la_client()
   while (lsize--)
   {
     std::swap(p1, p2);
-    llen = snprintf(p1, 64, "%d", lsize);
+    llen = snprintf(p1, 64, "client%d", lsize);
     lmc.send(p1, llen + 1);
   }
     while (1)
@@ -134,6 +142,10 @@ void test_middleware_soio_server()
 		lserver.send(0, (const char*)&(++lnum), sizeof(uint32_t));
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
+	while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
 	return;
 }
 
@@ -148,6 +160,10 @@ void test_middleware_soio_client()
 		lclient.send(0, lbuf, sizeof(lbuf));
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
+	while (1)
+  {
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
 }
 
 int main(int argc, char *argv[])
@@ -183,7 +199,10 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		getchar();
+		while (1)
+		{
+			boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+		}
 		return 0;
 
 	}

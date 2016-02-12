@@ -68,10 +68,12 @@ namespace middleware {
       m_name(ainame),
       mpmc(nullptr)
     {
-      auto itor = m_module_communicate_tab.find(m_name);
-
+      
+	  std::map<std::string, std::pair<module_communicate*, module_communicate*> >::iterator itor;
       {/** 锁作用域 */
         boost::mutex::scoped_lock llock(m_lock);
+		itor = m_module_communicate_tab.find(m_name);
+
         if (itor == m_module_communicate_tab.end())
         {
           /** 创建 */
@@ -89,11 +91,11 @@ namespace middleware {
         {
           if (apisclient)
           {
-            mpmc = itor->second.first;
+             itor->second.first = &la;
           }
           else
           {
-            mpmc = itor->second.second;
+             itor->second.second = &la;
           }
 
         }
@@ -118,7 +120,7 @@ namespace middleware {
      */
     virtual bool send( const char* apdata, uint32_t aiwlen)
     {
-      return la.send(apdata, aiwlen);
+      return mpmc->send(apdata, aiwlen);
     }
 
     /**

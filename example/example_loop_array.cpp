@@ -53,7 +53,9 @@ void test2( bool aibo ,uint32_t aisize)
   auto fun = [&lnow,&aisize,&aibo](const char* ap, uint32_t aplen)
   {
     if(aibo)
-      cout << "[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
+		cout << "server[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
+	else
+		cout << "client[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
     return true;
   };
   middleware::middleware_looparray lmc( "lb", TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false,aibo);
@@ -84,10 +86,10 @@ int main(int argc,char** argv)
     return 0;
   }
   /** 单向的循环数组,一般发消息与回调模块交互 */
-  boost::thread(boost::bind(&test, atoi(argv[1])) );
+ // boost::thread(boost::bind(&test, atoi(argv[1])) );
   /** 双向的循环数组,可以相互交互,不过在线程2里我们故意让第二个不输出 */
-  boost::thread(boost::bind(&test2, true,atoi(argv[1])*100) );
   boost::thread(boost::bind(&test2, false,atoi(argv[1])) );
+  boost::thread(boost::bind(&test2, true,atoi(argv[1])) );
   while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
