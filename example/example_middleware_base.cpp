@@ -140,7 +140,7 @@ void test_middleware_soio_server()
 	while (1)
 	{
 		lserver.send(0, (const char*)&(++lnum), sizeof(uint32_t));
-		//boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 	while (1)
   {
@@ -158,7 +158,7 @@ void test_middleware_soio_client()
 	while (1)
 	{
 		lclient.send(0, lbuf, sizeof(lbuf));
-		//boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 	while (1)
   {
@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
 	cout << " *             -soio  [-c|-s]  简单socket" << endl;
 	cout << " *" << endl;
 	cout << " *" << endl;
-	cout << "example:" << endl;
+	cout << " * example:" << endl;
 	cout << " *          THIS.EXE -sm -c " << endl;
 	cout << " *" << endl;
 	cout << " */" << endl;
