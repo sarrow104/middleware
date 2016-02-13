@@ -279,7 +279,7 @@ namespace middleware {
 			boost::function<bool(const char*, uint32_t)> aisendfailure
 			)
 		{
-			return m_asi.create_con(aikey, aiserverip, aiserverport, aisendfailure);
+			return m_asi.create_conkey(aikey, aiserverip, aiserverport, aisendfailure);
 		}
 	virtual uint8_t type()
 	{

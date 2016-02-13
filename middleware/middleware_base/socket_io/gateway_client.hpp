@@ -42,10 +42,19 @@ namespace middleware {
     /**
      * 根据指定key ip 端口 创建连接
      */
-    bool create_con(uint32_t aikey, std::string aiserverip, uint32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
+    bool create_conkey(uint32_t aikey, std::string aiserverip, uint32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
     {
-      return m_connect.send_key(aikey, aiserverip.c_str(), aiserverport, aisendfailure);
+      return m_connect.send_key(aikey, aiserverip.c_str(), aiserverport, aisendfailure, true);
     }
+
+	/**
+     * 根据指定key ip 端口 创建连接
+     */
+    bool create_connect(uint32_t aikey, std::string aiserverip, uint32_t aiserverport, boost::function<bool(const char*, uint32_t)> aisendfailure)
+    {
+      return m_connect.send_key(aikey, aiserverip.c_str(), aiserverport, aisendfailure, false);
+    }
+
 
     /**
      * 处理发送失败

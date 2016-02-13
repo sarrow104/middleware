@@ -28,7 +28,7 @@ void test_client()
   };
 
   middleware::gateway_socket_client_con lclient(rcb, 10240, 1024);
-  lclient.create_con( 0 ,"127.0.0.1", 13140, sfcb);
+  lclient.create_conkey( 0 ,"127.0.0.1", 13140, sfcb);
   char lbuf[] = "我爱你";
   while(1)
   {
