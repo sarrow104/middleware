@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "middleware_base", "middlewa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cmiddleware_base", "cmiddleware_base\cmiddleware_base.vcxproj", "{678D4668-3078-4BB1-B270-7B60683204A5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "incidental", "incidental\incidental.vcxproj", "{5FF9980C-496C-472B-9599-468D45599D9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -67,6 +69,10 @@ Global
 		{678D4668-3078-4BB1-B270-7B60683204A5}.Debug|Win32.Build.0 = Debug|Win32
 		{678D4668-3078-4BB1-B270-7B60683204A5}.Release|Win32.ActiveCfg = Release|Win32
 		{678D4668-3078-4BB1-B270-7B60683204A5}.Release|Win32.Build.0 = Release|Win32
+		{5FF9980C-496C-472B-9599-468D45599D9C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5FF9980C-496C-472B-9599-468D45599D9C}.Debug|Win32.Build.0 = Debug|Win32
+		{5FF9980C-496C-472B-9599-468D45599D9C}.Release|Win32.ActiveCfg = Release|Win32
+		{5FF9980C-496C-472B-9599-468D45599D9C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

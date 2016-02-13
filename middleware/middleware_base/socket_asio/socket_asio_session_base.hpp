@@ -8,6 +8,11 @@
 #include "middleware/middleware_base/socket_asio/socket_asio_tcp_io_service_pool.hpp"
 #include "middleware/middleware_base/socket_asio/socket_session_mapping.hpp"
 #include "middleware/tools/segmentation_pack/segmentation_pack.hpp"
+#include "middleware/middleware_base/socket_asio/close_socket_session.hpp"
+#include "middleware/tools/incidental/pack_head.hpp"
+#include "middleware/tools/incidental/check_crc.hpp"
+#include "middleware/middleware_base/middleware_base.hpp"
+
 
 #include <array>
 #include <unordered_set>
@@ -32,9 +37,9 @@ namespace middleware {
       session_mapping<socket_asio_session_base*>  m_sessionidmapp;
       std::vector<middleware_base*> m_middlewarearr;
       std::vector<middleware_base*> m_extern_middlewarearr;
-      std::vector<close_socket_player* > m_closesocket_help;
+      std::vector<close_socket_session* > m_closesocket_help;
       std::vector<check_crc* > m_check_crc;
-      std::vector< protocol_server_head > m_php;
+      std::vector< protocol_head > m_php;
       uint32_t m_everyoncemaxsize;    /* 单条最大数据 */
       uint32_t m_timeout;
       bool m_s2s;             /* 服务器与服务器的连接断开是否通知上层 */
