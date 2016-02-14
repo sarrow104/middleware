@@ -1,11 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-///        Copyright 2016 libo. All rights reserved
-///   (Home at https://github.com/NingLeixueR/middleware/)
-
-#ifndef CLOSE_SOCKET_PLAYER_H
-#define CLOSE_SOCKET_PLAYER_H
+#ifndef CLOSE_SOCKET_SESSION_H
+#define CLOSE_SOCKET_SESSION_H
 
 #include "middleware/middleware_base/socket_io/lpthread.hpp"
 
@@ -49,6 +46,6 @@ namespace middleware {
   };
 
 }  //namespace middleware 
-#endif //CLOSE_SOCKET_PLAYER_H
+#endif //CLOSE_SOCKET_SESSION_H
 
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

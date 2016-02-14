@@ -69,10 +69,10 @@ namespace middleware {
       mpmc(nullptr)
     {
       
-	  std::map<std::string, std::pair<module_communicate*, module_communicate*> >::iterator itor;
+			std::map<std::string, std::pair<module_communicate*, module_communicate*> >::iterator itor;
       {/** 锁作用域 */
         boost::mutex::scoped_lock llock(m_lock);
-		itor = m_module_communicate_tab.find(m_name);
+				itor = m_module_communicate_tab.find(m_name);
 
         if (itor == m_module_communicate_tab.end())
         {

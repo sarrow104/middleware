@@ -1,5 +1,6 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
+
 #ifndef PACK_HEAD_HPP
 #define PACK_HEAD_HPP
 
@@ -102,14 +103,14 @@ namespace middleware{
 	{
 		mass_send< session_infor > m_mass;
 	protected:
-		char* m_data;
+		const char* m_data;
 		uint32_t m_size;
 
 		/* 设置群发队列 */
 		bool SH_set_mass_send_arr(std::vector< session_infor >& aisessionarr)
 		{
 			get_mass_size() = aisessionarr.size();
-			m_mass.reset(&m_data[get_server_protocol_len()]);
+			m_mass.reset(const_cast<char*>(&m_data[get_server_protocol_len()]));
 			return m_mass.set_mass_send_arr(aisessionarr);
 		}
 
@@ -125,7 +126,7 @@ namespace middleware{
 		{
 			if (get_mass_size() > 0 && get_mass_size() * sizeof(session_infor) + get_server_protocol_len() <= aibytesize)
 			{
-				m_mass.reset(&m_data[get_server_protocol_len()]);
+				m_mass.reset( const_cast<char*>(&m_data[get_server_protocol_len()]));
 				return m_mass.get_mass_send_arr(get_mass_size(), aisessionarr);
 			}
 			else
@@ -134,7 +135,7 @@ namespace middleware{
 			}
 		}
 
-		void SH_reset(char* aidata, uint32_t aisize)
+		void SH_reset(const char* aidata, uint32_t aisize)
 		{
 			m_data = aidata;
 			m_size = aisize;
@@ -203,11 +204,6 @@ namespace middleware{
 	typedef char*       PROTOCOL_BODY_TYPE;                 /* 协议体 */
 
 
-
-
-
-
-
 	class protocol_head :
 		public server_head
 	{
@@ -225,7 +221,7 @@ namespace middleware{
 			END_POS                 = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
 		};
 
-		void reset(char* aidata, uint32_t aisize)
+		void reset(const char* aidata, uint32_t aisize)
 		{
 #if (HEAD_TYPE == HEAD_SERVER)
 			SH_reset(aidata, aisize);
@@ -281,7 +277,7 @@ namespace middleware{
 		}
 
 		/* 获取数据*/
-		char* get_buffer()
+		const char* get_buffer()
 		{
 			return m_data;
 		}
