@@ -220,17 +220,17 @@ namespace middleware {
     void read_run()
     {
 
-      char* ltemp_write;
+      char* ltemp_write = nullptr;
       char* ltemp_read = m_read;
-      uint32_t lbodylen;                            /** 剩余body长度 */
+      uint32_t lbodylen = 0;                        /** 剩余body长度 */
       char lclen[sizeof(uint16_t)] = { 0 };         /** 出现数据不足sizeof( uint16_t )时 暂存数据 */
       bool lcbool = false;                          /** lclen中是否有数据 */
       size_t ailen;                                 /** 可用长度 */
       bool bodyrecvover = true;                     /** 是否需要获取头部的size*/
       uint32_t temp_size = 0;                       /** 记录前面长度有几字节  一般两字节  也会出现一字节 */
 
-      uint32_t lbodylen_copy;
-      uint32_t ltempwcount;
+      uint32_t lbodylen_copy = 0;
+      uint32_t ltempwcount = 0;
       uint32_t ltemprcount = m_rcount;
 
 
