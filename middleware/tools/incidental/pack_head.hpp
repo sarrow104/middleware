@@ -10,7 +10,7 @@
 #include <vector>
 
 #define GET_HEAD( NAME , TYPE , POS  )        \
-	TYPE& get_##NAME##()                      \
+	TYPE& get_##NAME()                        \
 	{                                         \
 	return *( (TYPE*)&( m_data[ POS ] ) );    \
 }

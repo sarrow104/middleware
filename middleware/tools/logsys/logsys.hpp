@@ -34,9 +34,9 @@
 #define LOG_SYS_EVERY_MAX_BUFFER_SIZE   (256)
 
 #ifdef _MSC_VER
-
-#define snprintf _snprintf
-
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif //snprintf
 #endif //_MSC_VER
 
 #define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)           \

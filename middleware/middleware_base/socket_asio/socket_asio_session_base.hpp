@@ -18,9 +18,11 @@
 #include <array>
 #include <unordered_set>
 
-#if WIN32
-#define snprintf sprintf_s
-#endif
+#ifdef _MSC_VER
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif //snprintf
+#endif //_MSC_VER
 
 namespace middleware {
 
