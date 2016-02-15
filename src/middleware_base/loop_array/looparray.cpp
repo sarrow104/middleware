@@ -183,7 +183,6 @@ namespace middleware {
     {
       {/* 锁区间 */
         boost::mutex::scoped_lock llock(m_lock);
-
         m_write += ailen;
         if (m_write >= m_array_end_ptr)
         {
@@ -245,7 +244,6 @@ namespace middleware {
 
         {/* 锁区间 */
           boost::mutex::scoped_lock llock(m_lock);
-
           //重置m_read
           if (ltemp_read >= m_array_end_ptr)
           {

@@ -76,7 +76,7 @@ void test_middleware_la_server()
     llen = snprintf(p1, 64, "server%d", lsize);
     lmc.send(p1, llen + 1);
   }
-    while (1)
+  while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
   }
