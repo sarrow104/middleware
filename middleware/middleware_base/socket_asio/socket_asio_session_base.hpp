@@ -131,32 +131,38 @@ public:
 
       //m_errlog = aiarg.m_errlog;
       //middleware
-      if (get_middleware() == NULL)
-      {
-        //
-        std::string lstr;
-        if (get_str(lstr, aiarg.m_port, aigroupid))
-        {
-          get_middleware() =
-            new middleware::middleware_la_server(
-              lstr.c_str(),
-              aiarg.m_loopbuffermaxsize,
-              aiarg.m_everyoncemaxsize,
-              socket_asio_session_base::middleware_callback,
-              aiarg.m_activ);
-          get_extern_middleware() =
-            new middleware::middleware_la_client(
-              lstr.c_str(),
-              aiarg.m_extern_loopbuffermaxsize,
-              aiarg.m_extern_everyoncemaxsize,
-              (aiarg.m_callbackfun[aigroupid]),
-              aiarg.m_extern_activ);
-          aiarg.m_middlewarearr[aigroupid] = get_extern_middleware();
-        }
-        else
-        {
-          //错误
-        }
+	  if (get_middleware() == NULL)
+	  {
+		  //
+		  std::string lstr;
+		  if (get_str(lstr, aiarg.m_port, aigroupid))
+		  {
+
+			  boost::function<void(middleware_base*&)> lfun = [&aiarg,&lstr,&aigroupid]( middleware_base*& ap )
+			  {
+				  ap =
+					  new middleware::middleware_la_server(
+					  lstr.c_str(),
+					  aiarg.m_extern_loopbuffermaxsize,
+					  aiarg.m_extern_everyoncemaxsize,
+					  (aiarg.m_callbackfun[aigroupid]),
+					  aiarg.m_extern_activ);
+			  };
+			  boost::thread( boost::bind( lfun, get_middleware() ) );
+
+			  get_extern_middleware() =
+				  new middleware::middleware_la_client(
+				  lstr.c_str(),
+				  aiarg.m_extern_loopbuffermaxsize,
+				  aiarg.m_extern_everyoncemaxsize,
+				  (aiarg.m_callbackfun[aigroupid]),
+				  aiarg.m_extern_activ);
+			  aiarg.m_middlewarearr[aigroupid] = get_extern_middleware();
+		  }
+		  else
+		  {
+			  //错误
+		  }
         
       }
 

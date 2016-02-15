@@ -44,22 +44,8 @@ namespace middleware {
     }
 
 
-
-
     socket_asio_server* get_new_socket_asio_server(static_member_keep& aismsok, socket_asio_arg& aiarg)
     {
-#if 0
-      switch (aiarg.m_type)
-      {
-      case TYPE_KEEP:
-        return new socket_asio_server_keep(aiarg, aismsok.m_io_service_pool);
-      case TYPE_SHORT:
-        return new socket_asio_server_short(aiarg, aismsok.m_io_service_pool);
-      default:
-        throw 1;
-      }
-#endif
-      
       return new socket_asio_server_keep(aiarg, aismsok.m_io_service_pool);
     }
 
@@ -81,7 +67,6 @@ namespace middleware {
       for (uint32_t i = 0; i < aiarg.get_thread_maxsize(); ++i)
       {
         aismsok.m_asion_server_vec[i] = get_new_socket_asio_server(aismsok, aiarg);
-
       }
     }
 
