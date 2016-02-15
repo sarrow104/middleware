@@ -97,7 +97,7 @@ namespace middleware{
 
           
           {/** 锁作用域 */
-						boost::mutex::scoped_lock llock(m_lock);
+            boost::mutex::scoped_lock llock(m_lock);
             m_logfile.close();
             boost::filesystem::path path(m_logname_beg);
 
@@ -123,7 +123,7 @@ namespace middleware{
         if (OPEN_LOGFILE_PRINTF)
         {
           {/** 锁作用域 */
-						boost::mutex::scoped_lock llock(m_lock);
+            boost::mutex::scoped_lock llock(m_lock);
             m_logfile << ap << '\n';
           }/** 锁作用域 */
         }
@@ -248,13 +248,13 @@ namespace middleware{
       int llen = snprintf(lbuf, 256, lstr.c_str(), m_logname.c_str(), ap);
       if (llen > 0)
       {
-				{/** 锁作用域 */
-					boost::mutex::scoped_lock llock(m_lock);
-					std::swap(mp_buf1, mp_buf2);
-					++llen;
-					memcpy(mp_buf1, lbuf, llen);
-					m_looparray.send(mp_buf1, llen);
-				}/** 锁作用域 */        
+        {/** 锁作用域 */
+          boost::mutex::scoped_lock llock(m_lock);
+          std::swap(mp_buf1, mp_buf2);
+          ++llen;
+          memcpy(mp_buf1, lbuf, llen);
+          m_looparray.send(mp_buf1, llen);
+        }/** 锁作用域 */        
         return true;
       }
       else
@@ -268,10 +268,10 @@ namespace middleware{
        */
       void flush()
       {
-				{/** 锁作用域 */
-					boost::mutex::scoped_lock llock(m_lock);
-					m_logfile.flush();
-				}/** 锁作用域 */
+        {/** 锁作用域 */
+          boost::mutex::scoped_lock llock(m_lock);
+          m_logfile.flush();
+        }/** 锁作用域 */
        
       }
 

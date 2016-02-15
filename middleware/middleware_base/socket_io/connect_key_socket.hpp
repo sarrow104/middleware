@@ -20,7 +20,7 @@ namespace middleware {
     uint32_t m_key;
     std::string m_ip;
     uint32_t m_port;
-	bool m_sendkey;
+  bool m_sendkey;
     bool m_socket_stat;
     /** 发送失败的回调 */
     boost::function<bool(const char*, uint32_t)> m_sendfailure_callback;
@@ -30,14 +30,14 @@ namespace middleware {
       const char* aiip,
       uint32_t aiport,
       const boost::function<bool(const char*, uint32_t)>& aisendfailure_callback,
-	  bool aisendkey
+    bool aisendkey
       ) :
       m_key(aikey),
       m_ip(aiip),
       m_port(aiport),
       m_socket_stat(true),
       m_sendfailure_callback(aisendfailure_callback),
-	  m_sendkey( aisendkey)
+    m_sendkey( aisendkey)
     {}
 
     key_ip_port(uint32_t aikey) :
@@ -124,31 +124,31 @@ namespace middleware {
     SOCKET lsocket = create_con(aikey, aiserverip, aiserverport);
     char lsendkey[32] = { 0 };
     char lrecvkey[32] = { 0 };
-	if( aisendkey )
-	{
-		size_t lsendlen = strlen(lsendkey) + 1;
-		if (g_send(lsocket, (const char*)&aikey, sizeof(uint32_t)) > 0)
-		{
-			size_t lrecvlen = g_recv(lsocket, lrecvkey, 32);
-			if (lrecvlen < sizeof(uint32_t))
-			{
-				/** 失败 */
-				closehandle(lsocket);
-				LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
-				return false;
-			}
-			else
-			{
-				if (*((uint32_t*)(lrecvkey)) != aikey)
-				{
-					LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
-					/** 失败 */
-					closehandle(lsocket);
-					return false;
-				}
-			}
-		}
-	}
+  if( aisendkey )
+  {
+    size_t lsendlen = strlen(lsendkey) + 1;
+    if (g_send(lsocket, (const char*)&aikey, sizeof(uint32_t)) > 0)
+    {
+      size_t lrecvlen = g_recv(lsocket, lrecvkey, 32);
+      if (lrecvlen < sizeof(uint32_t))
+      {
+        /** 失败 */
+        closehandle(lsocket);
+        LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
+        return false;
+      }
+      else
+      {
+        if (*((uint32_t*)(lrecvkey)) != aikey)
+        {
+          LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvkey=[%d] < aikey=[%d]", *((uint32_t*)(lrecvkey)),aikey );
+          /** 失败 */
+          closehandle(lsocket);
+          return false;
+        }
+      }
+    }
+  }
    
     key_ip_port lkey_ip_port(aikey, aiserverip, aiserverport, aisendfailure, aisendkey);
     auto itor = m_socket_key.right.find(lkey_ip_port);
@@ -159,7 +159,7 @@ namespace middleware {
     (m_socket_key.insert(boost::bimap<SOCKET, key_ip_port>::value_type(lsocket, lkey_ip_port))).second;
 
     //boost::thread(boost::bind(&connect_key_socket::recv, this, m_socket));
-	middleware::tools::threadpool::asyn_thread( boost::bind( &connect_key_socket::recv, this, lsocket, aikey) );
+  middleware::tools::threadpool::asyn_thread( boost::bind( &connect_key_socket::recv, this, lsocket, aikey) );
     return true;
   }
 
@@ -253,7 +253,7 @@ namespace middleware {
             itor->second.m_ip.c_str(),
             itor->second.m_port,
             boost::ref(itor->second.m_sendfailure_callback),
-			itor->second.m_sendkey
+      itor->second.m_sendkey
             )
           );
       }

@@ -5,10 +5,10 @@
 
 namespace middleware {
 
-	uint32_t socket_asio_session_base::m_tempadd;
-	socket_asio_session_base::tools_help socket_asio_session_base::m_tools;
-	const boost::asio::socket_base::linger socket_asio_session_base::mo_option(true, 0);
-	uint32_t socket_asio_session_base::m_heartbeat_num;				/* ĞÄÌøĞ­ÒéºÅ */
+  uint32_t socket_asio_session_base::m_tempadd;
+  socket_asio_session_base::tools_help socket_asio_session_base::m_tools;
+  const boost::asio::socket_base::linger socket_asio_session_base::mo_option(true, 0);
+  uint32_t socket_asio_session_base::m_heartbeat_num;       /* å¿ƒè·³åè®®å· */
 
 } //namespace middleware 
 

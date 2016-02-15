@@ -5,10 +5,10 @@
 
 namespace middleware {
 
-	std::vector<socket_asio_session_keep::broadcasting_list> socket_asio_session_keep::m_broadcasting_list;
-	alonelist3<socket_asio_session_base>* socket_asio_session_keep::mp_alone;
-	std::vector<tools::segmentation_pack<socket_asio_session_keep*>* > socket_asio_session_keep::m_segmentation;
-	uint32_t socket_asio_session_keep::m_persecond_recvdatatbyte_num;
+  std::vector<socket_asio_session_keep::broadcasting_list> socket_asio_session_keep::m_broadcasting_list;
+  alonelist3<socket_asio_session_base>* socket_asio_session_keep::mp_alone;
+  std::vector<tools::segmentation_pack<socket_asio_session_keep*>* > socket_asio_session_keep::m_segmentation;
+  uint32_t socket_asio_session_keep::m_persecond_recvdatatbyte_num;
 
 
 } //namespace middleware

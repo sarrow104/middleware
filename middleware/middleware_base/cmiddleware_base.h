@@ -133,9 +133,9 @@ extern "C"
 extern "C"
 {
 #endif //__cplusplus
-	typedef void (*test_fun)();
-	void test_thread( test_fun fun);
-	void boost_sleep(uint32_t ainum);
+  typedef void (*test_fun)();
+  void test_thread( test_fun fun);
+  void boost_sleep(uint32_t ainum);
 
 #ifdef __cplusplus
 }//extern "C"

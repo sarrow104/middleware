@@ -97,7 +97,7 @@ void* init_middleware_soio_client(
 
 bool create_connect_client(void* ap,uint32_t aikey,const char* aiserverip,uint32_t aiserverport,sendfailure_fun aisendfailure)
 {
-	return static_cast<middleware::middleware_soio_client*>(ap)->create_connect(aikey, aiserverip, aiserverport, aisendfailure);
+  return static_cast<middleware::middleware_soio_client*>(ap)->create_connect(aikey, aiserverip, aiserverport, aisendfailure);
 }
 
 
@@ -113,12 +113,12 @@ bool close_middleware_soio(void* ap, uint32_t aikey)
 
 void test_thread( test_fun fun)
 {
-	boost::thread( boost::function<void()>(fun) );
+  boost::thread( boost::function<void()>(fun) );
 }
 
 void boost_sleep(uint32_t ainum)
 {
-	boost::this_thread::sleep(boost::posix_time::milliseconds(ainum));
+  boost::this_thread::sleep(boost::posix_time::milliseconds(ainum));
 }
 
 

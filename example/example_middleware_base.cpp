@@ -112,55 +112,55 @@ void test_middleware_la_client()
 /** recv call back */
 bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
 {
-	if (!aisclient)
-	{
-		cout << *((uint32_t*)ap) << endl;
-	}
-	else
-	{
-		cout << ap << endl;
-	}
-	aplen = 0;
-	return true;
+  if (!aisclient)
+  {
+    cout << *((uint32_t*)ap) << endl;
+  }
+  else
+  {
+    cout << ap << endl;
+  }
+  aplen = 0;
+  return true;
 };
 
 /** send failure call back*/
 bool sfcb(const char* ap, uint32_t aplen)
 {
-	cout << "send err" << endl;
-	aplen = 0;
-	return true;
+  cout << "send err" << endl;
+  aplen = 0;
+  return true;
 };
 
 void test_middleware_soio_server()
 {
 
-	middleware::middleware_soio_server lserver(13140, boost::bind(&rcb, true, _1, _2,_3), 10240, 1024, sfcb);
-	uint32_t lnum = 0;
-	while (1)
-	{
-		lserver.send(0, (const char*)&(++lnum), sizeof(uint32_t));
-		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-	}
-	while (1)
+  middleware::middleware_soio_server lserver(13140, boost::bind(&rcb, true, _1, _2,_3), 10240, 1024, sfcb);
+  uint32_t lnum = 0;
+  while (1)
+  {
+    lserver.send(0, (const char*)&(++lnum), sizeof(uint32_t));
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
+  while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
   }
-	return;
+  return;
 }
 
 
 void test_middleware_soio_client()
 {
-	middleware::middleware_soio_client lclient(boost::bind(&rcb,false,_1,_2,_3), 10240, 1024);
-	lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
-	char lbuf[] = "hello world";
-	while (1)
-	{
-		lclient.send(0, lbuf, sizeof(lbuf));
-		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
-	}
-	while (1)
+  middleware::middleware_soio_client lclient(boost::bind(&rcb,false,_1,_2,_3), 10240, 1024);
+  lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
+  char lbuf[] = "hello world";
+  while (1)
+  {
+    lclient.send(0, lbuf, sizeof(lbuf));
+    boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+  }
+  while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
   }
@@ -168,56 +168,56 @@ void test_middleware_soio_client()
 
 int main(int argc, char *argv[])
 {
-	if (argc >= 3)
-	{
+  if (argc >= 3)
+  {
 
-		if (memcmp(argv[1], "-sm", sizeof("-sm")) == 0)/** 共享内存测试 */
-		{
-			if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
-			{
-				test_middleware_sm_client();
-			}
-			else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
-			{
-				test_middleware_sm_server();
-			}
-		}
-		else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)
-		{
-			boost::thread(boost::function<void()>(test_middleware_la_server));
-			boost::thread(boost::function<void()>(test_middleware_la_client));
-		}
-		else if (memcmp(argv[1], "-soio", sizeof("-soio")) == 0)
-		{
-			if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
-			{
-				test_middleware_soio_client();
-			}
-			else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
-			{
-				test_middleware_soio_server();
-			}
-		}
+    if (memcmp(argv[1], "-sm", sizeof("-sm")) == 0)/** 共享内存测试 */
+    {
+      if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
+      {
+        test_middleware_sm_client();
+      }
+      else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
+      {
+        test_middleware_sm_server();
+      }
+    }
+    else if (memcmp(argv[1], "-la", sizeof("-la")) == 0)
+    {
+      boost::thread(boost::function<void()>(test_middleware_la_server));
+      boost::thread(boost::function<void()>(test_middleware_la_client));
+    }
+    else if (memcmp(argv[1], "-soio", sizeof("-soio")) == 0)
+    {
+      if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
+      {
+        test_middleware_soio_client();
+      }
+      else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
+      {
+        test_middleware_soio_server();
+      }
+    }
 
-		getchar();
-		return 0;
+    getchar();
+    return 0;
 
-	}
+  }
 
 
-	cout << "/** " << endl;
-	cout << " *  THIS.EXE -TYPE  -CLIENT OR SERVER " << endl;
-	cout << " *  -TYPE      -sm    [-c|-s]  共享内存" << endl;
-	cout << " *             -la    0		循环数组" << endl;
-	cout << " *             -soio  [-c|-s]  简单socket" << endl;
-	cout << " *" << endl;
-	cout << " *" << endl;
-	cout << " * example:" << endl;
-	cout << " *          THIS.EXE -sm -c " << endl;
-	cout << " *" << endl;
-	cout << " */" << endl;
+  cout << "/** " << endl;
+  cout << " *  THIS.EXE -TYPE  -CLIENT OR SERVER " << endl;
+  cout << " *  -TYPE      -sm    [-c|-s]  共享内存" << endl;
+  cout << " *             -la    0    循环数组" << endl;
+  cout << " *             -soio  [-c|-s]  简单socket" << endl;
+  cout << " *" << endl;
+  cout << " *" << endl;
+  cout << " * example:" << endl;
+  cout << " *          THIS.EXE -sm -c " << endl;
+  cout << " *" << endl;
+  cout << " */" << endl;
 
-	return 0;
+  return 0;
 }
 
  /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

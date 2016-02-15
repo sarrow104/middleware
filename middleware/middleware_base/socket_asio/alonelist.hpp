@@ -59,8 +59,8 @@ public:
 
           T* ret = *arr.rbegin();
           arr.pop_back();
+          return ret;
         }/** 锁作用域 */
-        return ret;
       }
       mo_semls.wait();
     }

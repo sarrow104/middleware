@@ -29,6 +29,10 @@ set(TARGET_OUTPUT_FULL_PATH ${LIBRARY_OUTPUT_PATH}/${target_name})
 
 target_link_libraries(${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
+#incidental
+add_executable(incidental ../example/example_incidental.cpp)
+target_link_libraries(incidental ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
 #logsys
 add_executable(logsys ../example/example_logsys.cpp)
 target_link_libraries(logsys ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
@@ -36,6 +40,14 @@ target_link_libraries(logsys ${target_name} ${Boost_LIBRARIES} Threads::Threads 
 #loop_array
 add_executable(loop_array ../example/example_loop_array.cpp)
 target_link_libraries(loop_array ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
+#middleware_base
+add_executable(middleware_base ../example/example_middleware_base.cpp)
+target_link_libraries(middleware_base ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
+#middleware_base_c
+add_executable(middleware_base_c ../example/example_middleware_base.c)
+target_link_libraries(middleware_base_c ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
 #segmentation_pack
 add_executable(segmentation_pack ../example/example_segmentation_pack.cpp)
