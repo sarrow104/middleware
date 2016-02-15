@@ -10,67 +10,67 @@
 
 namespace middleware {
 
-	class socket_asio_server_keep :
-		public socket_asio_server
-	{
-		static alonelist3<socket_asio_session_base> m_alone;
-	protected:
-		virtual socket_asio_session_base* get_session()
-		{
-			return m_alone.get_instance();
-		}
+  class socket_asio_server_keep :
+    public socket_asio_server
+  {
+    static alonelist3<socket_asio_session_base> m_alone;
+  protected:
+    virtual socket_asio_session_base* get_session()
+    {
+      return m_alone.get_instance();
+    }
 
-		virtual void release_session(socket_asio_session_base* ap)
-		{
-			return m_alone.release_instance(ap);
-		}
-	public:
-		/* ai_recv_callbackfun ÖÐÓ¦¸ÃÓÐ aithreadsize ¸ö»Øµ÷ */
-		socket_asio_server_keep(
-			socket_asio_arg& aiarg,
-			socket_asio_tcp_io_service_pool* ap
-			)
-		{
-			static bool lfirst = true;
-			if (lfirst)
-			{
-				lfirst = false;
-				std::vector<socket_asio_session_base*>& lvec =
-					socket_asio_session_base::get_sessionidmapp( /*TYPE_KEEP*/).get_sessionmapp(aiarg.m_session_num);
-				uint32_t lthreadmaxsize = aiarg.get_thread_maxsize();
-				uint32_t lgroupsize = aiarg.m_session_num / lthreadmaxsize;
+    virtual void release_session(socket_asio_session_base* ap)
+    {
+      return m_alone.release_instance(ap);
+    }
+  public:
+    /* ai_recv_callbackfun ä¸­åº”è¯¥æœ‰ aithreadsize ä¸ªå›žè°ƒ */
+    socket_asio_server_keep(
+      socket_asio_arg& aiarg,
+      socket_asio_tcp_io_service_pool* ap
+      )
+    {
+      static bool lfirst = true;
+      if (lfirst)
+      {
+        lfirst = false;
+        std::vector<socket_asio_session_base*>& lvec =
+          socket_asio_session_base::get_sessionidmapp( /*TYPE_KEEP*/).get_sessionmapp(aiarg.m_session_num);
+        uint32_t lthreadmaxsize = aiarg.get_thread_maxsize();
+        uint32_t lgroupsize = aiarg.m_session_num / lthreadmaxsize;
 
-				uint32_t linum;
-				for (uint32_t i = 0; i < aiarg.m_session_num; ++i)
-				{
-					if (i % lgroupsize == 0)
-					{
-						linum = ap->get_next_io_service();
-					}
-					lvec[i] = new socket_asio_session_keep(aiarg, linum, ap->get_io_service(), &m_alone);
-				}
+        uint32_t linum;
+        for (uint32_t i = 0; i < aiarg.m_session_num; ++i)
+        {
+          if (i % lgroupsize == 0)
+          {
+            linum = ap->get_next_io_service();
+          }
+          lvec[i] = new socket_asio_session_keep(aiarg, linum, ap->get_io_service(), &m_alone);
+        }
 
-				uint32_t ltemp_num = 0;
-				while (ltemp_num != lthreadmaxsize)
-				{
-					m_alone.create(std::vector<socket_asio_session_base*>(
-						lvec.begin() + (ltemp_num*lgroupsize),
-						lvec.begin() + (ltemp_num*lgroupsize + lgroupsize)
-						));
-					++ltemp_num;
-				}
+        uint32_t ltemp_num = 0;
+        while (ltemp_num != lthreadmaxsize)
+        {
+          m_alone.create(std::vector<socket_asio_session_base*>(
+            lvec.begin() + (ltemp_num*lgroupsize),
+            lvec.begin() + (ltemp_num*lgroupsize + lgroupsize)
+            ));
+          ++ltemp_num;
+        }
 
-			}
+      }
 
-			m_spc = aiarg.m_middlewarearr[aiarg.get_thread_pos()];
+      m_spc = aiarg.m_middlewarearr[aiarg.get_thread_pos()];
 
-		}
+    }
 
-		virtual bool send(char* apdata, uint32_t aiwlen)
-		{
-			return m_spc->send(apdata, aiwlen);
-		}
-	};
+    virtual bool send(char* apdata, uint32_t aiwlen)
+    {
+      return m_spc->send(apdata, aiwlen);
+    }
+  };
 
 } //namespace middleware 
 #endif //SOCKET_ASIO_SERVER_KEEP_H

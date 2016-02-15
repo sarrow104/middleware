@@ -10,22 +10,22 @@
 
 namespace middleware {
 
-	class socket_asio_server
-	{
-		socket_asio_server(const socket_asio_server&);
-	protected:
-		middleware_base* m_spc;
-		socket_asio_server()
-		{
-			//socket_asio_session_base::init();
-		}
-	public:
-		virtual socket_asio_session_base* get_session() = 0;
-		virtual void release_session(socket_asio_session_base* ap) = 0;
-		virtual bool send(char* apdata, uint32_t aiwlen) = 0;
-	};
+  class socket_asio_server
+  {
+    socket_asio_server(const socket_asio_server&);
+  protected:
+    middleware_base* m_spc;
+    socket_asio_server()
+    {
+      //socket_asio_session_base::init();
+    }
+  public:
+    virtual socket_asio_session_base* get_session() = 0;
+    virtual void release_session(socket_asio_session_base* ap) = 0;
+    virtual bool send(char* apdata, uint32_t aiwlen) = 0;
+  };
 
 } //namespace middleware
 #endif //SOCKET_ASIO_BASE_H
 
-	/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+  /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

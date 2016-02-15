@@ -53,9 +53,9 @@ void test2( bool aibo ,uint32_t aisize)
   auto fun = [&lnow,&aisize,&aibo](const char* ap, uint32_t aplen)
   {
     if(aibo)
-		cout << "server[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
-	else
-		cout << "client[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
+    cout << "server[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
+  else
+    cout << "client[" << ap << "]\t[" << time(NULL) - lnow << "s]" << endl;
     return true;
   };
   middleware::middleware_looparray lmc( "lb", TEST_BUFFER_SIZE, TEST_ONCE_BUFFER_SIZE,fun,false,aibo);

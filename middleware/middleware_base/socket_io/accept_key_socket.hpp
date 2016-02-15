@@ -107,18 +107,18 @@ namespace middleware{
       auto itor = m_socket_key.right.find(lkey);
       if (itor != m_socket_key.right.end())
       {
-		 if( (const_cast<key_stat*>(&itor->first))->get_stat() )
-		 { 
-			closesocket(aisocket);
-			return;
-		 }
-		 else
-		 {
-			 m_socket_key.right.erase( itor );
-		 }
+     if( (const_cast<key_stat*>(&itor->first))->get_stat() )
+     { 
+      closesocket(aisocket);
+      return;
+     }
+     else
+     {
+       m_socket_key.right.erase( itor );
+     }
       }
-	  m_socket_key.insert(boost::bimap<SOCKET, key_stat>::value_type(aisocket, lkey));
-	 
+    m_socket_key.insert(boost::bimap<SOCKET, key_stat>::value_type(aisocket, lkey));
+   
       
       /** 回复 */
       if (g_send(aisocket, lirecv, liret) <= 0)
@@ -127,7 +127,7 @@ namespace middleware{
         return;
       }
 
-	  
+    
 
       middleware::tools::threadpool::asyn_thread( boost::bind( &accept_key_socket::recv, this, aisocket, lkey) );
     }
