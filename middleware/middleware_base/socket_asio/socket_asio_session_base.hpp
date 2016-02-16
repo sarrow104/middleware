@@ -127,28 +127,34 @@ public:
       m_groupid(aigroupid),
       m_settimer(SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
     {
-      m_tools.init(aiarg.get_thread_maxsize());
+		static bool linit = true;
+		if( linit )
+		{
+			linit = false;
+			m_tools.init(aiarg.get_thread_maxsize());
+		}
+			
 
       //m_errlog = aiarg.m_errlog;
       //middleware
-	  if (get_middleware() == NULL)
+	  if (get_extern_middleware() == NULL)
 	  {
 		  //
 		  std::string lstr;
 		  if (get_str(lstr, aiarg.m_port, aigroupid))
 		  {
 
-			  boost::function<void(middleware_base*&)> lfun = [&aiarg,&lstr,&aigroupid]( middleware_base*& ap )
+			  socket_asio_session_base*const&  lthis = this; 
+			  boost::thread(  [&aiarg,&lstr,&aigroupid,&lthis]()
 			  {
-				  ap =
+				  lthis->get_middleware() =
 					  new middleware::middleware_la_server(
 					  lstr.c_str(),
 					  aiarg.m_extern_loopbuffermaxsize,
 					  aiarg.m_extern_everyoncemaxsize,
 					  (aiarg.m_callbackfun[aigroupid]),
 					  aiarg.m_extern_activ);
-			  };
-			  boost::thread( boost::bind( lfun, get_middleware() ) );
+			  } );
 
 			  get_extern_middleware() =
 				  new middleware::middleware_la_client(
@@ -158,6 +164,9 @@ public:
 				  (aiarg.m_callbackfun[aigroupid]),
 				  aiarg.m_extern_activ);
 			  aiarg.m_middlewarearr[aigroupid] = get_extern_middleware();
+
+
+
 		  }
 		  else
 		  {

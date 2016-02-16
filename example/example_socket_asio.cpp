@@ -5,7 +5,7 @@
 
 int main()
 {
-	middleware::socket_asio_arg larg( 5 );
+	middleware::socket_asio_arg larg( 4 );
 
 	larg.m_activ = false;
 	larg.m_extern_activ = false;
