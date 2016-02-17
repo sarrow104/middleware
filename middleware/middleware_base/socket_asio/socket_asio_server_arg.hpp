@@ -23,7 +23,7 @@ namespace middleware {
     uint32_t m_timeout;                                         /** 连接无活动的存活时间 单位秒 */
     uint16_t m_port;                                            /** 端口号 */
     uint32_t m_recvpack_maxsize;                                /** 最大单个包大小 */
-    middleware_base** m_middlewarearr;                          /** 返回参数,用于发送 个数与线程数一致 */
+    std::vector<middleware_base*> m_middlewarearr;                          /** 返回参数,用于发送 个数与线程数一致 */
     uint32_t m_session_num;                                     /** 也就是最大连接数 */
     uint32_t m_loopbuffermaxsize;                               /** 环形数组缓冲大小 */
     uint32_t m_everyoncemaxsize;                                /** 单条数据最大大小 */
@@ -40,8 +40,8 @@ namespace middleware {
       m_thread_pos(0)
     {
       m_threadmaxsize = aithreadsize;
-      m_middlewarearr = new middleware_base*[aithreadsize];
-			m_callbackfun.resize(aithreadsize, aifun);
+      m_callbackfun.resize(aithreadsize, aifun);
+			m_middlewarearr.resize(aithreadsize);
     }
 
     uint32_t get_thread_pos()
@@ -51,7 +51,6 @@ namespace middleware {
 
     ~socket_asio_arg()
     {
-      delete[] m_middlewarearr;
     }
 
     uint32_t get_thread_maxsize()const

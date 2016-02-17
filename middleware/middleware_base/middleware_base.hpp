@@ -11,6 +11,8 @@
 #include "middleware/middleware_base/loop_array/loop_array_middleware.hpp"
 #include "middleware/middleware_base/socket_io/gateway_client.hpp"
 #include "middleware/middleware_base/socket_io/gateway_server.hpp"
+//#include "middleware/middleware_base/socket_asio/socket_asio_mgt.hpp"
+//#include "middleware/middleware_base/socket_asio/socket_asio_server_arg.hpp"
 
 #include <cstdint>
 
@@ -281,11 +283,43 @@ namespace middleware {
     {
       return m_asi.create_conkey(aikey, aiserverip, aiserverport, aisendfailure);
     }
-  virtual uint8_t type()
-  {
-    return E_MW_TYPE::E_SOIO_CLIENT;
-  }
+		virtual uint8_t type()
+		{
+			return E_MW_TYPE::E_SOIO_CLIENT;
+		}
   };
+
+
+	/**
+	*  socket asio 服务器
+	*/
+	class middleware_asio_server :
+		public socket_middleware_base
+	{
+	public:
+		middleware_asio_server(socket_asio_arg& aiarg)
+		{
+			/** 初始化 */
+			//socket_asio_server_mgt::init(aiarg);
+
+
+		}
+
+		virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen)
+		{
+			//return m_asi.send(aikey, apdata, aiwlen);
+		}
+
+		virtual bool close(uint32_t aikey)
+		{
+			//return m_asi.close(aikey);
+		}
+
+		virtual uint8_t type()
+		{
+			//return E_MW_TYPE::E_SOIO_SERVER;
+		}
+	};
 
 }
 

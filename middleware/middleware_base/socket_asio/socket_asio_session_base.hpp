@@ -139,7 +139,7 @@ public:
 		  {
 				socket_asio_session_base*const& lthis = this;
 				
-			  boost::thread([&aiarg, &lstr, &aigroupid, &lthis]()
+			  boost::thread([&aiarg, lstr, aigroupid, lthis]()
 				{
 					lthis->get_middleware() =
 						new middleware::middleware_la_server(
