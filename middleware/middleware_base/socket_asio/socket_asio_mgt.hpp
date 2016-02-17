@@ -118,7 +118,7 @@ namespace middleware {
       }
     }
 
-    static void start(uint32_t aitype)
+    static void start()
     {
       accept();
     }

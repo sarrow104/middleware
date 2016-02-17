@@ -12,6 +12,7 @@ namespace middleware {
 		/** 初始化 */
 		socket_asio_server_mgt::init(aiarg);
 		m_send = aiarg.m_middlewarearr;
+		socket_asio_server_mgt::start();
 	}
 
 	bool middleware_asio_server::send(uint32_t aikey, const char* apdata, uint32_t aiwlen)

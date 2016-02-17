@@ -1,9 +1,6 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-///        Copyright 2016 libo. All rights reserved
-///   (Home at https://github.com/NingLeixueR/middleware/)
-
 #ifndef MIDDLEWARE_BASE_HPP
 #define MIDDLEWARE_BASE_HPP
 
@@ -313,7 +310,7 @@ namespace middleware {
 	/**
 	*  socket asio 服务器
 	*/
-	/** 声明需要用到的类 */
+
 	class socket_asio_arg;
 
 	class middleware_asio_server :

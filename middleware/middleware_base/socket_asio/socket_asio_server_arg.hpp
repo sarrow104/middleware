@@ -7,6 +7,9 @@
 #include <cstdint>
 #include <boost/function.hpp>
 
+#include "middleware/middleware_base/middleware_base.hpp"
+
+
 namespace middleware {
 
   class middleware_base;
@@ -36,11 +39,11 @@ namespace middleware {
     bool m_s2c;                                                 /** 服务器与客户端的连接断开是否通知上层 */
     uint32_t m_heartbeat_num;                                   /** 心跳协议号,收到后重置time out时间，然后丢弃 */
 
-    socket_asio_arg(uint32_t aithreadsize, boost::function<bool(const char*, uint32_t)> aifun) :
+    socket_asio_arg(uint32_t aithreadsize, std::vector<boost::function<bool(const char*, uint32_t)> >& aifun) :
       m_thread_pos(0)
     {
       m_threadmaxsize = aithreadsize;
-      m_callbackfun.resize(aithreadsize, aifun);
+      m_callbackfun.swap(aifun);
 			m_middlewarearr.resize(aithreadsize);
     }
 
@@ -67,6 +70,18 @@ namespace middleware {
 			
 		}
   };
+
+
+
+
+	middleware_asio_server& asio_server(middleware_asio_server* ap = nullptr);
+
+
+
+
+
+
+
 
 };  //namespace middleware_base
 #endif //SOCKET_ASIO_SERVER_ARG_H

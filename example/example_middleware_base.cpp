@@ -2,6 +2,7 @@
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include "middleware/middleware_base/middleware_base.hpp"
+#include "middleware/middleware_base/socket_asio/socket_asio_server_arg.hpp"
 
 #include <iostream>
 
@@ -166,6 +167,68 @@ void test_middleware_soio_client()
   }
 }
 
+
+
+
+void test_middleware_asio_server()
+{
+	boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
+		std::cout << ap << std::endl;
+		middleware::asio_server().send(ainum,ap, aplen);
+		return true;
+	};
+
+	std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
+	for (uint32_t i = 0; i < 5; ++i)
+	{
+		ltemp[i] = boost::bind(apfun,i,_1,_2);
+	}
+
+
+	middleware::socket_asio_arg larg(5, ltemp);
+
+	larg.m_activ = false;
+	larg.m_extern_activ = false;
+
+	larg.m_everyoncemaxsize = 1024;
+	larg.m_extern_everyoncemaxsize = 1024;
+	larg.m_extern_loopbuffermaxsize = 10240;
+	larg.m_loopbuffermaxsize = 10240;
+	larg.m_heartbeat_num = 32;
+	larg.m_persecond_recvdatatbyte_num = 1024;
+	larg.m_port = 13104;
+	larg.m_recvpack_maxsize = 1024;
+	larg.m_timeout = 10240;
+	larg.m_s2c = true;
+	larg.m_s2s = true;
+	larg.m_session_num = 10240;
+	middleware::middleware_asio_server lser(larg);
+	middleware::asio_server( &lser );
+	while (1)
+	{
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+}
+
+
+void test_middleware_asio_client()
+{
+	middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
+	lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
+	char lbuf[] = "hello world";
+	while (1)
+	{
+		lclient.send(0, lbuf, sizeof(lbuf));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+	while (1)
+	{
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+}
+
+
+
 int main(int argc, char *argv[])
 {
   if (argc >= 3)
@@ -198,6 +261,17 @@ int main(int argc, char *argv[])
         test_middleware_soio_server();
       }
     }
+		else if (memcmp(argv[1], "-asio", sizeof("-asio")) == 0)
+		{
+			if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
+			{
+				test_middleware_asio_client();
+			}
+			else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
+			{
+				test_middleware_asio_server();
+			}
+		}
 
     getchar();
     return 0;
