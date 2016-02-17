@@ -5,15 +5,23 @@
 
 int main()
 {
-	middleware::socket_asio_arg larg( 4 );
+
+	boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
+		std::cout << ap << std::endl;
+		middleware::asio_server().send(ainum,ap, aplen);
+		return true;
+	};
+
+	std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
+	for (uint32_t i = 0; i < 5; ++i)
+	{
+		ltemp[i] = boost::bind(apfun,i,_1,_2);
+	}
+	middleware::socket_asio_arg larg( 5, ltemp);
 
 	larg.m_activ = false;
 	larg.m_extern_activ = false;
-	 boost::function<bool(const char*, uint32_t)> apfun = [](const char* ap, uint32_t aplen){
-		std::cout << ap << std::endl;
-		return true;
-	};
-	larg.m_callbackfun = &apfun;
+
 	larg.m_everyoncemaxsize = 1024;
 	larg.m_extern_everyoncemaxsize = 1024;
 	larg.m_extern_loopbuffermaxsize = 10240;

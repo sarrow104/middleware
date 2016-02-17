@@ -109,7 +109,7 @@ namespace middleware{
     /* 设置群发队列 */
     bool SH_set_mass_send_arr(std::vector< session_infor >& aisessionarr)
     {
-      get_mass_size() = aisessionarr.size();
+      get_mass_size() = (HEAD_MASS_SIZE_TYPE)aisessionarr.size();
       m_mass.reset(const_cast<char*>(&m_data[get_server_protocol_len()]));
       return m_mass.set_mass_send_arr(aisessionarr);
     }

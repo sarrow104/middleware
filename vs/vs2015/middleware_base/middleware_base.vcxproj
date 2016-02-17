@@ -155,6 +155,12 @@
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\close_socket_session.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_mgt.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_arg.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_keep.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />

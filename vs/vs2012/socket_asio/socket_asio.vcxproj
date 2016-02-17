@@ -28,6 +28,7 @@
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\close_socket_session.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_mgt.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_arg.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_keep.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_base.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_keep.cpp" />
@@ -36,12 +37,13 @@
     <ProjectGuid>{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>socket_asio</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
