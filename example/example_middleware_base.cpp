@@ -156,6 +156,8 @@ void test_middleware_soio_client()
 	middleware::middleware_soio_client lclient(boost::bind(&rcb,false,_1,_2,_3), 10240, 1024);
 	lclient.create_connkey(0, "127.0.0.1", 13140, sfcb);
 	char lbuf[] = "hello world";
+
+
 	while (1)
 	{
 		lclient.send(0, lbuf, sizeof(lbuf));
