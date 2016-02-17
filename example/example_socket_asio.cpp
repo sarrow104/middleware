@@ -1,11 +1,38 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/middleware_base/socket_asio/socket_asio_mgt.hpp"
+#include "middleware/middleware_base/middleware_base.hpp"
+#include "middleware/middleware_base/socket_asio/socket_asio_server_arg.hpp"
 
-int main()
+#include <iostream>
+
+
+/** recv call back */
+bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
 {
+	if (!aisclient)
+	{
+		std::cout << *((uint32_t*)ap) << std::endl;
+	}
+	else
+	{
+		std::cout << ap << std::endl;
+	}
+	aplen = 0;
+	return true;
+};
 
+/** send failure call back*/
+bool sfcb(const char* ap, uint32_t aplen)
+{
+	std::cout << "send err" << std::endl;
+	aplen = 0;
+	return true;
+};
+
+
+void test_middleware_asio_server()
+{
 	boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
 		std::cout << ap << std::endl;
 		middleware::asio_server().send(ainum,ap, aplen);
@@ -17,7 +44,9 @@ int main()
 	{
 		ltemp[i] = boost::bind(apfun,i,_1,_2);
 	}
-	middleware::socket_asio_arg larg( 5, ltemp);
+
+
+	middleware::socket_asio_arg larg(5, ltemp);
 
 	larg.m_activ = false;
 	larg.m_extern_activ = false;
@@ -27,15 +56,73 @@ int main()
 	larg.m_extern_loopbuffermaxsize = 10240;
 	larg.m_loopbuffermaxsize = 10240;
 	larg.m_heartbeat_num = 32;
-	larg.m_persecond_recvdatatbyte_num =1024;
-	larg.m_port = 13104;
+	larg.m_persecond_recvdatatbyte_num = 1024;
+	larg.m_port = 13140;
 	larg.m_recvpack_maxsize = 1024;
 	larg.m_timeout = 10240;
 	larg.m_s2c = true;
 	larg.m_s2s = true;
 	larg.m_session_num = 10240;
+	middleware::middleware_asio_server lser(larg);
+	middleware::asio_server( &lser );
+	while (1)
+	{
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+}
 
-	middleware::socket_asio_server_mgt* lsasm = middleware::socket_asio_server_mgt::init( larg );
+
+void test_middleware_asio_client()
+{
+	middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
+	lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
+	char lbuf[] = "hello world";
+	while (1)
+	{
+		lclient.send(0, lbuf, sizeof(lbuf));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+	while (1)
+	{
+		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	}
+}
+
+
+
+
+
+
+int main(int argc, char *argv[])
+{
+	if (argc >= 3)
+	{
+		if (memcmp(argv[1], "-asio", sizeof("-asio")) == 0)
+		{
+			if (memcmp(argv[2], "-c", sizeof("-c")) == 0)
+			{
+				test_middleware_asio_client();
+			}
+			else if (memcmp(argv[2], "-s", sizeof("-s")) == 0)
+			{
+				test_middleware_asio_server();
+			}
+			else
+			{
+				goto PRINT_MESSAGE;
+			}
+		}
+		else
+		{
+			goto PRINT_MESSAGE;
+		}
+		return 0;
+	}
+
+PRINT_MESSAGE:
+	std::cout << "/** " << std::endl;
+	std::cout << " *  THIS.EXE   -asio    [-c|-s]  " << std::endl;
+	std::cout << " */" << std::endl;
 
     return 0;
 }

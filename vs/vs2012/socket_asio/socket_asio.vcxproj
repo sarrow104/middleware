@@ -26,12 +26,19 @@
     <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\close_socket_session.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_mgt.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_arg.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_keep.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_base.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EF9FD843-2DE5-4FA3-9C16-94580EFD4C94}</ProjectGuid>
@@ -43,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
