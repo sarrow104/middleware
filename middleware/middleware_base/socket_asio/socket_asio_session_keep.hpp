@@ -33,7 +33,7 @@ namespace middleware {
     }
 
     explicit socket_asio_session_keep(
-      const socket_asio_arg& aiarg,
+      socket_asio_arg& aiarg,
       size_t aigroupid,
       boost::asio::io_service& aiio_service,
       alonelist3<socket_asio_session_base>* aialone
