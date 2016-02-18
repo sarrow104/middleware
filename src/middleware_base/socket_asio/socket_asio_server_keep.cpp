@@ -10,3 +10,4 @@ namespace middleware {
 alonelist3<socket_asio_session_base> socket_asio_server_keep::m_alone;
 
 } //namespace middleware
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

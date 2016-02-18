@@ -9,3 +9,4 @@ socket_asio_server_mgt* socket_asio_server_mgt::m_this;
 socket_asio_server_mgt::static_member_keep socket_asio_server_mgt::m_smsk;
 
 } //namespace middleware
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

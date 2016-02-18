@@ -5,11 +5,11 @@
 
 namespace middleware {
 
-	middleware_asio_server& asio_server(middleware_asio_server* ap)
-	{
-		static middleware_asio_server* lap = ap;
-		return *lap;
-	}
+  middleware_asio_server& asio_server(middleware_asio_server* ap)
+  {
+    static middleware_asio_server* lap = ap;
+    return *lap;
+  }
 
 }  //namespace middleware
-	 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+   /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
