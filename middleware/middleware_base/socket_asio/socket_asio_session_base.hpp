@@ -127,50 +127,50 @@ public:
       m_groupid(aigroupid),
       m_settimer(spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
     {
-		static bool linit = true;
-		if( linit )
-		{
-			linit = false;
-			m_tools.init(aiarg.get_thread_maxsize());
-		}
-			
+    static bool linit = true;
+    if( linit )
+    {
+      linit = false;
+      m_tools.init(aiarg.get_thread_maxsize());
+    }
+      
 
       //m_errlog = aiarg.m_errlog;
       //middleware
-	  if (get_extern_middleware() == NULL)
-	  {
-		  //
-		  std::string lstr;
-		  if (get_str(lstr, aiarg.m_port, aigroupid))
-		  {
-			  socket_asio_session_base*const& lthis = this;				
-			  boost::thread([&aiarg, lstr, aigroupid, lthis]()
-				{
-					lthis->get_middleware() =
-						new middleware::middleware_la_server(
-							lstr.c_str(),
-							aiarg.m_extern_loopbuffermaxsize,
-							aiarg.m_extern_everyoncemaxsize,
-							aiarg.get_callbackfun(aigroupid),
-							aiarg.m_extern_activ);
-				} );
+    if (get_extern_middleware() == NULL)
+    {
+      //
+      std::string lstr;
+      if (get_str(lstr, aiarg.m_port, aigroupid))
+      {
+        socket_asio_session_base*const& lthis = this;       
+        boost::thread([&aiarg, lstr, aigroupid, lthis]()
+        {
+          lthis->get_middleware() =
+            new middleware::middleware_la_server(
+              lstr.c_str(),
+              aiarg.m_extern_loopbuffermaxsize,
+              aiarg.m_extern_everyoncemaxsize,
+              aiarg.get_callbackfun(aigroupid),
+              aiarg.m_extern_activ);
+        } );
 
-			  get_extern_middleware() =
-				  new middleware::middleware_la_client(
-				  lstr.c_str(),
-				  aiarg.m_extern_loopbuffermaxsize,
-				  aiarg.m_extern_everyoncemaxsize,
-				  aiarg.get_callbackfun(aigroupid),
-				  aiarg.m_extern_activ);
-			  aiarg.m_middlewarearr[aigroupid] = get_extern_middleware();
+        get_extern_middleware() =
+          new middleware::middleware_la_client(
+          lstr.c_str(),
+          aiarg.m_extern_loopbuffermaxsize,
+          aiarg.m_extern_everyoncemaxsize,
+          aiarg.get_callbackfun(aigroupid),
+          aiarg.m_extern_activ);
+        aiarg.m_middlewarearr[aigroupid] = get_extern_middleware();
 
 
 
-		  }
-		  else
-		  {
-			  //错误
-		  }
+      }
+      else
+      {
+        //错误
+      }
         
       }
 
@@ -248,7 +248,7 @@ public:
       return m_tools.m_sessionidmapp;
     }
 
-		spack_head::protocol_head& get_php()
+    spack_head::protocol_head& get_php()
     { 
       return m_tools.m_php[m_groupid]; 
     }
@@ -486,7 +486,7 @@ public:
     static bool middleware_callback(const char* ap, uint32_t aplen)
     {
       //uint8_t lgroupid = GET_GROUPID( ap );
-			spack_head::protocol_head m_php2;
+      spack_head::protocol_head m_php2;
       m_php2.reset(ap, aplen);
 
 

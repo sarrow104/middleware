@@ -25,8 +25,8 @@ namespace middleware {
 
     E_SOIO_SERVER,
     E_SOIO_CLIENT,
-		E_ASIO_SERVER,
-		E_ASIO_CLIENT,
+    E_ASIO_SERVER,
+    E_ASIO_CLIENT,
   };
 
   class middleware_type
@@ -208,15 +208,15 @@ namespace middleware {
     {
       return false;
     }
-	bool create_connkey(
-		uint32_t aikey,
-		std::string aiserverip,
-		uint32_t aiserverport,
-		boost::function<bool(const char*, uint32_t)> aisendfailure
-		)
-	{
-		return false;
-	}
+  bool create_connkey(
+    uint32_t aikey,
+    std::string aiserverip,
+    uint32_t aiserverport,
+    boost::function<bool(const char*, uint32_t)> aisendfailure
+    )
+  {
+    return false;
+  }
 
   };
 
@@ -292,88 +292,88 @@ namespace middleware {
       return m_asi.create_conkey(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-		bool create_connect(uint32_t aikey,
-			std::string aiserverip,
-			uint32_t aiserverport,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			return m_asi.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
-		}
+    bool create_connect(uint32_t aikey,
+      std::string aiserverip,
+      uint32_t aiserverport,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      return m_asi.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
+    }
 
-		virtual uint8_t type()
-		{
-			return E_MW_TYPE::E_SOIO_CLIENT;
-		}
+    virtual uint8_t type()
+    {
+      return E_MW_TYPE::E_SOIO_CLIENT;
+    }
   };
 
 
-	/**
-	*  socket asio 服务器
-	*/
+  /**
+  *  socket asio 服务器
+  */
 
-	struct socket_asio_arg;
+  struct socket_asio_arg;
 
-	class middleware_asio_server :
-		public socket_middleware_base
-	{
-		std::vector<middleware_base*> m_send;
-	public:
-		middleware_asio_server(socket_asio_arg& aiarg);
+  class middleware_asio_server :
+    public socket_middleware_base
+  {
+    std::vector<middleware_base*> m_send;
+  public:
+    middleware_asio_server(socket_asio_arg& aiarg);
 
-		virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen);
+    virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen);
 
-		virtual bool close(uint32_t aikey);
+    virtual bool close(uint32_t aikey);
 
-		virtual uint8_t type();
+    virtual uint8_t type();
 
-	};
+  };
 
 
-	/**
-	*  socket asio 客户端
-	*/
-	class middleware_asio_client :
-		public socket_middleware_base
-	{
-		middleware_soio_client m_soio;
-	public:
-		middleware_asio_client(
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
-			uint32_t aimaxsize,
-			uint32_t aievery_once_max_size
-			) :
-			m_soio(logic_recv_callback, aimaxsize, aievery_once_max_size)
-		{}
+  /**
+  *  socket asio 客户端
+  */
+  class middleware_asio_client :
+    public socket_middleware_base
+  {
+    middleware_soio_client m_soio;
+  public:
+    middleware_asio_client(
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
+      uint32_t aimaxsize,
+      uint32_t aievery_once_max_size
+      ) :
+      m_soio(logic_recv_callback, aimaxsize, aievery_once_max_size)
+    {}
 
-		void create_connect()
-		{
-			m_soio.create_connect();
-		}
-		virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
-		{
-			return m_soio.send(aikey, apdata, aiwlen);
-		}
+    void create_connect()
+    {
+      m_soio.create_connect();
+    }
+    virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
+    {
+      return m_soio.send(aikey, apdata, aiwlen);
+    }
 
-		virtual bool close(uint32_t aikey)
-		{
-			return m_soio.close(aikey);
-		}
+    virtual bool close(uint32_t aikey)
+    {
+      return m_soio.close(aikey);
+    }
 
-		bool create_connect(
-			uint32_t aikey,
-			std::string aiserverip,
-			uint32_t aiserverport,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			return m_soio.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
-		}
-		virtual uint8_t type()
-		{
-			return E_MW_TYPE::E_ASIO_CLIENT;
-		}
-	};
+    bool create_connect(
+      uint32_t aikey,
+      std::string aiserverip,
+      uint32_t aiserverport,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      return m_soio.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
+    }
+    virtual uint8_t type()
+    {
+      return E_MW_TYPE::E_ASIO_CLIENT;
+    }
+  };
 
 
 
