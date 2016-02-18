@@ -190,12 +190,10 @@ void test_middleware_asio_server()
 		ltemp[i] = boost::bind(apfun,i,_1,_2);
 	}
 
-
 	middleware::socket_asio_arg larg(5, ltemp);
 
 	larg.m_activ = false;
 	larg.m_extern_activ = false;
-
 	larg.m_everyoncemaxsize = 1024;
 	larg.m_extern_everyoncemaxsize = 1024;
 	larg.m_extern_loopbuffermaxsize = 10240;
@@ -208,6 +206,7 @@ void test_middleware_asio_server()
 	larg.m_s2c = true;
 	larg.m_s2s = true;
 	larg.m_session_num = 10240;
+
 	middleware::middleware_asio_server lser(larg);
 	middleware::asio_server( &lser );
 	while (1)

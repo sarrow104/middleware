@@ -15,15 +15,6 @@ bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
 	char ch[sizeof("hello world")] = { 0 };
 	luhp.pop(ch);
 	std::cout << ch << std::endl;
-	if (!aisclient)
-	{
-		std::cout << *((uint32_t*)ap) << std::endl;
-	}
-	else
-	{
-		std::cout << ap << std::endl;
-	}
-	aplen = 0;
 	return true;
 };
 
