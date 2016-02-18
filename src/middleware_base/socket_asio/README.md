@@ -47,8 +47,6 @@ SOCKET asio
       middleware::asio_server().send(ainum,ap, aplen);
       return true;
     };
-    '''
-    '''cpp
     /** 初始化一个socket_asio_arg对象 */
     std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
 	  for (uint32_t i = 0; i < 5; ++i)
