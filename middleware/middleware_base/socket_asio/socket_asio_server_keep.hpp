@@ -53,7 +53,7 @@ namespace middleware {
         uint32_t ltemp_num = 0;
         while (ltemp_num != lthreadmaxsize)
         {
-          m_alone.create(std::vector<socket_asio_session_base*>(
+          m_alone.alonelist3<socket_asio_session_base>::create(std::vector<socket_asio_session_base*>(
             lvec.begin() + (ltemp_num*lgroupsize),
             lvec.begin() + (ltemp_num*lgroupsize + lgroupsize)
             ));

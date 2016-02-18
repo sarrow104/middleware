@@ -207,7 +207,7 @@ public:
   }
   
   template <typename T_ARRAY>
-  static void create(T_ARRAY& aivec)
+  static void create(const T_ARRAY& aivec)
   {
     arr.resize( ++m_count );
     arr_copy.resize( m_count );
