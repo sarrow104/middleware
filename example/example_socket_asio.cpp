@@ -10,6 +10,11 @@
 /** recv call back */
 bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
 {
+	middleware::unpack_head_process<middleware::cpack_head::protocol_head> luhp;
+	luhp.reset(ap, aplen);
+	char ch[sizeof("hello world")] = { 0 };
+	luhp.pop(ch);
+	std::cout << ch << std::endl;
 	if (!aisclient)
 	{
 		std::cout << *((uint32_t*)ap) << std::endl;
@@ -30,19 +35,22 @@ bool sfcb(const char* ap, uint32_t aplen)
 	return true;
 };
 
-
 void test_middleware_asio_server()
 {
-	boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
-		std::cout << ap << std::endl;
-		middleware::asio_server().send(ainum,ap, aplen);
+	boost::function<bool(uint32_t, const char*, uint32_t)> apfun = [](uint32_t ainum, const char* ap, uint32_t aplen) {
+		middleware::unpack_head_process<middleware::spack_head::protocol_head> luhp;
+		luhp.reset(ap, aplen);
+		char ch[sizeof("hello world")] = { 0 };
+		luhp.pop(ch);
+		std::cout << ch << std::endl;
+		middleware::asio_server().send(ainum, ap, aplen);
 		return true;
 	};
 
 	std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
 	for (uint32_t i = 0; i < 5; ++i)
 	{
-		ltemp[i] = boost::bind(apfun,i,_1,_2);
+		ltemp[i] = boost::bind(apfun, i, _1, _2);
 	}
 
 
@@ -64,22 +72,24 @@ void test_middleware_asio_server()
 	larg.m_s2s = true;
 	larg.m_session_num = 10240;
 	middleware::middleware_asio_server lser(larg);
-	middleware::asio_server( &lser );
+	middleware::asio_server(&lser);
 	while (1)
 	{
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 }
 
-
 void test_middleware_asio_client()
 {
 	middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
 	lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
-	char lbuf[] = "hello world";
+
+	middleware::pack_head_process<middleware::cpack_head::protocol_head > lphp(sizeof("hello world"));
+	lphp.push("hello world");
+	lphp.set_pack_head();
 	while (1)
 	{
-		lclient.send(0, lbuf, sizeof(lbuf));
+		lclient.send(0, lphp.get_send_buffer(), lphp.get_send_len());
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 	while (1)

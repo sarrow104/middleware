@@ -13,7 +13,7 @@
 #include <cstdint>
 #include <cstdio>
 
-#define FLUSH_TIME        (5)       /** 多久向文件刷一次数据 */
+#define FLUSH_TIME            (5)       /** 多久向文件刷一次数据 */
 #define LOG_LEVE_WARN         (0)         /** 警告 */
 #define LOG_LEVE_INFO         (1)         /** 输出 */
 #define LOG_LEVE_ERROR        (2)         /** 错误 */
@@ -28,7 +28,7 @@
 #define OPEN_LOG_WARN             (1)            /** 是否开启标志为警告的打印 */
 #define CHECK_PRINTF_LOG( OPEN_LOG_TYPE )      ( ( OPEN_LOGFILE_PRINTF || OPEN_CONSOLE_PRINTF ) && OPEN_LOG_TYPE ) /** 检查是否打印 */
 
-#define DEFAULT_SAVE_LOG_TIME     (12*60*60*60)  /** 12 hour */
+#define DEFAULT_SAVE_LOG_TIME           (12*60*60*60)  /** 12 hour */
 
 #define LOG_SYS_BUFFER_SIZE             (2048)
 #define LOG_SYS_EVERY_MAX_BUFFER_SIZE   (256)
