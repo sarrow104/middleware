@@ -57,6 +57,14 @@ namespace middleware {
         mb_malloc(true)
       {}
 
+			serializecpp_buffer():
+				mc_buffer(nullptr),
+				mi_buffer_size(0),
+				mi_buffer_at(0),
+				mb_malloc(true)
+			{}
+
+
       ~serializecpp_buffer()
       {
         if (mb_malloc)
@@ -79,6 +87,14 @@ namespace middleware {
       {
         mi_buffer_at = 0;
       }
+
+			/** unserializecpp */
+			inline void reset(char* ap,uint32_t aplen)
+			{
+				mc_buffer = ap;
+				mi_buffer_size = aplen;
+				mi_buffer_at = 0;
+			}
 
       //检查空间是否足够
       inline bool check(size_t aisize)

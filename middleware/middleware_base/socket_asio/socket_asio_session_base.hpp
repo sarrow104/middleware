@@ -46,7 +46,7 @@ namespace middleware {
       std::vector<middleware_base*> m_extern_middlewarearr;
       std::vector<close_socket_session* > m_closesocket_help;
       std::vector<check_crc* > m_check_crc;
-      std::vector< protocol_head > m_php;
+      std::vector< spack_head::protocol_head > m_php;
       uint32_t m_everyoncemaxsize;    /* 单条最大数据 */
       uint32_t m_timeout;
       bool m_s2s;             /* 服务器与服务器的连接断开是否通知上层 */
@@ -125,7 +125,7 @@ public:
       m_close_socket_type(SOCKET_OPEN_TYPE),
       m_sessionid(socket_asio_session_base::m_tempadd/*[ aiarg.m_type ]*/++),
       m_groupid(aigroupid),
-      m_settimer(SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
+      m_settimer(spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
     {
 		static bool linit = true;
 		if( linit )
@@ -178,8 +178,8 @@ public:
 
       mp_data1 = new char[aiarg.m_everyoncemaxsize];
       mp_data2 = new char[aiarg.m_everyoncemaxsize];
-      mp_data1 += server_head::END_POS;
-      mp_data2 += server_head::END_POS;
+      mp_data1 += spack_head::server_head::END_POS;
+      mp_data2 += spack_head::server_head::END_POS;
 
 
       m_heartbeat_num = aiarg.m_heartbeat_num;
@@ -248,7 +248,7 @@ public:
       return m_tools.m_sessionidmapp;
     }
 
-    protocol_head& get_php()
+		spack_head::protocol_head& get_php()
     { 
       return m_tools.m_php[m_groupid]; 
     }
@@ -276,7 +276,7 @@ public:
     /** 子类可以补充handle_read */
     virtual bool handle_read_complementary(const boost::system::error_code& error, size_t bytes_transferred) = 0;
     /** 子类可以补充middleware_callback */
-    virtual bool middleware_callback_complementary(protocol_head& m_php2, uint32_t aibyte) = 0;
+    virtual bool middleware_callback_complementary(spack_head::protocol_head& m_php2, uint32_t aibyte) = 0;
 
     bool reset(unsigned long aiip)
     {
@@ -284,7 +284,7 @@ public:
       m_begin = time(NULL);
       m_ipadress = aiip;
       m_close_socket_type = SOCKET_OPEN_TYPE;
-      m_settimer = (SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN);
+      m_settimer = (spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN);
       reset_complementary();
       return true;
     }
@@ -308,20 +308,20 @@ public:
         if (aisend_protocol)
         {
           /* 通知协议 此函数一定是单线程串行执行的   所以用静态变量*/
-          static char lbuf1[protocol_head::END_POS] = { 0 };
-          static char lbuf2[protocol_head::END_POS] = { 0 };
+          static char lbuf1[spack_head::protocol_head::END_POS] = { 0 };
+          static char lbuf2[spack_head::protocol_head::END_POS] = { 0 };
           static char* lp1 = lbuf1;
           static char* lp2 = lbuf2;
 
-          static protocol_head lphp;
+          static spack_head::protocol_head lphp;
 
           std::swap(lp1, lp2);
-          lphp.reset(lp1, protocol_head::END_POS);
+          lphp.reset(lp1, spack_head::protocol_head::END_POS);
           lphp.set_data_byte(0);
           //lphp.get_protocol_num() = 0;
           lphp.get_protocol_num() = 9999;
           lphp.get_sessionid() = m_sessionid;
-          get_middleware()->send(lp1, protocol_head::END_POS);
+          get_middleware()->send(lp1, spack_head::protocol_head::END_POS);
         }
 
 
@@ -331,7 +331,7 @@ public:
     
     void handle_timer(const boost::system::error_code& error)
     {
-      if (!error && m_settimer != SET_TIMER__LOGIC_CONTROL::SET_TIMER_CLOSE)
+      if (!error && m_settimer != spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_CLOSE)
       {
         push_close();
         //write_log(m_errlog, m_ipadress, THROW__TIME_OUT, m_sessionid, m_groupid, "", 0);
@@ -349,7 +349,7 @@ public:
 
     inline void start()
     {
-      if (m_settimer == SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
+      if (m_settimer == spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
       {
         reset_timer();
       }
@@ -486,7 +486,7 @@ public:
     static bool middleware_callback(const char* ap, uint32_t aplen)
     {
       //uint8_t lgroupid = GET_GROUPID( ap );
-      protocol_head m_php2;
+			spack_head::protocol_head m_php2;
       m_php2.reset(ap, aplen);
 
 

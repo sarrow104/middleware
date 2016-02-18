@@ -175,7 +175,11 @@ void test_middleware_soio_client()
 void test_middleware_asio_server()
 {
 	boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
-		std::cout << ap << std::endl;
+		middleware::unpack_head_process<middleware::spack_head::protocol_head> luhp;
+		luhp.reset( ap, aplen);
+		char ch[sizeof("hello world")] = { 0 };
+		luhp.pop(ch);
+		std::cout << ch << std::endl;
 		middleware::asio_server().send(ainum,ap, aplen);
 		return true;
 	};
@@ -217,10 +221,13 @@ void test_middleware_asio_client()
 {
 	middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
 	lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
-	char lbuf[] = "hello world";
+
+	middleware::pack_head_process<middleware::cpack_head::protocol_head > lphp(sizeof("hello world"));
+	lphp.push("hello world");
+	lphp.set_pack_head();
 	while (1)
 	{
-		lclient.send(0, lbuf, sizeof(lbuf));
+		lclient.send(0, lphp.get_send_buffer(), lphp.get_send_len());
 		boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
 	while (1)

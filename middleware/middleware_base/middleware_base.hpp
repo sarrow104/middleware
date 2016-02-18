@@ -8,6 +8,7 @@
 #include "middleware/middleware_base/loop_array/loop_array_middleware.hpp"
 #include "middleware/middleware_base/socket_io/gateway_client.hpp"
 #include "middleware/middleware_base/socket_io/gateway_server.hpp"
+#include "middleware/tools/incidental/pack_head.hpp"
 
 #include <cstdint>
 

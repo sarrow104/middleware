@@ -21,6 +21,8 @@
     <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_asio_session_keep.hpp" />
     <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_asio_tcp_io_service_pool.hpp" />
     <ClInclude Include="..\..\..\middleware\middleware_base\socket_asio\socket_session_mapping.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\incidental\check_crc.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\incidental\pack_head.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_socket_asio.cpp" />
@@ -50,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

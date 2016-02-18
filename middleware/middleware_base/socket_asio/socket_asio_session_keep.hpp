@@ -15,7 +15,7 @@ namespace middleware {
     /* 广播队列 */
     struct broadcasting_list
     {
-      typedef std::vector<session_infor*  >  type_session_infor_list;
+      typedef std::vector<spack_head::session_infor*  >  type_session_infor_list;
       type_session_infor_list  m_sessioninfor_list;
       broadcasting_list() {}
     };
@@ -142,8 +142,8 @@ namespace middleware {
       }
 #endif  //OPEN_MAX_RECV_COUNT
 
-      ap -= server_head::END_POS;
-      alen += server_head::END_POS;
+      ap -= spack_head::server_head::END_POS;
+      alen += spack_head::server_head::END_POS;
 
       aithis->set_php(ap, alen);
       if (aithis->check_heartbeat_fun())
@@ -169,11 +169,11 @@ namespace middleware {
     }
 
 
-    virtual bool middleware_callback_complementary(protocol_head& m_php2, uint32_t aibyte)
+    virtual bool middleware_callback_complementary(spack_head::protocol_head& m_php2, uint32_t aibyte)
     {
       /*  */
       /* 设置m_settimer */
-      if (m_settimer != m_php2.get_settimer() && m_settimer == SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
+      if (m_settimer != m_php2.get_settimer() && m_settimer == spack_head::SET_TIMER__LOGIC_CONTROL::SET_TIMER_OPEN)
       {
         m_settimer = m_php2.get_settimer();
         /* 取消 */
@@ -203,7 +203,7 @@ namespace middleware {
         }
       }
 
-      if (m_settimer == SET_TIMER__LOGIC_CONTROL::SET_CONNECT_CLOSE)
+      if (m_settimer == spack_head::SET_TIMER__LOGIC_CONTROL::SET_CONNECT_CLOSE)
       {
         /* 关闭连接 */
         socket_asio_session_base::push_close();
