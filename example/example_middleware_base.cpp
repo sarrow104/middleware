@@ -236,7 +236,6 @@ void test_middleware_asio_client()
 }
 
 
-
 int main(int argc, char *argv[])
 {
   if (argc >= 3)
