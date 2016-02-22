@@ -10,19 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_serializecpp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_buffer.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_class.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\unserializecpp.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{41974BC1-9133-47FC-88D3-D39860881105}</ProjectGuid>
+    <ProjectGuid>{BDB184A4-B564-4CF4-ACF1-80452BCC74DD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>serializecpp</RootNamespace>
+    <RootNamespace>protocol</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -50,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)\Debug</OutDir>
-    <IntDir>$(ProjectDir)\Debug</IntDir>
+    <OutDir>Debug</OutDir>
+    <IntDir>Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -87,6 +78,30 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\example\example_protocol.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\close_socket_session.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_mgt.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_arg.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\tools\protocol\mgt_protocol.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol\protocol_cout.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_num.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

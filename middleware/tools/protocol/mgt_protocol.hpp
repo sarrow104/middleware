@@ -71,11 +71,7 @@ namespace middleware {
 		};
 
 
-
-
-
-
-		middleware::middleware_asio_server* create_server_protocol_mgt()
+		middleware_asio_server* create_server_protocol_mgt()
 		{
 			std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
 			for (uint32_t i = 0; i < 5; ++i)
@@ -106,8 +102,15 @@ namespace middleware {
 			return new middleware_asio_server(larg);
 		}
 
-		middleware::middleware_asio_client* create_client_protocol_mgt()
+		middleware_asio_client* create_client_protocol_mgt()
 		{
+			 //boost::bind(
+			//		&mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
+			//		new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(5, 1024),
+			//		0, 0, _1, _2);
+			//middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
+			//lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
+
 			return nullptr;
 		}
 

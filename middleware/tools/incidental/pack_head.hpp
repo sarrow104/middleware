@@ -194,8 +194,10 @@ namespace middleware{
         GET_HEAD(server_error, HEAD_SERVER_ERROR_TYPE, POS::HEAD_SERVER_ERROR_POS)
     };
 
-#define PROTOCOL_HEAD_BEG_POS (server_head::END_POS)
-
+#ifdef PROTOCOL_HEAD_BEG_POS
+# undef PROTOCOL_HEAD_BEG_POS
+#endif
+	#define PROTOCOL_HEAD_BEG_POS (server_head::END_POS)
 
     class protocol_head :
       public server_head
@@ -331,6 +333,9 @@ namespace middleware{
 
   namespace cpack_head {
 
+#ifdef PROTOCOL_HEAD_BEG_POS
+# undef PROTOCOL_HEAD_BEG_POS
+#endif
 #define PROTOCOL_HEAD_BEG_POS (0)
 
     class protocol_head
