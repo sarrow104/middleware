@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\3part;$(ProjectDir)..\..\..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -149,6 +149,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_protocol.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\close_socket_session.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_mgt.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_arg.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_server_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_base.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_asio\socket_asio_session_keep.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\accept_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\connect_key_socket.cpp" />
+    <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
+    <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\middleware\tools\protocol\mgt_protocol.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_base.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol\protocol_cout.h" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_num.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -117,7 +117,7 @@ namespace middleware{
       /* 设置群发队列 */
       bool SH_set_mass_send_arr(std::vector< session_infor >& aisessionarr)
       {
-        get_mass_size() = (HEAD_MASS_SIZE_TYPE)aisessionarr.size();
+				get_mass_size() = (HEAD_MASS_SIZE_TYPE)aisessionarr.size();
         m_mass.reset(const_cast<char*>(&m_data[get_server_protocol_len()]));
         return m_mass.set_mass_send_arr(aisessionarr);
       }
@@ -449,7 +449,42 @@ namespace middleware{
   }//namespace cpack_head
   
 
+	 /**
+	 * PH: cpack_head::protocol_head
+	 *     spack_head::protocol_head
+	 */
+	template <typename PH>
+	class unpack_head_process
+	{
+		tools::serializecpp_buffer m_sbuf;
+		PH m_ph;
+	public:
+		unpack_head_process() {}
 
+		void reset(const char* ap, uint32_t aplen)
+		{
+			m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
+			m_ph.reset(ap, aplen);
+		}
+
+		PH* get_head()
+		{
+			return &m_ph;
+		}
+
+		template <typename T>
+		void pop(T& aivalues)
+		{
+			tools::unserializecpp::pop(&m_sbuf, aivalues);
+		}
+
+		template <typename T>
+		bool pop(const T* aivalues, uint32_t ailen)
+		{
+			tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
+		}
+
+	};
  
    /** 
     * PH: cpack_head::protocol_head 
@@ -515,46 +550,27 @@ namespace middleware{
       m_ph.set_crc();
     }
 
+		void set_pack_head(PH* lph)
+		{
+			memcpy((char*)this->m_ph.get_buffer(), (char*)lph->get_buffer(), lph->get_protocol_head_len());
+			++m_ph.get_order();
+			m_ph.set_crc();
+		}
 
-  };
+		void set_pack_head(const unpack_head_process<PH>& aphp)
+		{
+			PH* lph = aphp.get_head();
+			set_pack_head(lph);
+		}
+		void set_pack_head(const pack_head_process<PH>& aphp)
+		{
+			PH* lph = aphp.get_head();
+			set_pack_head(lph);
+		}
 
-
-  template <typename PH>
-  class unpack_head_process
-  {
-    tools::serializecpp_buffer m_sbuf;
-    PH m_ph;
-  public:
-    unpack_head_process(){}
-
-    void reset( const char* ap, uint32_t aplen)
-    {
-      m_sbuf.reset( (char*)(ap+ PH::END_POS), aplen- PH::END_POS);
-      m_ph.reset(ap, aplen );
-    }
-
-    PH* get_head()
-    {
-      return &m_ph;
-    }
-
-    template <typename T>
-    void pop(T& aivalues)
-    {
-      tools::unserializecpp::pop(&m_sbuf,aivalues);
-    }
-
-    template <typename T>
-    bool pop(const T* aivalues, uint32_t ailen)
-    {
-      tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
-    }
 
 
   };
-
-
-
 
 }//namespace middleware
 #endif //PACK_HEAD_HPP
