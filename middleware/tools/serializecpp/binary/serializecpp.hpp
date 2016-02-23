@@ -3,31 +3,36 @@
 
 #ifndef   MSG_BASE_C_H
 #define   MSG_BASE_C_H
-#include "middleware/tools/serializecpp/serializecpp_buffer.hpp"
+#include "middleware/tools/serializecpp/binary/serializecpp_buffer.hpp"
 
 #include <string.h>
 
 /* 宏定义为了方便添加 set map 类的关联容器 */
-#define DEF_PUSH_SET_TYPE( TYPE )                                               \
+#ifndef DEF_BINARYPUSH_SET_TYPE
+# define DEF_BINARYPUSH_SET_TYPE( TYPE )                                        \
   template <typename T_DATA>                                                    \
   static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)     \
   {                                                                             \
     return push_set( ap, aplen, aivaluesarr);                                   \
   }
+#endif //DEF_BINARYPUSH_SET_TYPE
 
-#define DEF_PUSH_MAP_TYPE( TYPE )                                                     \
+#ifndef DEF_BINARYPUSH_MAP_TYPE
+# define DEF_BINARYPUSH_MAP_TYPE( TYPE )                                              \
   template <typename T_DATA1,typename T_DATA2>                                        \
   static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
   {                                                                                   \
     return push_map( ap, aplen, aivaluesarr );                                        \
   }
+#endif //DEF_BINARYPUSH_MAP_TYPE
+
 
 namespace middleware{
   namespace tools{
 
-    /*********************
-     **序列化基础类型
-     *********************/
+    /**
+     *序列化基础类型
+     */
     class serializecpp_base
     {
     private:
@@ -36,7 +41,8 @@ namespace middleware{
         memcpy(aptarget, apsource, aicopysize);
       }
 
-      /*
+		public:
+      /**
        *  关联容器中的set类
        */
       template <typename T_DATA>
@@ -50,7 +56,7 @@ namespace middleware{
           return 0;
         }
 
-        /* 数组长度 */
+        /** 数组长度 */
         serializecpp_base::push(ap, &lsetsize, sizeof(uint16_t));
         ap += sizeof(uint16_t);
 
@@ -63,7 +69,7 @@ namespace middleware{
         return lsize;
       }
 
-      /*
+      /**
        *  关联容器中的map类
        */
       template <typename T_DATA>
@@ -77,7 +83,7 @@ namespace middleware{
           return 0;
         }
 
-        /* 数组长度 */
+        /** 数组长度 */
         serializecpp_base::push(ap, &lsetsize, sizeof(uint16_t));
         ap += sizeof(uint16_t);
 
@@ -94,8 +100,7 @@ namespace middleware{
         return lsize;
       }
 
-    public:
-      /*
+      /**
        * 内置类型
        * int
        * float
@@ -115,7 +120,7 @@ namespace middleware{
         return sizeof(T_DATA);
       }
 
-      /*
+      /**
        *  原始数组
        */
       template <typename T_DATA>
@@ -126,14 +131,14 @@ namespace middleware{
         {
           return 0;
         }
-        /* 数组长度 */
+        /** 数组长度 */
         serializecpp_base::push(ap, &aivaluesarrsize, sizeof(uint16_t));
         ap += sizeof(uint16_t);
         serializecpp_base::push(ap, (void*)(aivaluesarr), sizeof(T_DATA) * aivaluesarrsize);
         return lsize;
       }
 
-      /*
+      /**
        * vector数组
        */
       template <typename T_DATA>
@@ -142,7 +147,7 @@ namespace middleware{
         return serializecpp_base::push(ap, aplen, aivaluesarr.data(), aivaluesarr.size());
       }
 
-      /*
+      /**
        * std::string
        */
       static uint32_t push(char* ap, uint32_t aplen, std::string& aivaluesarr)
@@ -150,52 +155,15 @@ namespace middleware{
         return serializecpp_base::push(ap, aplen, aivaluesarr.c_str(), aivaluesarr.size());
       }
 
-#if 0
-      /*set*/
-      template <typename T_DATA>
-      static uint32_t push(char* ap, uint32_t aplen, std::set<T_DATA>& aivaluesarr)
-      {
-        return serializecpp_base::push_set(ap, aplen, aivaluesarr);
-      }
-
-      /* hash set */
-      template <typename T_DATA>
-      static uint32_t push(char* ap, uint32_t aplen, std::unordered_set<T_DATA>& aivaluesarr)
-      {
-        return serializecpp_base::push_set(ap, aplen, aivaluesarr);
-      }
-#else
-      DEF_PUSH_SET_TYPE(std::set)
-      DEF_PUSH_SET_TYPE(std::unordered_set)
-#endif
-
-#if 0
-        /* map*/
-        template <typename T_DATA1, typename T_DATA2>
-      static uint32_t push(char* ap, uint32_t aplen, std::map<T_DATA1, T_DATA2>& aivaluesarr)
-      {
-        return push_map(ap, aplen, aivaluesarr);
-      }
-
-      /* hash map*/
-      template <typename T_DATA1, typename T_DATA2>
-      static uint32_t push(char* ap, uint32_t aplen, std::unordered_map<T_DATA1, T_DATA2>& aivaluesarr)
-      {
-        return push_map(ap, aplen, aivaluesarr);
-      }
-#else
-        DEF_PUSH_MAP_TYPE(std::map)
-        DEF_PUSH_MAP_TYPE(std::unordered_map)
-#endif
 
     };
 
-    /****************
+    /**
      *序列化类
-     ****************/
+     */
     class serializecpp
     {
-      /* 返回可用空间 */
+      /** 返回可用空间 */
       static uint32_t get_have_len(serializecpp_buffer* mp_buffer_data)
       {
         return mp_buffer_data->get_len() - mp_buffer_data->get_uselen();

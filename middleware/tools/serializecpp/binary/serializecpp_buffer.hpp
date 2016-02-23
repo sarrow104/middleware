@@ -17,29 +17,29 @@
 
 
 
-/******************* 
- **serializecpp buffer 
- ********************/
+/**
+ * serializecpp buffer 
+ */
 namespace middleware {
   namespace tools{
 
     struct serializecpp_buffer
     {
-      //获取已使用长度
+			/** 获取已使用长度*/
       inline uint32_t& get_uselen()
       {
         return mi_buffer_at;
       }
-      //获取总空间大小
+      /** 获取总空间大小*/
       inline uint32_t& get_len()
       {
         return mi_buffer_size;
       }
 
-      /*
-      aibuf 自定义空间buffer
-      aisize 自定义空间buffer 大小
-      */
+      /**
+			 *aibuf 自定义空间buffer
+			 *aisize 自定义空间buffer 大小
+       */
       serializecpp_buffer(char* aibuf, uint32_t aisize) :
         mc_buffer(aibuf),
         mi_buffer_size(aisize),
@@ -47,9 +47,9 @@ namespace middleware {
         mb_malloc(false)
       {}
 
-      /*
-      aisize buffer 大小
-      */
+      /**
+			 *aisize buffer 大小
+       */
       serializecpp_buffer(uint32_t aisize) :
         mc_buffer(new char[aisize]),
         mi_buffer_size(aisize),

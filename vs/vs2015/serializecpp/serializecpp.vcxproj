@@ -11,13 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_buffer.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_class.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\unserializecpp.hpp" />
+    <ClCompile Include="..\..\..\example\example_serializecpp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_serializecpp.cpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp_buffer.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp_class.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\unserializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\serializecpp_json.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\serializecpp_jsonbuffer.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\unserializecpp_json.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{41974BC1-9133-47FC-88D3-D39860881105}</ProjectGuid>

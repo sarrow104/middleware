@@ -4,8 +4,8 @@
 #ifndef SERIALIZECPP_CLASS_H
 #define SERIALIZECPP_CLASS_H
 
-#include "middleware/tools/serializecpp/serializecpp.hpp"
-#include "middleware/tools/serializecpp/unserializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/serializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
 
 namespace middleware {
   namespace tools {

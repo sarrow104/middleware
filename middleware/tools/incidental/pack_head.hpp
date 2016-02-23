@@ -5,8 +5,8 @@
 #define PACK_HEAD_HPP
 
 #include "middleware/tools/incidental/check_crc.hpp"
-#include "middleware/tools/serializecpp/serializecpp.hpp"
-#include "middleware/tools/serializecpp/unserializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/serializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
 
 
 #include <cstdint>

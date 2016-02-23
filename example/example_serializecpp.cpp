@@ -2,9 +2,9 @@
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include <iostream>
-#include "middleware/tools/serializecpp/serializecpp.hpp"
-#include "middleware/tools/serializecpp/unserializecpp.hpp"
-#include "middleware/tools/serializecpp/serializecpp_class.hpp"
+#include "middleware/tools/serializecpp/binary/serializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
+#include "middleware/tools/serializecpp/binary/serializecpp_class.hpp"
 using namespace std;
 
 /**
@@ -243,8 +243,69 @@ void test_4()
 
 }
 
+#include "middleware/tools/serializecpp/json/serializecpp_json.hpp"
+#include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
+
+/** json */
+void test_5()
+{
+	middleware::tools::serializecpp_jsonbuffer lsbuf;
+	uint32_t luint32_t = 12345;
+	middleware::tools::serializecpp_json::push(lsbuf,"uint32_t",luint32_t);
+	std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
+	middleware::tools::serializecpp_json::push(lsbuf, "vector", lvec);
+	std::string lstr = "helloworld";
+	middleware::tools::serializecpp_json::push(lsbuf, "string", lstr);
+	std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
+	middleware::tools::serializecpp_json::push_set(lsbuf, "set", lset);
+
+
+	middleware::tools::serializecpp_jsonbuffer lsbufpop;
+	std::stringstream lsrt;
+	lsbuf.get_data(lsrt);
+	lsbufpop.reset(lsrt.str().c_str(), lsrt.str().length()+1);
+	uint32_t luint32_pop;
+	middleware::tools::unserializecpp_json::pop(lsbufpop, "uint32_t", luint32_pop);
+	std::vector<uint32_t> lvecpop;
+	middleware::tools::unserializecpp_json::pop(lsbufpop, "vector", lvecpop);
+	std::string lstrpop;
+	middleware::tools::unserializecpp_json::pop(lsbufpop, "string", lstrpop);
+	std::set<uint32_t> lsetpop;
+	middleware::tools::unserializecpp_json::pop_set(lsbufpop, "set", lsetpop);
+}
+
 int main()
 {
+	boost::property_tree::ptree root;
+	boost::property_tree::ptree items;
+
+
+
+	boost::property_tree::ptree item1;
+	item1.put("ID", "1");
+	item1.put("Name", "wang");
+	items.push_back(std::make_pair("1", item1));
+
+
+
+
+	boost::property_tree::ptree item2;
+	item2.put("ID", "2");
+	item2.put("Name", "zhang");
+	items.push_back(std::make_pair("2", item2));
+
+
+	boost::property_tree::ptree item3;
+	item3.put("ID", "3");
+	item3.put("Name", "li");
+	items.push_back(std::make_pair("3", item3));
+
+
+	root.put_child("user", items);
+	stringstream st;
+	boost::property_tree::write_json(st, root);
+
+	test_5();
   test_1();
   test_2();
   test_3();
