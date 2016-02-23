@@ -1,0 +1,15 @@
+KEY,配置定义,配置内容,配置解释
+,
+,
+,
+,
+0,TCP_LONG_PORT,13140,tcp长连接监听端口
+1,TCP_SHORT_PORT,13141,tcp短连接监听端口
+2,TCP_LONG_PORT,13140,tcp长连接监听端口
+3,TCP_SHORT_PORT,13141,tcp短连接监听端口
+4,MY_SQL_IP,192.168.188.128,mysql数据库ip
+5,MY_SQL_PORT,3306,mysql数据库端口号
+6,MY_SQL_NAME,db_game,mysql数据库名称
+7,MY_SQL_USER_NAME,libo,mysql数据库用户名称
+8,MY_SQL_USER_PASSWORLD,123456,mysql数据库密码
+9,MY_SQL_QUEST_POOL,5,保持多少个连接

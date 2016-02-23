@@ -1,8 +1,7 @@
-#ifndef UNSERIALIZECPP_JSON_HPP
-#define UNSERIALIZECPP_JSON_HPP
+#ifndef UNSERIALIZECPP_XML_HPP
+#define UNSERIALIZECPP_XML_HPP
 
 #include "middleware/tools/serializecpp/json/serializecpp_jsonbuffer.hpp"
-#include "middleware/tools/serializecpp/serializecpp_fun.hpp"
 
 #include <cstdint>
 
@@ -113,6 +112,6 @@ namespace middleware {
 }// namespace middleware
 
 
-#endif //UNSERIALIZECPP_JSON_HPP
+#endif //UNSERIALIZECPP_XML_HPP
 
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

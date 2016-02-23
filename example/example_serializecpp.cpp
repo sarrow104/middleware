@@ -252,11 +252,12 @@ void test_5()
 	middleware::tools::serializecpp_jsonbuffer lsbuf;
 	uint32_t luint32_t = 12345;
 	middleware::tools::serializecpp_json::push(lsbuf,"uint32_t",luint32_t);
-	std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
+	uint32_t linitarr[] = {1,2,3,4,5,6,7,8,9,0};
+	std::vector<uint32_t> lvec(linitarr,&(linitarr[sizeof(linitarr)/sizeof(uint32_t)]));
 	middleware::tools::serializecpp_json::push(lsbuf, "vector", lvec);
 	std::string lstr = "helloworld";
 	middleware::tools::serializecpp_json::push(lsbuf, "string", lstr);
-	std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
+	std::set<uint32_t> lset(linitarr,&(linitarr[sizeof(linitarr)/sizeof(uint32_t)]));
 	middleware::tools::serializecpp_json::push_set(lsbuf, "set", lset);
 
 
@@ -276,36 +277,7 @@ void test_5()
 
 int main()
 {
-	boost::property_tree::ptree root;
-	boost::property_tree::ptree items;
-
-
-
-	boost::property_tree::ptree item1;
-	item1.put("ID", "1");
-	item1.put("Name", "wang");
-	items.push_back(std::make_pair("1", item1));
-
-
-
-
-	boost::property_tree::ptree item2;
-	item2.put("ID", "2");
-	item2.put("Name", "zhang");
-	items.push_back(std::make_pair("2", item2));
-
-
-	boost::property_tree::ptree item3;
-	item3.put("ID", "3");
-	item3.put("Name", "li");
-	items.push_back(std::make_pair("3", item3));
-
-
-	root.put_child("user", items);
-	stringstream st;
-	boost::property_tree::write_json(st, root);
-
-	test_5();
+  test_5();
   test_1();
   test_2();
   test_3();
