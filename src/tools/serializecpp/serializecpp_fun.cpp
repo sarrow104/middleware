@@ -1,4 +1,4 @@
-#include "middleware/tools/serializecpp/serializecpp_fun.hpp"
+#include "middleware/tools/serializecpp/public/serializecpp_fun.hpp"
 
 #include <cstring>
 #include <cstdio>
