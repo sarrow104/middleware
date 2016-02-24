@@ -7,27 +7,33 @@
 #include "middleware/tools/serializecpp/public/xml_json/xmljson_buffer.hpp"
 
 namespace middleware {
-	namespace tools {
-	
-		struct serializecpp_xmlbuffer :
-			public xmljson_buffer
-		{
-			virtual const char* get_data()
-			{
-				std::stringstream lst;
-				boost::property_tree::write_xml(lst, m_root);
-				m_str = lst.str();
-				return m_str.c_str();
-			}
+  namespace tools {
+  
+    struct serializecpp_xmlbuffer :
+      public xmljson_buffer
+    {
+      virtual const char* get_data()
+      {
+        std::stringstream lst;
+        boost::property_tree::write_xml(lst, m_root);
+        m_str = lst.str();
+        return m_str.c_str();
+      }
 
-			virtual void reset(const char* ap, uint32_t aplen)
-			{
-				m_str.clear();
-				boost::property_tree::read_xml<boost::property_tree::ptree>(std::stringstream(ap), m_root);
-			}
-		};
+      virtual void reset(const char* ap, uint32_t aplen)
+      {
+        m_str.clear();
+        std::stringstream ss(ap);
+        boost::property_tree::read_xml<boost::property_tree::ptree>(ss, m_root);
+      }
 
-	} //namespace middleware
+      virtual void reset()
+      {
+        clear();
+      }
+    };
+
+  } //namespace middleware
 } //namespace tools
 
 #endif //SERIALIZECPP_JSON_BUFFER_HPP

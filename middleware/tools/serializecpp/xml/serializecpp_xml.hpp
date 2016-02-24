@@ -9,14 +9,14 @@
 #include <cstdint>
 
 namespace middleware{
-	namespace tools {
+  namespace tools {
 
-		/**
-		* xmlĞòÁĞ»¯
-		*/
-		typedef serialize_stand<serializecpp_xmlbuffer> serializecpp_xml;
+    /**
+    * xmlåºåˆ—åŒ–
+    */
+    typedef serialize_stand<serializecpp_xmlbuffer> serializecpp_xml;
 
-	} //namespace tools
+  } //namespace tools
 }  //namespace middleware
 
 #endif //SERIALIZACPP_XML_HPP

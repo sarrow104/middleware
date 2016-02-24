@@ -49,6 +49,10 @@ target_link_libraries(middleware_base ${target_name} ${Boost_LIBRARIES} Threads:
 add_executable(middleware_base_c ../example/example_middleware_base.c)
 target_link_libraries(middleware_base_c ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
+#protocol
+add_executable(protocol ../example/example_protocol.cpp)
+target_link_libraries(protocol ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+
 #segmentation_pack
 add_executable(segmentation_pack ../example/example_segmentation_pack.cpp)
 target_link_libraries(segmentation_pack ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)

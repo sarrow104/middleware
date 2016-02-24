@@ -24,12 +24,12 @@
 
 namespace middleware{
 
-	enum
-	{
-		SERIALIZE_TYPE_BINARY,															/** 二进制 */
-		SERIALIZE_TYPE_JSON,																/** JSON */
-		SERIALIZE_TYPE_XML,																	/** XML */
-	};
+  enum
+  {
+    SERIALIZE_TYPE_BINARY,                              /** 二进制 */
+    SERIALIZE_TYPE_JSON,                                /** JSON */
+    SERIALIZE_TYPE_XML,                                 /** XML */
+  };
 
 
   /* 公共接口 */
@@ -40,12 +40,12 @@ namespace middleware{
   typedef uint32_t    HEAD_USER_ID_TYPE;                  /** 用户id */
   typedef uint32_t    HEAD_PROTOCOL_NUM_TYPE;             /** 协议号 */
   typedef uint32_t    HEAD_ORDER_TYPE;                    /** 序号 */
-	typedef uint8_t			HEAD_BODY_SERIALIZE;								/** 序列化类型 */
+  typedef uint8_t     HEAD_BODY_SERIALIZE;                /** 序列化类型 */
   typedef char*       PROTOCOL_BODY_TYPE;                 /** 协议体类型 */
 
 
   namespace spack_head{
-		/** asio相关 */
+    /** asio相关 */
     typedef uint16_t    HEAD_SERVER_PROTOCOL_LEN_TYPE;          /** 协议长度 */
     typedef uint32_t    HEAD_IP_ADDRESS_TYPE;                   /** ip */
     typedef uint32_t    HEAD_CLOSESOCKET_COUNT_TYPE;            /** socket close次数 */
@@ -128,7 +128,7 @@ namespace middleware{
       /* 设置群发队列 */
       bool SH_set_mass_send_arr(std::vector< session_infor >& aisessionarr)
       {
-				get_mass_size() = (HEAD_MASS_SIZE_TYPE)aisessionarr.size();
+        get_mass_size() = (HEAD_MASS_SIZE_TYPE)aisessionarr.size();
         m_mass.reset(const_cast<char*>(&m_data[get_server_protocol_len()]));
         return m_mass.set_mass_send_arr(aisessionarr);
       }
@@ -208,24 +208,24 @@ namespace middleware{
 #ifdef PROTOCOL_HEAD_BEG_POS
 # undef PROTOCOL_HEAD_BEG_POS
 #endif
-	#define PROTOCOL_HEAD_BEG_POS (server_head::END_POS)
+  #define PROTOCOL_HEAD_BEG_POS (server_head::END_POS)
 
     class protocol_head :
       public server_head
     {
       middleware::check_crc m_crc;
     public:
-			enum POS
-			{
-				HEAD_DATA_BYTE_POS = PROTOCOL_HEAD_BEG_POS,
-				HEAD_CRC_POS = HEAD_DATA_BYTE_POS + sizeof(HEAD_DATA_BYTE_TYPE),
-				HEAD_ERROR_POS = HEAD_CRC_POS + sizeof(HEAD_CRC_TYPE),
-				HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
-				HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
-				HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
-				HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
-				END_POS = HEAD_BODY_SERIALIZE_POS + sizeof(HEAD_BODY_SERIALIZE),
-			};
+      enum POS
+      {
+        HEAD_DATA_BYTE_POS = PROTOCOL_HEAD_BEG_POS,
+        HEAD_CRC_POS = HEAD_DATA_BYTE_POS + sizeof(HEAD_DATA_BYTE_TYPE),
+        HEAD_ERROR_POS = HEAD_CRC_POS + sizeof(HEAD_CRC_TYPE),
+        HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
+        HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
+        HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
+        HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
+        END_POS = HEAD_BODY_SERIALIZE_POS + sizeof(HEAD_BODY_SERIALIZE),
+      };
 
 
       void reset(const char* aidata, uint32_t aisize)
@@ -254,8 +254,8 @@ namespace middleware{
       GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
       /* 获取顺序位置 */
       GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
-			/* 获取序列化类型 */
-			GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
+      /* 获取序列化类型 */
+      GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
 
       /* 设置crc */
       void set_crc()
@@ -367,7 +367,7 @@ namespace middleware{
         HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
         HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
         HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
-				HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
+        HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
         END_POS = HEAD_BODY_SERIALIZE_POS + sizeof(HEAD_BODY_SERIALIZE),
       };
 
@@ -397,8 +397,8 @@ namespace middleware{
         GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
         /* 获取顺序号 */
         GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
-				/* 获取序列化类型 */
-				GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
+        /* 获取序列化类型 */
+        GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
 
 
         /* 设置crc */
@@ -473,86 +473,86 @@ namespace middleware{
   }//namespace cpack_head
   
 
-	 /**
-	 * PH: cpack_head::protocol_head
-	 *     spack_head::protocol_head
-	 */
-	template <typename PH>
-	class unpack_head_process
-	{
-		tools::serializecpp_buffer m_sbuf;
-		tools::serializecpp_jsonbuffer m_json_sbuf;
-		tools::serializecpp_xmlbuffer m_xml_sbuf;
-		PH m_ph;
-	public:
-		unpack_head_process() {}
+   /**
+   * PH: cpack_head::protocol_head
+   *     spack_head::protocol_head
+   */
+  template <typename PH>
+  class unpack_head_process
+  {
+    tools::serializecpp_buffer m_sbuf;
+    tools::serializecpp_jsonbuffer m_json_sbuf;
+    tools::serializecpp_xmlbuffer m_xml_sbuf;
+    PH m_ph;
+  public:
+    unpack_head_process() {}
 
-		void reset(const char* ap, uint32_t aplen)
-		{
-			m_ph.reset(ap, aplen);
-			switch (m_ph.get_body_serialize())
-			{
-			case SERIALIZE_TYPE_BINARY:
-				m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
-				return;
-			case SERIALIZE_TYPE_JSON:
-				m_json_sbuf.reset(ap, aplen);
-				return;
-			case SERIALIZE_TYPE_XML:
-				m_xml_sbuf.reset(ap, aplen);
-				return;
-			}
+    void reset(const char* ap, uint32_t aplen)
+    {
+      m_ph.reset(ap, aplen);
+      switch (m_ph.get_body_serialize())
+      {
+      case SERIALIZE_TYPE_BINARY:
+        m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
+        return;
+      case SERIALIZE_TYPE_JSON:
+        m_json_sbuf.reset(ap, aplen);
+        return;
+      case SERIALIZE_TYPE_XML:
+        m_xml_sbuf.reset(ap, aplen);
+        return;
+      }
 
-			throw 1;
-			
-		}
+      throw 1;
+      
+    }
 
-		PH* get_head()
-		{
-			return &m_ph;
-		}
+    PH* get_head()
+    {
+      return &m_ph;
+    }
 
-		/** binary */
-		template <typename T>
-		void pop(T& aivalues)
-		{
-			tools::unserializecpp::pop(&m_sbuf, aivalues);
-		}
+    /** binary */
+    template <typename T>
+    void pop(T& aivalues)
+    {
+      tools::unserializecpp::pop(&m_sbuf, aivalues);
+    }
 
-		template <typename T>
-		bool pop(const T* aivalues, uint32_t ailen)
-		{
-			tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
-		}
+    template <typename T>
+    bool pop(const T* aivalues, uint32_t ailen)
+    {
+      tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
+    }
 
-		/** json */
-		template <typename T>
-		void pop_json(const char* apkey,T& aivalues)
-		{
-			tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues);
-		}
+    /** json */
+    template <typename T>
+    void pop_json(const char* apkey,T& aivalues)
+    {
+      tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues);
+    }
 
-		template <typename T>
-		void pop_json(const char* apkey, T* aivalues, uint32_t ailen)
-		{
-			tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues, ailen);
-		}
+    template <typename T>
+    void pop_json(const char* apkey, T* aivalues, uint32_t ailen)
+    {
+      tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues, ailen);
+    }
 
-		/** xml */
-		template <typename T>
-		void pop_xml(const char* apkey, T& aivalues)
-		{
-			tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues);
-		}
+    /** xml */
+    template <typename T>
+    void pop_xml(const char* apkey, T& aivalues)
+    {
+      tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues);
+    }
 
-		template <typename T>
-		void pop_xml(const char* apkey, T* aivalues, uint32_t ailen)
-		{
-			tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues, ailen);
-		}
+    template <typename T>
+    void pop_xml(const char* apkey, T* aivalues, uint32_t ailen)
+    {
+      tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues, ailen);
+    }
 
 
-	};
+  };
  
    /** 
     * PH: cpack_head::protocol_head 
@@ -563,21 +563,21 @@ namespace middleware{
   {
     char* m_arr;
     tools::serializecpp_buffer m_sbuf;
-		tools::serializecpp_jsonbuffer m_json_sbuf;
-		tools::serializecpp_xmlbuffer m_xml_sbuf;
+    tools::serializecpp_jsonbuffer m_json_sbuf;
+    tools::serializecpp_xmlbuffer m_xml_sbuf;
     PH m_ph;
   public:
     pack_head_process(uint32_t aibytes):
-      m_arr(new char[PH::END_POS+ aibytes]),
-      m_sbuf(m_arr+ PH::END_POS,aibytes)
+      m_arr(new char[PH::END_POS + aibytes]),
+      m_sbuf(m_arr + PH::END_POS,aibytes)
     {
     }
 
     void reset()
     {
       m_sbuf.reset();
-			m_json_sbuf.reset();
-			m_xml_sbuf.reset();
+      m_json_sbuf.reset();
+      m_xml_sbuf.reset();
     }
 
     template <typename T>
@@ -592,29 +592,29 @@ namespace middleware{
       tools::serializecpp::push(&m_sbuf, aivalues, ailen);
     }
 
-		template <typename T>
-		void push_json(const char* apkey, T& apdata)
-		{
-			tools::serializecpp_json::push(&m_json_sbuf, apkey, apdata);
-		}
+    template <typename T>
+    void push_json(const char* apkey, T& apdata)
+    {
+      tools::serializecpp_json::push(&m_json_sbuf, apkey, apdata);
+    }
 
-		template <typename T>
-		bool push_json(const char* apkey, T* aivalues, uint32_t ailen)
-		{
-			tools::serializecpp_json::push(&m_json_sbuf, apkey, aivalues, ailen);
-		}
+    template <typename T>
+    bool push_json(const char* apkey, T* aivalues, uint32_t ailen)
+    {
+      tools::serializecpp_json::push(&m_json_sbuf, apkey, aivalues, ailen);
+    }
 
-		template <typename T>
-		void push_xml(const char* apkey, T& apdata)
-		{
-			tools::serializecpp_xml::push(&m_xml_sbuf, apkey, apdata);
-		}
+    template <typename T>
+    void push_xml(const char* apkey, T& apdata)
+    {
+      tools::serializecpp_xml::push(&m_xml_sbuf, apkey, apdata);
+    }
 
-		template <typename T>
-		bool push_xml(const char* apkey, T* aivalues, uint32_t ailen)
-		{
-			tools::serializecpp_xml::push(&m_xml_sbuf, apkey, aivalues, ailen);
-		}
+    template <typename T>
+    bool push_xml(const char* apkey, T* aivalues, uint32_t ailen)
+    {
+      tools::serializecpp_xml::push(&m_xml_sbuf, apkey, aivalues, ailen);
+    }
 
 
     PH* get_head()
@@ -642,29 +642,29 @@ namespace middleware{
       m_ph.get_userid() = aiuserid;
       m_ph.get_error() = aierrornum;
       m_ph.get_protocol_num() = aiprotocolnum;
-			m_ph.get_body_serialize() = aiserialize;
+      m_ph.get_body_serialize() = aiserialize;
       ++m_ph.get_order();
       
       m_ph.set_crc();
     }
 
-		void set_pack_head(PH* lph)
-		{
-			memcpy((char*)this->m_ph.get_buffer(), (char*)lph->get_buffer(), lph->get_protocol_head_len());
-			++m_ph.get_order();
-			m_ph.set_crc();
-		}
+    void set_pack_head(PH* lph)
+    {
+      memcpy((char*)this->m_ph.get_buffer(), (char*)lph->get_buffer(), lph->get_protocol_head_len());
+      ++m_ph.get_order();
+      m_ph.set_crc();
+    }
 
-		void set_pack_head(const unpack_head_process<PH>& aphp)
-		{
-			PH* lph = aphp.get_head();
-			set_pack_head(lph);
-		}
-		void set_pack_head(const pack_head_process<PH>& aphp)
-		{
-			PH* lph = aphp.get_head();
-			set_pack_head(lph);
-		}
+    void set_pack_head(const unpack_head_process<PH>& aphp)
+    {
+      PH* lph = aphp.get_head();
+      set_pack_head(lph);
+    }
+    void set_pack_head(const pack_head_process<PH>& aphp)
+    {
+      PH* lph = aphp.get_head();
+      set_pack_head(lph);
+    }
 
 
 

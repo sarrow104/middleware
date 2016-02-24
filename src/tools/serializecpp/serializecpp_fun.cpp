@@ -7,60 +7,59 @@
 #include <cstdio>
 
 namespace middleware {
-	namespace tools {
+  namespace tools {
 
-		int Binary2Cstr(unsigned char *pSrc, int nSrcLen, unsigned char *pDst, int nDstMaxLen)
-		{
-			if (pDst != NULL)
-			{
-				*pDst = 0;
-			}
+    int Binary2Cstr(unsigned char *pSrc, int nSrcLen, unsigned char *pDst, int nDstMaxLen)
+    {
+      if (pDst != NULL)
+      {
+        *pDst = 0;
+      }
 
-			if (pSrc == NULL || nSrcLen <= 0 || pDst == NULL || nDstMaxLen <= nSrcLen * 2)
-			{
-				return 0;
-			}
+      if (pSrc == NULL || nSrcLen <= 0 || pDst == NULL || nDstMaxLen <= nSrcLen * 2)
+      {
+        return 0;
+      }
 
-			//0x0-0xfµÄ×Ö·û²éÕÒ±í 
-			const char szTable[] = "0123456789ABCDEF";
-			for (int i = 0; i<nSrcLen; i++)
-			{
-				//Êä³öµÍ4Î»   
-				*pDst++ = szTable[pSrc[i] >> 4];
-				// Êä³ö¸ß4Î»   
-				*pDst++ = szTable[pSrc[i] & 0x0f];
-			}
-			// Êä³ö×Ö·û´®¼Ó¸ö½áÊø·û   
-			*pDst = '\0';
-			//·µ»ØÄ¿±ê×Ö·û´®³¤¶È   
-			return  nSrcLen * 2;
-		}
+      //0x0-0xfçš„å­—ç¬¦æŸ¥æ‰¾è¡¨ 
+      const char szTable[] = "0123456789ABCDEF";
+      for (int i = 0; i<nSrcLen; i++)
+      {
+        //è¾“å‡ºä½4ä½   
+        *pDst++ = szTable[pSrc[i] >> 4];
+        // è¾“å‡ºé«˜4ä½   
+        *pDst++ = szTable[pSrc[i] & 0x0f];
+      }
+      // è¾“å‡ºå­—ç¬¦ä¸²åŠ ä¸ªç»“æŸç¬¦   
+      *pDst = '\0';
+      //è¿”å›ç›®æ ‡å­—ç¬¦ä¸²é•¿åº¦   
+      return  nSrcLen * 2;
+    }
 
-		int Cstr2Binary(unsigned char* szSrc, unsigned char* pDst, int nDstMaxLen)
-		{
-			if (szSrc == NULL)
-			{
-				return 0;
-			}
-			int iLen = strlen((char *)szSrc);
-			if (iLen <= 0 || iLen % 2 != 0 || pDst == NULL || nDstMaxLen < iLen / 2)
-			{
-				return 0;
-			}
+    int Cstr2Binary(unsigned char* szSrc, unsigned char* pDst, int nDstMaxLen)
+    {
+      if (szSrc == NULL)
+      {
+        return 0;
+      }
+      int iLen = strlen((char *)szSrc);
+      if (iLen <= 0 || iLen % 2 != 0 || pDst == NULL || nDstMaxLen < iLen / 2)
+      {
+        return 0;
+      }
 
-			iLen /= 2;
-			strupr((char *)szSrc);
-			for (int i = 0; i<iLen; i++)
-			{
-				int iVal = 0;
-				unsigned char *pSrcTemp = szSrc + i * 2;
-				sscanf((char *)pSrcTemp, "%02x", &iVal);
-				pDst[i] = (unsigned char)iVal;
-			}
-			return iLen;
-		}
+      iLen /= 2;
+      for (int i = 0; i<iLen; i++)
+      {
+        int iVal = 0;
+        unsigned char *pSrcTemp = szSrc + i * 2;
+        sscanf((char *)pSrcTemp, "%02x", &iVal);
+        pDst[i] = (unsigned char)iVal;
+      }
+      return iLen;
+    }
 
-	} //namespace tools
+  } //namespace tools
 }// namespace middleware
 
  /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

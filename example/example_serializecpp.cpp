@@ -253,81 +253,81 @@ void test_4()
 /** json */
 void test_5()
 {
-	middleware::tools::serializecpp_jsonbuffer lsbuf;
-	uint32_t luint32_t = 12345;
-	middleware::tools::serializecpp_json::push(lsbuf,"uint32_t",luint32_t);
-	//std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
-	uint32_t linitarr[] = { 1,2,3,4,5,6,7,8,9,0 };
-	std::vector<uint32_t> lvec(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
-	middleware::tools::serializecpp_json::push(lsbuf, "vector", lvec);
-	std::string lstr = "helloworld";
-	middleware::tools::serializecpp_json::push(lsbuf, "string", lstr);
-	//std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
-	std::set<uint32_t> lset(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
-	middleware::tools::serializecpp_json::push_set(lsbuf, "set", lset);
-	std::map<int, int> lmap;
-	for (int i = 1; i < 10; ++i)
-	{
-		lmap.insert(std::make_pair(i,-i));
-	}
-	middleware::tools::serializecpp_json::push_map(lsbuf, "map", lmap);
+  middleware::tools::serializecpp_jsonbuffer lsbuf;
+  uint32_t luint32_t = 12345;
+  middleware::tools::serializecpp_json::push(lsbuf,"uint32_t",luint32_t);
+  //std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
+  uint32_t linitarr[] = { 1,2,3,4,5,6,7,8,9,0 };
+  std::vector<uint32_t> lvec(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
+  middleware::tools::serializecpp_json::push(lsbuf, "vector", lvec);
+  std::string lstr = "helloworld";
+  middleware::tools::serializecpp_json::push(lsbuf, "string", lstr);
+  //std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
+  std::set<uint32_t> lset(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
+  middleware::tools::serializecpp_json::push_set(lsbuf, "set", lset);
+  std::map<int, int> lmap;
+  for (int i = 1; i < 10; ++i)
+  {
+    lmap.insert(std::make_pair(i,-i));
+  }
+  middleware::tools::serializecpp_json::push_map(lsbuf, "map", lmap);
 
 
-	middleware::tools::serializecpp_jsonbuffer lsbufpop;
-	lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
-	uint32_t luint32_pop;
-	middleware::tools::unserializecpp_json::pop(lsbufpop, "uint32_t", luint32_pop);
-	std::vector<uint32_t> lvecpop;
-	middleware::tools::unserializecpp_json::pop(lsbufpop, "vector", lvecpop);
-	std::string lstrpop;
-	middleware::tools::unserializecpp_json::pop(lsbufpop, "string", lstrpop);
-	std::set<uint32_t> lsetpop;
-	middleware::tools::unserializecpp_json::pop_set(lsbufpop, "set", lsetpop);
-	std::map<int, int> lmappop;
-	middleware::tools::unserializecpp_json::pop_map(lsbufpop, "map", lmappop);
+  middleware::tools::serializecpp_jsonbuffer lsbufpop;
+  lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
+  uint32_t luint32_pop;
+  middleware::tools::unserializecpp_json::pop(lsbufpop, "uint32_t", luint32_pop);
+  std::vector<uint32_t> lvecpop;
+  middleware::tools::unserializecpp_json::pop(lsbufpop, "vector", lvecpop);
+  std::string lstrpop;
+  middleware::tools::unserializecpp_json::pop(lsbufpop, "string", lstrpop);
+  std::set<uint32_t> lsetpop;
+  middleware::tools::unserializecpp_json::pop_set(lsbufpop, "set", lsetpop);
+  std::map<int, int> lmappop;
+  middleware::tools::unserializecpp_json::pop_map(lsbufpop, "map", lmappop);
 }
 
 
 /** xml*/
 void test_6()
 {
-	middleware::tools::serializecpp_xmlbuffer lsbuf;
-	uint32_t luint32_t = 12345;
-	middleware::tools::serializecpp_xml::push(lsbuf, "uint32_t", luint32_t);
-	//std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
-	uint32_t linitarr[] = { 1,2,3,4,5,6,7,8,9,0 };
-	std::vector<uint32_t> lvec(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
-	middleware::tools::serializecpp_xml::push(lsbuf, "vector", lvec);
-	std::string lstr = "helloworld";
-	middleware::tools::serializecpp_xml::push(lsbuf, "string", lstr);
-	//std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
-	std::set<uint32_t> lset(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
-	middleware::tools::serializecpp_xml::push_set(lsbuf, "set", lset);
-	std::map<int, int> lmap;
-	for (int i = 1; i < 10; ++i)
-	{
-		lmap.insert(std::make_pair(i, -i));
-	}
-	middleware::tools::serializecpp_xml::push_map(lsbuf, "map", lmap);
+  middleware::tools::serializecpp_xmlbuffer lsbuf;
+  uint32_t luint32_t = 12345;
+  middleware::tools::serializecpp_xml::push(lsbuf, "uint32_t", luint32_t);
+  //std::vector<uint32_t> lvec = {1,2,3,4,5,6,7,8,9,0};
+  uint32_t linitarr[] = { 1,2,3,4,5,6,7,8,9,0 };
+  std::vector<uint32_t> lvec(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
+  middleware::tools::serializecpp_xml::push(lsbuf, "vector", lvec);
+  std::string lstr = "helloworld";
+  middleware::tools::serializecpp_xml::push(lsbuf, "string", lstr);
+  //std::set<uint32_t> lset = {1,2,3,4,5,6,7,8,9,0,20,19,18,17};
+  std::set<uint32_t> lset(linitarr, &(linitarr[sizeof(linitarr) / sizeof(uint32_t)]));
+  middleware::tools::serializecpp_xml::push_set(lsbuf, "set", lset);
+  std::map<int, int> lmap;
+  for (int i = 1; i < 10; ++i)
+  {
+    lmap.insert(std::make_pair(i, -i));
+  }
+  middleware::tools::serializecpp_xml::push_map(lsbuf, "map", lmap);
 
-	middleware::tools::serializecpp_xmlbuffer lsbufpop;
-	lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
-	uint32_t luint32_pop;
-	middleware::tools::unserializecpp_xml::pop(lsbufpop, "uint32_t", luint32_pop);
-	std::vector<uint32_t> lvecpop;
-	middleware::tools::unserializecpp_xml::pop(lsbufpop, "vector", lvecpop);
-	std::string lstrpop;
-	middleware::tools::unserializecpp_xml::pop(lsbufpop, "string", lstrpop);
-	std::set<uint32_t> lsetpop;
-	middleware::tools::unserializecpp_xml::pop_set(lsbufpop, "set", lsetpop);
-	std::map<int, int> lmappop;
-	middleware::tools::unserializecpp_xml::pop_map(lsbufpop, "map", lmappop);
+  middleware::tools::serializecpp_xmlbuffer lsbufpop;
+  lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
+  uint32_t luint32_pop;
+  middleware::tools::unserializecpp_xml::pop(lsbufpop, "uint32_t", luint32_pop);
+  std::vector<uint32_t> lvecpop;
+  middleware::tools::unserializecpp_xml::pop(lsbufpop, "vector", lvecpop);
+  std::string lstrpop;
+  middleware::tools::unserializecpp_xml::pop(lsbufpop, "string", lstrpop);
+  std::set<uint32_t> lsetpop;
+  middleware::tools::unserializecpp_xml::pop_set(lsbufpop, "set", lsetpop);
+  std::map<int, int> lmappop;
+  middleware::tools::unserializecpp_xml::pop_map(lsbufpop, "map", lmappop);
 }
 
 int main()
 {
-	test_6();
-	test_5();
+  test_6();
+  test_5();
   test_1();
   test_2();
   test_3();

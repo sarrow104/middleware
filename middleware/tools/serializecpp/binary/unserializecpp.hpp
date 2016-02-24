@@ -17,7 +17,7 @@ namespace middleware {
       {
         memcpy(aptarget, apsource, aicopysize);
       }
-		public:
+    public:
       /**
        *  map pop
        */
@@ -216,7 +216,7 @@ namespace middleware {
       }
     };
 
-	}  //namespace tools
+  }  //namespace tools
 }  //namespace middleware 
 
 #endif //UNSERIALIZECPP_H

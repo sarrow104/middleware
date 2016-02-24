@@ -12,310 +12,310 @@
 #include <fstream>
 
 namespace middleware {
-	namespace tools {
-		/*
-			¶ÁÈ¡csvÎÄ¼ş
-		*/
-#define CSV_SEGMENTATION_CHAR			( ',' )				/* csv·Ö¸î×Ö·û */
+  namespace tools {
+    /*
+      è¯»å–csvæ–‡ä»¶
+    */
+#define CSV_SEGMENTATION_CHAR     ( ',' )       /* csvåˆ†å‰²å­—ç¬¦ */
 
 
-		class table
-		{
-			uint32_t milen;
-			uint32_t mikey;
-			std::vector<char*> modata_vec;
-			static char m_segmentation;
+    class table
+    {
+      uint32_t milen;
+      uint32_t mikey;
+      std::vector<char*> modata_vec;
+      static char m_segmentation;
 
-			bool copy_to_vec(char* aiData)
-			{
-				modata_vec.push_back(aiData);
-				sscanf(aiData, "%d", &mikey);
-				milen = strlen(aiData);
-				for (uint32_t i = 0; i < milen; i++)
-				{
-					if (aiData[i] == m_segmentation)
-					{
-						aiData[i] = '\0';
-						modata_vec.push_back(&(aiData[i + 1]));
-					}
-				}
-				return true;
-			}
-		public:
-			table()
-			{
-			}
+      bool copy_to_vec(char* aiData)
+      {
+        modata_vec.push_back(aiData);
+        sscanf(aiData, "%d", &mikey);
+        milen = strlen(aiData);
+        for (uint32_t i = 0; i < milen; i++)
+        {
+          if (aiData[i] == m_segmentation)
+          {
+            aiData[i] = '\0';
+            modata_vec.push_back(&(aiData[i + 1]));
+          }
+        }
+        return true;
+      }
+    public:
+      table()
+      {
+      }
 
-			table(int aikey) :mikey(aikey)
-			{
+      table(int aikey) :mikey(aikey)
+      {
 
-			}
+      }
 
-			void set_segmentation(const char aisegm)
-			{
-				m_segmentation = aisegm;
-			}
+      void set_segmentation(const char aisegm)
+      {
+        m_segmentation = aisegm;
+      }
 
-			uint32_t set_data(char* aiData)
-			{
-				if (NULL != aiData)
-				{
-					if (copy_to_vec(aiData))
-					{
-						return mikey;
-					}
-					else
-					{
-						return (uint32_t)(-1);
-					}
-				}
-				else
-				{
-					throw 0;
-				}
-			}
+      uint32_t set_data(char* aiData)
+      {
+        if (NULL != aiData)
+        {
+          if (copy_to_vec(aiData))
+          {
+            return mikey;
+          }
+          else
+          {
+            return (uint32_t)(-1);
+          }
+        }
+        else
+        {
+          throw 0;
+        }
+      }
 
-			const char* operator[](unsigned int arr) const
-			{
-				if (arr < modata_vec.size() && arr >= 0)
-				{
-					return modata_vec[arr];
-				}
-				else
-				{
-					return NULL;
-				}
-			}
+      const char* operator[](unsigned int arr) const
+      {
+        if (arr < modata_vec.size() && arr >= 0)
+        {
+          return modata_vec[arr];
+        }
+        else
+        {
+          return NULL;
+        }
+      }
 
-			bool operator<(const table& r)const
-			{
-				return mikey < r.mikey;
-			}
+      bool operator<(const table& r)const
+      {
+        return mikey < r.mikey;
+      }
 
-			bool operator==(const table& r)const
-			{
-				return mikey == r.mikey;
-			}
+      bool operator==(const table& r)const
+      {
+        return mikey == r.mikey;
+      }
 
-			void clear()
-			{
-				modata_vec.clear();
-				milen = 0;
-				mikey = 0;
-			}
+      void clear()
+      {
+        modata_vec.clear();
+        milen = 0;
+        mikey = 0;
+      }
 
-			~table() {};
-		};
-
-
-		/*
-			csv¸ñÊ½
-			Ç°ÎåĞĞ±£Áô ÏµÍ³Ê¹ÓÃ   °üÀ¨ÒÔÏÂ
-			Ò».µÚÒ»ĞĞÖ¸¶¨Ò»ÏµÁĞÅäÖÃĞÅÏ¢
-				1.µÚÒ»¸ö¸ñ csvËù²ÉÓÃµÄ·Ö¸î·ûºÅ  Ä¬ÈÏÊ¹ÓÃ','  ·Ö¸î·ûºÅ²»ÄÜ³öÏÖÔÚÊı¾İÖĞ
-			¶ş.µÚ¶şĞĞ ¸÷ÁĞÊı¾İ±íÊ¾µÄº¬Òå
-		*/
-		class tabkey_config;
-
-		typedef std::unordered_map< uint32_t, table* > ump_tabkey;
-		typedef std::unordered_map< uint32_t, tabkey_config* > ump_fkey;
-
-		class tabkey_config
-		{
-			void open_file(const char* aifilename)
-			{
-				m_readfile.open(aifilename);
-				if (!m_readfile.is_open())
-				{
-					m_readfile.close();
-					throw 0;
-				}
-			}
-			void close_file()
-			{
-				m_readfile.close();
-			}
-
-			void read_file()
-			{
-				//»ñÈ¡ÎÄ¼ş´óĞ¡ 
-				m_readfile.seekg(0, std::ios::end);
-				size_t lisize = (size_t)(m_readfile.tellg());
-				m_readfile.seekg(std::ios::beg);
-				char* lcbuf = new char[lisize + 1];
-				m_p = lcbuf;
-				memset(lcbuf, 0x0, lisize);
-
-				m_readfile.read(lcbuf, lisize);
-				lcbuf[lisize] = '\n';
-
-				table* litab = NULL;
-				char* p = lcbuf;
-				uint32_t temp_key = 0;
-				bool lbo = false;
-				for (size_t i = 0; i <= lisize; ++i)
-				{
-					if (lcbuf[i] == '\n' || i == lisize)
-					{
-						lcbuf[i] = 0;
-
-						if (*p == 0)//¹ıÂË¿ÕĞĞ
-						{
-							p = &(lcbuf[i + 1]);
-							continue;
-						}
-
-						if (!lbo)/* ¹ıÂË±íÍ· */
-						{
-							lbo = true;
-							p = &(lcbuf[i + 1]);
-							continue;
-						}
-
-						if (litab == NULL)
-						{
-							litab = new table();
-						}
-
-						temp_key = litab->set_data(p);
-						if (temp_key == (uint32_t)(-1))
-						{
-							p = &(lcbuf[i + 1]);
-							continue;
-						}
-						else
-						{
-							m_tabkey.insert(std::make_pair(temp_key, litab));
-							litab = NULL;
-						}
-
-						p = &(lcbuf[i + 1]);
-
-					}
-				}
-
-				if (litab != NULL)
-				{
-					delete litab;
-				}
+      ~table() {};
+    };
 
 
+    /*
+      csvæ ¼å¼
+      å‰äº”è¡Œä¿ç•™ ç³»ç»Ÿä½¿ç”¨   åŒ…æ‹¬ä»¥ä¸‹
+      ä¸€.ç¬¬ä¸€è¡ŒæŒ‡å®šä¸€ç³»åˆ—é…ç½®ä¿¡æ¯
+        1.ç¬¬ä¸€ä¸ªæ ¼ csvæ‰€é‡‡ç”¨çš„åˆ†å‰²ç¬¦å·  é»˜è®¤ä½¿ç”¨','  åˆ†å‰²ç¬¦å·ä¸èƒ½å‡ºç°åœ¨æ•°æ®ä¸­
+      äºŒ.ç¬¬äºŒè¡Œ å„åˆ—æ•°æ®è¡¨ç¤ºçš„å«ä¹‰
+    */
+    class tabkey_config;
 
-			}
-			ump_tabkey m_tabkey;
-			static std::ifstream m_readfile;
-			static boost::mutex m_lock;
-			char* m_p;
-		public:
-			tabkey_config(const char* apfkey) :
-				m_p(NULL)
-			{
-				m_lock.lock();
-				try
-				{
-					open_file(apfkey);
-					read_file();
-					m_readfile.close();
-				}
-				catch (...)
-				{
-					std::cout << " tabkey_config(const char*) error " << std::endl;
-				}
+    typedef std::unordered_map< uint32_t, table* > ump_tabkey;
+    typedef std::unordered_map< uint32_t, tabkey_config* > ump_fkey;
 
+    class tabkey_config
+    {
+      void open_file(const char* aifilename)
+      {
+        m_readfile.open(aifilename);
+        if (!m_readfile.is_open())
+        {
+          m_readfile.close();
+          throw 0;
+        }
+      }
+      void close_file()
+      {
+        m_readfile.close();
+      }
 
-				m_lock.unlock();
-			}
+      void read_file()
+      {
+        //è·å–æ–‡ä»¶å¤§å° 
+        m_readfile.seekg(0, std::ios::end);
+        size_t lisize = (size_t)(m_readfile.tellg());
+        m_readfile.seekg(std::ios::beg);
+        char* lcbuf = new char[lisize + 1];
+        m_p = lcbuf;
+        memset(lcbuf, 0x0, lisize);
 
+        m_readfile.read(lcbuf, lisize);
+        lcbuf[lisize] = '\n';
 
-			table& operator[](uint32_t aikey)
-			{
-				auto itor = m_tabkey.find(aikey);
-				if (itor != m_tabkey.end())
-				{
-					return *(itor->second);
-				}
-				else
-				{
-					throw 0;
-				}
-			}
+        table* litab = NULL;
+        char* p = lcbuf;
+        uint32_t temp_key = 0;
+        bool lbo = false;
+        for (size_t i = 0; i <= lisize; ++i)
+        {
+          if (lcbuf[i] == '\n' || i == lisize)
+          {
+            lcbuf[i] = 0;
 
+            if (*p == 0)//è¿‡æ»¤ç©ºè¡Œ
+            {
+              p = &(lcbuf[i + 1]);
+              continue;
+            }
 
-			void for_each(boost::function< void(std::pair< const uint32_t, table* >) > aifun)
-			{
-				for (auto itor = m_tabkey.begin(); itor != m_tabkey.end(); ++itor)
-				{
-					aifun(*itor);
-				}
-			}
-			~tabkey_config()
-			{
-				if (m_p == NULL)
-				{
-					delete m_p;
-				}
+            if (!lbo)/* è¿‡æ»¤è¡¨å¤´ */
+            {
+              lbo = true;
+              p = &(lcbuf[i + 1]);
+              continue;
+            }
 
-				for (auto itor = m_tabkey.begin(); itor != m_tabkey.end(); ++itor)
-				{
-					delete itor->second;
-				}
+            if (litab == NULL)
+            {
+              litab = new table();
+            }
 
-				m_tabkey.clear();
-			}
-		};
+            temp_key = litab->set_data(p);
+            if (temp_key == (uint32_t)(-1))
+            {
+              p = &(lcbuf[i + 1]);
+              continue;
+            }
+            else
+            {
+              m_tabkey.insert(std::make_pair(temp_key, litab));
+              litab = NULL;
+            }
 
+            p = &(lcbuf[i + 1]);
 
-		class fkey_config
-		{
+          }
+        }
 
-
-			ump_fkey m_fkey;
-		public:
-
-
-			/*
-				Í¨¹ıapfkey ¶ÁÈ¡ÅäÖÃÎÄ¼ş¼ş  ·µ»Øuint32_t key
-			*/
-			void push(const char* apfile, uint32_t aikey)
-			{
-				auto itor = m_fkey.find(aikey);
-				if (itor != m_fkey.end())
-				{
-					return;
-				}
-
-				tabkey_config* p = new tabkey_config(apfile);
-				m_fkey.insert(std::make_pair(aikey, p));
-				return;
-			}
+        if (litab != NULL)
+        {
+          delete litab;
+        }
 
 
 
+      }
+      ump_tabkey m_tabkey;
+      static std::ifstream m_readfile;
+      static boost::mutex m_lock;
+      char* m_p;
+    public:
+      tabkey_config(const char* apfkey) :
+        m_p(NULL)
+      {
+        m_lock.lock();
+        try
+        {
+          open_file(apfkey);
+          read_file();
+          m_readfile.close();
+        }
+        catch (...)
+        {
+          std::cout << " tabkey_config(const char*) error " << std::endl;
+        }
 
-			tabkey_config& operator [](uint32_t afkey)
-			{
-				auto itor = m_fkey.find(afkey);
-				if (itor != m_fkey.end())
-				{
-					return *(itor->second);
-				}
-				else
-				{
-					throw 0;
-				}
-			}
 
-			void for_each(boost::function< void(std::pair< const uint32_t, tabkey_config* >) > aifun)
-			{
-				for (auto itor = m_fkey.begin(); itor != m_fkey.end(); ++itor)
-				{
-					aifun(*itor);
-				}
-			}
+        m_lock.unlock();
+      }
 
-		};
 
-	}  //namespace tools
+      table& operator[](uint32_t aikey)
+      {
+        auto itor = m_tabkey.find(aikey);
+        if (itor != m_tabkey.end())
+        {
+          return *(itor->second);
+        }
+        else
+        {
+          throw 0;
+        }
+      }
+
+
+      void for_each(boost::function< void(std::pair< const uint32_t, table* >) > aifun)
+      {
+        for (auto itor = m_tabkey.begin(); itor != m_tabkey.end(); ++itor)
+        {
+          aifun(*itor);
+        }
+      }
+      ~tabkey_config()
+      {
+        if (m_p == NULL)
+        {
+          delete m_p;
+        }
+
+        for (auto itor = m_tabkey.begin(); itor != m_tabkey.end(); ++itor)
+        {
+          delete itor->second;
+        }
+
+        m_tabkey.clear();
+      }
+    };
+
+
+    class fkey_config
+    {
+
+
+      ump_fkey m_fkey;
+    public:
+
+
+      /*
+        é€šè¿‡apfkey è¯»å–é…ç½®æ–‡ä»¶ä»¶  è¿”å›uint32_t key
+      */
+      void push(const char* apfile, uint32_t aikey)
+      {
+        auto itor = m_fkey.find(aikey);
+        if (itor != m_fkey.end())
+        {
+          return;
+        }
+
+        tabkey_config* p = new tabkey_config(apfile);
+        m_fkey.insert(std::make_pair(aikey, p));
+        return;
+      }
+
+
+
+
+      tabkey_config& operator [](uint32_t afkey)
+      {
+        auto itor = m_fkey.find(afkey);
+        if (itor != m_fkey.end())
+        {
+          return *(itor->second);
+        }
+        else
+        {
+          throw 0;
+        }
+      }
+
+      void for_each(boost::function< void(std::pair< const uint32_t, tabkey_config* >) > aifun)
+      {
+        for (auto itor = m_fkey.begin(); itor != m_fkey.end(); ++itor)
+        {
+          aifun(*itor);
+        }
+      }
+
+    };
+
+  }  //namespace tools
 }  //namespace middleware 
 
 #endif //READ_CONFIG_H

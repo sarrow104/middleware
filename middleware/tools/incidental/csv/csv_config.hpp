@@ -10,20 +10,20 @@
 #include <cstdio>
 
 namespace middleware {
-	namespace tools {
-		class fkey_config;
+  namespace tools {
+    class fkey_config;
 
-		fkey_config* init_key_config();
+    fkey_config* init_key_config();
 
-		const char* get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3);
-		/* ¶ÁÈ¡ÎÄ¼ş */
-		void push_read(fkey_config* ap, const char* apfile, uint32_t aikey);
+    const char* get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3);
+    /* è¯»å–æ–‡ä»¶ */
+    void push_read(fkey_config* ap, const char* apfile, uint32_t aikey);
 
-		void get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3, uint32_t& airet);
+    void get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3, uint32_t& airet);
 
-		void get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3, uint16_t& airet);
+    void get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3, uint16_t& airet);
 
-	}  //namespace tools
+  }  //namespace tools
 }  //namespace middleware 
 
 #endif  //CSV_CONFIG_H
