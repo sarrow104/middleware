@@ -5,32 +5,32 @@
 #define READCONFIG_KEY_VALUES
 
 namespace middleware {
-	namespace tools {
+  namespace tools {
 
-		/* csv ÎÄ¼ş¶ÔÓ¦key */
-		enum CONFIG_KEY
-		{
-			E_TEST_CONFIG,					/* ²âÊÔ */
-		};
+    /* csv æ–‡ä»¶å¯¹åº”key */
+    enum CONFIG_KEY
+    {
+      E_TEST_CONFIG,          /* æµ‹è¯• */
+    };
 
 
-		/* ÁĞ */
-		enum E_TEST_LIE
-		{
-			CFG_LIE_KEY,								/* ĞĞÊı¾İµÄkey */
-			CFG_LIE_NAME,								/* Ãû×Ö */
-			CFG_LIE_VALUES,							/* Öµ */
-			CFG_LIE_INTERPRETATION,			/* ½âÊÍ */
-		};
+    /* åˆ— */
+    enum E_TEST_LIE
+    {
+      CFG_LIE_KEY,                /* è¡Œæ•°æ®çš„key */
+      CFG_LIE_NAME,               /* åå­— */
+      CFG_LIE_VALUES,             /* å€¼ */
+      CFG_LIE_INTERPRETATION,     /* è§£é‡Š */
+    };
 
-		/* ĞĞ */
-		enum E_TEST_HANG
-		{
-			CFG_HANG_TCP_PORT,				/* TCP¶Ë¿Ú */
-			CFG_HANG_UDP_PORT = 5,				/* UDP¶Ë¿Ú */
-		};
+    /* è¡Œ */
+    enum E_TEST_HANG
+    {
+      CFG_HANG_TCP_PORT,        /* TCPç«¯å£ */
+      CFG_HANG_UDP_PORT = 5,        /* UDPç«¯å£ */
+    };
 
-	}  //namespace tools
+  }  //namespace tools
 }  //namespace middleware 
 
 #endif  //READCONFIG_KEY_VALUES

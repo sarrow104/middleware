@@ -8,16 +8,16 @@
 
 void test_csv()
 {
-	middleware::tools::fkey_config lconfig;
-	/** windows path */
-	lconfig.push("E:/gitfile/middleware/src/tools/incidental/config.csv", 0);
-	std::cout << lconfig[middleware::tools::E_TEST_CONFIG][middleware::tools::CFG_HANG_UDP_PORT][middleware::tools::CFG_LIE_INTERPRETATION] << std::endl;
+  middleware::tools::fkey_config lconfig;
+  /** windows path */
+  lconfig.push("E:/gitfile/middleware/src/tools/incidental/config.csv", 0);
+  std::cout << lconfig[middleware::tools::E_TEST_CONFIG][middleware::tools::CFG_HANG_UDP_PORT][middleware::tools::CFG_LIE_INTERPRETATION] << std::endl;
 }
 
 
 int main()
 {
-	test_csv();
+  test_csv();
   return 0;
 }
 

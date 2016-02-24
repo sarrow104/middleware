@@ -12,30 +12,30 @@
 namespace middleware {
 
 class protocol_cout :
-	public tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >
+  public tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >
 {
-	std::string mpop_ls;
+  std::string mpop_ls;
 public:
-	protocol_cout():
-		tools::protocol_base<spack_head::protocol_head,spack_head::protocol_head >( 0 )
-	{}
+  protocol_cout():
+    tools::protocol_base<spack_head::protocol_head,spack_head::protocol_head >( 0 )
+  {}
 
-	virtual bool task(uint32_t aikey)
-	{
-		return 0;
-	}
-	virtual void serialization()
-	{
+  virtual bool task(uint32_t aikey)
+  {
+    return 0;
+  }
+  virtual void serialization()
+  {
 
-	}
-	virtual void unserialization()
-	{
-		m_premote2local->pop(mpop_ls);
-	}
-	virtual tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head>* new_own()
-	{
-		return new protocol_cout();
-	}
+  }
+  virtual void unserialization()
+  {
+    m_premote2local->pop(mpop_ls);
+  }
+  virtual tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head>* new_own()
+  {
+    return new protocol_cout();
+  }
 };
 
 

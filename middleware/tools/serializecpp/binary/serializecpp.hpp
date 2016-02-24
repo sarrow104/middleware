@@ -41,7 +41,7 @@ namespace middleware{
         memcpy(aptarget, apsource, aicopysize);
       }
 
-		public:
+    public:
       /**
        *  关联容器中的set类
        */

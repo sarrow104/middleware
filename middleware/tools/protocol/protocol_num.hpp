@@ -6,10 +6,10 @@
 
 namespace middleware {
 
-	enum PRO_NUM
-	{
-		EPN_COUT,
-	};
+  enum PRO_NUM
+  {
+    EPN_COUT,
+  };
 
 
 }//namespace middleware

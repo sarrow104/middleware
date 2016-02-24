@@ -23,7 +23,7 @@ namespace middleware {
 
     struct serializecpp_buffer
     {
-			/** 获取已使用长度*/
+      /** 获取已使用长度*/
       inline uint32_t& get_uselen()
       {
         return mi_buffer_at;
@@ -35,8 +35,8 @@ namespace middleware {
       }
 
       /**
-			 *aibuf 自定义空间buffer
-			 *aisize 自定义空间buffer 大小
+       *aibuf 自定义空间buffer
+       *aisize 自定义空间buffer 大小
        */
       serializecpp_buffer(char* aibuf, uint32_t aisize) :
         mc_buffer(aibuf),
@@ -46,7 +46,7 @@ namespace middleware {
       {}
 
       /**
-			 *aisize buffer 大小
+       *aisize buffer 大小
        */
       serializecpp_buffer(uint32_t aisize) :
         mc_buffer(new char[aisize]),

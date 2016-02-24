@@ -9,15 +9,15 @@
 #include <cstdint>
 
 namespace middleware{
-	namespace tools {
+  namespace tools {
 
-		/**
-		 * jsonĞòÁĞ»¯
-		 */
-		typedef serialize_stand<serializecpp_jsonbuffer> serializecpp_json;
+    /**
+     * jsonåºåˆ—åŒ–
+     */
+    typedef serialize_stand<serializecpp_jsonbuffer> serializecpp_json;
 
 
-	} //namespace tools
+  } //namespace tools
 }  //namespace middleware
 
 #endif //SERIALIZACPP_JSON_HPP
