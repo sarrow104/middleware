@@ -167,8 +167,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\protocol\mgt_protocol.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol\protocol_cout.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_base.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol\protocol_cout.h" />
     <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_num.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

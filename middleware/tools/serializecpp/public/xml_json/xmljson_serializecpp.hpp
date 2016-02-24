@@ -59,7 +59,7 @@ namespace middleware {
 			* vector数组
 			*/
 			template <typename T_DATA>
-			static void push(T_STAND& asj, const char* aikey, vector<T_DATA>& aivaluesarr)
+			static void push(T_STAND& asj, const char* aikey, std::vector<T_DATA>& aivaluesarr)
 			{
 				serialize_stand<T_STAND>::push(asj, aikey, aivaluesarr.data(), aivaluesarr.size());
 			}

@@ -7,7 +7,10 @@
 #include "middleware/tools/incidental/check_crc.hpp"
 #include "middleware/tools/serializecpp/binary/serializecpp.hpp"
 #include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
-
+#include "middleware/tools/serializecpp/json/serializecpp_json.hpp"
+#include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
+#include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
+#include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
 
 #include <cstdint>
 #include <vector>
@@ -21,31 +24,39 @@
 
 namespace middleware{
 
-  
+	enum
+	{
+		SERIALIZE_TYPE_BINARY,															/** 二进制 */
+		SERIALIZE_TYPE_JSON,																/** JSON */
+		SERIALIZE_TYPE_XML,																	/** XML */
+	};
+
+
   /* 公共接口 */
-  typedef uint32_t    HEAD_SERVER_MAGIC_TYPE;             /* 魔数 */
-  typedef uint32_t    HEAD_DATA_BYTE_TYPE;                /* 数据长度 包括自身所占字节数 */
-  typedef uint32_t    HEAD_CRC_TYPE;                      /* crc校验 */
-  typedef uint32_t    HEAD_ERROR_TYPE;                    /* 错误 */
-  typedef uint64_t    HEAD_USER_ID_TYPE;                  /* 用户id */
-  typedef uint32_t    HEAD_PROTOCOL_NUM_TYPE;             /* 协议号类型 */
-  typedef uint32_t    HEAD_ORDER_TYPE;                    /* 序号 */
-  typedef char*       PROTOCOL_BODY_TYPE;                 /* 协议体类型 */
+  typedef uint16_t    HEAD_SERVER_MAGIC_TYPE;             /** 魔数 */
+  typedef uint32_t    HEAD_DATA_BYTE_TYPE;                /** 数据长度 包括自身所占字节数 */
+  typedef uint32_t    HEAD_CRC_TYPE;                      /** crc校验 */
+  typedef uint16_t    HEAD_ERROR_TYPE;                    /** 错误 */
+  typedef uint32_t    HEAD_USER_ID_TYPE;                  /** 用户id */
+  typedef uint32_t    HEAD_PROTOCOL_NUM_TYPE;             /** 协议号 */
+  typedef uint32_t    HEAD_ORDER_TYPE;                    /** 序号 */
+	typedef uint8_t			HEAD_BODY_SERIALIZE;								/** 序列化类型 */
+  typedef char*       PROTOCOL_BODY_TYPE;                 /** 协议体类型 */
 
 
   namespace spack_head{
+		/** asio相关 */
+    typedef uint16_t    HEAD_SERVER_PROTOCOL_LEN_TYPE;          /** 协议长度 */
+    typedef uint32_t    HEAD_IP_ADDRESS_TYPE;                   /** ip */
+    typedef uint32_t    HEAD_CLOSESOCKET_COUNT_TYPE;            /** socket close次数 */
+    typedef uint8_t     HEAD_SESSIONTYPE_TYPE;                  /** session 类型 */
+    typedef uint8_t     HEAD_GROUPID_TYPE;                      /** 组id */
+    typedef uint32_t    HEAD_SESSIONID_TYPE;                    /** session id */
+    typedef uint16_t    HEAD_MASS_SIZE_TYPE;                    /** 群发数目类型 */
+    typedef uint32_t    HEAD_SERVER_ERROR_TYPE;                 /** 错误 */
+    typedef uint8_t     HEAD_SETTIMER_TYPE;                     /** set timer */
 
-    typedef uint16_t    HEAD_SERVER_PROTOCOL_LEN_TYPE;          /* 协议长度 */
-    typedef uint32_t    HEAD_IP_ADDRESS_TYPE;                   /* ip */
-    typedef uint32_t    HEAD_CLOSESOCKET_COUNT_TYPE;            /* socket close次数 */
-    typedef uint8_t     HEAD_SESSIONTYPE_TYPE;                  /* session 类型 */
-    typedef uint8_t     HEAD_GROUPID_TYPE;                      /* 组id */
-    typedef uint32_t    HEAD_SESSIONID_TYPE;                    /* session id */
-    typedef uint16_t    HEAD_MASS_SIZE_TYPE;                    /* 群发数目类型 */
-    typedef uint32_t    HEAD_SERVER_ERROR_TYPE;                 /* 错误 */
-    typedef uint8_t     HEAD_SETTIMER_TYPE;                     /* set timer */
-
-                                                                /* 设置定时器 逻辑控制连接 */
+    /* 设置定时器 逻辑控制连接 */
     enum SET_TIMER__LOGIC_CONTROL
     {
       SET_NO_VALUES,
@@ -204,16 +215,18 @@ namespace middleware{
     {
       middleware::check_crc m_crc;
     public:
-      enum POS
-      {
-        HEAD_DATA_BYTE_POS = PROTOCOL_HEAD_BEG_POS,
-        HEAD_CRC_POS = HEAD_DATA_BYTE_POS + sizeof(HEAD_DATA_BYTE_TYPE),
-        HEAD_ERROR_POS = HEAD_CRC_POS + sizeof(HEAD_CRC_TYPE),
-        HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
-        HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
-        HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
-        END_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
-      };
+			enum POS
+			{
+				HEAD_DATA_BYTE_POS = PROTOCOL_HEAD_BEG_POS,
+				HEAD_CRC_POS = HEAD_DATA_BYTE_POS + sizeof(HEAD_DATA_BYTE_TYPE),
+				HEAD_ERROR_POS = HEAD_CRC_POS + sizeof(HEAD_CRC_TYPE),
+				HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
+				HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
+				HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
+				HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
+				END_POS = HEAD_BODY_SERIALIZE_POS + sizeof(HEAD_BODY_SERIALIZE),
+			};
+
 
       void reset(const char* aidata, uint32_t aisize)
       {
@@ -241,9 +254,11 @@ namespace middleware{
       GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
       /* 获取顺序位置 */
       GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
+			/* 获取序列化类型 */
+			GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
 
-        /* 设置crc */
-        void set_crc()
+      /* 设置crc */
+      void set_crc()
       {
         get_crc() =
           m_crc(
@@ -352,7 +367,8 @@ namespace middleware{
         HEAD_USER_ID_POS = HEAD_ERROR_POS + sizeof(HEAD_ERROR_TYPE),
         HEAD_PROTOCOL_NUM_POS = HEAD_USER_ID_POS + sizeof(HEAD_USER_ID_TYPE),
         HEAD_ORDER_POS = HEAD_PROTOCOL_NUM_POS + sizeof(HEAD_PROTOCOL_NUM_TYPE),
-        END_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
+				HEAD_BODY_SERIALIZE_POS = HEAD_ORDER_POS + sizeof(HEAD_ORDER_TYPE),
+        END_POS = HEAD_BODY_SERIALIZE_POS + sizeof(HEAD_BODY_SERIALIZE),
       };
 
       void reset(const char* aidata, uint32_t aisize)
@@ -381,6 +397,9 @@ namespace middleware{
         GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
         /* 获取顺序号 */
         GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
+				/* 获取序列化类型 */
+				GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
+
 
         /* 设置crc */
         void set_crc()
@@ -462,14 +481,30 @@ namespace middleware{
 	class unpack_head_process
 	{
 		tools::serializecpp_buffer m_sbuf;
+		tools::serializecpp_jsonbuffer m_json_sbuf;
+		tools::serializecpp_xmlbuffer m_xml_sbuf;
 		PH m_ph;
 	public:
 		unpack_head_process() {}
 
 		void reset(const char* ap, uint32_t aplen)
 		{
-			m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
 			m_ph.reset(ap, aplen);
+			switch (m_ph.get_body_serialize())
+			{
+			case SERIALIZE_TYPE_BINARY:
+				m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
+				return;
+			case SERIALIZE_TYPE_JSON:
+				m_json_sbuf.reset(ap, aplen);
+				return;
+			case SERIALIZE_TYPE_XML:
+				m_xml_sbuf.reset(ap, aplen);
+				return;
+			}
+
+			throw 1;
+			
 		}
 
 		PH* get_head()
@@ -477,6 +512,7 @@ namespace middleware{
 			return &m_ph;
 		}
 
+		/** binary */
 		template <typename T>
 		void pop(T& aivalues)
 		{
@@ -489,6 +525,33 @@ namespace middleware{
 			tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
 		}
 
+		/** json */
+		template <typename T>
+		void pop_json(const char* apkey,T& aivalues)
+		{
+			tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues);
+		}
+
+		template <typename T>
+		void pop_json(const char* apkey, T* aivalues, uint32_t ailen)
+		{
+			tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues, ailen);
+		}
+
+		/** xml */
+		template <typename T>
+		void pop_xml(const char* apkey, T& aivalues)
+		{
+			tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues);
+		}
+
+		template <typename T>
+		void pop_xml(const char* apkey, T* aivalues, uint32_t ailen)
+		{
+			tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues, ailen);
+		}
+
+
 	};
  
    /** 
@@ -500,6 +563,8 @@ namespace middleware{
   {
     char* m_arr;
     tools::serializecpp_buffer m_sbuf;
+		tools::serializecpp_jsonbuffer m_json_sbuf;
+		tools::serializecpp_xmlbuffer m_xml_sbuf;
     PH m_ph;
   public:
     pack_head_process(uint32_t aibytes):
@@ -511,6 +576,8 @@ namespace middleware{
     void reset()
     {
       m_sbuf.reset();
+			m_json_sbuf.reset();
+			m_xml_sbuf.reset();
     }
 
     template <typename T>
@@ -524,6 +591,31 @@ namespace middleware{
     {
       tools::serializecpp::push(&m_sbuf, aivalues, ailen);
     }
+
+		template <typename T>
+		void push_json(const char* apkey, T& apdata)
+		{
+			tools::serializecpp_json::push(&m_json_sbuf, apkey, apdata);
+		}
+
+		template <typename T>
+		bool push_json(const char* apkey, T* aivalues, uint32_t ailen)
+		{
+			tools::serializecpp_json::push(&m_json_sbuf, apkey, aivalues, ailen);
+		}
+
+		template <typename T>
+		void push_xml(const char* apkey, T& apdata)
+		{
+			tools::serializecpp_xml::push(&m_xml_sbuf, apkey, apdata);
+		}
+
+		template <typename T>
+		bool push_xml(const char* apkey, T* aivalues, uint32_t ailen)
+		{
+			tools::serializecpp_xml::push(&m_xml_sbuf, apkey, aivalues, ailen);
+		}
+
 
     PH* get_head()
     {
@@ -542,7 +634,7 @@ namespace middleware{
     }
 
     /** 设置包头 */
-    void set_pack_head(uint32_t aierrornum = 0,uint32_t aiuserid = 0,uint32_t aiprotocolnum = 0)
+    void set_pack_head(uint32_t aierrornum = 0,uint32_t aiuserid = 0,uint32_t aiprotocolnum = 0, uint8_t aiserialize = SERIALIZE_TYPE_BINARY)
     {
       m_ph.reset(m_arr, get_send_len());
       m_ph.set_data_byte(m_sbuf.get_uselen());
@@ -550,6 +642,7 @@ namespace middleware{
       m_ph.get_userid() = aiuserid;
       m_ph.get_error() = aierrornum;
       m_ph.get_protocol_num() = aiprotocolnum;
+			m_ph.get_body_serialize() = aiserialize;
       ++m_ph.get_order();
       
       m_ph.set_crc();
