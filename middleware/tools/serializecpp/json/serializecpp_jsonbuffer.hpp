@@ -1,8 +1,10 @@
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
 #ifndef SERIALIZECPP_JSON_BUFFER_HPP
 #define SERIALIZECPP_JSON_BUFFER_HPP
 
 #include "middleware/tools/serializecpp/public/xml_json/xmljson_buffer.hpp"
-
 
 namespace middleware {
 	namespace tools {
@@ -10,13 +12,17 @@ namespace middleware {
 		struct serializecpp_jsonbuffer:
 			public xmljson_buffer
 		{
-			virtual void get_data(std::stringstream& st)
+			virtual const char* get_data()
 			{
-				boost::property_tree::write_json(st, m_root);
+				std::stringstream lst;
+				boost::property_tree::write_json(lst, m_root);
+				m_str = lst.str();
+				return m_str.c_str();
 			}
 
 			virtual void reset(const char* ap, uint32_t aplen)
 			{
+				m_str.clear();
 				boost::property_tree::read_json<boost::property_tree::ptree>(std::stringstream(ap), m_root);
 			}
 		};
@@ -26,3 +32,4 @@ namespace middleware {
 } //namespace tools
 
 #endif //SERIALIZECPP_JSON_BUFFER_HPP
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

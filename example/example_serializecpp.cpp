@@ -274,9 +274,7 @@ void test_5()
 
 
 	middleware::tools::serializecpp_jsonbuffer lsbufpop;
-	std::stringstream lsrt;
-	lsbuf.get_data(lsrt);
-	lsbufpop.reset(lsrt.str().c_str(), lsrt.str().length()+1);
+	lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
 	uint32_t luint32_pop;
 	middleware::tools::unserializecpp_json::pop(lsbufpop, "uint32_t", luint32_pop);
 	std::vector<uint32_t> lvecpop;
@@ -313,9 +311,7 @@ void test_6()
 	middleware::tools::serializecpp_xml::push_map(lsbuf, "map", lmap);
 
 	middleware::tools::serializecpp_xmlbuffer lsbufpop;
-	std::stringstream lsrt;
-	lsbuf.get_data(lsrt);
-	lsbufpop.reset(lsrt.str().c_str(), lsrt.str().length() + 1);
+	lsbufpop.reset(lsbuf.get_data(), lsbuf.get_uselen());
 	uint32_t luint32_pop;
 	middleware::tools::unserializecpp_xml::pop(lsbufpop, "uint32_t", luint32_pop);
 	std::vector<uint32_t> lvecpop;

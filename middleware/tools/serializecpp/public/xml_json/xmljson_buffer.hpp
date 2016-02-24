@@ -1,4 +1,7 @@
-﻿#ifndef XMLJSON_BUFFER_HPP
+﻿///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
+#ifndef XMLJSON_BUFFER_HPP
 #define XMLJSON_BUFFER_HPP
 
 #include <boost/property_tree/ptree.hpp>
@@ -10,8 +13,17 @@ namespace middleware {
 
 		struct xmljson_buffer
 		{
-			virtual void get_data(std::stringstream& st) = 0;
+			virtual const char* get_data() = 0;
 			
+			uint32_t get_len()
+			{
+				return m_str.length();
+			}
+
+			uint32_t get_uselen()
+			{
+				return get_len();
+			}
 			/** unserializecpp */
 			virtual void reset(const char* ap, uint32_t aplen) = 0;
 
@@ -65,9 +77,12 @@ namespace middleware {
 
 		protected:
 			boost::property_tree::ptree m_root;
+			std::string m_str;
 		};
 
 	} //namespace middleware
 } //namespace tools
 
 #endif //XMLJSON_BUFFER_HPP
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

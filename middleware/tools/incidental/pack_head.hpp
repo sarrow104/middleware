@@ -233,14 +233,14 @@ namespace middleware{
 
       /* 获取crc */
       GET_HEAD(crc, HEAD_CRC_TYPE, POS::HEAD_CRC_POS)
-        /* 获取error */
-        GET_HEAD(error, HEAD_ERROR_TYPE, POS::HEAD_ERROR_POS)
-        /* 获取玩家id */
-        GET_HEAD(userid, HEAD_USER_ID_TYPE, POS::HEAD_USER_ID_POS)
-        /* 获取协议号 */
-        GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
-        /* 获取顺序位置 */
-        GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
+      /* 获取error */
+      GET_HEAD(error, HEAD_ERROR_TYPE, POS::HEAD_ERROR_POS)
+      /* 获取玩家id */
+      GET_HEAD(userid, HEAD_USER_ID_TYPE, POS::HEAD_USER_ID_POS)
+      /* 获取协议号 */
+      GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
+      /* 获取顺序位置 */
+      GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
 
         /* 设置crc */
         void set_crc()

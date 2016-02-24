@@ -1,4 +1,7 @@
-﻿#ifndef XMLJSON_UNSERIALIZECPP_HPP
+﻿///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
+#ifndef XMLJSON_UNSERIALIZECPP_HPP
 #define XMLJSON_UNSERIALIZECPP_HPP
 
 #include "middleware/tools/serializecpp/json/serializecpp_jsonbuffer.hpp"
@@ -117,3 +120,5 @@ namespace middleware {
 } //namespace middleware 
 
 #endif //XMLJSON_SERIALIZECPP_HPP
+
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

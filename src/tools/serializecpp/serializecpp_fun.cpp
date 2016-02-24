@@ -1,3 +1,6 @@
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
 #include "middleware/tools/serializecpp/public/serializecpp_fun.hpp"
 
 #include <cstring>
@@ -54,10 +57,10 @@ namespace middleware {
 				sscanf((char *)pSrcTemp, "%02x", &iVal);
 				pDst[i] = (unsigned char)iVal;
 			}
-
 			return iLen;
 		}
 
-
 	} //namespace tools
 }// namespace middleware
+
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

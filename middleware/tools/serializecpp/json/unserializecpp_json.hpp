@@ -1,3 +1,6 @@
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
 #ifndef UNSERIALIZECPP_JSON_HPP
 #define UNSERIALIZECPP_JSON_HPP
 

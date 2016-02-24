@@ -1,3 +1,6 @@
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
 #ifndef UNSERIALIZECPP_XML_HPP
 #define UNSERIALIZECPP_XML_HPP
 
@@ -17,4 +20,4 @@ namespace middleware {
 
 #endif //UNSERIALIZECPP_XML_HPP
 
-/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
