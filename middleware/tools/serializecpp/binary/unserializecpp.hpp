@@ -6,33 +6,19 @@
 
 #include <cstdlib>
 
-/* 宏定义为了方便添加 set map 类的关联容器 */
-#define DEF_POP_SET_TYPE( TYPE )                                                    \
-  template <typename T_DATA>                                                        \
-  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)          \
-  {                                                                                 \
-    return pop_set( ap, aplen, aivaluesarr);                                        \
-  }
-
-#define DEF_POP_MAP_TYPE( TYPE )                                                     \
-  template <typename T_DATA1,typename T_DATA2>                                       \
-  static uint32_t pop(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
-  {                                                                                  \
-    return pop_map( ap, aplen, aivaluesarr );                                        \
-  }
 namespace middleware {
   namespace tools {
-    /*****************
-     **  反序列化基类
-     *****************/
+    /**
+     *  反序列化基类
+     */
     class unserializecpp_base
     {
       static void pop(void* aptarget, void* apsource, uint32_t aicopysize)
       {
         memcpy(aptarget, apsource, aicopysize);
       }
-
-      /*
+		public:
+      /**
        *  map pop
        */
       template <typename T_DATA>
@@ -65,7 +51,7 @@ namespace middleware {
         return lsize;
       }
 
-      /*
+      /**
        *  set pop
        */
       template <typename T_DATA>
@@ -92,9 +78,9 @@ namespace middleware {
         return lsize;
       }
 
-    public:
+ 
 
-      /*
+      /**
        * 内置类型
        * int
        * float
@@ -115,7 +101,7 @@ namespace middleware {
         return sizeof(T_DATA);
       }
 
-      /*
+      /**
        *  原始数组
        */
       template <typename T_DATA>
@@ -142,7 +128,7 @@ namespace middleware {
         return lsize;
       }
 
-      /*
+      /**
        * vector 数组
        */
       template <typename T_DATA>
@@ -169,7 +155,7 @@ namespace middleware {
         return lsize;
       }
 
-      /*
+      /**
        *  std::string
        */
       static uint32_t pop(char* ap, uint32_t aplen, std::string& aivaluesarr)
@@ -195,48 +181,11 @@ namespace middleware {
       }
 
 
-
-
-#if 0
-      template <typename T_DATA>
-      static uint32_t pop(char* ap, uint32_t aplen, std::set<T_DATA>& aivaluesarr)
-      {
-        return pop_set(ap, aplen, aivaluesarr);
-      }
-
-      /* hash set*/
-      template <typename T_DATA>
-      static uint32_t pop(char* ap, uint32_t aplen, std::unordered_set<T_DATA>& aivaluesarr)
-      {
-        return pop_set(ap, aplen, aivaluesarr);
-      }
-#else
-      DEF_POP_SET_TYPE(std::set)
-      DEF_POP_SET_TYPE(std::unordered_set)
-#endif
-
-#if 0
-        template <typename T_DATA1, typename T_DATA2>
-      static uint32_t pop(char* ap, uint32_t aplen, std::map<T_DATA1, T_DATA2>& aivaluesarr)
-      {
-        return pop_map(ap, aplen, aivaluesarr);
-      }
-      template <typename T_DATA1, typename T_DATA2>
-      static uint32_t pop(char* ap, uint32_t aplen, std::unordered_map<T_DATA1, T_DATA2>& aivaluesarr)
-      {
-        return pop_map(ap, aplen, aivaluesarr);
-      }
-#else
-      DEF_POP_MAP_TYPE(std::map)
-      DEF_POP_MAP_TYPE(std::unordered_map)
-#endif
     };
 
-
-
-    /******************
-     **  反序列化类
-     *******************/
+    /**
+     *  反序列化类
+     */
     class unserializecpp
     {
       /*
@@ -267,16 +216,8 @@ namespace middleware {
       }
     };
 
-
-
-
-  }
-}
-
-
-
-
+	}  //namespace tools
+}  //namespace middleware 
 
 #endif //UNSERIALIZECPP_H
-
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
