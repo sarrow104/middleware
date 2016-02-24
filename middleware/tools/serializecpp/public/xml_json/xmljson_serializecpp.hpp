@@ -78,7 +78,7 @@ namespace middleware {
       template <typename T_DATA>
       static void push_set(T_STAND& asj, const char* aikey, T_DATA& aivaluesarr)
       {
-        std::vector<T_DATA::value_type> lvec;
+        std::vector<typename T_DATA::value_type> lvec;
         for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
           lvec.push_back(*itor);
@@ -89,8 +89,8 @@ namespace middleware {
       template <typename T_DATA>
       static void push_map(T_STAND& asj, const char* aikey, T_DATA& aivaluesarr)
       {
-        std::vector<T_DATA::key_type> lfirstvec;
-        std::vector<T_DATA::mapped_type> lsecondvec;
+        std::vector<typename T_DATA::key_type> lfirstvec;
+        std::vector<typename T_DATA::mapped_type> lsecondvec;
         for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
           lfirstvec.push_back(itor->first);
@@ -101,10 +101,10 @@ namespace middleware {
         uint32_t lisize = aivaluesarr.size();
         lptree.put<uint32_t>("size", lisize);
         char lchbuf[1024] = { 0 };
-        Binary2Cstr((unsigned char*)(lfirstvec.data()), lisize*sizeof(T_DATA::key_type), (unsigned char*)lchbuf, 1024);
+        Binary2Cstr((unsigned char*)(lfirstvec.data()), lisize*sizeof(typename T_DATA::key_type), (unsigned char*)lchbuf, 1024);
         lptree.put<std::string>("key", (char*)lchbuf);
 
-        Binary2Cstr((unsigned char*)(lsecondvec.data()), lisize*sizeof(T_DATA::mapped_type), (unsigned char*)lchbuf, 1024);
+        Binary2Cstr((unsigned char*)(lsecondvec.data()), lisize*sizeof(typename T_DATA::mapped_type), (unsigned char*)lchbuf, 1024);
         lptree.put<std::string>("val", (char*)lchbuf);
         asj.add_node(aikey, lptree);
       }

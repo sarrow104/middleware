@@ -14,7 +14,7 @@
 #define POP_POP_BASE_TYPE(TYPE)                                                                       \
      static void pop(T_STAND& asj, const char* aikey, TYPE& aivalues)                     \
      {                                                                                                    \
-        asj.get<TYPE>(aikey,aivalues);                                                                    \
+        asj.template get<TYPE>(aikey,aivalues);                                                                    \
      }
 #endif //POP_JSONBASE_TYPE
 
@@ -49,9 +49,9 @@ namespace middleware {
       {
         boost::property_tree::ptree& lret = asj.get_child(aikey);
         std::string ldatastr;
-        asj.get<std::string>("data", ldatastr);
-        Cstr2Binary(ldatastr.c_str(), (unsigned char*)aivaluesarr, sizeof(T_DATA)*aivaluesarrsize)
-          asj.get<std::uint32_t>("size", aivaluesarrsize);
+        asj.template get<std::string>("data", ldatastr);
+        Cstr2Binary(ldatastr.c_str(), (unsigned char*)aivaluesarr, sizeof(T_DATA)*aivaluesarrsize);
+        asj.template get<std::uint32_t>("size", aivaluesarrsize);
       }
 
       /**
@@ -85,7 +85,7 @@ namespace middleware {
       template <typename T_DATA>
       static void pop_set(T_STAND& asj, const char* aikey, T_DATA& aivaluesarr)
       {
-        std::vector<T_DATA::value_type> lvec;
+        std::vector<typename T_DATA::value_type> lvec;
         unserialize_stand<T_STAND>::pop(asj, aikey, lvec);
         aivaluesarr.insert(lvec.begin(), lvec.end());
       }
@@ -94,15 +94,15 @@ namespace middleware {
       {
         boost::property_tree::ptree& lret = asj.get_child(aikey);
         std::string lkey;
-        asj.get<std::string>(lret, "key", lkey);
+        asj.template get<std::string>(lret, "key", lkey);
         std::string lval;
-        asj.get<std::string>(lret, "val", lval);
+        asj.template get<std::string>(lret, "val", lval);
 
         uint32_t lsize;
-        asj.get<std::uint32_t>(lret, "size", lsize);
+        asj.template get<std::uint32_t>(lret, "size", lsize);
 
-        std::vector<T_DATA::key_type> lfirstvec;
-        std::vector<T_DATA::mapped_type> lsecondvec;
+        std::vector<typename T_DATA::key_type> lfirstvec;
+        std::vector<typename T_DATA::mapped_type> lsecondvec;
 
         lfirstvec.resize(lsize);
         lsecondvec.resize(lsize);

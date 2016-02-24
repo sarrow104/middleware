@@ -49,7 +49,6 @@ namespace middleware {
       }
 
       iLen /= 2;
-      strupr((char *)szSrc);
       for (int i = 0; i<iLen; i++)
       {
         int iVal = 0;

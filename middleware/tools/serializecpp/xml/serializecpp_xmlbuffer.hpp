@@ -23,7 +23,13 @@ namespace middleware {
       virtual void reset(const char* ap, uint32_t aplen)
       {
         m_str.clear();
-        boost::property_tree::read_xml<boost::property_tree::ptree>(std::stringstream(ap), m_root);
+        std::stringstream ss(ap);
+        boost::property_tree::read_xml<boost::property_tree::ptree>(ss, m_root);
+      }
+
+      virtual void reset()
+      {
+        clear();
       }
     };
 

@@ -27,6 +27,11 @@ namespace middleware {
       /** unserializecpp */
       virtual void reset(const char* ap, uint32_t aplen) = 0;
 
+      virtual void reset()
+      {
+        clear();
+      }
+
       xmljson_buffer(){}
 
       ~xmljson_buffer(){}
@@ -45,11 +50,6 @@ namespace middleware {
       inline void clear()
       {
         m_root.clear();
-      }
-
-      inline void reset()
-      {
-        clear();
       }
 
       template <typename T>

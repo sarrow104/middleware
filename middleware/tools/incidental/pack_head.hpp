@@ -568,8 +568,8 @@ namespace middleware{
     PH m_ph;
   public:
     pack_head_process(uint32_t aibytes):
-      m_arr(new char[PH::END_POS+ aibytes]),
-      m_sbuf(m_arr+ PH::END_POS,aibytes)
+      m_arr(new char[PH::END_POS + aibytes]),
+      m_sbuf(m_arr + PH::END_POS,aibytes)
     {
     }
 
