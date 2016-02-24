@@ -1,10 +1,17 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include <iostream>
 #include "middleware/tools/serializecpp/binary/serializecpp.hpp"
 #include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
 #include "middleware/tools/serializecpp/binary/serializecpp_class.hpp"
+#include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
+#include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
+#include "middleware/tools/serializecpp/json/serializecpp_json.hpp"
+#include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
+
+#include <iostream>
+#include <map>
+
 using namespace std;
 
 /**
@@ -244,12 +251,7 @@ void test_4()
 }
 
 
-#include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
-#include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
 
-#include "middleware/tools/serializecpp/json/serializecpp_json.hpp"
-#include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
-#include <map>
 /** json */
 void test_5()
 {
