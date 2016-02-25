@@ -127,21 +127,21 @@ void test_3()
   {
     lset.insert( rand() );
   }
-  middleware::tools::serializecpp::push( lsbuf, lset );
+  middleware::tools::serializecpp::push_set( lsbuf, lset );
 
   std::map<int,int> lmap;
   for(uint32_t i = 0; i < 20 ;++i)
   {
     lmap.insert( std::make_pair( rand(),rand()) );
   }
-  middleware::tools::serializecpp::push( lsbuf, lmap );
+  middleware::tools::serializecpp::push_map( lsbuf, lmap );
 
   std::unordered_set<int> lunset;
   for(uint32_t i = 0; i < 20 ;++i)
   {
     lunset.insert( rand() );
   }
-  middleware::tools::serializecpp::push( lsbuf, lunset );
+  middleware::tools::serializecpp::push_set( lsbuf, lunset );
 
   /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());

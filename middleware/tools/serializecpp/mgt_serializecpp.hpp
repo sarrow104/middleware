@@ -109,6 +109,61 @@ namespace middleware {
 				throw 0;
 			}
 
+
+			template <typename T>
+			void push_map(T& apdata, const char* apkey = "")
+			{
+				switch (m_serialize_type)
+				{
+				case SERIALIZE_TYPE_BINARY:
+					tools::serializecpp::push_map(m_sbuf, apdata);
+					return;
+				case SERIALIZE_TYPE_JSON:
+					tools::serializecpp_json::push_map(m_json_sbuf, apkey, apdata);
+					return;
+				case SERIALIZE_TYPE_XML:
+					tools::serializecpp_xml::push_map(m_xml_sbuf, apkey, apdata);
+					return;
+				}
+				throw 0;
+			}
+
+			template <typename T>
+			void push_set(T& apdata, const char* apkey = "")
+			{
+				switch (m_serialize_type)
+				{
+				case SERIALIZE_TYPE_BINARY:
+					tools::serializecpp::push_set(m_sbuf, apdata);
+					return;
+				case SERIALIZE_TYPE_JSON:
+					tools::serializecpp_json::push_set(m_json_sbuf, apkey, apdata);
+					return;
+				case SERIALIZE_TYPE_XML:
+					tools::serializecpp_xml::push_set(m_xml_sbuf, apkey, apdata);
+					return;
+				}
+				throw 0;
+			}
+
+			template <typename T>
+			void push_struct(T& apdata, const char* apkey = "")
+			{
+				switch (m_serialize_type)
+				{
+				case SERIALIZE_TYPE_BINARY:
+					tools::serializecpp::push_struct(m_sbuf, apdata);
+					return;
+				case SERIALIZE_TYPE_JSON:
+					tools::serializecpp_json::push_struct(m_json_sbuf, apkey, apdata);
+					return;
+				case SERIALIZE_TYPE_XML:
+					tools::serializecpp_xml::push_struct(m_xml_sbuf, apkey, apdata);
+					return;
+				}
+				throw 0;
+			}
+
 			template <typename T>
 			void pop(T& aivalues, const char* apkey = "")
 			{

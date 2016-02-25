@@ -81,19 +81,19 @@ namespace middleware{
       }
 
 			
-			/**
-			 * 基本类型+可以直接拷贝的结构
-			 */
-			template <typename T_DATA>
-			static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
-			{                                                                                     
-				if (aplen < sizeof(T_DATA))
-				{																																										
-					return 0;																																					
-				}																																										
-				push(ap, (void*)(&aivalues), sizeof(T_DATA));
-				return sizeof(T_DATA);
-			}
+	   /**
+	    * 基本类型+可以直接拷贝的结构
+		*/
+		template <typename T_DATA>
+		static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
+		{                                                                                     
+			if (aplen < sizeof(T_DATA))
+			{																																										
+				return 0;																																					
+			}																																										
+			push(ap, (void*)(&aivalues), sizeof(T_DATA));
+			return sizeof(T_DATA);
+		}
 			
       /**
        *  原始数组
@@ -156,6 +156,22 @@ namespace middleware{
       static bool push(serializecpp_buffer& ap_buffer_data, const T_DATA* aivalues, uint32_t ailen)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues, ailen);
+				ap_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+	  template <typename T_DATA>
+      static bool push_map(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
+      {
+        uint32_t lretvalues = serializecpp_base::push_map(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
+				ap_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+	   template <typename T_DATA>
+      static bool push_set(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
+      {
+        uint32_t lretvalues = serializecpp_base::push_set(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
 				ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }

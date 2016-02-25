@@ -29,11 +29,7 @@ namespace middleware {
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
         {
           m_premote2local_arr[i] = new unpack_head_process<T_PHP1>();
-        }
-
-        for (uint32_t i = 0; i < aimaxthreadnum; ++i)
-        {
-          m_plocal2remote_arr[i] = new pack_head_process<T_PHP2>(aieverybytes);
+		  m_plocal2remote_arr[i] = new pack_head_process<T_PHP2>(aieverybytes);
         }
 
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
@@ -76,7 +72,9 @@ namespace middleware {
 		/** 服务器协议 map */
 		typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
 
-		middleware_asio_server* create_server_protocol_mgt(std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap);
+		middleware_asio_server* create_server_protocol_mgt(
+			std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap
+			);
 
 
 		middleware_asio_client* create_client_protocol_mgt(uint32_t aikey);

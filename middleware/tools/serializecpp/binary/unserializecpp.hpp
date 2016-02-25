@@ -214,6 +214,30 @@ namespace middleware {
         mp_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
+
+	  template <typename T_DATA>
+      static bool pop_set(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop_set(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+	  template <typename T_DATA>
+      static bool pop_map(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop_map(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+	  /** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
+	  template <typename T_DATA>
+      static bool pop_struct(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
+      {
+        return aivalues.pop( mp_buffer_data );
+      }
+
     };
 
   }  //namespace tools

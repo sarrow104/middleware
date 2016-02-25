@@ -17,11 +17,14 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp_buffer.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp_class.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\unserializecpp.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\serializecpp_json.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\serializecpp_jsonbuffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\unserializecpp_json.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\mgt_serializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_buffer.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_serializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_unserializecpp.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_fun.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\xml\serializecpp_xml.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\xml\serializecpp_xmlbuffer.hpp" />

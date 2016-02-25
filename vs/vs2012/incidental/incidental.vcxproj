@@ -80,10 +80,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\incidental\check_crc.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\incidental\csv\csv_config.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\incidental\csv\csv_key_values.h" />
+    <ClInclude Include="..\..\..\middleware\tools\incidental\csv\readconfig.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\incidental\pack_head.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_incidental.cpp" />
+    <ClCompile Include="..\..\..\src\tools\incidental\csv_config.cpp" />
+    <ClCompile Include="..\..\..\src\tools\incidental\readconfig.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

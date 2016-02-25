@@ -8,15 +8,6 @@
 #include "middleware/tools/serializecpp/xml/serializecpp_xmlbuffer.hpp"
 #include "middleware/tools/serializecpp/public/serializecpp_fun.hpp"
 
-
-#ifndef PUSH_BASE_TYPE
-#define PUSH_BASE_TYPE(TYPE)                                                                        \
-    static void push(T_STAND& asj, const char* aikey, const TYPE& aivalues)             \
-    {                                                                                                   \
-      asj.add_single(aikey, aivalues);                                                                  \
-    }
-#endif //PUSH_BASE_TYPE
-
 namespace middleware {
   namespace tools {
 
@@ -25,21 +16,20 @@ namespace middleware {
     {
     public:
       /**
-      * 自定义类型
+      * 自定义类型 需要实现 bool push_struct(T_STAND& asj, const char* aikey)方法
       */
       template <typename T_DATA>
-      static void push(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
+      static void push_struct(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
       {
         aivalues.push(asj, aikey);
       }
 
       /** 基础类型 */
-      PUSH_BASE_TYPE(uint8_t)
-      PUSH_BASE_TYPE(uint16_t)
-      PUSH_BASE_TYPE(uint32_t)
-      PUSH_BASE_TYPE(uint64_t)
-      PUSH_BASE_TYPE(double)
-      PUSH_BASE_TYPE(float)
+	  template <typename T_DATA>
+	  static void push(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
+	  {                                                                                  
+		  asj.add_single(aikey, aivalues);
+	  }
 
      /**
       *  原始数组

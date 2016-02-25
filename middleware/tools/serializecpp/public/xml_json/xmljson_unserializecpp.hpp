@@ -10,13 +10,6 @@
 
 #include <cstdint>
 
-#ifndef POP_POP_BASE_TYPE
-#define POP_POP_BASE_TYPE(TYPE)                                                                       \
-     static void pop(T_STAND& asj, const char* aikey, TYPE& aivalues)                     \
-     {                                                                                                    \
-        asj.template get<TYPE>(aikey,aivalues);                                                                    \
-     }
-#endif //POP_JSONBASE_TYPE
 
 namespace middleware {
   namespace tools {
@@ -29,17 +22,17 @@ namespace middleware {
       * 自定义类型
       */
       template <typename T_DATA>
-      static void pop(T_STAND& asj, const char* aikey, T_DATA& aivalues)
+      static void pop_struct(T_STAND& asj, const char* aikey, T_DATA& aivalues)
       {
         aivalues.pop(asj, aikey, aivalues);
       }
 
-      POP_POP_BASE_TYPE(uint8_t)
-      POP_POP_BASE_TYPE(uint16_t)
-      POP_POP_BASE_TYPE(uint32_t)
-      POP_POP_BASE_TYPE(uint64_t)
-      POP_POP_BASE_TYPE(float)
-      POP_POP_BASE_TYPE(double)
+	   /** 基础类型 */
+	  template <typename T_DATA>
+       static void pop(T_STAND& asj, const char* aikey, T_DATA& aivalues)
+      {  
+        asj.template get<T_DATA>(aikey,aivalues);
+      }
 
       /**
        *  原始数组

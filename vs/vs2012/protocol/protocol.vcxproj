@@ -94,11 +94,13 @@
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\protocol\mgt_protocol.cpp" />
+    <ClCompile Include="..\..\..\src\tools\protocol\protocol\test_protocol\protocol_test_map.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\serializecpp_fun.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\protocol\mgt_protocol.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\protocol\protocol\protocol_cout.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_base.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\protocol\protocol_num.hpp" />
   </ItemGroup>

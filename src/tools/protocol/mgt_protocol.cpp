@@ -3,7 +3,7 @@
 
 namespace middleware {
 	namespace tools {
-
+		
 		middleware_asio_server* create_server_protocol_mgt(std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap)
 		{
 			std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
