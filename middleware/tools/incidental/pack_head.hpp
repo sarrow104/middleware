@@ -180,23 +180,23 @@ namespace middleware{
       /* 获取socket 关闭次数 */
       GET_HEAD(closesocket_count, HEAD_CLOSESOCKET_COUNT_TYPE, HEAD_CLOSESOCKET_COUNT_POS)
 
-        /* 获取组id */
-        GET_HEAD(groupid, HEAD_GROUPID_TYPE, HEAD_GROUPID_POS)
+      /* 获取组id */
+      GET_HEAD(groupid, HEAD_GROUPID_TYPE, HEAD_GROUPID_POS)
 
-        /* 获取sessionid */
-        GET_HEAD(sessionid, HEAD_SESSIONID_TYPE, HEAD_SESSIONID_POS)
+      /* 获取sessionid */
+      GET_HEAD(sessionid, HEAD_SESSIONID_TYPE, HEAD_SESSIONID_POS)
 
-        /* 获取ip */
-        GET_HEAD(ip, HEAD_IP_ADDRESS_TYPE, HEAD_IP_ADDRESS_POS)
+      /* 获取ip */
+      GET_HEAD(ip, HEAD_IP_ADDRESS_TYPE, HEAD_IP_ADDRESS_POS)
 
-        /* 给逻辑机会 不设置某些连接的超时 */
-        GET_HEAD(settimer, HEAD_SETTIMER_TYPE, HEAD_SETTIMER_POS)
+      /* 给逻辑机会 不设置某些连接的超时 */
+      GET_HEAD(settimer, HEAD_SETTIMER_TYPE, HEAD_SETTIMER_POS)
 
-        /* 获取群发数量 */
-        GET_HEAD(mass_size, HEAD_MASS_SIZE_TYPE, HEAD_MASS_SIZE_POS)
+      /* 获取群发数量 */
+      GET_HEAD(mass_size, HEAD_MASS_SIZE_TYPE, HEAD_MASS_SIZE_POS)
 
-        /* 获取error */
-        GET_HEAD(server_error, HEAD_SERVER_ERROR_TYPE, POS::HEAD_SERVER_ERROR_POS)
+      /* 获取error */
+      GET_HEAD(server_error, HEAD_SERVER_ERROR_TYPE, POS::HEAD_SERVER_ERROR_POS)
     };
 
 #ifdef PROTOCOL_HEAD_BEG_POS
@@ -238,20 +238,20 @@ namespace middleware{
         set_server_protocol_len(*((HEAD_DATA_BYTE_TYPE*)&(m_data[POS::HEAD_DATA_BYTE_POS])) + get_mass_size() * sizeof(session_infor));
       }
 
-      /* 获取crc */
+      /** 获取crc */
       GET_HEAD(crc, HEAD_CRC_TYPE, POS::HEAD_CRC_POS)
-      /* 获取error */
+      /** 获取error */
       GET_HEAD(error, HEAD_ERROR_TYPE, POS::HEAD_ERROR_POS)
-      /* 获取玩家id */
+      /** 获取玩家id */
       GET_HEAD(userid, HEAD_USER_ID_TYPE, POS::HEAD_USER_ID_POS)
-      /* 获取协议号 */
+      /** 获取协议号 */
       GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
-      /* 获取顺序位置 */
+      /** 获取顺序位置 */
       GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
-      /* 获取序列化类型 */
+      /** 获取序列化类型 */
       GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
 
-      /* 设置crc */
+      /** 设置crc */
       void set_crc()
       {
         get_crc() =
@@ -261,7 +261,7 @@ namespace middleware{
             );
       }
 
-      /* 检查crc */
+      /** 检查crc */
       bool check_crc()
       {
         return m_crc(
@@ -271,37 +271,37 @@ namespace middleware{
           );
       }
 
-      /* 获取数据 */
+      /** 获取数据 */
       const char* get_buffer()
       {
         return m_data;
       }
 
-      /* 获取数据长度 */
+      /** 获取数据长度 */
       uint32_t get_buffer_len()
       {
         return get_server_protocol_len() + get_mass_size()*sizeof(session_infor);
       }
 
-      /*获取数据（不包括服务器那部分） */
+      /** 获取数据（不包括服务器那部分） */
       char* get_protocol_buffer()
       {
         return (char*)&(m_data[POS::HEAD_DATA_BYTE_POS]);
       }
 
-      /* 获取数据长度（不包括服务器那部分）  */
+      /** 获取数据长度（不包括服务器那部分）  */
       uint32_t get_protocol_buffer_len()
       {
         return get_data_byte();
       }
 
-      /* 协议体起始位置 */
+      /** 协议体起始位置 */
       char* get_protocol_body()
       {
       return (char*)(&(m_data[POS::END_POS]));
       }
 
-      /* 获取数据长度（不包括服务器那部分）  */
+      /** 获取数据长度（不包括服务器那部分）  */
       uint32_t get_protocol_body_len()
       {
         return get_data_byte() - (POS::END_POS - PROTOCOL_HEAD_BEG_POS);
@@ -312,17 +312,17 @@ namespace middleware{
         return POS::END_POS;
       }
 
-      /* 设置群发队列 */
+      /** 设置群发队列 */
       bool set_mass_send_arr(std::vector< session_infor >& aisessionarr)
       {
         return SH_set_mass_send_arr(aisessionarr);
       }
-      /* 设置群发队列 */
+      /** 设置群发队列 */
       bool set_mass_send_arr()
       {
         return SH_set_mass_send_arr();
       }
-      /* 获取群发session id */
+      /** 获取群发session id */
       bool get_mass_send_arr(std::vector< session_infor* >& aisessionarr, uint32_t aibytesize)
       {
         return SH_get_mass_send_arr(aisessionarr, aibytesize);

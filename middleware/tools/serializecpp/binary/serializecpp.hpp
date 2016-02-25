@@ -7,26 +7,6 @@
 
 #include <string.h>
 
-/* 宏定义为了方便添加 set map 类的关联容器 */
-#ifndef DEF_BINARYPUSH_SET_TYPE
-# define DEF_BINARYPUSH_SET_TYPE( TYPE )                                        \
-  template <typename T_DATA>                                                    \
-  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA>& aivaluesarr)     \
-  {                                                                             \
-    return push_set( ap, aplen, aivaluesarr);                                   \
-  }
-#endif //DEF_BINARYPUSH_SET_TYPE
-
-#ifndef DEF_BINARYPUSH_MAP_TYPE
-# define DEF_BINARYPUSH_MAP_TYPE( TYPE )                                              \
-  template <typename T_DATA1,typename T_DATA2>                                        \
-  static uint32_t push(char* ap, uint32_t aplen, TYPE<T_DATA1,T_DATA2>& aivaluesarr)  \
-  {                                                                                   \
-    return push_map( ap, aplen, aivaluesarr );                                        \
-  }
-#endif //DEF_BINARYPUSH_MAP_TYPE
-
-
 namespace middleware{
   namespace tools{
 
@@ -100,26 +80,21 @@ namespace middleware{
         return lsize;
       }
 
-      /**
-       * 内置类型
-       * int
-       * float
-       * double
-       * ....
-       * 和整个没有指针成员的struct结构
-       */
-      template <typename T_DATA>
-      static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
-      {
-        if (aplen < sizeof(T_DATA))
-        {
-          return 0;
-        }
-
-        push(ap, (void*)(&aivalues), sizeof(T_DATA));
-        return sizeof(T_DATA);
-      }
-
+			
+			/**
+			 * 基本类型+可以直接拷贝的结构
+			 */
+			template <typename T_DATA>
+			static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
+			{                                                                                     
+				if (aplen < sizeof(T_DATA))
+				{																																										
+					return 0;																																					
+				}																																										
+				push(ap, (void*)(&aivalues), sizeof(T_DATA));
+				return sizeof(T_DATA);
+			}
+			
       /**
        *  原始数组
        */
@@ -155,7 +130,6 @@ namespace middleware{
         return serializecpp_base::push(ap, aplen, aivaluesarr.c_str(), aivaluesarr.size());
       }
 
-
     };
 
     /**
@@ -185,6 +159,7 @@ namespace middleware{
 				ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
+
     };
   } //namespace tools
 } //namespace middleware

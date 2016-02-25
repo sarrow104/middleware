@@ -18,7 +18,10 @@ namespace middleware {
       std::vector< pack_head_process<T_PHP2>* > m_plocal2remote_arr;
       std::vector< middleware_base*> m_middle_arr;
     public:
-      mgt_protocol(uint32_t aimaxthreadnum, uint32_t aieverybytes)//, std::vector<>)
+      mgt_protocol(
+				std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >& apromap, 
+				uint32_t aimaxthreadnum, 
+				uint32_t aieverybytes)
       {
         m_promap_arr.resize(aimaxthreadnum);
         m_premote2local_arr.resize(aimaxthreadnum);
@@ -38,7 +41,7 @@ namespace middleware {
 
           m_promap_arr[i] =
             protocol_base<T_PHP1, T_PHP2>::new_protocol_base_map(
-              aimaxthreadnum,
+							apromap,
               m_premote2local_arr[i],
               m_plocal2remote_arr[i]
               );
@@ -70,49 +73,13 @@ namespace middleware {
 
     };
 
+		/** 服务器协议 map */
+		typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
 
-    middleware_asio_server* create_server_protocol_mgt()
-    {
-      std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
-      for (uint32_t i = 0; i < 5; ++i)
-      {
-        ltemp[i] = boost::bind(
-          &mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>::run_task,
-          new mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>(5, 1024),
-          i, 0, _1, _2);
-      }
+		middleware_asio_server* create_server_protocol_mgt(std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap);
 
-      middleware::socket_asio_arg larg(5, ltemp);
 
-      larg.m_activ = false;
-      larg.m_extern_activ = false;
-
-      larg.m_everyoncemaxsize = 1024;
-      larg.m_extern_everyoncemaxsize = 1024;
-      larg.m_extern_loopbuffermaxsize = 10240;
-      larg.m_loopbuffermaxsize = 10240;
-      larg.m_heartbeat_num = 32;
-      larg.m_persecond_recvdatatbyte_num = 1024;
-      larg.m_port = 13140;
-      larg.m_recvpack_maxsize = 1024;
-      larg.m_timeout = 10240;
-      larg.m_s2c = true;
-      larg.m_s2s = true;
-      larg.m_session_num = 10240;
-      return new middleware_asio_server(larg);
-    }
-
-    middleware_asio_client* create_client_protocol_mgt()
-    {
-       //boost::bind(
-      //    &mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
-      //    new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(5, 1024),
-      //    0, 0, _1, _2);
-      //middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
-      //lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
-
-      return nullptr;
-    }
+		middleware_asio_client* create_client_protocol_mgt(uint32_t aikey);
 
 
   } // namespace tools
