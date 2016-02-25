@@ -12,7 +12,7 @@ namespace middleware {
     struct serializecpp_xmlbuffer :
       public xmljson_buffer
     {
-      virtual const char* get_data()
+      virtual const char* get_buffer()
       {
         std::stringstream lst;
         boost::property_tree::write_xml(lst, m_root);
@@ -29,7 +29,7 @@ namespace middleware {
 
       virtual void reset()
       {
-        clear();
+        this->clear();
       }
     };
 

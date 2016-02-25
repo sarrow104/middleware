@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\serializecpp_fun.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>

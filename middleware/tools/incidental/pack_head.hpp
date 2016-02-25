@@ -5,12 +5,7 @@
 #define PACK_HEAD_HPP
 
 #include "middleware/tools/incidental/check_crc.hpp"
-#include "middleware/tools/serializecpp/binary/serializecpp.hpp"
-#include "middleware/tools/serializecpp/binary/unserializecpp.hpp"
-#include "middleware/tools/serializecpp/json/serializecpp_json.hpp"
-#include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
-#include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
-#include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
+#include "middleware/tools/serializecpp/mgt_serializecpp.hpp"
 
 #include <cstdint>
 #include <vector>
@@ -24,14 +19,6 @@
 
 namespace middleware{
 
-  enum
-  {
-    SERIALIZE_TYPE_BINARY,                              /** 二进制 */
-    SERIALIZE_TYPE_JSON,                                /** JSON */
-    SERIALIZE_TYPE_XML,                                 /** XML */
-  };
-
-
   /* 公共接口 */
   typedef uint16_t    HEAD_SERVER_MAGIC_TYPE;             /** 魔数 */
   typedef uint32_t    HEAD_DATA_BYTE_TYPE;                /** 数据长度 包括自身所占字节数 */
@@ -40,6 +27,13 @@ namespace middleware{
   typedef uint32_t    HEAD_USER_ID_TYPE;                  /** 用户id */
   typedef uint32_t    HEAD_PROTOCOL_NUM_TYPE;             /** 协议号 */
   typedef uint32_t    HEAD_ORDER_TYPE;                    /** 序号 */
+	/*enum
+ 	 *{
+	 * SERIALIZE_TYPE_BINARY,                              // 二进制 
+	 *	SERIALIZE_TYPE_JSON,                               //  JSON 
+	 *	SERIALIZE_TYPE_XML,                                //  XML 
+	 *};
+	 */
   typedef uint8_t     HEAD_BODY_SERIALIZE;                /** 序列化类型 */
   typedef char*       PROTOCOL_BODY_TYPE;                 /** 协议体类型 */
 
@@ -387,22 +381,22 @@ namespace middleware{
         *((HEAD_DATA_BYTE_TYPE*)&(m_data[POS::HEAD_DATA_BYTE_POS])) = aibadyvalues + (END_POS - PROTOCOL_HEAD_BEG_POS);
       }
 
-      /* 获取crc */
+      /** 获取crc */
       GET_HEAD(crc, HEAD_CRC_TYPE, POS::HEAD_CRC_POS)
-        /* 获取error */
-        GET_HEAD(error, HEAD_ERROR_TYPE, POS::HEAD_ERROR_POS)
-        /* 获取玩家id */
-        GET_HEAD(userid, HEAD_USER_ID_TYPE, POS::HEAD_USER_ID_POS)
-        /* 获取协议号 */
-        GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
-        /* 获取顺序号 */
-        GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
-        /* 获取序列化类型 */
-        GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
+      /** 获取error */
+      GET_HEAD(error, HEAD_ERROR_TYPE, POS::HEAD_ERROR_POS)
+      /** 获取玩家id */
+      GET_HEAD(userid, HEAD_USER_ID_TYPE, POS::HEAD_USER_ID_POS)
+      /** 获取协议号 */
+      GET_HEAD(protocol_num, HEAD_PROTOCOL_NUM_TYPE, POS::HEAD_PROTOCOL_NUM_POS)
+      /** 获取顺序号 */
+      GET_HEAD(order, HEAD_ORDER_TYPE, POS::HEAD_ORDER_POS)
+      /** 获取序列化类型 */
+      GET_HEAD(body_serialize, HEAD_BODY_SERIALIZE, POS::HEAD_BODY_SERIALIZE_POS)
 
 
-        /* 设置crc */
-        void set_crc()
+      /** 设置crc */
+      void set_crc()
       {
         get_crc() =
           m_crc(
@@ -480,9 +474,7 @@ namespace middleware{
   template <typename PH>
   class unpack_head_process
   {
-    tools::serializecpp_buffer m_sbuf;
-    tools::serializecpp_jsonbuffer m_json_sbuf;
-    tools::serializecpp_xmlbuffer m_xml_sbuf;
+		middleware::tools::mgt_serializecpp m_serializecpp;
     PH m_ph;
   public:
     unpack_head_process() {}
@@ -490,21 +482,7 @@ namespace middleware{
     void reset(const char* ap, uint32_t aplen)
     {
       m_ph.reset(ap, aplen);
-      switch (m_ph.get_body_serialize())
-      {
-      case SERIALIZE_TYPE_BINARY:
-        m_sbuf.reset((char*)(ap + PH::END_POS), aplen - PH::END_POS);
-        return;
-      case SERIALIZE_TYPE_JSON:
-        m_json_sbuf.reset(ap, aplen);
-        return;
-      case SERIALIZE_TYPE_XML:
-        m_xml_sbuf.reset(ap, aplen);
-        return;
-      }
-
-      throw 1;
-      
+			m_serializecpp.reset(m_ph.get_body_serialize(), (char*)(ap + PH::END_POS), aplen - PH::END_POS);
     }
 
     PH* get_head()
@@ -512,45 +490,17 @@ namespace middleware{
       return &m_ph;
     }
 
-    /** binary */
     template <typename T>
-    void pop(T& aivalues)
+    void pop(T& aivalues, const char* apkey = "")
     {
-      tools::unserializecpp::pop(&m_sbuf, aivalues);
+			m_serializecpp.pop(aivalues, apkey);
     }
 
     template <typename T>
-    bool pop(const T* aivalues, uint32_t ailen)
+    void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
     {
-      tools::unserializecpp::pop(&m_sbuf, aivalues, ailen);
+			m_serializecpp.pop(aivalues, ailen, apkey);
     }
-
-    /** json */
-    template <typename T>
-    void pop_json(const char* apkey,T& aivalues)
-    {
-      tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues);
-    }
-
-    template <typename T>
-    void pop_json(const char* apkey, T* aivalues, uint32_t ailen)
-    {
-      tools::unserializecpp_json::pop(m_json_sbuf, apkey, aivalues, ailen);
-    }
-
-    /** xml */
-    template <typename T>
-    void pop_xml(const char* apkey, T& aivalues)
-    {
-      tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues);
-    }
-
-    template <typename T>
-    void pop_xml(const char* apkey, T* aivalues, uint32_t ailen)
-    {
-      tools::unserializecpp_xml::pop(m_xml_sbuf, apkey, aivalues, ailen);
-    }
-
 
   };
  
@@ -561,88 +511,55 @@ namespace middleware{
   template <typename PH>
   class pack_head_process
   {
-    char* m_arr;
-    tools::serializecpp_buffer m_sbuf;
-    tools::serializecpp_jsonbuffer m_json_sbuf;
-    tools::serializecpp_xmlbuffer m_xml_sbuf;
+		middleware::tools::mgt_serializecpp m_serializecpp;
     PH m_ph;
   public:
     pack_head_process(uint32_t aibytes):
-      m_arr(new char[PH::END_POS + aibytes]),
-      m_sbuf(m_arr + PH::END_POS,aibytes)
+			m_serializecpp(aibytes)
     {
     }
 
-    void reset()
+    void reset( uint8_t aiserialize_type)
     {
-      m_sbuf.reset();
-      m_json_sbuf.reset();
-      m_xml_sbuf.reset();
+			m_serializecpp.reset(aiserialize_type);
     }
 
     template <typename T>
-    void push(T& apdata)
+    void push(T& apdata, const char* apkey = "")
     {
-      tools::serializecpp::push(&m_sbuf, apdata);
+			m_serializecpp.push(apdata, apkey);
     }
 
     template <typename T>
-    bool push(const T* aivalues, uint32_t ailen)
+    bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
     {
-      tools::serializecpp::push(&m_sbuf, aivalues, ailen);
+			m_serializecpp.push(aivalues, ailen, apkey);
     }
-
-    template <typename T>
-    void push_json(const char* apkey, T& apdata)
-    {
-      tools::serializecpp_json::push(&m_json_sbuf, apkey, apdata);
-    }
-
-    template <typename T>
-    bool push_json(const char* apkey, T* aivalues, uint32_t ailen)
-    {
-      tools::serializecpp_json::push(&m_json_sbuf, apkey, aivalues, ailen);
-    }
-
-    template <typename T>
-    void push_xml(const char* apkey, T& apdata)
-    {
-      tools::serializecpp_xml::push(&m_xml_sbuf, apkey, apdata);
-    }
-
-    template <typename T>
-    bool push_xml(const char* apkey, T* aivalues, uint32_t ailen)
-    {
-      tools::serializecpp_xml::push(&m_xml_sbuf, apkey, aivalues, ailen);
-    }
-
 
     PH* get_head()
     {
-      m_ph.reset(m_arr, get_send_len());
       return &m_ph;
     }
 
-    char* get_send_buffer()
+    const char* get_send_buffer()
     {
-      return m_arr;
+      return m_serializecpp.get_buffer();
     }
 
     uint32_t get_send_len()
     {
-      return PH::END_POS + m_sbuf.get_uselen();
+      return PH::END_POS + m_serializecpp.get_uselen();
     }
 
     /** 设置包头 */
     void set_pack_head(uint32_t aierrornum = 0,uint32_t aiuserid = 0,uint32_t aiprotocolnum = 0, uint8_t aiserialize = SERIALIZE_TYPE_BINARY)
     {
-      m_ph.reset(m_arr, get_send_len());
-      m_ph.set_data_byte(m_sbuf.get_uselen());
+      m_ph.set_data_byte(m_serializecpp.get_uselen());
 
       m_ph.get_userid() = aiuserid;
       m_ph.get_error() = aierrornum;
       m_ph.get_protocol_num() = aiprotocolnum;
-      m_ph.get_body_serialize() = aiserialize;
+      m_ph.get_body_serialize() = m_serializecpp.gettype();
       ++m_ph.get_order();
       
       m_ph.set_crc();

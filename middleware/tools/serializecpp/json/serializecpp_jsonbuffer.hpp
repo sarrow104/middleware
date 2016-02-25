@@ -12,7 +12,7 @@ namespace middleware {
     struct serializecpp_jsonbuffer:
       public xmljson_buffer
     {
-      virtual const char* get_data()
+      virtual const char* get_buffer()
       {
         std::stringstream lst;
         boost::property_tree::write_json(lst, m_root);

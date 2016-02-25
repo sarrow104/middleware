@@ -13,7 +13,7 @@ namespace middleware {
 
     struct xmljson_buffer
     {
-      virtual const char* get_data() = 0;
+      virtual const char* get_buffer() = 0;
       
       uint32_t get_len()
       {

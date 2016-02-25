@@ -50,7 +50,7 @@ namespace middleware {
         boost::property_tree::ptree& lret = asj.get_child(aikey);
         std::string ldatastr;
         asj.template get<std::string>("data", ldatastr);
-        Cstr2Binary(ldatastr.c_str(), (unsigned char*)aivaluesarr, sizeof(T_DATA)*aivaluesarrsize);
+        Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr, sizeof(T_DATA)*aivaluesarrsize);
         asj.template get<std::uint32_t>("size", aivaluesarrsize);
       }
 

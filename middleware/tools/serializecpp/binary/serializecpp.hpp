@@ -164,25 +164,25 @@ namespace middleware{
     class serializecpp
     {
       /** 返回可用空间 */
-      static uint32_t get_have_len(serializecpp_buffer* mp_buffer_data)
+      static uint32_t get_have_len(serializecpp_buffer& ap_buffer_data)
       {
-        return mp_buffer_data->get_len() - mp_buffer_data->get_uselen();
+        return ap_buffer_data.get_len() - ap_buffer_data.get_uselen();
       }
     public:
       //基础
       template <typename T_DATA>
-      static bool push(serializecpp_buffer* mp_buffer_data, T_DATA& aivalues)
+      static bool push(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
       {
-        uint32_t lretvalues = serializecpp_base::push(mp_buffer_data->get_nowpos_buffer(), serializecpp::get_have_len(mp_buffer_data), aivalues);
-        mp_buffer_data->get_uselen() += lretvalues;
+        uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
+				ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 
       template <typename T_DATA>
-      static bool push(serializecpp_buffer* mp_buffer_data, const T_DATA* aivalues, uint32_t ailen)
+      static bool push(serializecpp_buffer& ap_buffer_data, const T_DATA* aivalues, uint32_t ailen)
       {
-        uint32_t lretvalues = serializecpp_base::push(mp_buffer_data->get_nowpos_buffer(), serializecpp::get_have_len(mp_buffer_data), aivalues, ailen);
-        mp_buffer_data->get_uselen() += lretvalues;
+        uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues, ailen);
+				ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
     };

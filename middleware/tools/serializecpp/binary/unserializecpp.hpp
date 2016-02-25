@@ -191,27 +191,27 @@ namespace middleware {
       /*
        *  返回可用空间
        */
-      static uint32_t get_have_len(serializecpp_buffer* mp_buffer_data)
+      static uint32_t get_have_len(serializecpp_buffer& mp_buffer_data)
       {
-        return mp_buffer_data->get_len() - mp_buffer_data->get_uselen();
+        return mp_buffer_data.get_len() - mp_buffer_data.get_uselen();
       }
     public:
       /*
        * 基础
        */
       template <typename T_DATA>
-      static bool pop(serializecpp_buffer* mp_buffer_data, T_DATA& aivalues)
+      static bool pop(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
       {
-        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data->get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
-        mp_buffer_data->get_uselen() += lretvalues;
+        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 
       template <typename T_DATA>
-      static bool pop(serializecpp_buffer* mp_buffer_data, const T_DATA* aivalues, uint32_t ailen)
+      static bool pop(serializecpp_buffer& mp_buffer_data, const T_DATA* aivalues, uint32_t ailen)
       {
-        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data->get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues, ailen);
-        mp_buffer_data->get_uselen() += lretvalues;
+        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues, ailen);
+        mp_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
     };
