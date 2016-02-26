@@ -10,7 +10,7 @@ namespace middleware {
   namespace tools {
 
     /**
-     *  json反序列化
+     *  json鍙嶅簭鍒楀寲
      */
     typedef   unserialize_stand<serializecpp_jsonbuffer> unserializecpp_json;
 

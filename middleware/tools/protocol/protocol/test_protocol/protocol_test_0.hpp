@@ -10,35 +10,35 @@
 #include <string>
 
 namespace middleware {
-	namespace tools {
-		class protocol_test_0 :
-			public tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >
-		{
-			std::string mpop_ls;
-		public:
-			protocol_test_0() :
-				tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >(E_TEST_0)
-			{}
+  namespace tools {
+    class protocol_test_0 :
+      public tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >
+    {
+      std::string mpop_ls;
+    public:
+      protocol_test_0() :
+        tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head >(E_TEST_0)
+      {}
 
-			virtual bool task(uint32_t aikey)
-			{
-				return 0;
-			}
-			virtual void serialization()
-			{
+      virtual bool task(uint32_t aikey)
+      {
+        return 0;
+      }
+      virtual void serialization()
+      {
 
-			}
-			virtual void unserialization()
-			{
-				m_premote2local->pop(mpop_ls);
-			}
-			virtual tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head>* new_own()
-			{
-				return new protocol_test_0();
-			}
-		};
+      }
+      virtual void unserialization()
+      {
+        m_premote2local->pop(mpop_ls);
+      }
+      virtual tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head>* new_own()
+      {
+        return new protocol_test_0();
+      }
+    };
 
-	} //namespace tools
+  } //namespace tools
 }//namespace middleware
 #endif //PROTOCOL_COUT
 

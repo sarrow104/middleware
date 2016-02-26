@@ -29,7 +29,7 @@ namespace middleware {
 				return *this;
 			}
 
-			/** Êý×é */
+			/** æ•°ç»„ */
 			template <typename T_DATA>
 			endian_local2net& operator()(T_DATA* aidata, uint32_t aplen)
 			{

@@ -58,12 +58,12 @@ void test_2()
     char arg1[32];
     int  arg2;
     char arg3;
-		void endian()
-		{
-			middleware::tools::gendian_local2net.endian(arg1,32);
-			middleware::tools::gendian_local2net.endian(arg2);
-			middleware::tools::gendian_local2net.endian(arg3);
-		}
+    void endian()
+    {
+      middleware::tools::gendian_local2net.endian(arg1,32);
+      middleware::tools::gendian_local2net.endian(arg2);
+      middleware::tools::gendian_local2net.endian(arg3);
+    }
   };
 
   test_struct lstruct;
@@ -274,19 +274,19 @@ void test_6()
 #include "middleware/tools/serializecpp/public/endian/endian_local2net.hpp"
 void test_7()
 {
-	uint32_t lsize = 1234;
-	middleware::tools::gendian_local2net.endian(lsize);
-	middleware::tools::gendian_local2net.endian(lsize);
+  uint32_t lsize = 1234;
+  middleware::tools::gendian_local2net.endian(lsize);
+  middleware::tools::gendian_local2net.endian(lsize);
 }
 
 
 int main()
 {
-	/** 为何三值均不相等 */
-	std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
+  /** 为何三值均不相等 */
+  std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
 
 
-	test_7();
+  test_7();
   test_6();
   test_5();
   test_1();
