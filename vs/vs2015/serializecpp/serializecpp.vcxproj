@@ -12,7 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\example\example_serializecpp.cpp" />
-    <ClCompile Include="..\..\..\src\tools\serializecpp\serializecpp_fun.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\endian\endian_local2net.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\serializecpp_fun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\binary\serializecpp.hpp" />
@@ -22,6 +23,7 @@
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\serializecpp_jsonbuffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\unserializecpp_json.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\mgt_serializecpp.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\endian\endian_local2net.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\serializecpp_fun.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_buffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_serializecpp.hpp" />

@@ -4,6 +4,8 @@
 #ifndef UNSERIALIZECPP_H
 #define UNSERIALIZECPP_H
 
+#include "middleware/tools/serializecpp/public/endian/endian_local2net.hpp"
+
 #include <cstdlib>
 
 namespace middleware {
@@ -17,6 +19,18 @@ namespace middleware {
       {
         memcpy(aptarget, apsource, aicopysize);
       }
+
+			template <typename T_DATA>
+			static void endian(T_DATA& aivalues)
+			{
+				gendian_local2net.endian(aivalues);
+			}
+
+			template <typename T_DATA>
+			static void endian(T_DATA* aivalues,uint32_t aplen)
+			{
+				gendian_local2net.endian(aivalues, aplen);
+			}
     public:
       /**
        *  map pop
@@ -24,8 +38,8 @@ namespace middleware {
       template <typename T_DATA>
       static uint32_t pop_map(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
       {
-        typedef typename T_DATA::value_type::first_type    first_type;
-        typedef typename T_DATA::value_type::second_type   second_type;
+        typedef typename T_DATA::key_type   first_type;
+        typedef typename T_DATA::mapped_type   second_type;
 
         if (aplen < sizeof(uint16_t))
         {
@@ -41,9 +55,11 @@ namespace middleware {
         for (uint16_t i = 0; i < larraysize; ++i)
         {
           unserializecpp_base::pop((void*)&(ltempkey.first), ap, sizeof(first_type));
+				//	endian(ltempkey.first);
           ap += sizeof(first_type);
           aplen -= sizeof(first_type);
           unserializecpp_base::pop((void*)&(ltempkey.second), ap, sizeof(second_type));
+				//	endian(ltempkey.second);
           ap += sizeof(second_type);
           aplen -= sizeof(second_type);
           aivaluesarr.insert(ltempkey);
@@ -71,7 +87,9 @@ namespace middleware {
         for (uint16_t i = 0; i < larraysize; ++i)
         {
           unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(typename T_DATA::value_type));
-          ap += sizeof(typename T_DATA::value_type);
+					ap += sizeof(typename T_DATA::value_type);
+
+		//			endian(ltemp);
           aivaluesarr.insert(ltemp);
         }
 
@@ -86,7 +104,6 @@ namespace middleware {
        * float
        * double
        * ....
-       * 和整个没有指针成员的struct结构
        */
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, T_DATA& aivalues)
@@ -124,6 +141,8 @@ namespace middleware {
         }
 
         unserializecpp_base::pop((void*)(aivaluesarr), ap, larraysize * sizeof(T_DATA));
+
+				endian((typename std::remove_const<T_DATA>::type*)aivaluesarr, larraysize);
 
         return lsize;
       }
@@ -202,7 +221,7 @@ namespace middleware {
       template <typename T_DATA>
       static bool pop(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
       {
-        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+				uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
         mp_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
@@ -231,11 +250,11 @@ namespace middleware {
         return (lretvalues == 0) ? false : true;
       }
 
-	  /** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
-	  template <typename T_DATA>
+			/** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
+			template <typename T_DATA>
       static bool pop_struct(serializecpp_buffer& mp_buffer_data, T_DATA& aivalues)
       {
-        return aivalues.pop( mp_buffer_data );
+				return aivalues.pop( mp_buffer_data );
       }
 
     };
