@@ -127,6 +127,7 @@ namespace middleware {
   if( aisendkey )
   {
     size_t lsendlen = strlen(lsendkey) + 1;
+    (void) lsendlen;
     if (g_send(lsocket, (const char*)&aikey, sizeof(uint32_t)) > 0)
     {
       size_t lrecvlen = g_recv(lsocket, lrecvkey, 32);
@@ -134,7 +135,7 @@ namespace middleware {
       {
         /** 失败 */
         closehandle(lsocket);
-        LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%d] < sizeof(uint32_t)", lrecvlen );
+        LOG_ERROR(LOG_SOCKET_IO_ID, "send_key()失败,lrecvlen=[%lu] < sizeof(uint32_t)", lrecvlen );
         return false;
       }
       else

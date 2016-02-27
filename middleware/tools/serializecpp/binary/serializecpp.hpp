@@ -4,6 +4,7 @@
 #ifndef   MSG_BASE_C_H
 #define   MSG_BASE_C_H
 #include "middleware/tools/serializecpp/binary/serializecpp_buffer.hpp"
+#include "middleware/tools/serializecpp/public/endian/endian_local2net.hpp"
 
 #include <string.h>
 
@@ -21,17 +22,17 @@ namespace middleware{
         memcpy(aptarget, apsource, aicopysize);
       }
 
-			template <typename T_DATA>
-			static void endian(T_DATA& aivalues)
-			{
-				gendian_local2net.endian(aivalues);
-			}
+      template <typename T_DATA>
+      static void endian(T_DATA& aivalues)
+      {
+        gendian_local2net.endian(aivalues);
+      }
 
-			template <typename T_DATA>
-			static void endian(T_DATA* aivalues,uint32_t aplen)
-			{
-				gendian_local2net.endian(aivalues,aplen);
-			}
+      template <typename T_DATA>
+      static void endian(T_DATA* aivalues,uint32_t aplen)
+      {
+        gendian_local2net.endian(aivalues,aplen);
+      }
 
     public:
       /**
@@ -52,12 +53,12 @@ namespace middleware{
         serializecpp_base::push(ap, &lsetsize, sizeof(uint16_t));
         ap += sizeof(uint16_t);
 
-				T_DATA::value_type ltemp;
+        typename T_DATA::value_type ltemp;
 
         for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
-					ltemp = *itor;
-					endian(ltemp);
+          ltemp = *itor;
+          endian(ltemp);
           serializecpp_base::push(ap, &ltemp, sizeof(typename T_DATA::value_type));
           ap += sizeof(typename T_DATA::value_type);
           aplen -= sizeof(typename T_DATA::value_type);
@@ -84,14 +85,14 @@ namespace middleware{
         ap += sizeof(uint16_t);
 
         uint32_t ltemp = sizeof(typename T_DATA::key_type) + sizeof(typename T_DATA::mapped_type);
-				typename T_DATA::key_type lfirsttemp;
-				typename T_DATA::mapped_type lsecondtemp;
-				for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
+        typename T_DATA::key_type lfirsttemp;
+        typename T_DATA::mapped_type lsecondtemp;
+        for (auto itor = aivaluesarr.begin(); itor != aivaluesarr.end(); ++itor)
         {
-					lfirsttemp = itor->first;
-					lsecondtemp = itor->second;
-					endian(lfirsttemp);
-					endian(lsecondtemp);
+          lfirsttemp = itor->first;
+          lsecondtemp = itor->second;
+          endian(lfirsttemp);
+          endian(lsecondtemp);
 
           serializecpp_base::push(ap, &lfirsttemp, sizeof(typename T_DATA::value_type::first_type));
           ap += sizeof(typename T_DATA::value_type::first_type);
@@ -103,21 +104,21 @@ namespace middleware{
         return lsize;
       }
 
-			
-	   /**
-	    * 基本类型+（不可以直接拷贝的结构字节序可以是个问题）
-		*/
-		template <typename T_DATA>
-		static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
-		{                                                                                     
-			if (aplen < sizeof(T_DATA))
-			{																																										
-				return 0;																																					
-			}																																										
-			push(ap, (void*)(&aivalues), sizeof(T_DATA));
-			return sizeof(T_DATA);
-		}
-			
+      
+      /**
+       * 基本类型+（不可以直接拷贝的结构字节序可以是个问题）
+       */
+    template <typename T_DATA>
+    static uint32_t push(char* ap, uint32_t aplen, const T_DATA& aivalues)
+    {                                                                                     
+      if (aplen < sizeof(T_DATA))
+      {                                                                                   
+        return 0;                                                                         
+      }                                                                                   
+      push(ap, (void*)(&aivalues), sizeof(T_DATA));
+      return sizeof(T_DATA);
+    }
+      
       /**
        *  原始数组
        */
@@ -129,25 +130,25 @@ namespace middleware{
         {
           return 0;
         }
-				if (gendian_local2net.get_trans())
-				{
-					std::vector<char> lch;
-					lch.resize(aivaluesarrsize*sizeof(T_DATA));
-					memcpy(lch.data(), aivaluesarr, aivaluesarrsize*sizeof(T_DATA));
-					uint32_t ltempaivaluesarrsize = aivaluesarrsize;
-					endian(ltempaivaluesarrsize);
-					serializecpp_base::push(ap, &ltempaivaluesarrsize, sizeof(uint16_t));
-					ap += sizeof(uint16_t);
-					endian((typename std::remove_const<T_DATA>::type*)lch.data(), aivaluesarrsize);
-					serializecpp_base::push(ap, lch.data(), sizeof(T_DATA) * aivaluesarrsize);
-				}
-				else
-				{
-					/** 数组长度 */
-					serializecpp_base::push(ap, &aivaluesarrsize, sizeof(uint16_t));
-					ap += sizeof(uint16_t);
-					serializecpp_base::push(ap, (void*)(aivaluesarr), sizeof(T_DATA) * aivaluesarrsize);
-				}
+        if (gendian_local2net.get_trans())
+        {
+          std::vector<char> lch;
+          lch.resize(aivaluesarrsize*sizeof(T_DATA));
+          memcpy(lch.data(), aivaluesarr, aivaluesarrsize*sizeof(T_DATA));
+          uint32_t ltempaivaluesarrsize = aivaluesarrsize;
+          endian(ltempaivaluesarrsize);
+          serializecpp_base::push(ap, &ltempaivaluesarrsize, sizeof(uint16_t));
+          ap += sizeof(uint16_t);
+          endian((typename std::remove_const<T_DATA>::type*)lch.data(), aivaluesarrsize);
+          serializecpp_base::push(ap, lch.data(), sizeof(T_DATA) * aivaluesarrsize);
+        }
+        else
+        {
+          /** 数组长度 */
+          serializecpp_base::push(ap, &aivaluesarrsize, sizeof(uint16_t));
+          ap += sizeof(uint16_t);
+          serializecpp_base::push(ap, (void*)(aivaluesarr), sizeof(T_DATA) * aivaluesarrsize);
+        }
        
         return lsize;
       }
@@ -187,7 +188,7 @@ namespace middleware{
       static bool push(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
-				ap_buffer_data.get_uselen() += lretvalues;
+        ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 
@@ -195,23 +196,23 @@ namespace middleware{
       static bool push(serializecpp_buffer& ap_buffer_data, const T_DATA* aivalues, uint32_t ailen)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues, ailen);
-				ap_buffer_data.get_uselen() += lretvalues;
+        ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 
-	  template <typename T_DATA>
+    template <typename T_DATA>
       static bool push_map(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push_map(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
-				ap_buffer_data.get_uselen() += lretvalues;
+        ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 
-	   template <typename T_DATA>
+     template <typename T_DATA>
       static bool push_set(serializecpp_buffer& ap_buffer_data, T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push_set(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
-				ap_buffer_data.get_uselen() += lretvalues;
+        ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
       }
 

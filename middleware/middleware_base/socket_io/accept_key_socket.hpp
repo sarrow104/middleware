@@ -97,7 +97,7 @@ namespace middleware{
         return;
       }
 
-      if (liret < sizeof(uint32_t))
+      if (size_t(liret) < sizeof(uint32_t))
       {
         closesocket(aisocket);
         return;
@@ -168,12 +168,12 @@ namespace middleware{
 
       if (m_ssock == INVALID_SOCKET)
       {
-        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"m_ssock == INVALID_SOCKET,errornum=[%d]", WSAGetLastError() );
+        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR, "m_ssock == INVALID_SOCKET,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
       if (::bind(m_ssock, (struct sockaddr*)&m_saddr, sizeof(m_saddr)) == SOCKET_ERROR)
       {
-        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR,"bind() == SOCKET_ERROR,errornum=[%d]", WSAGetLastError() );
+        LOG_ERROR(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR, "bind() == SOCKET_ERROR,errornum=[%d]", WSAGetLastError() );
         throw 0;
       }
       m_len = sizeof(sockaddr_in);

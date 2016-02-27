@@ -16,7 +16,7 @@ namespace middleware {
     fkey_config* init_key_config();
 
     const char* get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3);
-    /* 读取文件 */
+    /* 璇诲彇鏂囦欢 */
     void push_read(fkey_config* ap, const char* apfile, uint32_t aikey);
 
     void get_data(fkey_config* ap, uint32_t akey1, uint32_t akey2, uint32_t akey3, uint32_t& airet);

@@ -11,7 +11,7 @@ namespace middleware {
   namespace tools {
 
     /**
-     *  xml反序列化
+     *  xml鍙嶅簭鍒楀寲
      */
     typedef  unserialize_stand<serializecpp_xmlbuffer> unserializecpp_xml;
 

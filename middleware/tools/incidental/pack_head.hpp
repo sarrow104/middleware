@@ -27,13 +27,13 @@ namespace middleware{
   typedef uint32_t    HEAD_USER_ID_TYPE;                  /** 用户id */
   typedef uint32_t    HEAD_PROTOCOL_NUM_TYPE;             /** 协议号 */
   typedef uint32_t    HEAD_ORDER_TYPE;                    /** 序号 */
-	/*enum
- 	 *{
-	 * SERIALIZE_TYPE_BINARY,                              // 二进制 
-	 *	SERIALIZE_TYPE_JSON,                               //  JSON 
-	 *	SERIALIZE_TYPE_XML,                                //  XML 
-	 *};
-	 */
+  /*enum
+   *{
+   * SERIALIZE_TYPE_BINARY,                              // 二进制 
+   *  SERIALIZE_TYPE_JSON,                               //  JSON 
+   *  SERIALIZE_TYPE_XML,                                //  XML 
+   *};
+   */
   typedef uint8_t     HEAD_BODY_SERIALIZE;                /** 序列化类型 */
   typedef char*       PROTOCOL_BODY_TYPE;                 /** 协议体类型 */
 
@@ -474,7 +474,7 @@ namespace middleware{
   template <typename PH>
   class unpack_head_process
   {
-		middleware::tools::mgt_serializecpp m_serializecpp;
+    middleware::tools::mgt_serializecpp m_serializecpp;
     PH m_ph;
   public:
     unpack_head_process() {}
@@ -482,7 +482,7 @@ namespace middleware{
     void reset(const char* ap, uint32_t aplen)
     {
       m_ph.reset(ap, aplen);
-			m_serializecpp.reset(m_ph.get_body_serialize(), (char*)(ap + PH::END_POS), aplen - PH::END_POS);
+      m_serializecpp.reset(m_ph.get_body_serialize(), (char*)(ap + PH::END_POS), aplen - PH::END_POS);
     }
 
     PH* get_head()
@@ -493,13 +493,13 @@ namespace middleware{
     template <typename T>
     void pop(T& aivalues, const char* apkey = "")
     {
-			m_serializecpp.pop(aivalues, apkey);
+      m_serializecpp.pop(aivalues, apkey);
     }
 
     template <typename T>
     void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
     {
-			m_serializecpp.pop(aivalues, ailen, apkey);
+      m_serializecpp.pop(aivalues, ailen, apkey);
     }
 
   };
@@ -511,29 +511,29 @@ namespace middleware{
   template <typename PH>
   class pack_head_process
   {
-		middleware::tools::mgt_serializecpp m_serializecpp;
+    middleware::tools::mgt_serializecpp m_serializecpp;
     PH m_ph;
   public:
     pack_head_process(uint32_t aibytes):
-			m_serializecpp(aibytes)
+      m_serializecpp(aibytes)
     {
     }
 
     void reset( uint8_t aiserialize_type)
     {
-			m_serializecpp.reset(aiserialize_type);
+      m_serializecpp.reset(aiserialize_type);
     }
 
     template <typename T>
     void push(T& apdata, const char* apkey = "")
     {
-			m_serializecpp.push(apdata, apkey);
+      m_serializecpp.push(apdata, apkey);
     }
 
     template <typename T>
     bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
     {
-			m_serializecpp.push(aivalues, ailen, apkey);
+      m_serializecpp.push(aivalues, ailen, apkey);
     }
 
     PH* get_head()

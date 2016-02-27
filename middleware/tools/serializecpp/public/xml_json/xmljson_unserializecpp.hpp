@@ -27,8 +27,8 @@ namespace middleware {
         aivalues.pop(asj, aikey, aivalues);
       }
 
-	   /** 基础类型 */
-	  template <typename T_DATA>
+     /** 基础类型 */
+    template <typename T_DATA>
        static void pop(T_STAND& asj, const char* aikey, T_DATA& aivalues)
       {  
         asj.template get<T_DATA>(aikey,aivalues);

@@ -25,11 +25,11 @@ namespace middleware {
       }
 
       /** 基础类型 */
-	  template <typename T_DATA>
-	  static void push(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
-	  {                                                                                  
-		  asj.add_single(aikey, aivalues);
-	  }
+    template <typename T_DATA>
+    static void push(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
+    {                                                                                  
+      asj.add_single(aikey, aivalues);
+    }
 
      /**
       *  原始数组

@@ -19,9 +19,9 @@ namespace middleware {
       std::vector< middleware_base*> m_middle_arr;
     public:
       mgt_protocol(
-				std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >& apromap, 
-				uint32_t aimaxthreadnum, 
-				uint32_t aieverybytes)
+        std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >& apromap, 
+        uint32_t aimaxthreadnum, 
+        uint32_t aieverybytes)
       {
         m_promap_arr.resize(aimaxthreadnum);
         m_premote2local_arr.resize(aimaxthreadnum);
@@ -29,7 +29,7 @@ namespace middleware {
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
         {
           m_premote2local_arr[i] = new unpack_head_process<T_PHP1>();
-		  m_plocal2remote_arr[i] = new pack_head_process<T_PHP2>(aieverybytes);
+      m_plocal2remote_arr[i] = new pack_head_process<T_PHP2>(aieverybytes);
         }
 
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
@@ -37,7 +37,7 @@ namespace middleware {
 
           m_promap_arr[i] =
             protocol_base<T_PHP1, T_PHP2>::new_protocol_base_map(
-							apromap,
+              apromap,
               m_premote2local_arr[i],
               m_plocal2remote_arr[i]
               );
@@ -69,15 +69,15 @@ namespace middleware {
 
     };
 
-		/** ·şÎñÆ÷Ğ­Òé map */
-		typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
+    /** æœåŠ¡å™¨åè®® map */
+    typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
 
-		middleware_asio_server* create_server_protocol_mgt(
-			std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap
-			);
+    middleware_asio_server* create_server_protocol_mgt(
+      std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap
+      );
 
 
-		middleware_asio_client* create_client_protocol_mgt(uint32_t aikey);
+    middleware_asio_client* create_client_protocol_mgt(uint32_t aikey);
 
 
   } // namespace tools
