@@ -72,6 +72,13 @@ namespace middleware {
     /** 服务器协议 map */
     typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
 
+
+	/**
+	 * 创建一个服务器
+	 * Parameter 1  此服务器对应的一组协议
+	 * Parameter 2  基本配置文档
+	 ****/
+
     middleware_asio_server* create_server_protocol_mgt(
 		std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
 		uint32_t aipthreadnum,

@@ -22,26 +22,26 @@ void test_1( )
   cout<< "************基础类型序列化与反序列化测试*************"<< endl;
   /** 序列化*/
   int linum = 1023;
-  middleware::tools::serializecpp::push( lsbuf, linum );
+  middleware::tools::serializecpp::push( lsbuf, "", linum );
   uint16_t lsnum = 123;
-  middleware::tools::serializecpp::push( lsbuf, lsnum );
+  middleware::tools::serializecpp::push( lsbuf,"", lsnum );
   char lcnum = 'a';
-  middleware::tools::serializecpp::push( lsbuf, lcnum );
+  middleware::tools::serializecpp::push( lsbuf,"", lcnum );
 
   /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   int linum2 = 0;
-  middleware::tools::unserializecpp::pop( lsbuf2, linum2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", linum2 );
 
   cout<< "linum=["<<linum<<"],"<<"linum2=["<< linum2<<"]"<< endl;
 
   uint16_t lsnum2 = 0;
-  middleware::tools::unserializecpp::pop( lsbuf2, lsnum2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lsnum2 );
   cout<< "lsnum=["<<lsnum<<"],"<<"lsnum2=["<< lsnum2<<"]"<< endl;
 
   char lcnum2 = 0;
-  middleware::tools::unserializecpp::pop( lsbuf2, lcnum2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lcnum2 );
   cout<< "lcnum=["<<lcnum<<"],"<<"lcnum2=["<< lcnum2<<"]"<< endl;
 
 }
@@ -70,7 +70,7 @@ void test_2()
   memcpy( lstruct.arg1,"my name is libo",sizeof("my name is libo")+1 );
   lstruct.arg2 = 15;
   lstruct.arg3 = 'x';
-  middleware::tools::serializecpp::push( lsbuf, lstruct );
+  middleware::tools::serializecpp::push( lsbuf,"", lstruct );
   /** 数组 */
   test_struct larray[3];
   std::string ltempstr = "z";
@@ -81,20 +81,20 @@ void test_2()
     larray[i].arg2 = i;
     larray[i].arg3 = 'a'+i;
   }
-  middleware::tools::serializecpp::push( lsbuf, larray , 3 );
+  middleware::tools::serializecpp::push( lsbuf, "",larray , 3 );
 
 
   /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   test_struct lstruct2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lstruct2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lstruct2 );
   cout<< "lstruct.arg1=["<<lstruct.arg1<<"],"<<"lstruct2.arg1=["<< lstruct2.arg1<<"]"<< endl;
   cout<< "lstruct.arg2=["<<lstruct.arg2<<"],"<<"lstruct2.arg2=["<< lstruct2.arg2<<"]"<< endl;
   cout<< "lstruct.arg3=["<<lstruct.arg3<<"],"<<"lstruct2.arg3=["<< lstruct2.arg3<<"]"<< endl;
 
   test_struct larray2[3];
-  middleware::tools::unserializecpp::pop( lsbuf2, larray2, 3 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", larray2, 3 );
   for( uint32_t i=0;i<3;++i)
   {
     cout<< "larray["<< i <<"].arg1=["<<larray[i].arg1<<"],"<<"larray2["<< i <<"].arg1=["<< larray2[i].arg1<<"]"<< endl;
@@ -117,79 +117,79 @@ void test_3()
     'f','g','h','i','j',
     'k','l','m'
   };
-  middleware::tools::serializecpp::push( lsbuf, lcarray , 13 );
+  middleware::tools::serializecpp::push( lsbuf, "",lcarray , 13 );
   const char* lcstr = "helloworld";
-  middleware::tools::serializecpp::push( lsbuf, lcstr , sizeof("helloworld") );
+  middleware::tools::serializecpp::push( lsbuf,"", lcstr , sizeof("helloworld") );
 
 
   std::string lstr ="my open code!";
-  middleware::tools::serializecpp::push( lsbuf, lstr );
+  middleware::tools::serializecpp::push( lsbuf,"", lstr );
 
   std::vector<int> lvec(10,38);
-  middleware::tools::serializecpp::push( lsbuf, lvec );
+  middleware::tools::serializecpp::push( lsbuf,"", lvec );
 
   std::set<int> lset;
   for(uint32_t i = 0; i < 20 ;++i)
   {
     lset.insert( rand() );
   }
-  middleware::tools::serializecpp::push_set( lsbuf, lset );
+  middleware::tools::serializecpp::push_set( lsbuf,"", lset );
 
   std::map<int,int> lmap;
   for(uint32_t i = 0; i < 20 ;++i)
   {
     lmap.insert( std::make_pair( rand(),rand()) );
   }
-  middleware::tools::serializecpp::push_map( lsbuf, lmap );
+  middleware::tools::serializecpp::push_map( lsbuf,"", lmap );
 
   std::unordered_set<int> lunset;
   for(uint32_t i = 0; i < 20 ;++i)
   {
     lunset.insert( rand() );
   }
-  middleware::tools::serializecpp::push_set( lsbuf, lunset );
+  middleware::tools::serializecpp::push_set( lsbuf,"", lunset );
 
   /** 反序列化 */
   middleware::tools::serializecpp_buffer lsbuf2(lsbuf.get_buffer(),lsbuf.get_uselen());
 
   char lcarray2[13];
-  middleware::tools::unserializecpp::pop( lsbuf2, lcarray2, 13 );
+  middleware::tools::unserializecpp::pop( lsbuf2, "",lcarray2, 13 );
   cout<<"lcarray[13]";
   cout<< ( ( memcmp( lcarray, lcarray2,13 ) == 0) ? "==" : "!=" );
   cout<<"lcarray2[13]"<<endl;
 
   char lcstr2[128];
-  middleware::tools::unserializecpp::pop( lsbuf2, lcstr2, 128 );
+  middleware::tools::unserializecpp::pop( lsbuf2, "",lcstr2, 128 );
   cout<<"lcstr";
   cout<< ( ( strcmp( lcarray, lcarray2) == 0) ? "==" : "!=");
   cout<<"lcstr2"<<endl;
 
   std::string lstr2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lstr2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lstr2 );
   cout<<"lstr";
   cout<< ( ( lstr == lstr2) ? "==" : "!=");
   cout<<"lstr2"<<endl;
 
   std::vector<int> lvec2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lvec2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lvec2 );
   cout<<"lvec";
   cout<< ( ( lvec == lvec2) ? "==" : "!=");
   cout<<"lvec2"<<endl;
 
   std::set<int> lset2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lset2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lset2 );
   cout<<"lset";
   cout<< ( ( lset == lset2) ? "==" : "!=");
   cout<<"lset2"<<endl;
 
   std::map<int,int> lmap2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lmap2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lmap2 );
   cout<<"lmap";
   cout<< ( ( lmap == lmap2) ? "==" : "!=");
   cout<<"lmap2"<<endl;
 
   std::unordered_set<int> lunset2;
-  middleware::tools::unserializecpp::pop( lsbuf2, lunset2 );
+  middleware::tools::unserializecpp::pop( lsbuf2,"", lunset2 );
   cout<<"lunset";
   cout<< ( ( lunset == lunset2) ? "==" : "!=");
   cout<<"lunset2"<<endl;
@@ -278,12 +278,22 @@ void test_7()
   middleware::tools::gendian_local2net.endian(lsize);
   middleware::tools::gendian_local2net.endian(lsize);
 }
-
-
+#include "middleware/tools/serializecpp/mgt_serializecpp.hpp"
 int main()
 {
   /** 为何三值均不相等 */
   std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
+  middleware::tools::mgt_serializecpp ltemp(1024);
+  ltemp.reset(0);
+	int linum = 1023;
+	ltemp.push(linum);
+	ltemp.pop(linum);
+	ltemp.reset(1);
+	ltemp.push(linum);
+	ltemp.pop(linum);
+	ltemp.reset(2);
+	ltemp.push(linum);
+	ltemp.pop(linum);
 
 
   test_7();
