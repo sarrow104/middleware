@@ -31,7 +31,7 @@ namespace middleware {
       virtual bool task(uint32_t aikey) = 0;
       virtual void serialization() = 0;
       virtual void unserialization() = 0;
-      virtual tools::protocol_base<spack_head::protocol_head, spack_head::protocol_head>* new_own() = 0;
+      virtual tools::protocol_base<T_PHP1, T_PHP2>* new_own() = 0;
       
     public:
       protocol_base<T_PHP1,T_PHP2>(uint32_t aiprotocolnum):
@@ -58,9 +58,9 @@ namespace middleware {
         pack_head_process<T_PHP2>* aplocal2remote
         )
       {
-        static uint32_t lcount = 1;
-        std::unordered_map<uint32_t, protocol_base* >* lret = new std::unordered_map<uint32_t, protocol_base* >();
-        for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
+        std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >* lret 
+			= new std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >();
+		for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
         {
           lret->insert( std::make_pair( itor->first, itor->second->new_own() ) );
         }

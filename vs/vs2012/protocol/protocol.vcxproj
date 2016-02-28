@@ -96,7 +96,8 @@
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
     <ClCompile Include="..\..\..\src\tools\protocol\mgt_protocol.cpp" />
     <ClCompile Include="..\..\..\src\tools\protocol\protocol\test_protocol\protocol_test_map.cpp" />
-    <ClCompile Include="..\..\..\src\tools\serializecpp\serializecpp_fun.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\endian\endian_local2net.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\serializecpp_fun.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
