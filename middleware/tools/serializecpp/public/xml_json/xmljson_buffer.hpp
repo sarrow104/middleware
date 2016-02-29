@@ -13,6 +13,16 @@ namespace middleware {
 
     struct xmljson_buffer
     {
+			
+		private:
+			void check_key(const char* aikey)
+			{
+				if (aikey[0] == '\0')
+				{
+					throw "key is Null!";
+				}
+			}
+		public:
       virtual const char* get_buffer() = 0;
       
       uint32_t get_len()
@@ -38,16 +48,18 @@ namespace middleware {
       
       inline void add_node(const char* aikey, boost::property_tree::ptree& apt)
       {
+				check_key(aikey);
         m_root.push_back(make_pair(aikey, apt));
       }
 
       template <typename T>
       inline void add_single(const char* aikey, const T& aivalues)
       {
+				check_key(aikey);
         m_root.put<T>(aikey, aivalues);
       }
 
-      inline void clear()
+      void clear()
       {
         m_root.clear();
       }
@@ -55,23 +67,28 @@ namespace middleware {
       template <typename T>
       void get(const char* apkey, T& airet)
       {
+				check_key(apkey);
         airet = m_root.get<T>(apkey);
       }
 
       template <typename T>
       void get(boost::property_tree::ptree& aptree, const char* apkey, T& aivalues)
       {
+				check_key(apkey);
         aivalues = aptree.get<T>(apkey);
       }
 
       template <typename T>
       void get(const char* apkey1, const char* apkey2, T& aivalues)
       {
+				check_key(apkey1);
+				check_key(apkey2);
         aivalues = m_root.get_child(apkey1).get<T>(apkey2);
       }
 
       boost::property_tree::ptree& get_child(const char* aikey)
       {
+				check_key(aikey);
         return m_root.get_child(aikey);
       }
 

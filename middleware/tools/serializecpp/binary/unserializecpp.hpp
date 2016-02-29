@@ -214,12 +214,13 @@ namespace middleware {
       {
         return mp_buffer_data.get_len() - mp_buffer_data.get_uselen();
       }
+			
     public:
       /*
        * 基础
        */
       template <typename T_DATA>
-      static bool pop(serializecpp_buffer& mp_buffer_data, const char*/*apkey占位*/,T_DATA& aivalues)
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA& aivalues)
       {
         uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
         mp_buffer_data.get_uselen() += lretvalues;
@@ -227,7 +228,7 @@ namespace middleware {
       }
 
       template <typename T_DATA>
-      static bool pop(serializecpp_buffer& mp_buffer_data, const char*/*apkey占位*/,const T_DATA* aivalues, uint32_t ailen)
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,const T_DATA* aivalues, uint32_t ailen)
       {
         uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues, ailen);
         mp_buffer_data.get_uselen() += lretvalues;
@@ -235,7 +236,7 @@ namespace middleware {
       }
 
     template <typename T_DATA>
-      static bool pop_set(serializecpp_buffer& mp_buffer_data, const char*/*apkey占位*/,T_DATA& aivalues)
+      static bool pop_set(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
       {
         uint32_t lretvalues = unserializecpp_base::pop_set(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
         mp_buffer_data.get_uselen() += lretvalues;
@@ -243,7 +244,7 @@ namespace middleware {
       }
 
     template <typename T_DATA>
-      static bool pop_map(serializecpp_buffer& mp_buffer_data, const char*/*apkey占位*/,T_DATA& aivalues)
+      static bool pop_map(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
       {
         uint32_t lretvalues = unserializecpp_base::pop_map(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
         mp_buffer_data.get_uselen() += lretvalues;
@@ -252,7 +253,7 @@ namespace middleware {
 
       /** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
       template <typename T_DATA>
-      static bool pop_struct(serializecpp_buffer& mp_buffer_data, const char*/*apkey占位*/,T_DATA& aivalues)
+      static bool pop_struct(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
       {
         return aivalues.pop( mp_buffer_data );
       }

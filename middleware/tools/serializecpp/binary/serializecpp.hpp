@@ -185,7 +185,7 @@ namespace middleware{
     public:
       //基础
       template <typename T_DATA>
-      static bool push(serializecpp_buffer& ap_buffer_data, const char*/*apkey占位*/,T_DATA& aivalues)
+      static bool push(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
         ap_buffer_data.get_uselen() += lretvalues;
@@ -193,7 +193,7 @@ namespace middleware{
       }
 
       template <typename T_DATA>
-      static bool push(serializecpp_buffer& ap_buffer_data,const char*/*apkey占位*/, const T_DATA* aivalues, uint32_t ailen)
+      static bool push(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, const T_DATA* aivalues, uint32_t ailen)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues, ailen);
         ap_buffer_data.get_uselen() += lretvalues;
@@ -201,7 +201,7 @@ namespace middleware{
       }
 
     template <typename T_DATA>
-      static bool push_map(serializecpp_buffer& ap_buffer_data,const char*/*apkey占位*/, T_DATA& aivalues)
+      static bool push_map(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push_map(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
         ap_buffer_data.get_uselen() += lretvalues;
@@ -209,7 +209,7 @@ namespace middleware{
       }
 
      template <typename T_DATA>
-      static bool push_set(serializecpp_buffer& ap_buffer_data,const char*/*apkey占位*/, T_DATA& aivalues)
+      static bool push_set(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push_set(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
         ap_buffer_data.get_uselen() += lretvalues;

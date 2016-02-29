@@ -11,6 +11,9 @@
 namespace middleware {
 	namespace tools {
 		
+		/* key占位 */
+		typedef const char*  KeyPlaceholder;
+
 		class endian_local2net
 		{
 			static bool m_trans;

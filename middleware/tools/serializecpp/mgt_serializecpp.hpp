@@ -11,6 +11,46 @@
 #include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
 #include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
 
+
+#define GET_SERIALIZE_BUFFER( TYPE, FUN )							\
+	switch(TYPE)																				\
+	{																										\
+		case SERIALIZE_TYPE_BINARY:												\
+			return m_sbuf.FUN;															\
+		case SERIALIZE_TYPE_JSON:													\
+			return m_json_sbuf.FUN;													\
+		case SERIALIZE_TYPE_XML:													\
+			return m_xml_sbuf.FUN;													\
+  }
+
+#define GET_PUSH_SERIALIZE( TYPE, FUN, ... )					\
+	switch(TYPE)																				\
+	{																										\
+	case SERIALIZE_TYPE_BINARY:													\
+		tools::serializecpp::FUN(m_sbuf,__VA_ARGS__);			\
+	  return;																						\
+	case SERIALIZE_TYPE_JSON:														\
+	  tools::serializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
+		return;																						\
+	case SERIALIZE_TYPE_XML:														\
+		tools::serializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
+		  return;																					\
+  }
+
+#define GET_POP_SERIALIZE( TYPE, FUN , ...)						\
+	switch(TYPE)																				\
+	{																										\
+	case SERIALIZE_TYPE_BINARY:													\
+		tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);		\
+	  return;																						\
+	case SERIALIZE_TYPE_JSON:														\
+	  tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
+	  return;																						\
+	case SERIALIZE_TYPE_XML:														\
+		tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
+		return;																						\
+  }
+
 namespace middleware {
   /**
    * 协议类型
@@ -37,44 +77,11 @@ namespace middleware {
 
       mgt_serializecpp() {}
 
-#define GET_SERIALIZE_BUFFER( TYPE, FUN )  \
-	switch(TYPE)\
-	  {\
-	case SERIALIZE_TYPE_BINARY:\
-	 return m_sbuf.FUN;\
-	 case SERIALIZE_TYPE_JSON:\
-	 return m_json_sbuf.FUN;\
-	 case SERIALIZE_TYPE_XML:\
-		return m_xml_sbuf.FUN;\
-        }
 
-#define GET_PUSH_SERIALIZE( TYPE, FUN, ... )  \
-	switch(TYPE)\
-	  {\
-	case SERIALIZE_TYPE_BINARY:\
-	tools::serializecpp::FUN(m_sbuf,__VA_ARGS__);\
-	  return;\
-	 case SERIALIZE_TYPE_JSON:\
-	 tools::serializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-		  return;\
-	 case SERIALIZE_TYPE_XML:\
-		tools::serializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-		  return;\
-        }
 
-#define GET_POP_SERIALIZE( TYPE, FUN , ...)  \
-	switch(TYPE)\
-	  {\
-	case SERIALIZE_TYPE_BINARY:\
-	tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);\
-	  return;\
-	 case SERIALIZE_TYPE_JSON:\
-	 tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-		  return;\
-	 case SERIALIZE_TYPE_XML:\
-		tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-		  return;\
-        }
+
+
+
 
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {

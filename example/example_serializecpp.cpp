@@ -284,16 +284,27 @@ int main()
   /** 为何三值均不相等 */
   std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
   middleware::tools::mgt_serializecpp ltemp(1024);
-  ltemp.reset(0);
+	middleware::tools::mgt_serializecpp luntemp;
+	ltemp.reset(0);
 	int linum = 1023;
+	int linumpop = 0;
+
 	ltemp.push(linum);
-	ltemp.pop(linum);
+	luntemp.reset(0, (char*)ltemp.get_buffer(), ltemp.get_uselen());
+	linumpop = 0;
+	luntemp.pop(linumpop);
+
 	ltemp.reset(1);
-	ltemp.push(linum);
-	ltemp.pop(linum);
+	ltemp.push(linum,"num");
+	luntemp.reset(1, (char*)ltemp.get_buffer(), ltemp.get_uselen());
+	linumpop = 0;
+	luntemp.pop(linumpop,"num");
+
 	ltemp.reset(2);
-	ltemp.push(linum);
-	ltemp.pop(linum);
+	ltemp.push(linum, "num");
+	luntemp.reset(2, (char*)ltemp.get_buffer(), ltemp.get_uselen());
+	linumpop = 0;
+	luntemp.pop(linumpop,"num");
 
 
   test_7();
