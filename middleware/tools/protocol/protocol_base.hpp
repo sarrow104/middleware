@@ -59,8 +59,8 @@ namespace middleware {
         )
       {
         std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >* lret 
-			= new std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >();
-		for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
+      = new std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >();
+    for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
         {
           lret->insert( std::make_pair( itor->first, itor->second->new_own() ) );
         }
