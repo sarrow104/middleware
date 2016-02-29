@@ -18,10 +18,10 @@ namespace middleware {
       /**
       * 自定义类型 需要实现 bool push_struct(T_STAND& asj, const char* aikey)方法
       */
-      template <typename T_DATA>
-      static void push_struct(T_STAND& asj, const char* aikey, const T_DATA& aivalues)
-      {
-        aivalues.push(asj, aikey);
+			template <typename T_DATA, typename T_DATA2>
+      static void push_struct(T_STAND& asj, const char* aikey, T_DATA& aivalues, T_DATA2& appush)
+			{
+				aivalues.push(appush, aikey);
       }
 
       /** 基础类型 */

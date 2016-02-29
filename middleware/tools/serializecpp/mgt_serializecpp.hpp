@@ -99,7 +99,7 @@ namespace middleware {
       }
 
       template <typename T>
-      bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
+      void push(const T* aivalues, uint32_t ailen, const char* apkey = "")
       {
 				GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
         throw 0;
@@ -122,7 +122,7 @@ namespace middleware {
       template <typename T>
       void push_struct(T& apdata, const char* apkey = "")
       {
-				GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata)
+				GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata, *this)
         throw 0;
       }
 
@@ -143,21 +143,21 @@ namespace middleware {
 			template <typename T>
 			void pop_map(T& apdata, const char* apkey = "")
 			{
-					GET_PUSH_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
+				 GET_POP_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
 					throw 0;
 			}
 
 			template <typename T>
 			void pop_set(T& apdata, const char* apkey = "")
 			{
-					GET_PUSH_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
+				  GET_POP_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
 					throw 0;
 			}
 
 			template <typename T>
 			void pop_struct(T& apdata, const char* apkey = "")
 			{
-					GET_PUSH_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata)
+				  GET_POP_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata, *this)
 					throw 0;
 			}
 

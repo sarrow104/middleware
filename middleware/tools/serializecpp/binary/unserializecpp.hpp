@@ -55,11 +55,11 @@ namespace middleware {
         for (uint16_t i = 0; i < larraysize; ++i)
         {
           unserializecpp_base::pop((void*)&(ltempkey.first), ap, sizeof(first_type));
-        //  endian(ltempkey.first);
+          endian(ltempkey.first);
           ap += sizeof(first_type);
           aplen -= sizeof(first_type);
           unserializecpp_base::pop((void*)&(ltempkey.second), ap, sizeof(second_type));
-        //  endian(ltempkey.second);
+          endian(ltempkey.second);
           ap += sizeof(second_type);
           aplen -= sizeof(second_type);
           aivaluesarr.insert(ltempkey);
@@ -89,7 +89,7 @@ namespace middleware {
           unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(typename T_DATA::value_type));
           ap += sizeof(typename T_DATA::value_type);
 
-    //      endian(ltemp);
+          endian(ltemp);
           aivaluesarr.insert(ltemp);
         }
 
@@ -132,6 +132,8 @@ namespace middleware {
 
         uint16_t larraysize;
         pop(ap, aplen, larraysize);
+				endian(larraysize);
+
         ap += sizeof(uint16_t);
         uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(T_DATA);
 
@@ -252,10 +254,10 @@ namespace middleware {
       }
 
       /** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
-      template <typename T_DATA>
-      static bool pop_struct(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
+      template <typename T_DATA, typename T_DATA2>
+      static bool pop_struct(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues, T_DATA2& aipop)
       {
-        return aivalues.pop( mp_buffer_data );
+				return aivalues.pop(aipop);
       }
 
     };

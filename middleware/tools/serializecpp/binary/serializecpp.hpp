@@ -136,7 +136,7 @@ namespace middleware{
           std::vector<char> lch;
           lch.resize(aivaluesarrsize*sizeof(T_DATA));
           memcpy(lch.data(), aivaluesarr, aivaluesarrsize*sizeof(T_DATA));
-          uint32_t ltempaivaluesarrsize = aivaluesarrsize;
+          uint16_t ltempaivaluesarrsize = aivaluesarrsize;
           endian(ltempaivaluesarrsize);
           serializecpp_base::push(ap, &ltempaivaluesarrsize, sizeof(uint16_t));
           ap += sizeof(uint16_t);
@@ -217,10 +217,14 @@ namespace middleware{
         return (lretvalues == 0) ? false : true;
       }
 
-			template <typename T_DATA>
-			static uint32_t push_struct(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
+			template <typename T_DATA, typename T_DATA2>
+			static bool push_struct(
+				serializecpp_buffer& ap_buffer_data, 
+				KeyPlaceholder/*apkey占位*/, 
+				T_DATA& aivalues,
+				T_DATA2& appush)
 			{
-				aivalues.push();
+				return aivalues.push(appush);
 			}
 
     };

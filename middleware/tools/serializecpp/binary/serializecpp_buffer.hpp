@@ -59,7 +59,7 @@ namespace middleware {
         mc_buffer(nullptr),
         mi_buffer_size(0),
         mi_buffer_at(0),
-        mb_malloc(true)
+        mb_malloc(false)
       {}
 
 

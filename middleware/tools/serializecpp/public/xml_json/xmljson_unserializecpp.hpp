@@ -21,10 +21,10 @@ namespace middleware {
       /**
       * 自定义类型
       */
-      template <typename T_DATA>
-      static void pop_struct(T_STAND& asj, const char* aikey, T_DATA& aivalues)
+      template <typename T_DATA, typename T_DATA2>
+      static void pop_struct(T_STAND& asj, const char* aikey, T_DATA& aivalues, T_DATA2& appush)
       {
-        aivalues.pop(asj, aikey, aivalues);
+				aivalues.pop(appush, aikey);
       }
 
      /** 基础类型 */
@@ -82,6 +82,7 @@ namespace middleware {
         unserialize_stand<T_STAND>::pop(asj, aikey, lvec);
         aivaluesarr.insert(lvec.begin(), lvec.end());
       }
+
       template <typename T_DATA >
       static void pop_map(T_STAND& asj, const char* aikey, T_DATA& aivaluesarr)
       {
