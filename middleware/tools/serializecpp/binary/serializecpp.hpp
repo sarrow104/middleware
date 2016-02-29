@@ -217,11 +217,11 @@ namespace middleware{
         return (lretvalues == 0) ? false : true;
       }
 
-			template <typename T_DATA>
-			static uint32_t push_struct(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
-			{
-				aivalues.push();
-			}
+      template <typename T_DATA>
+      static uint32_t push_struct(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
+      {
+        return aivalues.push();
+      }
 
     };
   } //namespace tools

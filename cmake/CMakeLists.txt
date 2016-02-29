@@ -17,7 +17,8 @@ project("${target_name}Lib")
 
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/example")
 set(LIBRARY_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/lib")
-file(GLOB SRC "../src/**/*.cpp" "../src/**/**/*.cpp" "../src/**/**/**/*.cpp")
+
+file(GLOB_RECURSE SRC "../src/*.cpp")
 
 find_package(Boost COMPONENTS date_time filesystem system thread)
 

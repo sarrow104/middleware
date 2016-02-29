@@ -214,7 +214,7 @@ namespace middleware {
       {
         return mp_buffer_data.get_len() - mp_buffer_data.get_uselen();
       }
-			
+      
     public:
       /*
        * 基础
