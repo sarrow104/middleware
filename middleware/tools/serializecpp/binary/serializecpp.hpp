@@ -119,6 +119,7 @@ namespace middleware{
       return sizeof(T_DATA);
     }
       
+
       /**
        *  原始数组
        */
@@ -214,6 +215,12 @@ namespace middleware{
         uint32_t lretvalues = serializecpp_base::push_set(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
         ap_buffer_data.get_uselen() += lretvalues;
         return (lretvalues == 0) ? false : true;
+      }
+
+      template <typename T_DATA>
+      static uint32_t push_struct(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, T_DATA& aivalues)
+      {
+        return aivalues.push();
       }
 
     };

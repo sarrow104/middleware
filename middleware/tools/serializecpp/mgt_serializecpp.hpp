@@ -77,96 +77,89 @@ namespace middleware {
 
       mgt_serializecpp() {}
 
-
-
-
-
-
-
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {
         m_serialize_type = aiseri;
-    GET_SERIALIZE_BUFFER( m_serialize_type, reset(ap,aplen))
-    throw 0;
+        GET_SERIALIZE_BUFFER( m_serialize_type, reset(ap,aplen))
+          throw 0;
       }
 
       void reset(uint32_t aiseri)
       {
         m_serialize_type = aiseri;
-    GET_SERIALIZE_BUFFER( m_serialize_type, reset())
-        throw 0;
-      }
-
-      template <typename T>
-      void push(T& apdata, const char* apkey = "")
-      {
-      GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, apdata)
-        throw 0;
-      }
-
-      template <typename T>
-      bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
-      {
-       GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
-        throw 0;
-      }
-
-
-      template <typename T>
-      void push_map(T& apdata, const char* apkey = "")
-      {
-        GET_PUSH_SERIALIZE(m_serialize_type,push_map, apkey, apdata)
-        throw 0;
-      }
-
-      template <typename T>
-      void push_set(T& apdata, const char* apkey = "")
-      {
-       GET_PUSH_SERIALIZE(m_serialize_type, push_set, apkey, apdata)
-        throw 0;
-      }
-
-      template <typename T>
-      void push_struct(T& apdata, const char* apkey = "")
-      {
-      GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata)
-        throw 0;
-      }
-
-      template <typename T>
-      void pop(T& aivalues, const char* apkey = "")
-      {
-      GET_POP_SERIALIZE(m_serialize_type, pop, apkey, aivalues)
-        throw 0;
-      }
-
-      template <typename T>
-      void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
-      {
-      GET_POP_SERIALIZE(m_serialize_type,pop, apkey, aivalues, ailen)
-        throw 0;
-      }
-
-      template <typename T>
-      void pop_map(T& apdata, const char* apkey = "")
-      {
-        GET_PUSH_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
+        GET_SERIALIZE_BUFFER( m_serialize_type, reset())
           throw 0;
       }
 
       template <typename T>
-      void pop_set(T& apdata, const char* apkey = "")
-      {
-        GET_PUSH_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
-          throw 0;
-      }
+        void push(T& apdata, const char* apkey = "")
+        {
+          GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, apdata)
+            throw 0;
+        }
 
       template <typename T>
-      void pop_struct(T& apdata, const char* apkey = "")
-      {
-        GET_PUSH_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata)
-          throw 0;
-      }
+        bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
+        {
+          GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
+            throw 0;
+        }
+
+      template <typename T>
+        void push_map(T& apdata, const char* apkey = "")
+        {
+          GET_PUSH_SERIALIZE(m_serialize_type,push_map, apkey, apdata)
+            throw 0;
+        }
+
+      template <typename T>
+        void push_set(T& apdata, const char* apkey = "")
+        {
+          GET_PUSH_SERIALIZE(m_serialize_type, push_set, apkey, apdata)
+            throw 0;
+        }
+
+      template <typename T>
+        void push_struct(T& apdata, const char* apkey = "")
+        {
+          GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata)
+            throw 0;
+        }
+
+      template <typename T>
+        void pop(T& aivalues, const char* apkey = "")
+        {
+          GET_POP_SERIALIZE(m_serialize_type, pop, apkey, aivalues)
+            throw 0;
+        }
+
+      template <typename T>
+        void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
+        {
+          GET_POP_SERIALIZE(m_serialize_type,pop, apkey, aivalues, ailen)
+            throw 0;
+        }
+
+      template <typename T>
+        void pop_map(T& apdata, const char* apkey = "")
+        {
+          GET_POP_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
+            throw 0;
+        }
+
+      template <typename T>
+        void pop_set(T& apdata, const char* apkey = "")
+        {
+          GET_POP_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
+            throw 0;
+        }
+
+      template <typename T>
+        void pop_struct(T& apdata, const char* apkey = "")
+        {
+          GET_POP_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata)
+            throw 0;
+        }
 
       inline uint8_t gettype()const
       {
@@ -175,17 +168,16 @@ namespace middleware {
 
       inline uint32_t get_uselen()
       {
-      GET_SERIALIZE_BUFFER( m_serialize_type, get_uselen())
-        throw 0;
+        GET_SERIALIZE_BUFFER( m_serialize_type, get_uselen())
+          throw 0;
       }
 
       const char* get_buffer()
       {
-      GET_SERIALIZE_BUFFER( m_serialize_type, get_buffer())
-        throw 0;
+        GET_SERIALIZE_BUFFER( m_serialize_type, get_buffer())
+          throw 0;
       }
     };
-
 
   } //namespace tools
 }  //namespace middleware
@@ -193,4 +185,4 @@ namespace middleware {
 
 
 #endif //MGT_SERIALIZECPP_HPP
- /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
