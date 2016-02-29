@@ -180,7 +180,7 @@ void test_3()
   cout<<"lcarray2[13]"<<endl;
 
   char lcstr2[128];
-	lsbufpop.pop( lcarray2, 128 );
+ lsbufpop.pop( lcstr2, 128 );
   cout<<"lcstr";
   cout<< ( ( strcmp( lcarray, lcarray2) == 0) ? "==" : "!=");
   cout<<"lcstr2"<<endl;

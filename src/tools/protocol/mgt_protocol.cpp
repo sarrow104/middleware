@@ -14,7 +14,7 @@ namespace middleware {
     const char* aiconfigpath
     )
     {
-    mgt_serializecpp lreadconfig;
+	  mgt_serializecpp lreadconfig;
       std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(aipthreadnum);
       for (uint32_t i = 0; i < aipthreadnum; ++i)
       {

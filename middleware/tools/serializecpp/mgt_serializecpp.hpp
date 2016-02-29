@@ -11,6 +11,8 @@
 #include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
 #include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
 
+#include <fstream>
+
 
 #define GET_SERIALIZE_BUFFER( TYPE, FUN )             \
   switch(TYPE)                                        \
@@ -92,7 +94,7 @@ namespace middleware {
       }
 
       template <typename T>
-        void push(T& apdata, const char* apkey = "")
+      void push(T& apdata, const char* apkey = "")
         {
           GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, apdata)
             throw 0;
@@ -178,6 +180,27 @@ namespace middleware {
         GET_SERIALIZE_BUFFER( m_serialize_type, get_buffer())
           throw 0;
       }
+
+	  void read( uint32_t aiseri,const char* aipath )
+	  {
+		  std::ifstream llogfile;
+		  llogfile.open(aipath);
+          if (llogfile.is_open())
+          {
+			llogfile.seekg(0,std::ios::end);   
+			size_t lsize = llogfile.tellg();
+			llogfile.seekg(0,std::ios::beg);     
+			char* lbuf = new char[lsize+1];
+			lbuf[lsize] = '\0';
+			llogfile.read(lbuf,lsize);
+			reset( aiseri, lbuf, lsize );
+			delete [] lbuf;
+          }
+          else
+          {
+            throw 1;
+          }
+	  }
     };
 
   } //namespace tools
