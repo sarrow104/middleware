@@ -12,43 +12,43 @@
 #include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
 
 
-#define GET_SERIALIZE_BUFFER( TYPE, FUN )							\
-	switch(TYPE)																				\
-	{																										\
-		case SERIALIZE_TYPE_BINARY:												\
-			return m_sbuf.FUN;															\
-		case SERIALIZE_TYPE_JSON:													\
-			return m_json_sbuf.FUN;													\
-		case SERIALIZE_TYPE_XML:													\
-			return m_xml_sbuf.FUN;													\
+#define GET_SERIALIZE_BUFFER( TYPE, FUN )             \
+  switch(TYPE)                                        \
+  {                                                   \
+    case SERIALIZE_TYPE_BINARY:                       \
+      return m_sbuf.FUN;                              \
+    case SERIALIZE_TYPE_JSON:                         \
+      return m_json_sbuf.FUN;                         \
+    case SERIALIZE_TYPE_XML:                          \
+      return m_xml_sbuf.FUN;                          \
   }
 
-#define GET_PUSH_SERIALIZE( TYPE, FUN, ... )					\
-	switch(TYPE)																				\
-	{																										\
-	case SERIALIZE_TYPE_BINARY:													\
-		tools::serializecpp::FUN(m_sbuf,__VA_ARGS__);			\
-	  return;																						\
-	case SERIALIZE_TYPE_JSON:														\
-	  tools::serializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-		return;																						\
-	case SERIALIZE_TYPE_XML:														\
-		tools::serializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-		  return;																					\
+#define GET_PUSH_SERIALIZE( TYPE, FUN, ... )          \
+  switch(TYPE)                                        \
+  {                                                   \
+  case SERIALIZE_TYPE_BINARY:                         \
+    tools::serializecpp::FUN(m_sbuf,__VA_ARGS__);     \
+    return;                                           \
+  case SERIALIZE_TYPE_JSON:                           \
+    tools::serializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
+    return;                                           \
+  case SERIALIZE_TYPE_XML:                            \
+    tools::serializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
+      return;                                         \
   }
 
-#define GET_POP_SERIALIZE( TYPE, FUN , ...)						\
-	switch(TYPE)																				\
-	{																										\
-	case SERIALIZE_TYPE_BINARY:													\
-		tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);		\
-	  return;																						\
-	case SERIALIZE_TYPE_JSON:														\
-	  tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-	  return;																						\
-	case SERIALIZE_TYPE_XML:														\
-		tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-		return;																						\
+#define GET_POP_SERIALIZE( TYPE, FUN , ...)           \
+  switch(TYPE)                                        \
+  {                                                   \
+  case SERIALIZE_TYPE_BINARY:                         \
+    tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);   \
+    return;                                           \
+  case SERIALIZE_TYPE_JSON:                           \
+    tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
+    return;                                           \
+  case SERIALIZE_TYPE_XML:                            \
+    tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
+    return;                                           \
   }
 
 namespace middleware {
@@ -86,28 +86,28 @@ namespace middleware {
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {
         m_serialize_type = aiseri;
-		GET_SERIALIZE_BUFFER( m_serialize_type, reset(ap,aplen))
-		throw 0;
+    GET_SERIALIZE_BUFFER( m_serialize_type, reset(ap,aplen))
+    throw 0;
       }
 
       void reset(uint32_t aiseri)
       {
         m_serialize_type = aiseri;
-		GET_SERIALIZE_BUFFER( m_serialize_type, reset())
+    GET_SERIALIZE_BUFFER( m_serialize_type, reset())
         throw 0;
       }
 
       template <typename T>
       void push(T& apdata, const char* apkey = "")
       {
-		  GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, apdata)
+      GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, apdata)
         throw 0;
       }
 
       template <typename T>
       bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
       {
-		   GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
+       GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
         throw 0;
       }
 
@@ -115,58 +115,58 @@ namespace middleware {
       template <typename T>
       void push_map(T& apdata, const char* apkey = "")
       {
-		    GET_PUSH_SERIALIZE(m_serialize_type,push_map, apkey, apdata)
+        GET_PUSH_SERIALIZE(m_serialize_type,push_map, apkey, apdata)
         throw 0;
       }
 
       template <typename T>
       void push_set(T& apdata, const char* apkey = "")
       {
-		   GET_PUSH_SERIALIZE(m_serialize_type, push_set, apkey, apdata)
+       GET_PUSH_SERIALIZE(m_serialize_type, push_set, apkey, apdata)
         throw 0;
       }
 
       template <typename T>
       void push_struct(T& apdata, const char* apkey = "")
       {
-		  GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata)
+      GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata)
         throw 0;
       }
 
       template <typename T>
       void pop(T& aivalues, const char* apkey = "")
       {
-		  GET_POP_SERIALIZE(m_serialize_type, pop, apkey, aivalues)
+      GET_POP_SERIALIZE(m_serialize_type, pop, apkey, aivalues)
         throw 0;
       }
 
       template <typename T>
       void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
       {
-		  GET_POP_SERIALIZE(m_serialize_type,pop, apkey, aivalues, ailen)
+      GET_POP_SERIALIZE(m_serialize_type,pop, apkey, aivalues, ailen)
         throw 0;
       }
 
-			template <typename T>
-			void pop_map(T& apdata, const char* apkey = "")
-			{
-				GET_PUSH_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
-					throw 0;
-			}
+      template <typename T>
+      void pop_map(T& apdata, const char* apkey = "")
+      {
+        GET_PUSH_SERIALIZE(m_serialize_type, pop_map, apkey, apdata)
+          throw 0;
+      }
 
-			template <typename T>
-			void pop_set(T& apdata, const char* apkey = "")
-			{
-				GET_PUSH_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
-					throw 0;
-			}
+      template <typename T>
+      void pop_set(T& apdata, const char* apkey = "")
+      {
+        GET_PUSH_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
+          throw 0;
+      }
 
-			template <typename T>
-			void pop_struct(T& apdata, const char* apkey = "")
-			{
-				GET_PUSH_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata)
-					throw 0;
-			}
+      template <typename T>
+      void pop_struct(T& apdata, const char* apkey = "")
+      {
+        GET_PUSH_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata)
+          throw 0;
+      }
 
       inline uint8_t gettype()const
       {
@@ -175,13 +175,13 @@ namespace middleware {
 
       inline uint32_t get_uselen()
       {
-		  GET_SERIALIZE_BUFFER( m_serialize_type, get_uselen())
+      GET_SERIALIZE_BUFFER( m_serialize_type, get_uselen())
         throw 0;
       }
 
       const char* get_buffer()
       {
-		  GET_SERIALIZE_BUFFER( m_serialize_type, get_buffer())
+      GET_SERIALIZE_BUFFER( m_serialize_type, get_buffer())
         throw 0;
       }
     };

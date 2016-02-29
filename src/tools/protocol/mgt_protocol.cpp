@@ -4,17 +4,17 @@
 namespace middleware {
   namespace tools {
     
-	/**
-	 *  ´´½¨·şÎñÆ÷
-	 */
+  /**
+   *  åˆ›å»ºæœåŠ¡å™¨
+   */
 
    middleware_asio_server* create_server_protocol_mgt(
-		std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
-		uint32_t aipthreadnum,
-		const char* aiconfigpath
-		)
+    std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
+    uint32_t aipthreadnum,
+    const char* aiconfigpath
+    )
     {
-	  mgt_serializecpp lreadconfig;
+    mgt_serializecpp lreadconfig;
       std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(aipthreadnum);
       for (uint32_t i = 0; i < aipthreadnum; ++i)
       {
@@ -45,12 +45,12 @@ namespace middleware {
 
 
     middleware_asio_client* create_client_protocol_mgt(
-		std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >& apromap,
-		uint32_t aikey,
-		 boost::function<bool(const char*, uint32_t)> aisendfailure
-		)
+    std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >& apromap,
+    uint32_t aikey,
+     boost::function<bool(const char*, uint32_t)> aisendfailure
+    )
     {
-		new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024);
+    new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024);
 
      //   boost::function<bool(const char*, uint32_t)> lrecv =  boost::bind(
      //       &mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
