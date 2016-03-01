@@ -24,7 +24,7 @@ namespace middleware {
       template <typename T_DATA, typename T_DATA2>
       static void pop_struct(T_STAND& asj, const char* aikey, T_DATA& aivalues, T_DATA2& appush)
       {
-				aivalues.pop(appush, aikey);
+        aivalues.pop(appush, aikey);
       }
 
      /** 基础类型 */
