@@ -40,6 +40,8 @@
     <ClCompile Include="..\..\..\src\middleware_base\socket_io\socket_head.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\endian\endian_local2net.cpp" />
+    <ClCompile Include="..\..\..\src\tools\serializecpp\public\serializecpp_fun.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -52,7 +54,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

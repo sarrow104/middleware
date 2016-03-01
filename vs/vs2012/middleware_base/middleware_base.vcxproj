@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DFAEFC5D-E7B3-40DB-A707-839A23E33441}</ProjectGuid>
+    <ProjectGuid>{F695BBE1-C935-42D3-ABB8-A213942CAE5E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>middleware_base</RootNamespace>
+    <RootNamespace>cmiddleware_base</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -95,9 +95,6 @@
     <ClCompile Include="..\..\..\src\tools\logsys\logdef.cpp" />
     <ClCompile Include="..\..\..\src\tools\logsys\logsys.cpp" />
     <ClCompile Include="..\..\..\src\tools\threadpool\threadpool.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\middleware\middleware_base\middleware_base.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
