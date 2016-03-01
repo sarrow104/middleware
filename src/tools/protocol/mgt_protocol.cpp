@@ -61,22 +61,55 @@ namespace middleware {
 
 
     middleware_asio_client* create_client_protocol_mgt(
-    std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >& apromap,
-    uint32_t aikey,
-     boost::function<bool(const char*, uint32_t)> aisendfailure
+    std::unordered_map<
+			uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* 
+		>& apromap,
+		const char* aiconfigpath
     )
     {
-    new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024);
 
-     //   boost::function<bool(const char*, uint32_t)> lrecv =  boost::bind(
-     //       &mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
-      //     new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024),
-     //      0, _1, _2, _3);
-    //   middleware::middleware_asio_client lclient(lrecv, 10240, 1024);
-     //  lclient.create_connect(aikey, "127.0.0.1", 13140, aisendfailure);
-      return nullptr;
+			mgt_serializecpp lreadconfig;
+			lreadconfig.read(SERIALIZE_TYPE_XML, aiconfigpath);
+			uint32_t lkey;
+			lreadconfig.pop(lkey, "key");
+			std::string lstrip;
+			lreadconfig.pop(lstrip, "ip");
+			uint32_t lport;
+			lreadconfig.pop(lport, "port");
+			uint32_t leveryoncemaxsize;
+			lreadconfig.pop(leveryoncemaxsize, "everyoncemaxsize");
+			uint32_t lloopbuffermaxsize;
+			lreadconfig.pop(lloopbuffermaxsize, "loopbuffermaxsize");
+			
+
+      boost::function<bool(uint32_t,const char*, uint32_t)> lrecv =  boost::bind(
+            &mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
+           new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024),
+           0, _1, _2, _3);
+			
+			
+			return (new middleware::middleware_asio_client(lrecv, lloopbuffermaxsize, leveryoncemaxsize));
     }
 
+		void connect_server(
+			middleware_asio_client* ap, 
+			boost::function<bool(const char*, uint32_t)> aisendfailure,
+			const char* aiconfigpath)
+		{
+			mgt_serializecpp lreadconfig;
+			lreadconfig.read(SERIALIZE_TYPE_XML, aiconfigpath);
+			uint32_t lkey;
+			lreadconfig.pop(lkey, "key");
+			std::string lstrip;
+			lreadconfig.pop(lstrip, "ip");
+			uint32_t lport;
+			lreadconfig.pop(lport, "port");
+			uint32_t leveryoncemaxsize;
+			lreadconfig.pop(leveryoncemaxsize, "everyoncemaxsize");
+			uint32_t lloopbuffermaxsize;
+			lreadconfig.pop(lloopbuffermaxsize, "loopbuffermaxsize");
+			ap->create_connect(lkey, lstrip.c_str(), lport, aisendfailure);
+		}
 
   } //namespace tools
 } //namespace middleware

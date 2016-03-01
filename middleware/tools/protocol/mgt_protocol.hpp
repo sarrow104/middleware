@@ -85,11 +85,17 @@ namespace middleware {
     );
 
 
-   middleware_asio_client* create_client_protocol_mgt(
-    std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >& apromap,
-    uint32_t aikey,
-     boost::function<bool(const char*, uint32_t)> aisendfailure
-    );
+		middleware_asio_client* create_client_protocol_mgt(
+			std::unordered_map<
+			uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>*
+			>& apromap,
+			const char* aiconfigpath
+			);
+
+		void connect_server(
+			middleware_asio_client* ap,
+			boost::function<bool(const char*, uint32_t)> aisendfailure,
+			const char* aiconfigpath);
 
 
   } // namespace tools
