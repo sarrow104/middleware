@@ -103,7 +103,7 @@ namespace middleware {
       template <typename T>
       void push(const T* aivalues, uint32_t ailen, const char* apkey = "")
       {
-				GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
+        GET_PUSH_SERIALIZE(m_serialize_type,push, apkey, aivalues,  ailen)
         throw 0;
       }
 
@@ -124,7 +124,7 @@ namespace middleware {
       template <typename T>
       void push_struct(T& apdata, const char* apkey = "")
       {
-				GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata, *this)
+        GET_PUSH_SERIALIZE(m_serialize_type,push_struct, apkey, apdata, *this)
         throw 0;
       }
 
@@ -150,19 +150,19 @@ namespace middleware {
         }
 
 
-			template <typename T>
-			void pop_set(T& apdata, const char* apkey = "")
-			{
-				  GET_POP_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
-					throw 0;
-			}
+      template <typename T>
+      void pop_set(T& apdata, const char* apkey = "")
+      {
+          GET_POP_SERIALIZE(m_serialize_type, pop_set, apkey, apdata)
+          throw 0;
+      }
 
-			template <typename T>
-			void pop_struct(T& apdata, const char* apkey = "")
-			{
-				  GET_POP_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata, *this)
-					throw 0;
-			}
+      template <typename T>
+      void pop_struct(T& apdata, const char* apkey = "")
+      {
+          GET_POP_SERIALIZE(m_serialize_type, pop_struct, apkey, apdata, *this)
+          throw 0;
+      }
 
       inline uint8_t gettype()const
       {
@@ -181,26 +181,26 @@ namespace middleware {
           throw 0;
       }
 
-	  void read( uint32_t aiseri,const char* aipath )
-	  {
-		  std::ifstream llogfile;
-		  llogfile.open(aipath);
+    void read( uint32_t aiseri,const char* aipath )
+    {
+      std::ifstream llogfile;
+      llogfile.open(aipath);
           if (llogfile.is_open())
           {
-			llogfile.seekg(0,std::ios::end);   
-			size_t lsize = llogfile.tellg();
-			llogfile.seekg(0,std::ios::beg);     
-			char* lbuf = new char[lsize+1];
-			lbuf[lsize] = '\0';
-			llogfile.read(lbuf,lsize);
-			reset( aiseri, lbuf, lsize );
-			delete [] lbuf;
+      llogfile.seekg(0,std::ios::end);   
+      size_t lsize = llogfile.tellg();
+      llogfile.seekg(0,std::ios::beg);     
+      char* lbuf = new char[lsize+1];
+      lbuf[lsize] = '\0';
+      llogfile.read(lbuf,lsize);
+      reset( aiseri, lbuf, lsize );
+      delete [] lbuf;
           }
           else
           {
             throw 1;
           }
-	  }
+    }
     };
 
   } //namespace tools

@@ -217,15 +217,15 @@ namespace middleware{
         return (lretvalues == 0) ? false : true;
       }
 
-			template <typename T_DATA, typename T_DATA2>
-			static bool push_struct(
-				serializecpp_buffer& ap_buffer_data, 
-				KeyPlaceholder/*apkey占位*/, 
-				T_DATA& aivalues,
-				T_DATA2& appush)
-			{
-				return aivalues.push(appush);
-			}
+      template <typename T_DATA, typename T_DATA2>
+      static bool push_struct(
+        serializecpp_buffer& ap_buffer_data, 
+        KeyPlaceholder/*apkey占位*/, 
+        T_DATA& aivalues,
+        T_DATA2& appush)
+      {
+        return aivalues.push(appush);
+      }
 
     };
   } //namespace tools
