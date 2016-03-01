@@ -9,7 +9,7 @@ namespace middleware {
    */
 
    middleware_asio_server* create_server_protocol_mgt(
-    std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
+		type_server_protocol_map& apromap,
     const char* aiconfigpath
     )
     {
@@ -21,8 +21,8 @@ namespace middleware {
       for (uint32_t i = 0; i < lpthreadnum; ++i)
       {
         ltemp[i] = boost::bind(
-          &mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>::run_task,
-          new mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>(apromap, 5, 1024),
+          &mgt_server_protocol::run_task,
+          new mgt_server_protocol(apromap, 5, 1024),
           i, 0, _1, _2);
       }
 
@@ -61,9 +61,7 @@ namespace middleware {
 
 
     middleware_asio_client* create_client_protocol_mgt(
-    std::unordered_map<
-			uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* 
-		>& apromap,
+		type_client_protocol_map& apromap,
 		const char* aiconfigpath
     )
     {
@@ -83,8 +81,8 @@ namespace middleware {
 			
 
       boost::function<bool(uint32_t,const char*, uint32_t)> lrecv =  boost::bind(
-            &mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>::run_task,
-           new mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>(apromap,1, 1024),
+            &mgt_client_protocol::run_task,
+           new mgt_client_protocol(apromap,1, 1024),
            0, _1, _2, _3);
 			
 			

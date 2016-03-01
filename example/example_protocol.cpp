@@ -4,28 +4,18 @@
 #include "middleware/tools/protocol/mgt_protocol.hpp"
 #include "middleware/middleware_base/middleware_base.hpp"
 #include "middleware/middleware_base/socket_asio/socket_asio_server_arg.hpp"
-#include "middleware/tools/protocol/protocol/test_protocol/protocol_test_map.hpp"
+#include "middleware/tools/protocol/protocol/test_server_protocol/protocol_test_server_map.hpp"
+#include "middleware/tools/protocol/protocol/test_client_protocol/protocol_test_client_map.hpp"
 
 #include <iostream>
 
 
 void test_middleware_asio_server()
 {
-  middleware::tools::init_protocol_test();
-  middleware::tools::create_server_protocol_mgt(middleware::tools::protocol_test_map,"E:/gitfile/middleware/src/tools/protocol/config/server.xml");
+  middleware::tools::init_protocol_test_server();
+  middleware::tools::create_server_protocol_mgt(middleware::tools::protocol_test_server_map,"E:/gitfile/middleware/src/tools/protocol/config/server.xml");
 }
 
-
-/** recv call back */
-bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
-{
-  middleware::unpack_head_process<middleware::cpack_head::protocol_head> luhp;
-  luhp.reset(ap, aplen);
-  char ch[sizeof("hello world")] = { 0 };
-  luhp.pop(ch, sizeof("hello world"));
-  std::cout << ch << std::endl;
-  return true;
-};
 
 /** send failure call back*/
 bool sfcb(const char* ap, uint32_t aplen)
@@ -37,6 +27,10 @@ bool sfcb(const char* ap, uint32_t aplen)
 
 void test_middleware_asio_client()
 {
+	//create_client_protocol_mgt();
+	middleware::tools::init_protocol_test_client();
+	auto lp = middleware::tools::create_client_protocol_mgt(middleware::tools::protocol_test_client_map, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
+	middleware::tools::connect_server(lp, sfcb, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
 }
 
 
@@ -44,6 +38,8 @@ void test_middleware_asio_client()
 
 int main()
 {
+	test_middleware_asio_server();
+	test_middleware_asio_client();
   return 0;
 }
 

@@ -85,9 +85,10 @@ namespace middleware {
 
     };
 
+		typedef protocol_base<spack_head::protocol_head, spack_head::protocol_head >  protocol_server_base;
+		typedef protocol_base<cpack_head::protocol_head, cpack_head::protocol_head >  protocol_client_base;
   
-
-  } //namespace tools
+	} //namespace tools
 } //namespace middleware
 
 
