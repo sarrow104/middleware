@@ -264,6 +264,7 @@ void test_5()
 	lsbuf.reset(middleware::SERIALIZE_TYPE_JSON);
 	test_xml_json_push(lsbuf);
 	middleware::tools::mgt_serializecpp lsbufpop(1024);
+	std::cout << lsbuf.get_buffer() << std::endl;
 	lsbufpop.reset(middleware::SERIALIZE_TYPE_JSON, (char*)lsbuf.get_buffer(), lsbuf.get_uselen());
 	test_xml_json_pop(lsbufpop);
 	
@@ -277,6 +278,7 @@ void test_6()
 	lsbuf.reset(middleware::SERIALIZE_TYPE_XML);
 	test_xml_json_push(lsbuf);
 	middleware::tools::mgt_serializecpp lsbufpop(1024);
+	std::cout << lsbuf.get_buffer() << std::endl;
 	lsbufpop.reset(middleware::SERIALIZE_TYPE_XML, (char*)lsbuf.get_buffer(), lsbuf.get_uselen());
 	test_xml_json_pop(lsbufpop);
 }

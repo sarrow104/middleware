@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!---  线程数量  -->
+<pthread_num>5</pthread_num>
+<!--  端口号 -->
+<port>1314</port>
+<!-- activ 活性(0,1) -->
+<activ>0</activ>
+<extern_activ>0</extern_activ>
+<!-- 最大单条数据长度 -->
+<everyoncemaxsize>1024</everyoncemaxsize>
+<extern_everyoncemaxsize>1024</extern_everyoncemaxsize>
+<!-- 循环数组最大buffer -->
+<loopbuffermaxsize>10240</loopbuffermaxsize>
+<extern_loopbuffermaxsize>10240</extern_loopbuffermaxsize>
+<!-- 心跳协议号 -->
+<heartbeat_num>32</heartbeat_num>
+<!-- 每秒接收字节数 -->
+<persecond_recvdatatbyte_num>1024</persecond_recvdatatbyte_num>
+<!-- 接收最大包字节数 -->
+<recvpack_maxsize>1024</recvpack_maxsize>
+<!-- 接收超时 -->
+<timeout>10240</timeout>
+<!-- 断开连接是否通知应用层 -->
+<s2c>1</s2c>
+<s2s>1</s2s>

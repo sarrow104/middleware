@@ -12,7 +12,7 @@
 void test_middleware_asio_server()
 {
   middleware::tools::init_protocol_test();
-  middleware::tools::create_server_protocol_mgt(middleware::tools::protocol_test_map,5,"serconfig,json");
+  middleware::tools::create_server_protocol_mgt(middleware::tools::protocol_test_map,"E:/gitfile/middleware/src/tools/protocol/config/server.xml");
 }
 
 

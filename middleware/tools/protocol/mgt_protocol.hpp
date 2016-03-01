@@ -81,7 +81,6 @@ namespace middleware {
 
     middleware_asio_server* create_server_protocol_mgt(
     std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
-    uint32_t aipthreadnum,
     const char* aiconfigpath
     );
 

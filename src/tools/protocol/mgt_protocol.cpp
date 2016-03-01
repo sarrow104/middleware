@@ -10,13 +10,15 @@ namespace middleware {
 
    middleware_asio_server* create_server_protocol_mgt(
     std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >& apromap,
-    uint32_t aipthreadnum,
     const char* aiconfigpath
     )
     {
-	  mgt_serializecpp lreadconfig;
-      std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(aipthreadnum);
-      for (uint32_t i = 0; i < aipthreadnum; ++i)
+			mgt_serializecpp lreadconfig;
+			lreadconfig.read(SERIALIZE_TYPE_XML,aiconfigpath);
+			uint32_t lpthreadnum;
+			lreadconfig.pop(lpthreadnum, "pthread_num");
+      std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(lpthreadnum);
+      for (uint32_t i = 0; i < lpthreadnum; ++i)
       {
         ltemp[i] = boost::bind(
           &mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>::run_task,
@@ -24,22 +26,36 @@ namespace middleware {
           i, 0, _1, _2);
       }
 
-      middleware::socket_asio_arg larg(aipthreadnum, ltemp);
+      middleware::socket_asio_arg larg(lpthreadnum, ltemp);
 
-      larg.m_activ = false;
-      larg.m_extern_activ = false;
-      larg.m_everyoncemaxsize = 1024;
-      larg.m_extern_everyoncemaxsize = 1024;
-      larg.m_extern_loopbuffermaxsize = 10240;
-      larg.m_loopbuffermaxsize = 10240;
-      larg.m_heartbeat_num = 32;
-      larg.m_persecond_recvdatatbyte_num = 1024;
-      larg.m_port = 13140;
-      larg.m_recvpack_maxsize = 1024;
-      larg.m_timeout = 10240;
-      larg.m_s2c = true;
-      larg.m_s2s = true;
-      larg.m_session_num = 10240;
+      //larg.m_activ = false;
+			lreadconfig.pop(larg.m_activ, "activ");
+      //larg.m_extern_activ = false;
+			lreadconfig.pop(larg.m_extern_activ, "extern_activ");
+     // larg.m_everyoncemaxsize = 1024;
+			lreadconfig.pop(larg.m_everyoncemaxsize, "everyoncemaxsize");
+      //larg.m_extern_everyoncemaxsize = 1024;
+			lreadconfig.pop(larg.m_extern_everyoncemaxsize, "extern_everyoncemaxsize");
+      //larg.m_extern_loopbuffermaxsize = 10240;
+			lreadconfig.pop(larg.m_extern_loopbuffermaxsize, "extern_loopbuffermaxsize");
+      //larg.m_loopbuffermaxsize = 10240;
+			lreadconfig.pop(larg.m_extern_loopbuffermaxsize, "loopbuffermaxsize");
+      //larg.m_heartbeat_num = 32;
+			lreadconfig.pop(larg.m_heartbeat_num, "heartbeat_num");
+      //larg.m_persecond_recvdatatbyte_num = 1024;
+			lreadconfig.pop(larg.m_persecond_recvdatatbyte_num, "persecond_recvdatatbyte_num");
+      //larg.m_port = 13140;
+			lreadconfig.pop(larg.m_port, "port");
+      //larg.m_recvpack_maxsize = 1024;
+			lreadconfig.pop(larg.m_recvpack_maxsize, "recvpack_maxsize");
+      //larg.m_timeout = 10240;
+			lreadconfig.pop(larg.m_timeout, "timeout");
+      //larg.m_s2c = true;
+			lreadconfig.pop(larg.m_s2c, "s2c");
+      //larg.m_s2s = true;
+			lreadconfig.pop(larg.m_s2s, "s2s");
+      //larg.m_session_num = 10240;
+			lreadconfig.pop(larg.m_session_num, "session_num");
       return new middleware_asio_server(larg);
     }
 

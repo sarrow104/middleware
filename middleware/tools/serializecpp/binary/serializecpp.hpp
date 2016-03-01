@@ -73,7 +73,7 @@ namespace middleware{
       static uint32_t push_map(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
       {
 
-        uint16_t lsetsize = aivaluesarr.size();
+        uint16_t lsetsize = (uint16_t)(aivaluesarr.size());
         uint32_t lsize = sizeof(typename T_DATA::key_type) * aivaluesarr.size() + sizeof(typename T_DATA::mapped_type) * aivaluesarr.size() + sizeof(uint16_t);
         if (aplen < lsize)
         {
