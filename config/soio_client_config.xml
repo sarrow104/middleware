@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <key>0</key>  
+  <ip>127.0.0.1</ip>  
+  <port>13140</port>  
+  <buffersize>10240</buffersize>  
+  <everymaxsize>1024</everymaxsize> 
+</root>

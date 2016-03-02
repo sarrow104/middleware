@@ -24,6 +24,8 @@ void test_1( )
   lsbuf.push(lsnum);
   char lcnum = 'a';
   lsbuf.push(lcnum);
+	bool lbool = true;
+	lsbuf.push(lbool);
 
   /** 反序列化 */
   middleware::tools::mgt_serializecpp lsbufpop;
@@ -41,7 +43,10 @@ void test_1( )
   char lcnum2 = 0;
   lsbufpop.pop(lcnum2);
   cout<< "lcnum=["<<lcnum<<"],"<<"lcnum2=["<< lcnum2<<"]"<< endl;
-
+	
+	bool lbool2 = true;
+	lsbufpop.pop(lbool2);
+	cout << "lbool=[" << lbool << "]," << "lbool2=[" << lbool2 << "]" << endl;
 }
 
  /**
@@ -238,7 +243,8 @@ void test_xml_json_push(middleware::tools::mgt_serializecpp& lsbuf)
   }
   lsbuf.push_map(lmap, "map");
 
-  
+	bool lbool = true;
+	lsbuf.push(lbool,"bool");
 
   
 }
@@ -256,6 +262,8 @@ void test_xml_json_pop(middleware::tools::mgt_serializecpp& lsbufpop)
   lsbufpop.pop_set(lsetpop, "set");
   std::map<int, int> lmappop;
   lsbufpop.pop_map(lmappop, "map");
+	bool lboolpop;
+	lsbufpop.push(lboolpop, "bool");
 }
 /** json */
 void test_5()

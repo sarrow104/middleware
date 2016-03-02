@@ -18,7 +18,8 @@ void test_middleware_sm_server()
     cout << ap << endl;
     return true;
   };
-  middleware::middleware_sm_server  abc("kk", 1024, 1024, 128, funservercallback);
+  //middleware::middleware_sm_server  abc("kk", 1024, 1024, 128, funservercallback);
+	middleware::middleware_sm_server  abc(middleware::SERIALIZE_TYPE_XML,"E:/gitfile/middleware/config", funservercallback);
   uint32_t lnum = 900;
   char cbuf[128];
   uint32_t litemp;
@@ -169,9 +170,6 @@ void test_middleware_soio_client()
   }
 }
 
-
-
-
 void test_middleware_asio_server()
 {
   boost::function<bool(uint32_t,const char*, uint32_t)> apfun = [](uint32_t ainum,const char* ap, uint32_t aplen) {
@@ -207,8 +205,7 @@ void test_middleware_asio_server()
   larg.m_s2s = true;
   larg.m_session_num = 10240;
 
-  middleware::middleware_asio_server lser(larg);
-  middleware::asio_server( &lser );
+  middleware::asio_server( &middleware::middleware_asio_server::get_single(larg) );
   while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));

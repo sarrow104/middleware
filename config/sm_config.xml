@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <smname>kk</smname>  
+  <client_byte_sum>10240</client_byte_sum>  
+  <server_byte_sum>10240</server_byte_sum>  
+  <everyonemaxsize>1024</everyonemaxsize> 
+</root>

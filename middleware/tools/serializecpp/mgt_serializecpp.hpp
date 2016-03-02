@@ -53,6 +53,22 @@
     return;                                           \
   }
 
+#define GET_POP_NOTRET_SERIALIZE( TYPE, FUN , ...)           \
+  switch(TYPE)                                        \
+  {                                                   \
+  case SERIALIZE_TYPE_BINARY:                         \
+    tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);   \
+		break;																						\
+  case SERIALIZE_TYPE_JSON:                           \
+    tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
+		break;																						\
+  case SERIALIZE_TYPE_XML:                            \
+    tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
+		break;																						\
+	default:																						\
+		throw 0;																					\
+  }
+
 namespace middleware {
   /**
    * 协议类型
@@ -78,6 +94,11 @@ namespace middleware {
       {}
 
       mgt_serializecpp() {}
+
+			mgt_serializecpp(uint32_t aiseri, const char* aipath)
+			{
+				read(aiseri,aipath);
+			}
 
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {
@@ -134,6 +155,14 @@ namespace middleware {
           GET_POP_SERIALIZE(m_serialize_type, pop, apkey, aivalues)
             throw 0;
         }
+
+				template <typename T>
+				T pop(const char* apkey = "")
+				{
+					T lt;
+					GET_POP_NOTRET_SERIALIZE(m_serialize_type, pop, apkey, lt)
+					return std::move(lt);
+				}
 
       template <typename T>
         void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
