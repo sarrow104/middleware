@@ -59,7 +59,7 @@ namespace middleware {
       */
       static void push(T_STAND& asj, const char* aikey, std::string& aivaluesarr)
       {
-        serialize_stand<T_STAND>::push(asj, aikey, aivaluesarr.c_str(), aivaluesarr.size());
+        asj.add_single(aikey, aivaluesarr);
       }
 
       /**

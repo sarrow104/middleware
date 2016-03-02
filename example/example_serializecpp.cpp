@@ -296,9 +296,18 @@ void test_7()
   middleware::tools::gendian_local2net.endian(lsize);
   middleware::tools::gendian_local2net.endian(lsize);
 }
+
+void test_8()
+{
+	middleware::tools::mgt_serializecpp lreadconfig(middleware::SERIALIZE_TYPE_XML,"D:/server/github/middleware/middleware/config/lp_config.xml");
+	cout << lreadconfig.pop<std::string>("laname");
+  
+}
+
 int main()
 {
-  /** 为何三值均不相等 */
+	test_8();
+	/** 为何三值均不相等 */
   std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
   middleware::tools::mgt_serializecpp ltemp(1024);
   middleware::tools::mgt_serializecpp luntemp;

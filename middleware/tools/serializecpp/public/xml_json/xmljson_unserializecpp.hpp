@@ -65,11 +65,8 @@ namespace middleware {
       */
       static void pop(T_STAND& asj, const char* aikey, std::string& aivaluesarr)
       {
-        boost::property_tree::ptree& lret = asj.get_child(aikey);
-        uint32_t lisize = lret.get<std::uint32_t>("size");
-        aivaluesarr.resize(lisize);
-        std::string ldatastr = lret.get<std::string>("data");
-        Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), lisize);
+        asj.get<std::string>(aikey,aivaluesarr);
+        //Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), lisize);
       }
 
       /**
