@@ -413,6 +413,24 @@ namespace middleware {
 			return ret;
 		}
 
+		bool create_connkey(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			)
+		{
+			m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+			bool ret = m_asi.create_conkey(
+				m_mser->pop<uint32_t>("key"),
+				(m_mser->pop<std::string>("ip")).c_str(),
+				m_mser->pop<uint32_t>("port"),
+				aisendfailure);
+			delete m_mser;
+			m_mser = nullptr;
+			return ret;
+		}
+
     bool create_connect(uint32_t aikey,
       std::string aiserverip,
       uint32_t aiserverport,
@@ -439,6 +457,24 @@ namespace middleware {
 			return ret;
 		}
 
+		bool create_connect(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			)
+		{
+			m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+			bool ret = m_asi.create_connect(
+				m_mser->pop<uint32_t>("key"),
+				(m_mser->pop<std::string>("ip")).c_str(),
+				m_mser->pop<uint32_t>("port"),
+				aisendfailure);
+			delete m_mser;
+			m_mser = nullptr;
+			return ret;
+		}
+
     virtual uint8_t type()
     {
       return E_MW_TYPE::E_SOIO_CLIENT;
@@ -449,7 +485,6 @@ namespace middleware {
   /**
   *  socket asio 服务器
   */
-
   struct socket_asio_arg;
 
   class middleware_asio_server :

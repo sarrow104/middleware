@@ -9,27 +9,48 @@ extern "C" {
 
 
 void* init_middleware_sm_server(
-  const char* aismname,
-  uint64_t  ai_client_byte_sum,
-  uint64_t ai_server_byte_sum,
-  uint32_t aieveryonemaxsize,
-  callbackfun logic_fun)
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	callbackfun logic_fun
+  )
 {
   return new middleware::middleware_sm_server(
-    aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun
+		aiconfigtype, aiconfigpath, logic_fun
     );
 }
 
+void* init_middleware_sm_server2(
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	callbackfun logic_fun
+	)
+{
+	return new middleware::middleware_sm_server(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_fun
+		);
+}
+
+
 void* init_middleware_sm_client(
-  const char* aismname,
-  uint64_t  ai_client_byte_sum,
-  uint64_t ai_server_byte_sum,
-  uint32_t aieveryonemaxsize,
-  callbackfun logic_fun)
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	callbackfun logic_fun)
 {
   return new middleware::middleware_sm_client(
-    aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun
+		aiconfigtype, aiconfigpath, logic_fun
     );
+}
+
+void* init_middleware_sm_client2(
+	int32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	callbackfun logic_fun)
+{
+	return new middleware::middleware_sm_client(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_fun
+		);
 }
 
 
@@ -47,60 +68,135 @@ bool close_middleware(void* ap)
 
 
 void* init_middleware_la_server(
-  const char* ainame,
-  uint32_t apbuffersize,
-  uint32_t aieverymaxsize,
-  callbackfun aireadfun,
-  bool apstartthread)
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	callbackfun logic_fun)
 {
   return new middleware::middleware_la_server(
-    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread);
+		aiconfigtype, aiconfigpath, logic_fun);
 }
 
+void* init_middleware_la_server2(
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	callbackfun logic_fun)
+{
+	return new middleware::middleware_la_server(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_fun);
+}
 
 void* init_middleware_la_client(
-  const char* ainame,
-  uint32_t apbuffersize,
-  uint32_t aieverymaxsize,
-  callbackfun aireadfun,
-  bool apstartthread)
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	callbackfun logic_fun)
 {
   return new middleware::middleware_la_client(
-    ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread);
+		aiconfigtype, aiconfigpath, logic_fun);
 }
 
+void* init_middleware_la_client2(
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	callbackfun logic_fun)
+{
+	return new middleware::middleware_la_client(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_fun);
+}
 
 
 
 
 void* init_middleware_soio_server(
-  uint32_t aiport,
-  multi_recv_fun logic_recv_callback,
-  uint32_t aimaxsize,
-  uint32_t aievery_once_max_size,
-  sendfailure_fun aisendfailure
-  )
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	multi_recv_fun logic_recv_callback,
+	sendfailure_fun aisendfailure
+	)
 {
   return new middleware::middleware_soio_server(
-    aiport, logic_recv_callback, aimaxsize, aievery_once_max_size, aisendfailure);
+		aiconfigtype, aiconfigpath, logic_recv_callback, aisendfailure);
+}
+
+void* init_middleware_soio_server2(
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	multi_recv_fun logic_recv_callback,
+	sendfailure_fun aisendfailure
+	)
+{
+	return new middleware::middleware_soio_server(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_recv_callback, aisendfailure);
 }
 
 void* init_middleware_soio_client(
-  multi_recv_fun logic_recv_callback,
-  uint32_t aimaxsize,
-  uint32_t aievery_once_max_size
-  )
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	multi_recv_fun logic_recv_callback
+	)
 {
   return new middleware::middleware_soio_client(
-    logic_recv_callback, aimaxsize, aievery_once_max_size);
+		aiconfigtype, aiconfigpath, logic_recv_callback);
 }
 
-
-bool create_connect_client(void* ap,uint32_t aikey,const char* aiserverip,uint32_t aiserverport,sendfailure_fun aisendfailure)
+void* init_middleware_soio_client(
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	multi_recv_fun logic_recv_callback
+	)
 {
-  return static_cast<middleware::middleware_soio_client*>(ap)->create_connect(aikey, aiserverip, aiserverport, aisendfailure);
+	return new middleware::middleware_soio_client(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, logic_recv_callback);
 }
 
+bool create_connkey(
+	void* ap,
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	sendfailure_fun aisendfailure
+	)
+{
+  return static_cast<middleware::middleware_soio_client*>(ap)->create_connkey(
+		aiconfigtype, aiconfigpath, aisendfailure);
+}
+
+bool create_connkey2(
+	void* ap,
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	sendfailure_fun aisendfailure
+	)
+{
+	return static_cast<middleware::middleware_soio_client*>(ap)->create_connkey(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, aisendfailure);
+}
+
+bool create_connect(uint32_t aikey,
+	void* ap,
+	uint32_t aiconfigtype,
+	const char* aiconfigpath,
+	sendfailure_fun aisendfailure
+	)
+{
+	return static_cast<middleware::middleware_soio_client*>(ap)->create_connect(
+		aiconfigtype, aiconfigpath, aisendfailure);
+}
+
+bool create_connect2(uint32_t aikey,
+	void* ap,
+	uint32_t aiconfigtype,
+	const char* apconfigtxt,
+	uint32_t apconfigtxtlen,
+	sendfailure_fun aisendfailure
+	)
+{
+	return static_cast<middleware::middleware_soio_client*>(ap)->create_connect(
+		aiconfigtype, apconfigtxt, apconfigtxtlen, aisendfailure);
+}
 
 bool send_middleware_soio(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen)
 {

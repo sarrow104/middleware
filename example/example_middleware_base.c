@@ -17,7 +17,7 @@ bool callback_printf(const char* ap, uint32_t aplen)
 
 void test_middleware_sm_server()
 {
-  void* lserver = init_middleware_sm_server( "kk", 1024, 1024, 128, callback_printf );
+  void* lserver = init_middleware_sm_server(SERIALIZE_TYPE_XML, "config path", callback_printf );
   uint32_t lnum = 900;
   char cbuf[128];
   uint32_t litemp;
@@ -35,7 +35,7 @@ void test_middleware_sm_server()
 
 void test_middleware_sm_client()
 {
-  void* lclient = init_middleware_sm_client("kk", 1024, 1024, 128, callback_printf);
+  void* lclient = init_middleware_sm_client(SERIALIZE_TYPE_XML, "config path", callback_printf);
   uint32_t lnum = 0;
   char cbuf[128];
   uint32_t litemp;
@@ -52,7 +52,7 @@ void test_middleware_sm_client()
 
 void test_middleware_la_server()
 {
-  void* lserver = init_middleware_la_server("kk", 1024, 128, callback_printf, false);
+  void* lserver = init_middleware_la_server(SERIALIZE_TYPE_XML, "config path", callback_printf);
   uint32_t lnum = 5;
   char cbuf[128];
   uint32_t litemp;
@@ -68,7 +68,7 @@ void test_middleware_la_server()
 }
 void test_middleware_la_client()
 {
-  void* lclient = init_middleware_la_client("kk", 1024, 1024, callback_printf, false);
+  void* lclient = init_middleware_la_client(SERIALIZE_TYPE_XML, "config path", callback_printf);
 
   uint32_t lnum = 5;
   char cbuf[128];
@@ -104,7 +104,7 @@ bool sfcb(const char* ap, uint32_t aplen)
 void test_middleware_soio_server()
 {
 
-  void* lserver = init_middleware_soio_server(13140, rcb, 10240, 1024, sfcb);
+  void* lserver = init_middleware_soio_server(SERIALIZE_TYPE_XML, "config path", rcb, sfcb);
   while (1)
   {
     send_middleware_soio( lserver, 0, "helloworld",sizeof("helloworld") );
@@ -115,8 +115,8 @@ void test_middleware_soio_server()
 
 void test_middleware_soio_client()
 {
-  void* lclient = init_middleware_soio_client(rcb, 10240, 1024);
-  create_connect_client( lclient,0,"127.0.0.1", 13140, sfcb);
+  void* lclient = init_middleware_soio_client(SERIALIZE_TYPE_XML, "config path", rcb);
+  create_connect_client( lclient, SERIALIZE_TYPE_XML, "config path", sfcb);
   while (1)
   {
     send_middleware_soio( lclient, 0, "very much.",sizeof("very much.") );
