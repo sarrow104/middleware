@@ -187,14 +187,14 @@ namespace middleware {
       llogfile.open(aipath,std::ios::binary);
           if (llogfile.is_open())
           {
-						llogfile.seekg(0,std::ios::end);   
-						size_t lsize = llogfile.tellg();
-						llogfile.seekg(0,std::ios::beg);     
-						char* lbuf = new char[lsize+1];
-						lbuf[lsize] = '\0';
-						llogfile.read(lbuf,lsize);
-						reset( aiseri, lbuf, lsize );
-						delete [] lbuf;
+            llogfile.seekg(0,std::ios::end);   
+            size_t lsize = llogfile.tellg();
+            llogfile.seekg(0,std::ios::beg);     
+            char* lbuf = new char[lsize+1];
+            lbuf[lsize] = '\0';
+            llogfile.read(lbuf,lsize);
+            reset( aiseri, lbuf, lsize );
+            delete [] lbuf;
           }
           else
           {

@@ -27,10 +27,10 @@ bool sfcb(const char* ap, uint32_t aplen)
 
 void test_middleware_asio_client()
 {
-	//create_client_protocol_mgt();
-	middleware::tools::init_protocol_test_client();
-	auto lp = middleware::tools::create_client_protocol_mgt(middleware::tools::protocol_test_client_map, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
-	middleware::tools::connect_server(lp, sfcb, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
+  //create_client_protocol_mgt();
+  middleware::tools::init_protocol_test_client();
+  auto lp = middleware::tools::create_client_protocol_mgt(middleware::tools::protocol_test_client_map, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
+  middleware::tools::connect_server(lp, sfcb, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
 }
 
 
@@ -38,8 +38,8 @@ void test_middleware_asio_client()
 
 int main()
 {
-	test_middleware_asio_server();
-	test_middleware_asio_client();
+  test_middleware_asio_server();
+  test_middleware_asio_client();
   return 0;
 }
 

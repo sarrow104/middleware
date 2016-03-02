@@ -70,12 +70,12 @@ namespace middleware {
     };
 
 
-		typedef mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>  mgt_server_protocol;
-		typedef mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>  mgt_client_protocol;
+    typedef mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>  mgt_server_protocol;
+    typedef mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>  mgt_client_protocol;
     /** 服务器协议 map */
     typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
-		/** 客户端协议 map */
-		typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >   type_client_protocol_map;
+    /** 客户端协议 map */
+    typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >   type_client_protocol_map;
 
   /**
    * 创建一个服务器
@@ -84,20 +84,20 @@ namespace middleware {
    ****/
 
     middleware_asio_server* create_server_protocol_mgt(
-		type_server_protocol_map& apromap,
+    type_server_protocol_map& apromap,
     const char* aiconfigpath
     );
 
 
-		middleware_asio_client* create_client_protocol_mgt(
-			type_client_protocol_map& apromap,
-			const char* aiconfigpath
-			);
+    middleware_asio_client* create_client_protocol_mgt(
+      type_client_protocol_map& apromap,
+      const char* aiconfigpath
+      );
 
-		void connect_server(
-			middleware_asio_client* ap,
-			boost::function<bool(const char*, uint32_t)> aisendfailure,
-			const char* aiconfigpath);
+    void connect_server(
+      middleware_asio_client* ap,
+      boost::function<bool(const char*, uint32_t)> aisendfailure,
+      const char* aiconfigpath);
 
 
   } // namespace tools
