@@ -6,10 +6,10 @@
 namespace middleware {
   namespace tools {
 
-		type_client_protocol_map protocol_test_client_map;
+    type_client_protocol_map protocol_test_client_map;
     void init_protocol_test_client()
     {
-			protocol_test_client_map.insert( std::make_pair(E_TEST_CLIENT_0,(protocol_test_client_0*)(nullptr))  );
+      protocol_test_client_map.insert( std::make_pair(E_TEST_CLIENT_0,(protocol_test_client_0*)(nullptr))  );
     }
 
 

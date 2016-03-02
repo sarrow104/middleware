@@ -17,8 +17,8 @@ namespace middleware {
     {
       std::string mpop_ls;
     public:
-			protocol_test_server_0() :
-				protocol_server_base(E_TEST_SERVER_0)
+      protocol_test_server_0() :
+        protocol_server_base(E_TEST_SERVER_0)
       {}
 
       virtual bool task(uint32_t aikey)

@@ -52,12 +52,12 @@ namespace middleware {
         check_key(aikey);
         m_root.push_back(make_pair(aikey, apt));
       }
-			inline void add_node2(const char* aikey, boost::property_tree::ptree apt)
-			{
-				check_key(aikey);
-				m_root.clear();
-				m_root.push_back(make_pair(aikey, apt));
-			}
+      inline void add_node2(const char* aikey, boost::property_tree::ptree apt)
+      {
+        check_key(aikey);
+        m_root.clear();
+        m_root.push_back(make_pair(aikey, apt));
+      }
 
       template <typename T>
       inline void add_single(const char* aikey, const T& aivalues)
@@ -99,11 +99,11 @@ namespace middleware {
         return m_root.get_child(aikey);
       }
 
-		
+    
     protected:
       boost::property_tree::ptree m_root;
       std::string m_str;
-			
+      
     };
 
   } //namespace middleware

@@ -12,19 +12,19 @@ namespace middleware {
     struct serializecpp_jsonbuffer:
       public xmljson_buffer
     {
-			bool m_first;
-			serializecpp_jsonbuffer() :
-				m_first(true)
-			{}
+      bool m_first;
+      serializecpp_jsonbuffer() :
+        m_first(true)
+      {}
 
       virtual const char* get_buffer()
       {
-				if (m_first)
-				{
-					m_first = false;
-					/** 应该优化.. */
-					add_node2("root", m_root);
-				}
+        if (m_first)
+        {
+          m_first = false;
+          /** 搴旇浼樺寲.. */
+          add_node2("root", m_root);
+        }
         std::stringstream lst;
         boost::property_tree::write_json(lst, m_root);
         m_str = lst.str();
@@ -33,16 +33,16 @@ namespace middleware {
 
       virtual void reset(const char* ap, uint32_t aplen)
       {
-				m_first = true;
+        m_first = true;
         m_str.clear();
         std::stringstream ss(ap);
         boost::property_tree::read_json<boost::property_tree::ptree>(ss, m_root);
-				m_root = get_child( "root" );
+        m_root = get_child( "root" );
       }
 
       virtual void reset()
       {
-				m_first = true;
+        m_first = true;
         this->clear();
       }
     };
