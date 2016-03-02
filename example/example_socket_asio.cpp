@@ -1,8 +1,8 @@
 ///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#include "middleware/middleware_base/middleware_base.hpp"
 #include "middleware/middleware_base/socket_asio/socket_asio_server_arg.hpp"
+#include "middleware/middleware_base/middleware_base.hpp"
 
 #include <iostream>
 
@@ -13,7 +13,7 @@ bool rcb(bool aisclient, uint32_t aikey, const char* ap, uint32_t aplen)
   middleware::unpack_head_process<middleware::cpack_head::protocol_head> luhp;
   luhp.reset(ap, aplen);
   char ch[sizeof("hello world")] = { 0 };
-  luhp.pop(ch);
+  luhp.pop(ch,sizeof("hello world") );
   std::cout << ch << std::endl;
   return true;
 };
@@ -32,7 +32,7 @@ void test_middleware_asio_server()
     middleware::unpack_head_process<middleware::spack_head::protocol_head> luhp;
     luhp.reset(ap, aplen);
     char ch[sizeof("hello world")] = { 0 };
-    luhp.pop(ch);
+    luhp.pop(ch, sizeof("hello world"));
     std::cout << ch << std::endl;
     middleware::asio_server().send(ainum, ap, aplen);
     return true;
@@ -75,8 +75,9 @@ void test_middleware_asio_client()
   middleware::middleware_asio_client lclient(boost::bind(&rcb, false, _1, _2, _3), 10240, 1024);
   lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
 
-  middleware::pack_head_process<middleware::cpack_head::protocol_head > lphp(sizeof("hello world"));
-  lphp.push("hello world");
+  middleware::pack_head_process<middleware::cpack_head::protocol_head > lphp(1024);
+	char ch[] = "hello world";
+  lphp.push(ch,sizeof("hello world"));
   lphp.set_pack_head();
   while (1)
   {

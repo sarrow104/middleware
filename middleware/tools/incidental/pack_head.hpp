@@ -531,7 +531,7 @@ namespace middleware{
     }
 
     template <typename T>
-    bool push(const T* aivalues, uint32_t ailen, const char* apkey = "")
+    void push(const T* aivalues, uint32_t ailen, const char* apkey = "")
     {
       m_serializecpp.push(aivalues, ailen, apkey);
     }
