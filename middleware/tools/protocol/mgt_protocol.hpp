@@ -79,25 +79,30 @@ namespace middleware {
 
   /**
    * 创建一个服务器
-   * Parameter 1  此服务器对应的一组协议
+   * Parameter 1  配置类型
    * Parameter 2  基本配置文档
+   * Parameter 3  此服务器对应的一组协议
    ****/
 
     middleware_asio_server* create_server_protocol_mgt(
-    type_server_protocol_map& apromap,
-    const char* aiconfigpath
-    );
+			uint32_t aiconfigtype,
+			const char* aiconfigpath,
+			type_server_protocol_map& apromap
+			);
 
 
-    middleware_asio_client* create_client_protocol_mgt(
-      type_client_protocol_map& apromap,
-      const char* aiconfigpath
-      );
+   	middleware_asio_client* create_client_protocol_mgt(
+			uint32_t aiconfigtype,
+			const char* aiconfigpath,
+			type_client_protocol_map& apromap
+			);
 
-    void connect_server(
-      middleware_asio_client* ap,
-      boost::function<bool(const char*, uint32_t)> aisendfailure,
-      const char* aiconfigpath);
+   void connect_server(
+			middleware_asio_client* ap,
+			uint32_t aiconfigtype,
+			const char* aiconfigpath, 
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			);
 
 
   } // namespace tools

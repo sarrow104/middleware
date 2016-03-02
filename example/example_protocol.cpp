@@ -13,7 +13,7 @@
 void test_middleware_asio_server()
 {
   middleware::tools::init_protocol_test_server();
-  middleware::tools::create_server_protocol_mgt(middleware::tools::protocol_test_server_map,"E:/gitfile/middleware/src/tools/protocol/config/server.xml");
+  middleware::tools::create_server_protocol_mgt(middleware::SERIALIZE_TYPE_XML,"E:/gitfile/middleware/src/tools/protocol/config/server.xml",middleware::tools::protocol_test_server_map);
 }
 
 
@@ -29,8 +29,15 @@ void test_middleware_asio_client()
 {
   //create_client_protocol_mgt();
   middleware::tools::init_protocol_test_client();
-  auto lp = middleware::tools::create_client_protocol_mgt(middleware::tools::protocol_test_client_map, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
-  middleware::tools::connect_server(lp, sfcb, "E:/gitfile/middleware/src/tools/protocol/config/client.xml");
+  auto lp = middleware::tools::create_client_protocol_mgt(
+	  middleware::SERIALIZE_TYPE_XML,
+	  "E:/gitfile/middleware/src/tools/protocol/config/client.xml",
+	  middleware::tools::protocol_test_client_map);
+  middleware::tools::connect_server(
+	  lp,
+	  middleware::SERIALIZE_TYPE_XML,
+	  "E:/gitfile/middleware/src/tools/protocol/config/client.xml", 
+	  sfcb);
 }
 
 

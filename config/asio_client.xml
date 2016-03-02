@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <!-- ip地址-->  
+  <ip>127.0.0.1</ip>  
+  <!-- 端口号-->  
+  <port>13140</port>  
+  <!-- key -->  
+  <key>0</key>  
+  <!-- 循环数组最大buffer -->  
+  <loopbuffermaxsize>10240</loopbuffermaxsize>  
+  <!-- 最大单条数据长度 -->  
+  <everyoncemaxsize>1024</everyoncemaxsize> 
+</root>
