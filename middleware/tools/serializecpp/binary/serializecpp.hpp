@@ -1,8 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#ifndef   MSG_BASE_C_H
-#define   MSG_BASE_C_H
+#ifndef   SERIALIZECPP_HPP
+#define   SERIALIZECPP_HPP
 #include "middleware/tools/serializecpp/binary/serializecpp_buffer.hpp"
 #include "middleware/tools/serializecpp/public/endian/endian_local2net.hpp"
 
@@ -231,5 +231,5 @@ namespace middleware{
   } //namespace tools
 } //namespace middleware
 
-#endif
+#endif  //SERIALIZECPP_HPP
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

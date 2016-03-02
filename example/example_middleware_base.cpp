@@ -178,7 +178,7 @@ void test_middleware_asio_server()
     middleware::unpack_head_process<middleware::spack_head::protocol_head> luhp;
     luhp.reset( ap, aplen);
     char ch[sizeof("hello world")] = { 0 };
-    luhp.pop(ch);
+    luhp.pop(ch, sizeof("hello world"));
     std::cout << ch << std::endl;
     middleware::asio_server().send(ainum,ap, aplen);
     return true;
@@ -222,7 +222,8 @@ void test_middleware_asio_client()
   lclient.create_connect(0, "127.0.0.1", 13140, sfcb);
 
   middleware::pack_head_process<middleware::cpack_head::protocol_head > lphp(sizeof("hello world"));
-  lphp.push("hello world");
+	char ch[] = "hello world";
+	lphp.push(ch,sizeof("hello world"));
   lphp.set_pack_head();
   while (1)
   {
