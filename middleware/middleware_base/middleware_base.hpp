@@ -72,6 +72,14 @@ namespace middleware {
 			boost::function<bool(const char*, uint32_t)> logic_fun
 			);
 
+		/** 配置内容构造函数 */
+		middleware_sm_server(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			boost::function<bool(const char*, uint32_t)> logic_fun
+			);
+
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
       memcpy(m_sms.wget_start(), apdata, aiwlen);
@@ -116,6 +124,14 @@ namespace middleware {
 		middleware_sm_client(
 			uint32_t aiconfigtype,
 			const char* aiconfigpath,
+			boost::function<bool(const char*, uint32_t)> logic_fun
+			);
+
+		/** 配置内容构造函数 */
+		middleware_sm_client(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
 			boost::function<bool(const char*, uint32_t)> logic_fun
 			);
 
@@ -164,6 +180,14 @@ namespace middleware {
 			FUN_READ_CALLBACK aireadfun
 			);
 
+		/** 配置内容构造函数 */
+		middleware_la_server::middleware_la_server(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			FUN_READ_CALLBACK aireadfun
+			);
+
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
        return m_las.send(apdata, aiwlen);
@@ -205,6 +229,14 @@ namespace middleware {
 			FUN_READ_CALLBACK aireadfun
 			);
 
+		/** 配置内容构造函数 */
+		middleware_la_client(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			FUN_READ_CALLBACK aireadfun
+			);
+
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
       return m_las.send(apdata, aiwlen);
@@ -237,8 +269,6 @@ namespace middleware {
   public:
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen) = 0;
     virtual bool close(uint32_t aikey) = 0;
-
-		
 
   /** client 需要实现*/
   bool create_connect(
@@ -289,6 +319,15 @@ namespace middleware {
 			boost::function<bool(const char*, uint32_t)> aisendfailure
 			);
 
+		/** 配置内容构造函数 */
+		middleware_soio_server(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
+			boost::function<bool(const char*, uint32_t)> aisendfailure
+			);
+
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen)
     {
        return m_asi.send( aikey, apdata, aiwlen);
@@ -326,6 +365,14 @@ namespace middleware {
 		middleware_soio_client(
 			uint32_t aiconfigtype,
 			const char* aiconfigpath,
+			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+			);
+
+		/** 配置内容构造函数 */
+		middleware_soio_client(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
 			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
 			);
 
@@ -446,6 +493,16 @@ namespace middleware {
 			m_mser = new  tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
 		}
 
+		/** 配置内容构造函数 */
+		static void read_config(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen
+			)
+		{
+			m_mser = new  tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+		}
+
 		template <typename T>
 		static void get(T& at, const char* apkey)
 		{
@@ -493,6 +550,17 @@ namespace middleware {
 			m_soio(aiconfigtype, aiconfigpath, logic_recv_callback)
 		{}
 
+		/** 配置内容构造函数 */
+		middleware_asio_client(
+			uint32_t aiconfigtype,
+			const char* apconfigtxt,
+			uint32_t apconfigtxtlen,
+			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+			) :
+			m_soio(aiconfigtype, apconfigtxt, apconfigtxtlen, logic_recv_callback)
+		{}
+
+
     virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
     {
       return m_soio.send(aikey, apdata, aiwlen);
@@ -513,7 +581,6 @@ namespace middleware {
       return m_soio.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-
 		bool create_connect(
 			uint32_t aiconfigtype,
 			const char* aiconfigpath,
@@ -523,14 +590,11 @@ namespace middleware {
 			return m_soio.create_connect(aiconfigtype, aiconfigpath, aisendfailure);
 		}
 
-
     virtual uint8_t type()
     {
       return E_MW_TYPE::E_ASIO_CLIENT;
     }
   };
-
-
 
 }
 

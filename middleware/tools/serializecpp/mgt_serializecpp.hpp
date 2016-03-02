@@ -100,6 +100,11 @@ namespace middleware {
 				read(aiseri,aipath);
 			}
 
+			mgt_serializecpp(uint32_t aiseri, const char* aiconfigtxt,uint32_t apconfigtxtlen)
+			{
+				reset(aiseri,(char*)(aiconfigtxt), apconfigtxtlen);
+			}
+
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {
         m_serialize_type = aiseri;

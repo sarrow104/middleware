@@ -25,6 +25,24 @@ namespace middleware {
 		m_mser = nullptr;
 	}
 
+	middleware_sm_server::middleware_sm_server(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		boost::function<bool(const char*, uint32_t)> logic_fun
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_sms(
+			m_mser->pop<std::string>("smname").c_str(),
+			m_mser->pop<uint32_t>("client_byte_sum"),
+			m_mser->pop<uint32_t>("server_byte_sum"),
+			m_mser->pop<uint32_t>("everyonemaxsize"),
+			logic_fun, true)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
+
 	middleware_sm_client::middleware_sm_client(
 		uint32_t aiconfigtype,
 		const char* aiconfigpath,
@@ -42,6 +60,23 @@ namespace middleware {
 		m_mser = nullptr;
 	}
 
+	middleware_sm_client::middleware_sm_client(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		boost::function<bool(const char*, uint32_t)> logic_fun
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_smc(
+			m_mser->pop<std::string>("smname").c_str(),
+			m_mser->pop<uint32_t>("client_byte_sum"),
+			m_mser->pop<uint32_t>("server_byte_sum"),
+			m_mser->pop<uint32_t>("everyonemaxsize"),
+			logic_fun, false)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
 
 	middleware_la_server::middleware_la_server(
 		uint32_t aiconfigtype,
@@ -54,6 +89,25 @@ namespace middleware {
 			m_mser->pop<uint32_t>("buffersize"),
 			m_mser->pop<uint32_t>("everymaxsize"),
 			aireadfun, 
+			m_mser->pop<bool>("startthread"),
+			true)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
+
+	middleware_la_server::middleware_la_server(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		FUN_READ_CALLBACK aireadfun
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_las(
+			m_mser->pop<std::string>("laname").c_str(),
+			m_mser->pop<uint32_t>("buffersize"),
+			m_mser->pop<uint32_t>("everymaxsize"),
+			aireadfun,
 			m_mser->pop<bool>("startthread"),
 			true)
 	{
@@ -79,6 +133,26 @@ namespace middleware {
 		m_mser = nullptr;
 	}
 
+	middleware_la_client::middleware_la_client(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		FUN_READ_CALLBACK aireadfun
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_las(
+			m_mser->pop<std::string>("laname").c_str(),
+			m_mser->pop<uint32_t>("buffersize"),
+			m_mser->pop<uint32_t>("everymaxsize"),
+			aireadfun,
+			m_mser->pop<bool>("startthread"),
+			false)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
+
+
 	middleware_soio_server::middleware_soio_server(
 		uint32_t aiconfigtype,
 		const char* aiconfigpath,
@@ -89,6 +163,26 @@ namespace middleware {
 		m_asi(
 			m_mser->pop<uint32_t>("port"),
 			logic_recv_callback, 
+			m_mser->pop<uint32_t>("buffersize"),
+			m_mser->pop<uint32_t>("everymaxsize"),
+			aisendfailure
+			)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
+
+	middleware_soio_server::middleware_soio_server(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
+		boost::function<bool(const char*, uint32_t)> aisendfailure
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_asi(
+			m_mser->pop<uint32_t>("port"),
+			logic_recv_callback,
 			m_mser->pop<uint32_t>("buffersize"),
 			m_mser->pop<uint32_t>("everymaxsize"),
 			aisendfailure
@@ -113,6 +207,21 @@ namespace middleware {
 		m_mser = nullptr;
 	}
 
+	middleware_soio_client::middleware_soio_client(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+		) :
+		m_mser(new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen)),
+		m_asi(logic_recv_callback,
+			m_mser->pop<uint32_t>("buffersize"),
+			m_mser->pop<uint32_t>("everymaxsize")
+			)
+	{
+		delete m_mser;
+		m_mser = nullptr;
+	}
 
 	tools::mgt_serializecpp* middleware_asio_server::m_mser = nullptr;
 	middleware_asio_server* middleware_asio_server::m_this = nullptr;
