@@ -552,6 +552,19 @@ namespace middleware {
 			}
 		}
 
+		template <typename T>
+		static T&& get(const char* apkey)
+		{
+			if (m_mser != nullptr)
+			{
+				return m_mser->pop<T>(apkey);
+			}
+			else
+			{
+				throw 0;
+			}
+		}
+
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen);
 
     virtual bool close(uint32_t aikey);

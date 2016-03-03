@@ -148,20 +148,20 @@ extern "C"
 		const char* aiconfigpath,
     multi_recv_fun logic_recv_callback
     );
-	void* init_middleware_soio_client(
+	void* init_middleware_soio_client2(
 		uint32_t aiconfigtype,
 		const char* apconfigtxt,
 		uint32_t apconfigtxtlen,
 		multi_recv_fun logic_recv_callback
 		);
 
-	bool create_connkey(
+	bool create_connkey_soio(
 		void* ap,
 		uint32_t aiconfigtype,
 		const char* aiconfigpath,
 		sendfailure_fun aisendfailure
 		);
-	bool create_connkey2(
+	bool create_connkey_soio2(
 		void* ap,
 		uint32_t aiconfigtype,
 		const char* apconfigtxt,
@@ -169,13 +169,13 @@ extern "C"
 		sendfailure_fun aisendfailure
 		);
 
-	bool create_connect(uint32_t aikey,
+	bool create_connect_soio(
 		void* ap,
 		uint32_t aiconfigtype,
 		const char* aiconfigpath,
 		sendfailure_fun aisendfailure
 		);
-	bool create_connect2(uint32_t aikey,
+	bool create_connect_soio2(
 		void* ap,
 		uint32_t aiconfigtype,
 		const char* apconfigtxt,
@@ -191,55 +191,46 @@ extern "C"
 }//extern "C"
 #endif //__cplusplus
 
-#if 0
  /**
  *  asio相关
  */
-typedef bool(*sendfailure_fun)(const char*, uint32_t);   /** 发送失败回调 */
-typedef bool(*multi_recv_fun)(uint32_t, const char*, uint32_t);  /** 接收回调 */
 #ifdef __cplusplus
 extern "C"
 {
 #endif //__cplusplus
-	typedef bool(*asio_recv_fun)(uint32_t, const char*, uint32_t);  /** 接收回调 */
-	typedef struct 
-	{
-		uint32_t m_threadmaxsize;                                   /** 线程数 */
-		asio_recv_fun* m_callbackfun;																/** 回调 */
-		uint32_t m_timeout;                                         /** 连接无活动的存活时间 单位秒 */
-		uint16_t m_port;                                            /** 端口号 */
-		uint32_t m_recvpack_maxsize;                                /** 最大单个包大小 */
-		uint32_t m_session_num;                                     /** 也就是最大连接数 */
-		uint32_t m_loopbuffermaxsize;                               /** 环形数组缓冲大小 */
-		uint32_t m_everyoncemaxsize;                                /** 单条数据最大大小 */
-		uint32_t m_extern_loopbuffermaxsize;                        /** 回传的外部中间件的环形数组缓冲大小 */
-		uint32_t m_extern_everyoncemaxsize;                         /** 回传的外部中间件的单条数据最大大小 */
-		bool m_activ;                                               /** 是否自我保证数据活性 */
-		bool m_extern_activ;
-		uint32_t m_persecond_recvdatatbyte_num;                     /** 每秒钟接收的字节数 */
-		bool m_s2s;                                                 /** 服务器与服务器的连接断开是否通知上层(此处两个服务器分别是:1.自身,2.集群中的某个其他节点(在1中的体现就是不受time out限制)) */
-		bool m_s2c;                                                 /** 服务器与客户端的连接断开是否通知上层 */
-		uint32_t m_heartbeat_num;                                   /** 心跳协议号,收到后重置time out时间，然后丢弃 */
-	}casio_arg;
-
-	void* init_middleware_asio_server(
-		casio_arg* aparg
+	/** 初始化第一步 */
+	void init_middleware_asio_server_1part(
+		uint32_t aiconfigtype,
+		const char* aiconfigpath
+		);
+	void init_middleware_asio_server_1part2(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen
 		);
 
-	void* init_middleware_asio_client(
-		multi_recv_fun logic_recv_callback,
-		uint32_t aimaxsize,
-		uint32_t aievery_once_max_size
+	/** 初始化第二步,返回需要提供的回调数量 */
+	uint32_t init_middleware_asio_server_2part(
 		);
 
-	bool send_middleware_asio(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen);
+	/** 初始化第三步,提供回调函数组 */
+	void* init_middleware_asio_server_3part(
+		callbackfun* apcallackfunarr,
+		uint32_t aicallbackfunsize
+		);
 
-	bool close_middleware_asio(void* ap, uint32_t aikey);
-
+#define init_middleware_asio_client		init_middleware_soio_client
+#define init_middleware_asio_client2  init_middleware_soio_client2
+#define create_connkey_asio						create_connkey_soio
+/**
+ *asio 不需要以下两个函数
+ *#define create_connkey_asio2					create_connkey_soio2
+ *#define create_connect_asio						create_connect_soio
+ */
+#define create_connect_asio2					create_connect_soio2 
 #ifdef __cplusplus
 }//extern "C"
 #endif //__cplusplus
-#endif //0
 
 
 
