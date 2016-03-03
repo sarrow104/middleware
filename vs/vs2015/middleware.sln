@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "protocol", "protocol\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clogsys", "clogsys\clogsys.vcxproj", "{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csegmentation_pack", "csegmentation_pack\csegmentation_pack.vcxproj", "{CB22DB30-F499-4364-8029-5F8687AD7F18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -113,6 +115,14 @@ Global
 		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|Win32.Build.0 = Release|Win32
 		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|x64.ActiveCfg = Release|x64
 		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|x64.Build.0 = Release|x64
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Debug|Win32.Build.0 = Debug|Win32
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Debug|x64.ActiveCfg = Debug|x64
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Debug|x64.Build.0 = Debug|x64
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Release|Win32.ActiveCfg = Release|Win32
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Release|Win32.Build.0 = Release|Win32
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Release|x64.ActiveCfg = Release|x64
+		{CB22DB30-F499-4364-8029-5F8687AD7F18}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

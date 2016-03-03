@@ -1,8 +1,8 @@
 ﻿///        Copyright 2016 libo. All rights reserved
 ///   (Home at https://github.com/NingLeixueR/middleware/)
 
-#ifndef SEGMENTATION_PACK_H
-#define SEGMENTATION_PACK_H
+#ifndef SEGMENTATION_PACK_HPP
+#define SEGMENTATION_PACK_HPP
 
 #include <boost/thread.hpp>
 #include <boost/pool/singleton_pool.hpp>
@@ -24,7 +24,10 @@
 
 #define SINGLE_DATA_SIZE              (1024)            /** 单条数据的字节 */
 #define GET_LEN( DATA )               *( (uint32_t*)(DATA) )
+
+#ifndef D_IP_ADDRESS_TYPE
 typedef unsigned long IP_ADDRESS_TYPE;
+#endif //D_IP_ADDRESS_TYPE
 
 namespace middleware{
   namespace tools{
@@ -299,6 +302,6 @@ namespace middleware{
 
   } //namespace tools
 } //namespace middleware
-#endif //SEGMENTATION_PACK_H
+#endif //SEGMENTATION_PACK_HPP
 
 /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
