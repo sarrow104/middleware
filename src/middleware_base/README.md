@@ -23,60 +23,94 @@
   /***** 一对一 *****/
   /* 初始化共享内存服务器 */
   void* init_middleware_sm_server(
-    const char* aismname,
-    uint64_t  ai_client_byte_sum,
-    uint64_t ai_server_byte_sum,
-    uint32_t aieveryonemaxsize,
-    callbackfun logic_fun);
+		uint32_t aiconfigtype,
+		const char* aiconfigpath,
+		callbackfun logic_fun
+		);
+	void* init_middleware_sm_server2(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		callbackfun logic_fun
+		);
     /* 初始化共享内存客户端 */
     void* init_middleware_sm_client(
-      const char* aismname,
-      uint64_t  ai_client_byte_sum,
-      uint64_t ai_server_byte_sum,
-      uint32_t aieveryonemaxsize,
-      callbackfun logic_fun);
+		uint32_t aiconfigtype,
+		const char* aiconfigpath,
+		callbackfun logic_fun);
+	void* init_middleware_sm_client2(
+		int32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		callbackfun logic_fun);
     /* 初始化循环数组服务器 */
     void* init_middleware_la_server(
-      const char* ainame,
-      uint32_t apbuffersize,
-      uint32_t aieverymaxsize,
-      callbackfun aireadfun,
-      bool apstartthread)
+		uint32_t aiconfigtype,
+		const char* aiconfigpath,
+		callbackfun logic_fun);
+	void* init_middleware_la_server2(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		callbackfun logic_fun);
     /*初始化循环数组客户端*/
     void* init_middleware_la_client(
-      const char* ainame,
-      uint32_t apbuffersize,
-      uint32_t aieverymaxsize,
-      callbackfun aireadfun,
-      bool apstartthread)
+   uint32_t aiconfigtype,
+   const char* aiconfigpath,
+   callbackfun logic_fun);
+ void* init_middleware_la_client2(
+   uint32_t aiconfigtype,
+   const char* apconfigtxt,
+   uint32_t apconfigtxtlen,
+   callbackfun logic_fun);
     /***** 一对多*****/
     /*初始化简单socket服务器*/
     void* init_middleware_soio_server(
-      uint32_t aiport,
-      multi_recv_fun logic_recv_callback,
-      uint32_t aimaxsize,
-      uint32_t aievery_once_max_size,
-      sendfailure_fun aisendfailure
-      )
+   uint32_t aiconfigtype,
+   const char* aiconfigpath,
+   multi_recv_fun logic_recv_callback,
+   sendfailure_fun aisendfailure
+   );
+ void* init_middleware_soio_server2(
+   uint32_t aiconfigtype,
+   const char* apconfigtxt,
+   uint32_t apconfigtxtlen,
+   multi_recv_fun logic_recv_callback,
+   sendfailure_fun aisendfailure
+   );
     /*初始化简单socket客户端*/
     void* init_middleware_soio_client(
-      multi_recv_fun logic_recv_callback,
-      uint32_t aimaxsize,
-      uint32_t aievery_once_max_size
-      )
+		uint32_t aiconfigtype,
+		const char* aiconfigpath,
+    multi_recv_fun logic_recv_callback
+    );
+	void* init_middleware_soio_client(
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		multi_recv_fun logic_recv_callback
+		);
     ```
   * 发送与关闭
   ```c
   /***** 一对一 *****/
-  bool send_middleware(void* ap, char* apdata, uint32_t aiwlen);
-  bool close_middleware(void* ap);
+ bool send_middleware(void* ap, char* apdata, uint32_t aiwlen);
+ bool close_middleware_sm(void* ap);
   /***** 一对多*****/
-  bool create_connect_client(
-    void* ap,
-    uint32_t aikey,
-    const char* aiserverip,
-    uint32_t aiserverport,
-    sendfailure_fun aisendfailure);//客户端的连接
+  //建立连接
+  bool create_connect(uint32_t aikey,
+		void* ap,
+		uint32_t aiconfigtype,
+		const char* aiconfigpath,
+		sendfailure_fun aisendfailure
+		);
+	bool create_connect2(uint32_t aikey,
+		void* ap,
+		uint32_t aiconfigtype,
+		const char* apconfigtxt,
+		uint32_t apconfigtxtlen,
+		sendfailure_fun aisendfailure
+		);
   bool send_middleware_soio(void* ap, uint32_t aikey, char* apdata, uint32_t aiwlen);
   bool close_middleware_soio(void* ap, uint32_t aikey);
   ```
@@ -126,4 +160,8 @@
   class middleware_soio_server;
   /* 简单socket客户端 */
   class middleware_soio_client;
+  /* asio 服务器 */
+  class middleware_asio_server;
+  /* asio 客户端*/
+  class middleware_asio_client;
   ```
