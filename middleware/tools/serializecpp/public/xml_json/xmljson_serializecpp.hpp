@@ -31,6 +31,22 @@ namespace middleware {
       asj.add_single(aikey, aivalues);
     }
 
+	template <typename T_DATA>
+    static void push(T_STAND& asj, const char* aikey, const T_DATA*& aivalues)
+    {      
+		if( aivalues != nullptr)
+		 {
+			 uint8_t lnull = STRUCT_NOT_NULL;
+			 push(asj, "", lnull );
+			 return push(asj, "", *aivalues );
+		 }
+		 else
+		 {
+			 uint8_t lnull = STRUCT_IS_NULL;
+			 return push(asj, "", lnull );
+		 }
+    }
+
      /**
       *  原始数组
       */

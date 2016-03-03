@@ -62,26 +62,72 @@ void test_2()
     char arg1[32];
     int  arg2;
     char arg3;
-    /** 结构数组时候会被调用 */
-    void endian()
-    {
-      //middleware::tools::gendian_local2net.endian(arg1,32);
-      middleware::tools::gendian_local2net.endian(arg2);
-      middleware::tools::gendian_local2net.endian(arg3);
-    }
+	int* arg4;
+	test_struct():
+		arg4(nullptr)
+	{}
+
+	~test_struct()
+	{
+		if(arg4 != nullptr)
+		{
+			delete arg4;
+		}
+	}
 
     bool pop(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
     {
       lp.pop(arg1,32, (string(apkey)+"arg1").c_str());
       lp.pop(arg2, (string(apkey) + "arg2").c_str());
       lp.pop(arg3, (string(apkey) + "arg3").c_str());
-  //    endian();
-      return true;
+	  POP_PTR( lp, int, (string(apkey) + "arg3").c_str(), arg4)
+	  /*arg4 = new int;
+	  try
+	  {
+		  lp.pop(arg4, (string(apkey) + "arg3").c_str());
+	  }
+	  catch(...)
+	  {
+		  delete arg4;
+		  arg4 = nullptr;
+	  }*/
+	  return true;
     }
 
     bool push(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
     {
-//      endian();
+      lp.push(arg1, 32, (string(apkey) + "arg1").c_str());
+      lp.push(arg2, (string(apkey) + "arg2").c_str());
+      lp.push(arg3, (string(apkey) + "arg3").c_str());
+	  lp.push(arg4, (string(apkey) + "arg4").c_str());
+      return true;
+    }
+  };
+
+  struct test_struct2
+  {
+    char arg1[32];
+    int  arg2;
+    char arg3;
+	
+    /** 结构数组时候会被调用(如果结构体中有指针 那么不应该定义此函数) */
+    void endian()
+    {
+      //middleware::tools::gendian_local2net.endian(arg1,32);
+      middleware::tools::gendian_local2net.endian(arg2);
+      middleware::tools::gendian_local2net.endian(arg3);
+	}
+
+    bool pop(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
+    {
+      lp.pop(arg1,32, (string(apkey)+"arg1").c_str());
+      lp.pop(arg2, (string(apkey) + "arg2").c_str());
+      lp.pop(arg3, (string(apkey) + "arg3").c_str());
+	  return true;
+    }
+
+    bool push(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
+    {
       lp.push(arg1, 32, (string(apkey) + "arg1").c_str());
       lp.push(arg2, (string(apkey) + "arg2").c_str());
       lp.push(arg3, (string(apkey) + "arg3").c_str());
@@ -89,13 +135,15 @@ void test_2()
     }
   };
 
+
   test_struct lstruct;
   memcpy( lstruct.arg1,"my name is libo",sizeof("my name is libo")+1 );
   lstruct.arg2 = 15;
   lstruct.arg3 = 'x';
+  lstruct.arg4 = nullptr;
   lsbuf.push_struct( lstruct );
   /** 数组 */
-  test_struct larray[3];
+  test_struct2 larray[3];
   std::string ltempstr = "z";
   for( uint32_t i = 0;i<3;++i)
   {
@@ -117,7 +165,7 @@ void test_2()
   cout<< "lstruct.arg2=["<<lstruct.arg2<<"],"<<"lstruct2.arg2=["<< lstruct2.arg2<<"]"<< endl;
   cout<< "lstruct.arg3=["<<lstruct.arg3<<"],"<<"lstruct2.arg3=["<< lstruct2.arg3<<"]"<< endl;
 
-  test_struct larray2[3];
+  test_struct2 larray2[3];
   lsbufpop.pop(larray2,3);
   for( uint32_t i=0;i<3;++i)
   {

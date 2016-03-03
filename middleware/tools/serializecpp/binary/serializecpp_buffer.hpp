@@ -15,6 +15,9 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#define STRUCT_IS_NULL   (1)
+#define STRUCT_NOT_NULL  (0) 
+
 /**
  * serializecpp buffer 
  */

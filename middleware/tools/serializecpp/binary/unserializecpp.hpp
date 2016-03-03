@@ -229,6 +229,23 @@ namespace middleware {
         return (lretvalues == 0) ? false : true;
       }
 
+	  //指针
+	  template <typename T_DATA>
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA*& aivalues)
+      {
+		uint8_t lnull;
+		pop( mp_buffer_data, "",  lnull);
+		if(lnull == STRUCT_NOT_NULL)
+		{
+			return pop( mp_buffer_data, "",  *aivalues);
+		}
+		else
+		{
+			throw 0;
+		}
+        
+      }
+
       template <typename T_DATA>
       static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,const T_DATA* aivalues, uint32_t ailen)
       {

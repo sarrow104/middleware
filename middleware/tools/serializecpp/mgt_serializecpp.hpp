@@ -69,6 +69,19 @@
 		throw 0;																					\
   }
 
+
+#define POP_PTR(MGT,TYPE,KEY,DATA)  \
+	DATA = new TYPE;\
+	  try\
+	  {\
+		  MGT.pop(DATA, KEY);\
+	  }\
+	  catch(...)\
+	  {\
+		  delete DATA;\
+		  DATA = nullptr;\
+	  }
+
 namespace middleware {
   /**
    * 协议类型
@@ -161,13 +174,13 @@ namespace middleware {
             throw 0;
         }
 
-				template <typename T>
-				T pop(const char* apkey = "")
-				{
-					T lt;
-					GET_POP_NOTRET_SERIALIZE(m_serialize_type, pop, apkey, lt)
-					return std::move(lt);
-				}
+		template <typename T>
+		T pop(const char* apkey = "")
+		{
+			T lt;
+			GET_POP_NOTRET_SERIALIZE(m_serialize_type, pop, apkey, lt)
+			return std::move(lt);
+		}
 
       template <typename T>
         void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")

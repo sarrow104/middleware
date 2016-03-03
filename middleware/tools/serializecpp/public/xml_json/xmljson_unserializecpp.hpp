@@ -34,6 +34,21 @@ namespace middleware {
         asj.template get<T_DATA>(aikey,aivalues);
       }
 
+	   template <typename T_DATA>
+       static void pop(T_STAND& asj, const char* aikey, T_DATA*& aivalues)
+      {  
+        uint8_t lnull;
+		pop( asj, "",  lnull);
+		if(lnull == STRUCT_NOT_NULL)
+		{
+			return pop( asj, "",  *aivalues);
+		}
+		else
+		{
+			throw;
+		}
+      }
+
       /**
        *  原始数组
        */
