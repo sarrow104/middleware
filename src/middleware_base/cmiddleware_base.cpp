@@ -208,18 +208,9 @@ bool close_middleware_soio(void* ap, uint32_t aikey)
   return static_cast<middleware::socket_middleware_base*>(ap)->close(aikey);
 }
 
-
-<<<<<<< HEAD
 void init_middleware_asio_server_1part(
 	uint32_t aiconfigtype,
 	const char* aiconfigpath
-=======
-// void* init_middleware_asio_server(
-// 	middleware::socket_asio_arg* aparg
-// 	)
-void* init_middleware_asio_server(
-	casio_arg* aparg
->>>>>>> origin/master
 	)
 {
 	middleware::middleware_asio_server::read_config(aiconfigtype, aiconfigpath);
