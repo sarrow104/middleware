@@ -148,7 +148,7 @@ extern "C"
 		const char* aiconfigpath,
     multi_recv_fun logic_recv_callback
     );
-	void* init_middleware_soio_client(
+	void* init_middleware_soio_client2(
 		uint32_t aiconfigtype,
 		const char* apconfigtxt,
 		uint32_t apconfigtxtlen,

@@ -65,7 +65,7 @@ namespace middleware {
       */
       static void pop(T_STAND& asj, const char* aikey, std::string& aivaluesarr)
       {
-        asj.get<std::string>(aikey,aivaluesarr);
+        asj.template get<std::string>(aikey,aivaluesarr);
         //Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), lisize);
       }
 

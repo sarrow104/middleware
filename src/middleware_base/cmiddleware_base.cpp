@@ -141,7 +141,7 @@ void* init_middleware_soio_client(
 		aiconfigtype, aiconfigpath, logic_recv_callback);
 }
 
-void* init_middleware_soio_client(
+void* init_middleware_soio_client2(
 	uint32_t aiconfigtype,
 	const char* apconfigtxt,
 	uint32_t apconfigtxtlen,
@@ -209,6 +209,9 @@ bool close_middleware_soio(void* ap, uint32_t aikey)
 }
 
 
+// void* init_middleware_asio_server(
+// 	middleware::socket_asio_arg* aparg
+// 	)
 void* init_middleware_asio_server(
 	casio_arg* aparg
 	)
