@@ -25,6 +25,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "incidental", "incidental\in
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "protocol", "protocol\protocol.vcxproj", "{DFEEACCF-89E4-4022-B1D2-732E3DAF66B5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clogsys", "clogsys\clogsys.vcxproj", "{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -103,6 +105,14 @@ Global
 		{DFEEACCF-89E4-4022-B1D2-732E3DAF66B5}.Release|Win32.Build.0 = Release|Win32
 		{DFEEACCF-89E4-4022-B1D2-732E3DAF66B5}.Release|x64.ActiveCfg = Release|x64
 		{DFEEACCF-89E4-4022-B1D2-732E3DAF66B5}.Release|x64.Build.0 = Release|x64
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Debug|Win32.Build.0 = Debug|Win32
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Debug|x64.ActiveCfg = Debug|x64
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Debug|x64.Build.0 = Debug|x64
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|Win32.ActiveCfg = Release|Win32
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|Win32.Build.0 = Release|Win32
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|x64.ActiveCfg = Release|x64
+		{3FDFC62A-FC9F-4CE2-882E-9CA7F027C550}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

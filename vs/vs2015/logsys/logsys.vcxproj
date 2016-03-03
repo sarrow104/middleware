@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\looparray.hpp" />
     <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\loop_array_middleware.hpp" />
     <ClInclude Include="..\..\..\middleware\middleware_base\loop_array\loop_array_write_callback_helper.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\logsys\log.h" />
     <ClInclude Include="..\..\..\middleware\tools\logsys\logdef.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\logsys\logsys.hpp" />
   </ItemGroup>
