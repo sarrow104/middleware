@@ -38,32 +38,16 @@ void test_middleware_asio_server()
     return true;
   };
 
-  std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(5);
+	middleware::middleware_asio_server::read_config(middleware::SERIALIZE_TYPE_XML, "config path");
+	uint32_t lpthread_num;
+	middleware::middleware_asio_server::get(lpthread_num, "pthread_num");
+	std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(lpthread_num);
   for (uint32_t i = 0; i < 5; ++i)
   {
     ltemp[i] = boost::bind(apfun, i, _1, _2);
   }
-
-
-  middleware::socket_asio_arg larg(5, ltemp);
-
-  larg.m_activ = false;
-  larg.m_extern_activ = false;
-
-  larg.m_everyoncemaxsize = 1024;
-  larg.m_extern_everyoncemaxsize = 1024;
-  larg.m_extern_loopbuffermaxsize = 10240;
-  larg.m_loopbuffermaxsize = 10240;
-  larg.m_heartbeat_num = 32;
-  larg.m_persecond_recvdatatbyte_num = 1024;
-  larg.m_port = 13140;
-  larg.m_recvpack_maxsize = 1024;
-  larg.m_timeout = 10240;
-  larg.m_s2c = true;
-  larg.m_s2s = true;
-  larg.m_session_num = 10240;
-  middleware::middleware_asio_server lser(larg);
-  middleware::asio_server(&lser);
+	
+  middleware::asio_server(&middleware::middleware_asio_server::get_single(ltemp));
   while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));

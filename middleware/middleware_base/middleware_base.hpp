@@ -510,7 +510,7 @@ namespace middleware {
 		}
 
 		static middleware_asio_server& get_single(
-			std::vector<boost::function<bool(const char*, uint32_t)> > aicallbackarr
+			std::vector<boost::function<bool(const char*, uint32_t)> >& aicallbackarr
 			)
 		{
 			if (m_this == nullptr)
