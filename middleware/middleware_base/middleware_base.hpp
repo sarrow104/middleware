@@ -181,7 +181,7 @@ namespace middleware {
 			);
 
 		/** 配置内容构造函数 */
-		middleware_la_server::middleware_la_server(
+		middleware_la_server(
 			uint32_t aiconfigtype,
 			const char* apconfigtxt,
 			uint32_t apconfigtxtlen,
