@@ -81,8 +81,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\example\example_middleware_base.c" />
-    <ClCompile Include="..\..\..\src\middleware_base\cmiddleware_base.cpp" />
+    <ClCompile Include="..\..\..\OtherLanguages\c\middleware_base\cmiddleware_base.cpp" />
+    <ClCompile Include="..\..\..\OtherLanguages\c\middleware_base\example_middleware_base.c" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\looparray.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\loop_array\loop_array_middleware.cpp" />
     <ClCompile Include="..\..\..\src\middleware_base\middleware_base.cpp" />
