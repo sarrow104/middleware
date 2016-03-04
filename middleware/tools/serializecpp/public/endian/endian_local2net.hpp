@@ -152,9 +152,6 @@ namespace middleware {
       }
 
       template <typename T_DATA>
-      endian_local2net& endian(T_DATA* aidata);
-
-      template <typename T_DATA>
       endian_local2net& endian(T_DATA* aidata, uint32_t aplen)
       {
         if (m_trans)

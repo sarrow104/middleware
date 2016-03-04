@@ -296,9 +296,7 @@ void test_3()
   };
   lsbuf.push(lcarray,13);
   const char* lcstr = "helloworld";
-  (void) lcstr;
-
-  lsbuf.push(lcarray, sizeof("helloworld"));
+  lsbuf.push(lcstr, sizeof("helloworld"));
 
   std::string lstr ="my open code!";
   lsbuf.push(lstr);
@@ -340,7 +338,7 @@ void test_3()
   char lcstr2[128];
  lsbufpop.pop( lcstr2, 128 );
   cout<<"lcstr";
-  cout<< ( ( strcmp( lcarray, lcarray2) == 0) ? "==" : "!=");
+  cout<< ( ( strcmp( lcstr, lcstr2) == 0) ? "==" : "!=");
   cout<<"lcstr2"<<endl;
 
   std::string lstr2;
