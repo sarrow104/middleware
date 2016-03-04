@@ -186,7 +186,10 @@ namespace middleware{
     public:
       //基础
       template <typename T_DATA>
-      static bool push(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA& aivalues)
+      static bool push(
+				serializecpp_buffer& ap_buffer_data, 
+				KeyPlaceholder/*apkey占位*/,
+				T_DATA& aivalues)
       {
         uint32_t lretvalues = serializecpp_base::push(ap_buffer_data.get_nowpos_buffer(), serializecpp::get_have_len(ap_buffer_data), aivalues);
         ap_buffer_data.get_uselen() += lretvalues;
@@ -195,7 +198,10 @@ namespace middleware{
 
 	  //指针类型
 	  template <typename T_DATA>
-	  static bool push(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA* aivalues)
+	  static bool push(
+			serializecpp_buffer& ap_buffer_data, 
+			KeyPlaceholder/*apkey占位*/,
+			T_DATA* aivalues)
       {
 		 if( aivalues != nullptr)
 		 {
@@ -210,6 +216,27 @@ namespace middleware{
 		 }
         
       }
+
+		template <typename T_DATA, typename T_DATA2>
+		static bool push_struct(
+			serializecpp_buffer& ap_buffer_data,
+			KeyPlaceholder/*apkey占位*/, 
+			T_DATA* aivalues,
+			T_DATA2& appush)
+		{
+			if (aivalues != nullptr)
+			{
+				uint8_t lnull = STRUCT_NOT_NULL;
+				push(ap_buffer_data, "", lnull);
+				return push_struct(ap_buffer_data, "", *aivalues, appush);
+			}
+			else
+			{
+				uint8_t lnull = STRUCT_IS_NULL;
+				return push(ap_buffer_data, "", lnull);
+			}
+
+		}
 
       template <typename T_DATA>
       static bool push(serializecpp_buffer& ap_buffer_data, KeyPlaceholder/*apkey占位*/, const T_DATA* aivalues, uint32_t ailen)

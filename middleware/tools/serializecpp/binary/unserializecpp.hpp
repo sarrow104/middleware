@@ -233,17 +233,16 @@ namespace middleware {
 	  template <typename T_DATA>
       static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA*& aivalues)
       {
-		uint8_t lnull;
-		pop( mp_buffer_data, "",  lnull);
-		if(lnull == STRUCT_NOT_NULL)
-		{
-			return pop( mp_buffer_data, "",  *aivalues);
-		}
-		else
-		{
-			throw 0;
-		}
-        
+				uint8_t lnull;
+				pop( mp_buffer_data, "",  lnull);
+				if(lnull == STRUCT_NOT_NULL)
+				{
+					return pop( mp_buffer_data, "",  *aivalues);
+				}
+				else
+				{
+					throw 0;
+				}
       }
 
       template <typename T_DATA>
@@ -276,6 +275,26 @@ namespace middleware {
       {
         return aivalues.pop(aipop);
       }
+
+			template <typename T_DATA, typename T_DATA2>
+			static bool pop_struct(
+				serializecpp_buffer& mp_buffer_data, 
+				KeyPlaceholder /*apkey占位*/, 
+				T_DATA*& aivalues, 
+				T_DATA2& aipop)
+			{
+				uint8_t lnull;
+				pop(mp_buffer_data, "", lnull);
+				if (lnull == STRUCT_NOT_NULL)
+				{
+					return aivalues->pop(aipop);
+				}
+				else
+				{
+					throw 0;
+				}
+				
+			}
 
     };
 

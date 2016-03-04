@@ -63,8 +63,10 @@ void test_2()
     int  arg2;
     char arg3;
 	  int* arg4;
-	test_struct():
-		arg4(nullptr)
+		test_struct* arg5;
+		test_struct():
+			arg4(nullptr),
+			arg5(nullptr)
 	{}
 
 	~test_struct()
@@ -73,6 +75,10 @@ void test_2()
 		{
 			delete arg4;
 		}
+		if (arg5 != nullptr)
+		{
+			delete arg5;
+		}
 	}
 
 
@@ -80,14 +86,16 @@ void test_2()
 		POP_ARG_ARRAY(arg1, "arg1"),
 		POP_ARG(arg2, "arg2"),
 		POP_ARG(arg3, "arg3"),
-		POP_ARG_PTR(arg4, "arg4")
+		POP_ARG_PTR(arg4, "arg4"),
+		POP_ARG_STRUCT_PTR(arg5, "arg5")
 		)
  
 		PUSH_FUN_ARG(
 			PUSH_ARG_ARRAY(arg1, "arg1"),
 			PUSH_ARG(arg2, "arg2"),
 			PUSH_ARG(arg3, "arg3"),
-			PUSH_ARG_PTR(arg4, "arg4")
+			PUSH_ARG_PTR(arg4, "arg4"),
+			PUSH_ARG_STRUCT_PTR(arg5, "arg5")
 			)
    
   };
@@ -120,6 +128,8 @@ void test_2()
   lstruct.arg2 = 15;
   lstruct.arg3 = 'x';
   lstruct.arg4 = nullptr;
+	lstruct.arg5 = new test_struct(lstruct);
+	lstruct.arg5->arg5 = nullptr;
   lsbuf.push_struct( lstruct );
   /** 数组 */
   test_struct2 larray[3];
@@ -151,10 +161,124 @@ void test_2()
     cout<< "larray["<< i <<"].arg1=["<<larray[i].arg1<<"],"<<"larray2["<< i <<"].arg1=["<< larray2[i].arg1<<"]"<< endl;
     cout<< "larray["<< i <<"].arg2=["<<larray[i].arg2<<"],"<<"larray2["<< i <<"].arg2=["<< larray2[i].arg2<<"]"<< endl;
     cout<< "larray["<< i <<"].arg3=["<<larray[i].arg3<<"],"<<"larray2["<< i <<"].arg3=["<< larray2[i].arg3<<"]"<< endl;
-
   }
 }
 
+/**
+*  测试结构类型(没有指针的那种结构体)
+*/
+void test_struct_jsonxml()
+{
+	cout << "************结构类型序列化与反序列化测试*************" << endl;
+	middleware::tools::mgt_serializecpp lsbuf;
+	lsbuf.reset(middleware::SERIALIZE_TYPE_JSON);
+	struct test_struct
+	{
+		char arg1[32];
+		int  arg2;
+		char arg3;
+		int* arg4;
+		test_struct* arg5;
+		test_struct() :
+			arg4(nullptr),
+			arg5(nullptr)
+		{}
+
+		~test_struct()
+		{
+			if (arg4 != nullptr)
+			{
+				delete arg4;
+			}
+			if (arg5 != nullptr)
+			{
+				delete arg5;
+			}
+		}
+
+
+		POP_FUN_ARG(
+			POP_ARG_ARRAY(arg1, "arg1"),
+			POP_ARG_PTR(arg4, "arg4"),
+			POP_ARG_STRUCT_PTR(arg5, "arg5"),
+			POP_ARG(arg2, "arg2"),
+			POP_ARG(arg3, "arg3")
+			)
+
+			PUSH_FUN_ARG(
+				PUSH_ARG_ARRAY(arg1, "arg1"),
+				PUSH_ARG_PTR(arg4, "arg4"),
+				PUSH_ARG_STRUCT_PTR(arg5, "arg5"),
+				PUSH_ARG(arg2, "arg2"),
+				PUSH_ARG(arg3, "arg3")
+				)
+
+	};
+
+	struct test_struct2
+	{
+		char arg1[32];
+		int  arg2;
+		char arg3;
+
+		/** 结构数组时候会被调用(如果结构体中有指针 那么不应该定义此函数) */
+		ENDIAN_FUN(ENDIAN_ARG_ARRAY(arg1), ENDIAN_ARG(arg2), ENDIAN_ARG(arg3))
+
+			POP_FUN_ARG(
+				POP_ARG_ARRAY(arg1, "arg1"),
+				POP_ARG(arg2, "arg2"),
+				POP_ARG(arg3, "arg3")
+				)
+
+			PUSH_FUN_ARG(
+				PUSH_ARG_ARRAY(arg1, "arg1"),
+				PUSH_ARG(arg2, "arg2"),
+				PUSH_ARG(arg3, "arg3")
+				)
+	};
+
+
+	test_struct lstruct;
+	memcpy(lstruct.arg1, "my name is libo", sizeof("my name is libo") + 1);
+	lstruct.arg2 = 15;
+	lstruct.arg3 = 'x';
+	lstruct.arg4 = nullptr;
+	lstruct.arg5 = new test_struct(lstruct);
+	lstruct.arg5->arg5 = nullptr;
+	lsbuf.push_struct(lstruct,"struct");
+	/** 数组 */
+	test_struct2 larray[3];
+	std::string ltempstr = "z";
+	for (uint32_t i = 0; i<3; ++i)
+	{
+		ltempstr += 'z';
+		memcpy(larray[i].arg1, ltempstr.c_str(), ltempstr.length() + 1);
+		larray[i].arg2 = i;
+		larray[i].arg3 = 'a' + i;
+	}
+	lsbuf.push(larray, 3,"structarray");
+
+
+	/** 反序列化 */
+	std::cout << (char*)lsbuf.get_buffer() << std::endl;
+	middleware::tools::mgt_serializecpp lsbufpop;
+	lsbufpop.reset(middleware::SERIALIZE_TYPE_JSON, (char*)lsbuf.get_buffer(), lsbuf.get_uselen());
+
+	test_struct lstruct2;
+	lsbufpop.pop_struct(lstruct2, "struct");
+	cout << "lstruct.arg1=[" << lstruct.arg1 << "]," << "lstruct2.arg1=[" << lstruct2.arg1 << "]" << endl;
+	cout << "lstruct.arg2=[" << lstruct.arg2 << "]," << "lstruct2.arg2=[" << lstruct2.arg2 << "]" << endl;
+	cout << "lstruct.arg3=[" << lstruct.arg3 << "]," << "lstruct2.arg3=[" << lstruct2.arg3 << "]" << endl;
+
+	test_struct2 larray2[3];
+	lsbufpop.pop(larray2, 3, "structarray");
+	for (uint32_t i = 0; i<3; ++i)
+	{
+		cout << "larray[" << i << "].arg1=[" << larray[i].arg1 << "]," << "larray2[" << i << "].arg1=[" << larray2[i].arg1 << "]" << endl;
+		cout << "larray[" << i << "].arg2=[" << larray[i].arg2 << "]," << "larray2[" << i << "].arg2=[" << larray2[i].arg2 << "]" << endl;
+		cout << "larray[" << i << "].arg3=[" << larray[i].arg3 << "]," << "larray2[" << i << "].arg3=[" << larray2[i].arg3 << "]" << endl;
+	}
+}
 
 /*
  * 测试 数组、字符串、std::string、std::vector、不支持嵌套解析容器
@@ -282,7 +406,7 @@ void test_xml_json_pop(middleware::tools::mgt_serializecpp& lsbufpop)
   uint32_t luint32_pop;
   lsbufpop.pop(luint32_pop, "uint32_t");
   std::vector<uint32_t> lvecpop;
-  lsbufpop.pop(luint32_pop, "uint32_t");
+  lsbufpop.pop(lvecpop, "vector");
   std::string lstrpop;
   lsbufpop.pop(lstrpop, "string");
   std::set<uint32_t> lsetpop;
@@ -359,10 +483,11 @@ int main()
   linumpop = 0;
   luntemp.pop(linumpop,"num");
 
- // test_6();
- // test_7();
- // test_5();
- // test_1();
+  test_6();
+  test_7();
+  test_5();
+  test_1();
+	test_struct_jsonxml();
   test_2();
   test_3();
   return 0;

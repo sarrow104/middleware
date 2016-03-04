@@ -1,28 +1,46 @@
 #ifndef MACRO_SIMPLIFY_H
 #define MACRO_SIMPLIFY_H
 
-#define POP_PTR(MGT,DATA,KEY)				\
+#define POP_PTR(MGT,DATA,KEY)								\
 	middleware::tools::pop_ptr_fun(MGT,DATA,KEY)
+#define POP_STRUCT_PTR(MGT,DATA,KEY)				\
+	middleware::tools::pop_struct_ptr_fun(MGT,DATA,KEY)
 
-#define POP_ARG_ARRAY(ARG,NAME)			\
-		lp.pop(ARG,sizeof(ARG), (string(apkey)+NAME).c_str())
+char* change_key(char* apbuff, const char* apkey, const char* apadd)
+{
+	sprintf(apbuff, "%s%s", apkey, apadd);
+	return apbuff;
+}
 
-#define POP_ARG_PTR(ARG,NAME)				\
-		POP_PTR( lp, arg4, (string(apkey) + NAME).c_str() )
+#define POP_ARG_ARRAY(ARG,NAME)				\
+		lp.pop(ARG,sizeof(ARG), change_key(lbuff,apkey,NAME))
 
-#define POP_ARG(ARG,NAME)						\
-		lp.pop(ARG, (string(apkey) + NAME).c_str())
 
-#define PUSH_ARG_ARRAY(ARG,NAME)		\
-		lp.push(ARG, sizeof(ARG), (string(apkey) + NAME).c_str())
-#define PUSH_ARG(ARG,NAME)					\
-		lp.push(ARG, (string(apkey) + NAME).c_str())
-#define PUSH_ARG_PTR(ARG,NAME)			\
-		lp.push(ARG, (string(apkey) + NAME).c_str())
+#define POP_ARG_PTR(ARG,NAME)					\
+		POP_PTR( lp, ARG, change_key(lbuff,apkey,NAME) )									
+
+#define POP_ARG_STRUCT_PTR(ARG,NAME)				\
+		POP_STRUCT_PTR( lp, ARG, change_key(lbuff,apkey,NAME) )				
+
+#define POP_ARG(ARG,NAME)							\
+		lp.pop(ARG, change_key(lbuff,apkey,NAME))
+
+#define PUSH_ARG_ARRAY(ARG,NAME)				\
+		lp.push(ARG, sizeof(ARG), change_key(lbuff,apkey,NAME))
+
+#define PUSH_ARG(ARG,NAME)							\
+		lp.push(ARG, change_key(lbuff,apkey,NAME))
+
+#define PUSH_ARG_PTR(ARG,NAME)					\
+		lp.push(ARG, change_key(lbuff,apkey,NAME))
+
+#define PUSH_ARG_STRUCT_PTR(ARG,NAME)	\
+		lp.push_struct(ARG, change_key(lbuff,apkey,NAME))
 
 #define POP_FUN_ARG(...)						\
 	bool pop(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")		\
 	{																																						\
+		char lbuff[1024];																													\
 		__VA_ARGS__;																															\
 		return true;																															\
 	}
@@ -30,6 +48,7 @@
 #define PUSH_FUN_ARG(...)						\
 	bool push(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")	\
 	{																																						\
+		char lbuff[1024];																													\
 		__VA_ARGS__;																															\
 		return true;																															\
 	}

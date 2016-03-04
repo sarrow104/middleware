@@ -184,12 +184,33 @@ namespace middleware {
     };
 
 		template <typename T>
-		void pop_ptr_fun(middleware::tools::mgt_serializecpp& lp, T*& aidata, const char* apkey)
+		void pop_ptr_fun(
+			middleware::tools::mgt_serializecpp& lp,
+			T*& aidata, 
+			const char* apkey)
 		{
 			aidata = new T;
 			try
 			{
 				lp.pop(aidata, apkey);
+			}
+			catch (...)
+			{
+				delete aidata;
+				aidata = nullptr;
+			}
+		}
+
+		template <typename T>
+		void pop_struct_ptr_fun(
+			middleware::tools::mgt_serializecpp& lp,
+			T*& aidata, 
+			const char* apkey)
+		{
+			aidata = new T;
+			try
+			{
+				lp.pop_struct(aidata, apkey);
 			}
 			catch (...)
 			{

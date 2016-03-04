@@ -26,6 +26,25 @@ namespace middleware {
       {
         aivalues.pop(appush, aikey);
       }
+			template <typename T_DATA, typename T_DATA2>
+			static void pop_struct(T_STAND& asj, const char* aikey, T_DATA* aivalues, T_DATA2& appush)
+			{
+				char lcharkey[128];
+				sprintf(lcharkey, "%s%s", aikey, "_null");
+				uint8_t lnull;
+				pop(asj, lcharkey, lnull);
+				if (lnull == STRUCT_NOT_NULL)
+				{
+					aivalues->pop(appush, aikey);
+					return;
+				}
+				else
+				{
+					throw 0;
+				}
+				
+			}
+
 
      /** 基础类型 */
     template <typename T_DATA>
@@ -37,17 +56,20 @@ namespace middleware {
 	   template <typename T_DATA>
        static void pop(T_STAND& asj, const char* aikey, T_DATA*& aivalues)
       {  
+				char lcharkey[128];
+				sprintf(lcharkey,"%s%s", aikey,"_null");
         uint8_t lnull;
-		pop( asj, "",  lnull);
+		pop( asj, lcharkey,  lnull);
 		if(lnull == STRUCT_NOT_NULL)
 		{
-			return pop( asj, "",  *aivalues);
+			pop( asj, aikey,  *aivalues);
+			return;
 		}
 		else
 		{
-			throw;
+			throw 0;
 		}
-      }
+     }
 
       /**
        *  原始数组
@@ -55,11 +77,10 @@ namespace middleware {
       template <typename T_DATA>
       static void pop(T_STAND& asj, const char* aikey, T_DATA* aivaluesarr, uint32_t& aivaluesarrsize)
       {
-        boost::property_tree::ptree& lret = asj.get_child(aikey);
-        std::string ldatastr;
-        asj.template get<std::string>("data", ldatastr);
-        Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr, sizeof(T_DATA)*aivaluesarrsize);
-        asj.template get<std::uint32_t>("size", aivaluesarrsize);
+				std::string ldatastr;
+				asj.get<std::string>(aikey, ldatastr);
+        Cstr2Binary((unsigned char*)ldatastr.data(), (unsigned char*)aivaluesarr, ldatastr.length());
+        
       }
 
       /**
@@ -68,11 +89,10 @@ namespace middleware {
       template <typename T_DATA>
       static void pop(T_STAND& asj, const char* aikey, std::vector<T_DATA>& aivaluesarr)
       {
-        boost::property_tree::ptree& lret = asj.get_child(aikey);
-        uint32_t lisize = lret.get<std::uint32_t>("size");
-        aivaluesarr.resize(lisize);
-        std::string ldatastr = lret.get<std::string>("data");
-        Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), sizeof(T_DATA)*lisize);
+				std::string ldatastr;
+				asj.get<std::string>(aikey, ldatastr);
+				aivaluesarr.resize(ldatastr.length() / (sizeof(T_DATA)*2));
+        Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), ldatastr.length());
       }
 
       /**
