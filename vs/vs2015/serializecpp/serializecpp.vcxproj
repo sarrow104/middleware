@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\json\unserializecpp_json.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\mgt_serializecpp.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\endian\endian_local2net.hpp" />
+    <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\macro_simplify.h" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\serializecpp_fun.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_buffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_serializecpp.hpp" />

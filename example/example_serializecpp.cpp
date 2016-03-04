@@ -62,7 +62,7 @@ void test_2()
     char arg1[32];
     int  arg2;
     char arg3;
-	int* arg4;
+	  int* arg4;
 	test_struct():
 		arg4(nullptr)
 	{}
@@ -75,33 +75,21 @@ void test_2()
 		}
 	}
 
-    bool pop(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
-    {
-      lp.pop(arg1,32, (string(apkey)+"arg1").c_str());
-      lp.pop(arg2, (string(apkey) + "arg2").c_str());
-      lp.pop(arg3, (string(apkey) + "arg3").c_str());
-	  POP_PTR( lp, int, (string(apkey) + "arg3").c_str(), arg4)
-	  /*arg4 = new int;
-	  try
-	  {
-		  lp.pop(arg4, (string(apkey) + "arg3").c_str());
-	  }
-	  catch(...)
-	  {
-		  delete arg4;
-		  arg4 = nullptr;
-	  }*/
-	  return true;
-    }
 
-    bool push(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
-    {
-      lp.push(arg1, 32, (string(apkey) + "arg1").c_str());
-      lp.push(arg2, (string(apkey) + "arg2").c_str());
-      lp.push(arg3, (string(apkey) + "arg3").c_str());
-	  lp.push(arg4, (string(apkey) + "arg4").c_str());
-      return true;
-    }
+	POP_FUN_ARG(
+		POP_ARG_ARRAY(arg1, "arg1"),
+		POP_ARG(arg2, "arg2"),
+		POP_ARG(arg3, "arg3"),
+		POP_ARG_PTR(arg4, "arg4")
+		)
+ 
+		PUSH_FUN_ARG(
+			PUSH_ARG_ARRAY(arg1, "arg1"),
+			PUSH_ARG(arg2, "arg2"),
+			PUSH_ARG(arg3, "arg3"),
+			PUSH_ARG_PTR(arg4, "arg4")
+			)
+   
   };
 
   struct test_struct2
@@ -111,28 +99,19 @@ void test_2()
     char arg3;
 	
     /** 结构数组时候会被调用(如果结构体中有指针 那么不应该定义此函数) */
-    void endian()
-    {
-      //middleware::tools::gendian_local2net.endian(arg1,32);
-      middleware::tools::gendian_local2net.endian(arg2);
-      middleware::tools::gendian_local2net.endian(arg3);
-	}
+		ENDIAN_FUN(ENDIAN_ARG_ARRAY(arg1), ENDIAN_ARG(arg2), ENDIAN_ARG(arg3))
+    
+		POP_FUN_ARG(
+			POP_ARG_ARRAY(arg1, "arg1"),
+			POP_ARG(arg2, "arg2"),
+			POP_ARG(arg3, "arg3")
+			)
 
-    bool pop(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
-    {
-      lp.pop(arg1,32, (string(apkey)+"arg1").c_str());
-      lp.pop(arg2, (string(apkey) + "arg2").c_str());
-      lp.pop(arg3, (string(apkey) + "arg3").c_str());
-	  return true;
-    }
-
-    bool push(middleware::tools::mgt_serializecpp& lp, const char* apkey = "")
-    {
-      lp.push(arg1, 32, (string(apkey) + "arg1").c_str());
-      lp.push(arg2, (string(apkey) + "arg2").c_str());
-      lp.push(arg3, (string(apkey) + "arg3").c_str());
-      return true;
-    }
+			PUSH_FUN_ARG(
+				PUSH_ARG_ARRAY(arg1, "arg1"),
+				PUSH_ARG(arg2, "arg2"),
+				PUSH_ARG(arg3, "arg3")
+				)
   };
 
 
@@ -354,7 +333,7 @@ void test_8()
 
 int main()
 {
-	test_8();
+	//test_8();
 	/** 为何三值均不相等 */
   std::cout<< typeid(int8_t).hash_code() <<","<< typeid(uint8_t).hash_code() <<"," << typeid(char).hash_code();
   middleware::tools::mgt_serializecpp ltemp(1024);
@@ -380,10 +359,10 @@ int main()
   linumpop = 0;
   luntemp.pop(linumpop,"num");
 
-  test_6();
-  test_7();
-  test_5();
-  test_1();
+ // test_6();
+ // test_7();
+ // test_5();
+ // test_1();
   test_2();
   test_3();
   return 0;

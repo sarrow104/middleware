@@ -10,77 +10,10 @@
 #include "middleware/tools/serializecpp/json/unserializecpp_json.hpp"
 #include "middleware/tools/serializecpp/xml/serializecpp_xml.hpp"
 #include "middleware/tools/serializecpp/xml/unserializecpp_xml.hpp"
+#include "middleware/tools/serializecpp/public/macro_simplify.h"
 
 #include <fstream>
 
-
-#define GET_SERIALIZE_BUFFER( TYPE, FUN )             \
-  switch(TYPE)                                        \
-  {                                                   \
-    case SERIALIZE_TYPE_BINARY:                       \
-      return m_sbuf.FUN;                              \
-    case SERIALIZE_TYPE_JSON:                         \
-      return m_json_sbuf.FUN;                         \
-    case SERIALIZE_TYPE_XML:                          \
-      return m_xml_sbuf.FUN;                          \
-  }
-
-#define GET_PUSH_SERIALIZE( TYPE, FUN, ... )          \
-  switch(TYPE)                                        \
-  {                                                   \
-  case SERIALIZE_TYPE_BINARY:                         \
-    tools::serializecpp::FUN(m_sbuf,__VA_ARGS__);     \
-    return;                                           \
-  case SERIALIZE_TYPE_JSON:                           \
-    tools::serializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-    return;                                           \
-  case SERIALIZE_TYPE_XML:                            \
-    tools::serializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-      return;                                         \
-  }
-
-#define GET_POP_SERIALIZE( TYPE, FUN , ...)           \
-  switch(TYPE)                                        \
-  {                                                   \
-  case SERIALIZE_TYPE_BINARY:                         \
-    tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);   \
-    return;                                           \
-  case SERIALIZE_TYPE_JSON:                           \
-    tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-    return;                                           \
-  case SERIALIZE_TYPE_XML:                            \
-    tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-    return;                                           \
-  }
-
-#define GET_POP_NOTRET_SERIALIZE( TYPE, FUN , ...)           \
-  switch(TYPE)                                        \
-  {                                                   \
-  case SERIALIZE_TYPE_BINARY:                         \
-    tools::unserializecpp::FUN(m_sbuf,__VA_ARGS__);   \
-		break;																						\
-  case SERIALIZE_TYPE_JSON:                           \
-    tools::unserializecpp_json::FUN(m_json_sbuf,__VA_ARGS__);\
-		break;																						\
-  case SERIALIZE_TYPE_XML:                            \
-    tools::unserializecpp_xml::FUN(m_xml_sbuf,__VA_ARGS__);\
-		break;																						\
-	default:																						\
-		throw 0;																					\
-  }
-
-
-#define POP_PTR(MGT,TYPE,KEY,DATA)  \
-	DATA = new TYPE;\
-	  try\
-	  {\
-		  MGT.pop(DATA, KEY);\
-	  }\
-	  catch(...)\
-	  {\
-		  delete DATA;\
-		  DATA = nullptr;\
-	  }
 
 namespace middleware {
   /**
@@ -249,6 +182,21 @@ namespace middleware {
           }
     }
     };
+
+		template <typename T>
+		void pop_ptr_fun(middleware::tools::mgt_serializecpp& lp, T*& aidata, const char* apkey)
+		{
+			aidata = new T;
+			try
+			{
+				lp.pop(aidata, apkey);
+			}
+			catch (...)
+			{
+				delete aidata;
+				aidata = nullptr;
+			}
+		}
 
   } //namespace tools
 }  //namespace middleware
