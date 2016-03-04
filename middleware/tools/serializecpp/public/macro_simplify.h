@@ -6,7 +6,7 @@
 #define POP_STRUCT_PTR(MGT,DATA,KEY)				\
 	middleware::tools::pop_struct_ptr_fun(MGT,DATA,KEY)
 
-char* change_key(char* apbuff, const char* apkey, const char* apadd)
+inline char* change_key(char* apbuff, const char* apkey, const char* apadd)
 {
 	sprintf(apbuff, "%s%s", apkey, apadd);
 	return apbuff;

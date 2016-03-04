@@ -81,7 +81,7 @@ namespace middleware {
         char chbuf[1024];
         int lplen = Binary2Cstr((unsigned char*)(aivaluesarr), aivaluesarrsize*sizeof(T_DATA), (unsigned char*)chbuf, 1024);
 				std::string ls(chbuf);
-				asj.add_single<std::string>(aikey, ls);
+				asj.template add_single<std::string>(aikey, ls);
       }
 
       /**

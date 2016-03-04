@@ -283,7 +283,7 @@ namespace middleware {
 				T_DATA*& aivalues, 
 				T_DATA2& aipop)
 			{
-				uint8_t lnull;
+				uint8_t lnull = 0u;
 				pop(mp_buffer_data, "", lnull);
 				if (lnull == STRUCT_NOT_NULL)
 				{

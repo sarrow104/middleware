@@ -78,7 +78,7 @@ namespace middleware {
       static void pop(T_STAND& asj, const char* aikey, T_DATA* aivaluesarr, uint32_t& aivaluesarrsize)
       {
 				std::string ldatastr;
-				asj.get<std::string>(aikey, ldatastr);
+				asj.template get<std::string>(aikey, ldatastr);
         Cstr2Binary((unsigned char*)ldatastr.data(), (unsigned char*)aivaluesarr, ldatastr.length());
         
       }
@@ -90,7 +90,7 @@ namespace middleware {
       static void pop(T_STAND& asj, const char* aikey, std::vector<T_DATA>& aivaluesarr)
       {
 				std::string ldatastr;
-				asj.get<std::string>(aikey, ldatastr);
+				asj.template get<std::string>(aikey, ldatastr);
 				aivaluesarr.resize(ldatastr.length() / (sizeof(T_DATA)*2));
         Cstr2Binary((unsigned char*)ldatastr.c_str(), (unsigned char*)aivaluesarr.data(), ldatastr.length());
       }
