@@ -24,26 +24,26 @@ namespace middleware {
         aivalues.push(appush, aikey);
       }
 
-			template <typename T_DATA, typename T_DATA2>
-			static void push_struct(T_STAND& asj, const char* aikey, T_DATA*& aivalues, T_DATA2& appush)
-			{
-				char lcharkey[128];
-				sprintf(lcharkey, "%s%s", aikey, "_null");
-				if (aivalues != nullptr)
-				{
-					uint8_t lnull = STRUCT_NOT_NULL;
+      template <typename T_DATA, typename T_DATA2>
+      static void push_struct(T_STAND& asj, const char* aikey, T_DATA*& aivalues, T_DATA2& appush)
+      {
+        char lcharkey[128];
+        sprintf(lcharkey, "%s%s", aikey, "_null");
+        if (aivalues != nullptr)
+        {
+          uint8_t lnull = STRUCT_NOT_NULL;
 
-					push(asj, lcharkey, lnull);
-					aivalues->push(appush, aikey);
-					return;
-				}
-				else
-				{
-					uint8_t lnull = STRUCT_IS_NULL;
-					push(asj, lcharkey, lnull);
-					return;
-				}
-			}
+          push(asj, lcharkey, lnull);
+          aivalues->push(appush, aikey);
+          return;
+        }
+        else
+        {
+          uint8_t lnull = STRUCT_IS_NULL;
+          push(asj, lcharkey, lnull);
+          return;
+        }
+      }
 
       /** 基础类型 */
     template <typename T_DATA>
@@ -52,24 +52,24 @@ namespace middleware {
       asj.add_single(aikey, aivalues);
     }
 
-	template <typename T_DATA>
+  template <typename T_DATA>
     static void push(T_STAND& asj, const char* aikey, T_DATA* aivalues)
     {      
-			char lcharkey[128];
-			sprintf(lcharkey, "%s%s", aikey, "_null");
-		if( aivalues != nullptr)
-		 {
-			 uint8_t lnull = STRUCT_NOT_NULL;
-			 push(asj, lcharkey, lnull );
-			 push(asj, "", *aivalues );
-			 return;
-		 }
-		 else
-		 {
-			 uint8_t lnull = STRUCT_IS_NULL;
-			 push(asj, lcharkey, lnull );
-			 return;
-		 }
+      char lcharkey[128];
+      sprintf(lcharkey, "%s%s", aikey, "_null");
+    if( aivalues != nullptr)
+     {
+       uint8_t lnull = STRUCT_NOT_NULL;
+       push(asj, lcharkey, lnull );
+       push(asj, "", *aivalues );
+       return;
+     }
+     else
+     {
+       uint8_t lnull = STRUCT_IS_NULL;
+       push(asj, lcharkey, lnull );
+       return;
+     }
     }
 
      /**
@@ -80,8 +80,9 @@ namespace middleware {
       {
         char chbuf[1024];
         int lplen = Binary2Cstr((unsigned char*)(aivaluesarr), aivaluesarrsize*sizeof(T_DATA), (unsigned char*)chbuf, 1024);
-				std::string ls(chbuf);
-				asj.template add_single<std::string>(aikey, ls);
+        (void)lplen;
+        std::string ls(chbuf);
+        asj.template add_single<std::string>(aikey, ls);
       }
 
       /**

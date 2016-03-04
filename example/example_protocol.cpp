@@ -30,14 +30,14 @@ void test_middleware_asio_client()
   //create_client_protocol_mgt();
   middleware::tools::init_protocol_test_client();
   auto lp = middleware::tools::create_client_protocol_mgt(
-	  middleware::SERIALIZE_TYPE_XML,
-	  "E:/gitfile/middleware/src/tools/protocol/config/client.xml",
-	  middleware::tools::protocol_test_client_map);
+    middleware::SERIALIZE_TYPE_XML,
+    "E:/gitfile/middleware/src/tools/protocol/config/client.xml",
+    middleware::tools::protocol_test_client_map);
   middleware::tools::connect_server(
-	  lp,
-	  middleware::SERIALIZE_TYPE_XML,
-	  "E:/gitfile/middleware/src/tools/protocol/config/client.xml", 
-	  sfcb);
+    lp,
+    middleware::SERIALIZE_TYPE_XML,
+    "E:/gitfile/middleware/src/tools/protocol/config/client.xml", 
+    sfcb);
 }
 
 

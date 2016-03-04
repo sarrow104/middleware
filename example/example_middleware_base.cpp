@@ -19,7 +19,7 @@ void test_middleware_sm_server()
     return true;
   };
   //middleware::middleware_sm_server  abc("kk", 1024, 1024, 128, funservercallback);
-	middleware::middleware_sm_server  abc(middleware::SERIALIZE_TYPE_XML,"E:/gitfile/middleware/config", funservercallback);
+  middleware::middleware_sm_server  abc(middleware::SERIALIZE_TYPE_XML,"E:/gitfile/middleware/config", funservercallback);
   uint32_t lnum = 900;
   char cbuf[128];
   uint32_t litemp;

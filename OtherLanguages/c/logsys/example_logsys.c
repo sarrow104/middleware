@@ -4,29 +4,30 @@
 
 int main()
 {
-	int iz = 0;
-	int i = 0;
-	CREATE_LOG(iz, "×¯ÐÄåû")
-	LOG_ERROR(iz, "Ò»ÈË ¶À×Ô³ªÇé¸è È´Ô½³ªÔ½ÄÑ¹ý.%d", i++)
-	LOG_ERROR(iz, "³ÐÅµ ÎÒÒÑËµ³ö¿Ú.%d", i++)
-	LOG_ERROR(iz, "³ÁÄ¬ °ÑÊ±¼äÍµ×ß.%d", i++)
-	LOG_ERROR(iz, "»ØÒä ËüÔÚÎÒ×óÓÒ.%d", i++)
+  int iz = 0;
+  int i = 0;
+  CREATE_LOG(iz, "åº„å¿ƒå¦")
+  LOG_ERROR(iz, "ä¸€äºº ç‹¬è‡ªå”±æƒ…æ­Œ å´è¶Šå”±è¶Šéš¾è¿‡.%d", i++)
+  LOG_ERROR(iz, "æ‰¿è¯º æˆ‘å·²è¯´å‡ºå£.%d", i++)
+  LOG_ERROR(iz, "æ²‰é»˜ æŠŠæ—¶é—´å·èµ°.%d", i++)
+  LOG_ERROR(iz, "å›žå¿† å®ƒåœ¨æˆ‘å·¦å³.%d", i++)
 
-	int ic = 0;
-	CREATE_LOG(ic, "³ÂÞÈÑ¸")
-	LOG_ERROR(ic, "ÏëÆðÎÒ²»ÍêÃÀ.", i++)
-	LOG_ERROR(ic, "Äã»á²»»áÌÓÀëÎÒÉúÃüµÄ·¶Î§.", i++)
-	LOG_ERROR(ic, "Ò»¸öÈËÊ§Ãß  .", i++)
-	LOG_ERROR(ic, "È«ÊÀ½çÊ§Ãß .", i++)
-
-
-	LOG_PLUSH(iz)
-	LOG_PLUSH(ic)
+  int ic = 0;
+  CREATE_LOG(ic, "é™ˆå¥•è¿…")
+  LOG_ERROR(ic, "æƒ³èµ·æˆ‘ä¸å®Œç¾Ž.", i++)
+  LOG_ERROR(ic, "ä½ ä¼šä¸ä¼šé€ƒç¦»æˆ‘ç”Ÿå‘½çš„èŒƒå›´.", i++)
+  LOG_ERROR(ic, "ä¸€ä¸ªäººå¤±çœ   .", i++)
+  LOG_ERROR(ic, "å…¨ä¸–ç•Œå¤±çœ  .", i++)
 
 
-	CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
-	LOG_ERROR(LOG_SOCKET_IO_ID, "¿´ÐÇÐÇ%d¿Å%s¿ÅÁ¬³ÉÏß.", 1, "Á½")
-	LOG_PLUSH(LOG_SOCKET_IO_ID)
-	getchar();
-	return 0;
+  LOG_PLUSH(iz)
+  LOG_PLUSH(ic)
+
+
+  CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
+  LOG_ERROR(LOG_SOCKET_IO_ID, "çœ‹æ˜Ÿæ˜Ÿ%dé¢—%sé¢—è¿žæˆçº¿.", 1, "ä¸¤")
+  LOG_PLUSH(LOG_SOCKET_IO_ID)
+  getchar();
+  return 0;
 }
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

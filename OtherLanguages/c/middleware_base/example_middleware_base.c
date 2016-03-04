@@ -116,7 +116,7 @@ void test_middleware_soio_server()
 void test_middleware_soio_client()
 {
   void* lclient = init_middleware_soio_client(SERIALIZE_TYPE_XML, "config path", rcb);
-	create_connect_soio(lclient,SERIALIZE_TYPE_XML, "config path", sfcb);
+  create_connect_soio(lclient,SERIALIZE_TYPE_XML, "config path", sfcb);
   while (1)
   {
     send_middleware_soio( lclient, 0, "very much.",sizeof("very much.") );

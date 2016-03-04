@@ -4,24 +4,24 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
-#define FLUSH_TIME            (5)       /** ∂‡æ√œÚŒƒº˛À¢“ª¥Œ ˝æ› */
-#define LOG_LEVE_WARN         (0)         /** æØ∏Ê */
-#define LOG_LEVE_INFO         (1)         /**  ‰≥ˆ */
-#define LOG_LEVE_ERROR        (2)         /** ¥ÌŒÛ */
-#define LOG_LEVE_WARN_STR     "WARN"      /** æØ∏Ê */
-#define LOG_LEVE_INFO_STR     "INFO"      /**  ‰≥ˆ */
-#define LOG_LEVE_ERROR_STR    "ERROR"     /** ¥ÌŒÛ */
+#define FLUSH_TIME            (5)       /** Â§ö‰πÖÂêëÊñá‰ª∂Âà∑‰∏ÄÊ¨°Êï∞ÊçÆ */
+#define LOG_LEVE_WARN         (0)         /** Ë≠¶Âëä */
+#define LOG_LEVE_INFO         (1)         /** ËæìÂá∫ */
+#define LOG_LEVE_ERROR        (2)         /** ÈîôËØØ */
+#define LOG_LEVE_WARN_STR     "WARN"      /** Ë≠¶Âëä */
+#define LOG_LEVE_INFO_STR     "INFO"      /** ËæìÂá∫ */
+#define LOG_LEVE_ERROR_STR    "ERROR"     /** ÈîôËØØ */
 
 #ifndef __cplusplus
 #define true   (1)
 #define false  (0)
 #endif
-#define OPEN_LOGFILE_PRINTF       (true)         /**  «∑ÒŒƒ±æ ‰≥ˆ */
-#define OPEN_CONSOLE_PRINTF       (true)         /**  «∑Ò¥Úø™øÿ÷∆Ã® ‰≥ˆ,∂‡∏ˆœﬂ≥Ã ‰≥ˆø…ƒ‹ª·¬“,“ÚŒ™ */
-#define OPEN_LOG_ERROR            (1)            /**  «∑Òø™ º±Í÷æŒ™¥ÌŒÛµƒ¥Ú”° */
-#define OPEN_LOG_INFO             (0)            /**  «∑Òø™∆Ù±Í÷æŒ™∆’Õ® ‰≥ˆ–≈œ¢µƒ¥Ú”° */
-#define OPEN_LOG_WARN             (1)            /**  «∑Òø™∆Ù±Í÷æŒ™æØ∏Êµƒ¥Ú”° */
-#define CHECK_PRINTF_LOG( OPEN_LOG_TYPE )      ( ( OPEN_LOGFILE_PRINTF || OPEN_CONSOLE_PRINTF ) && OPEN_LOG_TYPE ) /** ºÏ≤È «∑Ò¥Ú”° */
+#define OPEN_LOGFILE_PRINTF       (true)         /** ÊòØÂê¶ÊñáÊú¨ËæìÂá∫ */
+#define OPEN_CONSOLE_PRINTF       (true)         /** ÊòØÂê¶ÊâìÂºÄÊéßÂà∂Âè∞ËæìÂá∫,Â§ö‰∏™Á∫øÁ®ãËæìÂá∫ÂèØËÉΩ‰ºö‰π±,Âõ†‰∏∫ */
+#define OPEN_LOG_ERROR            (1)            /** ÊòØÂê¶ÂºÄÂßãÊ†áÂøó‰∏∫ÈîôËØØÁöÑÊâìÂç∞ */
+#define OPEN_LOG_INFO             (0)            /** ÊòØÂê¶ÂºÄÂêØÊ†áÂøó‰∏∫ÊôÆÈÄöËæìÂá∫‰ø°ÊÅØÁöÑÊâìÂç∞ */
+#define OPEN_LOG_WARN             (1)            /** ÊòØÂê¶ÂºÄÂêØÊ†áÂøó‰∏∫Ë≠¶ÂëäÁöÑÊâìÂç∞ */
+#define CHECK_PRINTF_LOG( OPEN_LOG_TYPE )      ( ( OPEN_LOGFILE_PRINTF || OPEN_CONSOLE_PRINTF ) && OPEN_LOG_TYPE ) /** Ê£ÄÊü•ÊòØÂê¶ÊâìÂç∞ */
 
 #define DEFAULT_SAVE_LOG_TIME           (12*60*60*60)  /** 12 hour */
 
@@ -36,28 +36,28 @@
 
 #ifdef __cplusplus
 # define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)           \
-	{                                                                      \
-		char lch[256];                                                       \
-		if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )                   \
-		{                                                                    \
-			middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);        \
-		}                                                                    \
-	}
+  {                                                                      \
+    char lch[256];                                                       \
+    if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )                   \
+    {                                                                    \
+      middleware::tools::WLOG( LOG_LEVEL, LOG_ID, LOG_NAME, lch);        \
+    }                                                                    \
+  }
 #else
 # define LOG_PRINTF( LOG_LEVEL, LOG_ID, LOG_NAME, FORMAT, ...)           \
-	{                                                                      \
-		char lch[256];                                                       \
-		if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )                   \
-		{                                                                    \
-			WLOG( LOG_LEVEL, &LOG_ID, LOG_NAME, lch);													 \
-		}                                                                    \
-	}
+  {                                                                      \
+    char lch[256];                                                       \
+    if( snprintf( lch, 256, FORMAT, __VA_ARGS__) > 0 )                   \
+    {                                                                    \
+      WLOG( LOG_LEVEL, &LOG_ID, LOG_NAME, lch);                          \
+    }                                                                    \
+  }
 #endif //__cplusplus
 
 
 
 /**
-* ¥¥Ω®“ª∏ˆ»’÷æŒƒº˛
+* ÂàõÂª∫‰∏Ä‰∏™Êó•ÂøóÊñá‰ª∂
 */
 #ifdef __cplusplus
 # define CREATE_LOG( LOG_ID, LOG_NAME )    middleware::tools::CLOG(LOG_ID,LOG_NAME);
@@ -65,7 +65,7 @@
 # define CREATE_LOG( LOG_ID, LOG_NAME )    CLOG(&LOG_ID,LOG_NAME);
 #endif //__cplusplus
 /**
-*  ¥Ú”°“ªÃı»’÷æ
+*  ÊâìÂç∞‰∏ÄÊù°Êó•Âøó
 */
 #define LOG_ERROR( LOG_ID, FORMAT, ...)  if(CHECK_PRINTF_LOG(LOG_LEVE_ERROR)) {LOG_PRINTF( LOG_LEVE_ERROR, LOG_ID, "", FORMAT, __VA_ARGS__)}
 #define LOG_INFO( LOG_ID, FORMAT, ...)   if(CHECK_PRINTF_LOG(LOG_LEVE_INFO)) {LOG_PRINTF( LOG_LEVE_INFO, LOG_ID, "", FORMAT, __VA_ARGS__)}
@@ -79,3 +79,5 @@
 #endif //__cplusplus
 
 #endif //LOG_HPP
+
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

@@ -85,24 +85,24 @@ namespace middleware {
    ****/
 
     middleware_asio_server* create_server_protocol_mgt(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			type_server_protocol_map& apromap
-			);
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      type_server_protocol_map& apromap
+      );
 
 
-   	middleware_asio_client* create_client_protocol_mgt(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			type_client_protocol_map& apromap
-			);
+    middleware_asio_client* create_client_protocol_mgt(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      type_client_protocol_map& apromap
+      );
 
    void connect_server(
-			middleware_asio_client* ap,
-			uint32_t aiconfigtype,
-			const char* aiconfigpath, 
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			);
+      middleware_asio_client* ap,
+      uint32_t aiconfigtype,
+      const char* aiconfigpath, 
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      );
 
 
   } // namespace tools
