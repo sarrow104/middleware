@@ -46,9 +46,9 @@ target_link_libraries(loop_array ${target_name} ${Boost_LIBRARIES} Threads::Thre
 add_executable(middleware_base ../example/example_middleware_base.cpp)
 target_link_libraries(middleware_base ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
-#middleware_base_c
-add_executable(middleware_base_c ../example/example_middleware_base.c)
-target_link_libraries(middleware_base_c ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
+##middleware_base_c
+#add_executable(middleware_base_c ../example/example_middleware_base.c)
+#target_link_libraries(middleware_base_c ${target_name} ${Boost_LIBRARIES} Threads::Threads rt)
 
 #protocol
 add_executable(protocol ../example/example_protocol.cpp)
