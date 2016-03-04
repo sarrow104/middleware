@@ -59,26 +59,26 @@ namespace middleware {
     public middleware_base
   {
     communicate_module m_sms;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_sm_server(const char* aismname, uint64_t  ai_client_byte_sum, uint64_t ai_server_byte_sum, uint32_t aieveryonemaxsize, boost::function<bool(const char*, uint32_t)> logic_fun) :
-			m_mser(nullptr),
+      m_mser(nullptr),
       m_sms(aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun, true)
     {}
-		/** 配置文件构造函数 */
-		middleware_sm_server(
-			uint32_t aiconfigtype, 
-			const char* aiconfigpath, 
-			boost::function<bool(const char*, uint32_t)> logic_fun
-			);
+    /** 配置文件构造函数 */
+    middleware_sm_server(
+      uint32_t aiconfigtype, 
+      const char* aiconfigpath, 
+      boost::function<bool(const char*, uint32_t)> logic_fun
+      );
 
-		/** 配置内容构造函数 */
-		middleware_sm_server(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(const char*, uint32_t)> logic_fun
-			);
+    /** 配置内容构造函数 */
+    middleware_sm_server(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(const char*, uint32_t)> logic_fun
+      );
 
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
@@ -107,33 +107,33 @@ namespace middleware {
     public middleware_base
   {
     communicate_module m_smc;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_sm_client(
-			const char* aismname, 
-			uint64_t  ai_client_byte_sum, 
-			uint64_t ai_server_byte_sum, 
-			uint32_t aieveryonemaxsize, 
-			boost::function<bool(const char*, uint32_t)> logic_fun) :
-			m_mser(nullptr),
+      const char* aismname, 
+      uint64_t  ai_client_byte_sum, 
+      uint64_t ai_server_byte_sum, 
+      uint32_t aieveryonemaxsize, 
+      boost::function<bool(const char*, uint32_t)> logic_fun) :
+      m_mser(nullptr),
       m_smc(aismname, ai_client_byte_sum, ai_server_byte_sum, aieveryonemaxsize, logic_fun, false)
     {
     }
 
-		/** 配置文件构造函数 */
-		middleware_sm_client(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			boost::function<bool(const char*, uint32_t)> logic_fun
-			);
+    /** 配置文件构造函数 */
+    middleware_sm_client(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      boost::function<bool(const char*, uint32_t)> logic_fun
+      );
 
-		/** 配置内容构造函数 */
-		middleware_sm_client(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(const char*, uint32_t)> logic_fun
-			);
+    /** 配置内容构造函数 */
+    middleware_sm_client(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(const char*, uint32_t)> logic_fun
+      );
 
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
@@ -162,31 +162,31 @@ namespace middleware {
     public middleware_base
   {
     middleware_looparray m_las;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_la_server( const char* ainame,
       uint32_t apbuffersize,
       uint32_t aieverymaxsize,
       FUN_READ_CALLBACK aireadfun,
       bool apstartthread) :
-			m_mser(nullptr),
-			m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, true)
-			{}
+      m_mser(nullptr),
+      m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, true)
+      {}
 
-		/** 配置文件构造函数 */
-		middleware_la_server(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			FUN_READ_CALLBACK aireadfun
-			);
+    /** 配置文件构造函数 */
+    middleware_la_server(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      FUN_READ_CALLBACK aireadfun
+      );
 
-		/** 配置内容构造函数 */
-		middleware_la_server(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			FUN_READ_CALLBACK aireadfun
-			);
+    /** 配置内容构造函数 */
+    middleware_la_server(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      FUN_READ_CALLBACK aireadfun
+      );
 
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
@@ -212,30 +212,30 @@ namespace middleware {
     public middleware_base
   {
     middleware_looparray m_las;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_la_client( const char* ainame,
       uint32_t apbuffersize,
       uint32_t aieverymaxsize,
       FUN_READ_CALLBACK aireadfun,
       bool apstartthread) :
-			m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, false)
+      m_las(ainame, apbuffersize, aieverymaxsize, aireadfun, apstartthread, false)
     {}
 
-		/** 配置文件构造函数 */
-		middleware_la_client(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			FUN_READ_CALLBACK aireadfun
-			);
+    /** 配置文件构造函数 */
+    middleware_la_client(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      FUN_READ_CALLBACK aireadfun
+      );
 
-		/** 配置内容构造函数 */
-		middleware_la_client(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			FUN_READ_CALLBACK aireadfun
-			);
+    /** 配置内容构造函数 */
+    middleware_la_client(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      FUN_READ_CALLBACK aireadfun
+      );
 
     virtual bool send(const char* apdata, uint32_t aiwlen)
     {
@@ -300,7 +300,7 @@ namespace middleware {
     public socket_middleware_base
   {
     gateway_socket_server_con m_asi;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_soio_server( uint32_t aiport,
       boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
@@ -308,25 +308,25 @@ namespace middleware {
       uint32_t aievery_once_max_size,
       boost::function<bool(const char*, uint32_t)> aisendfailure
       ):
-			m_mser(nullptr),
+      m_mser(nullptr),
       m_asi(aiport, logic_recv_callback, aimaxsize, aievery_once_max_size, aisendfailure)
     {}
 
-		middleware_soio_server(
-			uint32_t aiconfigtype, 
-			const char* aiconfigpath, 
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback, 
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			);
+    middleware_soio_server(
+      uint32_t aiconfigtype, 
+      const char* aiconfigpath, 
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback, 
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      );
 
-		/** 配置内容构造函数 */
-		middleware_soio_server(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			);
+    /** 配置内容构造函数 */
+    middleware_soio_server(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      );
 
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen)
     {
@@ -351,30 +351,30 @@ namespace middleware {
     public socket_middleware_base
   {
     gateway_socket_client_con m_asi;
-		tools::mgt_serializecpp* m_mser;
+    tools::mgt_serializecpp* m_mser;
   public:
     middleware_soio_client(  
       boost::function<bool(uint32_t ,const char*, uint32_t)> logic_recv_callback,
-			uint32_t aimaxsize,
+      uint32_t aimaxsize,
       uint32_t aievery_once_max_size
     ) :
-		m_mser(nullptr),
+    m_mser(nullptr),
     m_asi(logic_recv_callback, aimaxsize, aievery_once_max_size)
     {}
 
-		middleware_soio_client(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
-			);
+    middleware_soio_client(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+      );
 
-		/** 配置内容构造函数 */
-		middleware_soio_client(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
-			);
+    /** 配置内容构造函数 */
+    middleware_soio_client(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+      );
 
     virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
     {
@@ -396,40 +396,40 @@ namespace middleware {
       return m_asi.create_conkey(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-		bool create_connkey(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath, 
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
-			bool ret = m_asi.create_conkey(
-				m_mser->pop<uint32_t>("key"), 
-				(m_mser->pop<std::string>("ip")).c_str(), 
-				m_mser->pop<uint32_t>("port"), 
-				aisendfailure);
-			delete m_mser;
-			m_mser = nullptr;
-			return ret;
-		}
+    bool create_connkey(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath, 
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
+      bool ret = m_asi.create_conkey(
+        m_mser->pop<uint32_t>("key"), 
+        (m_mser->pop<std::string>("ip")).c_str(), 
+        m_mser->pop<uint32_t>("port"), 
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret;
+    }
 
-		bool create_connkey(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
-			bool ret = m_asi.create_conkey(
-				m_mser->pop<uint32_t>("key"),
-				(m_mser->pop<std::string>("ip")).c_str(),
-				m_mser->pop<uint32_t>("port"),
-				aisendfailure);
-			delete m_mser;
-			m_mser = nullptr;
-			return ret;
-		}
+    bool create_connkey(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+      bool ret = m_asi.create_conkey(
+        m_mser->pop<uint32_t>("key"),
+        (m_mser->pop<std::string>("ip")).c_str(),
+        m_mser->pop<uint32_t>("port"),
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret;
+    }
 
     bool create_connect(uint32_t aikey,
       std::string aiserverip,
@@ -440,40 +440,40 @@ namespace middleware {
       return m_asi.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-		bool create_connect(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
-			bool ret = m_asi.create_connect(
-				m_mser->pop<uint32_t>("key"),
-				(m_mser->pop<std::string>("ip")).c_str(),
-				m_mser->pop<uint32_t>("port"),
-				aisendfailure);
-			delete m_mser;
-			m_mser = nullptr;
-			return ret;
-		}
+    bool create_connect(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
+      bool ret = m_asi.create_connect(
+        m_mser->pop<uint32_t>("key"),
+        (m_mser->pop<std::string>("ip")).c_str(),
+        m_mser->pop<uint32_t>("port"),
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret;
+    }
 
-		bool create_connect(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
-			bool ret = m_asi.create_connect(
-				m_mser->pop<uint32_t>("key"),
-				(m_mser->pop<std::string>("ip")).c_str(),
-				m_mser->pop<uint32_t>("port"),
-				aisendfailure);
-			delete m_mser;
-			m_mser = nullptr;
-			return ret;
-		}
+    bool create_connect(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+      bool ret = m_asi.create_connect(
+        m_mser->pop<uint32_t>("key"),
+        (m_mser->pop<std::string>("ip")).c_str(),
+        m_mser->pop<uint32_t>("port"),
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret;
+    }
 
     virtual uint8_t type()
     {
@@ -491,79 +491,79 @@ namespace middleware {
     public socket_middleware_base
   {
     std::vector<middleware_base*> m_send;
-		static tools::mgt_serializecpp* m_mser;
-		static middleware_asio_server* m_this;
-		middleware_asio_server(const middleware_asio_server&);/**不实现*/
-		middleware_asio_server& operator=(const middleware_asio_server&);/**不实现*/
-		middleware_asio_server(socket_asio_arg& aiarg);
-		middleware_asio_server(
-			std::vector<boost::function<bool(const char*, uint32_t)> >& aicallbackarr
-			);
+    static tools::mgt_serializecpp* m_mser;
+    static middleware_asio_server* m_this;
+    middleware_asio_server(const middleware_asio_server&);/**不实现*/
+    middleware_asio_server& operator=(const middleware_asio_server&);/**不实现*/
+    middleware_asio_server(socket_asio_arg& aiarg);
+    middleware_asio_server(
+      std::vector<boost::function<bool(const char*, uint32_t)> >& aicallbackarr
+      );
   public:
-		static middleware_asio_server& get_single(socket_asio_arg& aiarg)
-		{
-			if (m_this == nullptr)
-			{
-				m_this = new middleware_asio_server(aiarg);
-			}
-			return *m_this;
-		}
+    static middleware_asio_server& get_single(socket_asio_arg& aiarg)
+    {
+      if (m_this == nullptr)
+      {
+        m_this = new middleware_asio_server(aiarg);
+      }
+      return *m_this;
+    }
 
-		static middleware_asio_server& get_single(
-			std::vector<boost::function<bool(const char*, uint32_t)> >& aicallbackarr
-			)
-		{
-			if (m_this == nullptr)
-			{
-				m_this = new middleware_asio_server(aicallbackarr);
-			}
-			return *m_this;
-		}
+    static middleware_asio_server& get_single(
+      std::vector<boost::function<bool(const char*, uint32_t)> >& aicallbackarr
+      )
+    {
+      if (m_this == nullptr)
+      {
+        m_this = new middleware_asio_server(aicallbackarr);
+      }
+      return *m_this;
+    }
 
-		static void read_config(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath
-			)
-		{
-			m_mser = new  tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
-		}
+    static void read_config(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath
+      )
+    {
+      m_mser = new  tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
+    }
 
-		/** 配置内容构造函数 */
-		static void read_config(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen
-			)
-		{
-			m_mser = new  tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
-		}
+    /** 配置内容构造函数 */
+    static void read_config(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen
+      )
+    {
+      m_mser = new  tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
+    }
 
-		template <typename T>
-		static void get(T& at, const char* apkey)
-		{
-			if (m_mser != nullptr)
-			{
-				m_mser->pop(at, apkey);
-				return;
-			}
-			else
-			{
-				throw 0;
-			}
-		}
+    template <typename T>
+    static void get(T& at, const char* apkey)
+    {
+      if (m_mser != nullptr)
+      {
+        m_mser->pop(at, apkey);
+        return;
+      }
+      else
+      {
+        throw 0;
+      }
+    }
 
-		template <typename T>
-		static T&& get(const char* apkey)
-		{
-			if (m_mser != nullptr)
-			{
-				return m_mser->pop<T>(apkey);
-			}
-			else
-			{
-				throw 0;
-			}
-		}
+    template <typename T>
+    static T&& get(const char* apkey)
+    {
+      if (m_mser != nullptr)
+      {
+        return m_mser->pop<T>(apkey);
+      }
+      else
+      {
+        throw 0;
+      }
+    }
 
     virtual bool send(uint32_t aikey, const char* apdata, uint32_t aiwlen);
 
@@ -590,23 +590,23 @@ namespace middleware {
       m_soio(logic_recv_callback, aimaxsize, aievery_once_max_size)
     {}
 
-		middleware_asio_client(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
-			) :
-			m_soio(aiconfigtype, aiconfigpath, logic_recv_callback)
-		{}
+    middleware_asio_client(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+      ) :
+      m_soio(aiconfigtype, aiconfigpath, logic_recv_callback)
+    {}
 
-		/** 配置内容构造函数 */
-		middleware_asio_client(
-			uint32_t aiconfigtype,
-			const char* apconfigtxt,
-			uint32_t apconfigtxtlen,
-			boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
-			) :
-			m_soio(aiconfigtype, apconfigtxt, apconfigtxtlen, logic_recv_callback)
-		{}
+    /** 配置内容构造函数 */
+    middleware_asio_client(
+      uint32_t aiconfigtype,
+      const char* apconfigtxt,
+      uint32_t apconfigtxtlen,
+      boost::function<bool(uint32_t, const char*, uint32_t)> logic_recv_callback
+      ) :
+      m_soio(aiconfigtype, apconfigtxt, apconfigtxtlen, logic_recv_callback)
+    {}
 
 
     virtual bool send(uint32_t aikey, const  char* apdata, uint32_t aiwlen)
@@ -629,14 +629,14 @@ namespace middleware {
       return m_soio.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-		bool create_connect(
-			uint32_t aiconfigtype,
-			const char* aiconfigpath,
-			boost::function<bool(const char*, uint32_t)> aisendfailure
-			)
-		{
-			return m_soio.create_connect(aiconfigtype, aiconfigpath, aisendfailure);
-		}
+    bool create_connect(
+      uint32_t aiconfigtype,
+      const char* aiconfigpath,
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      return m_soio.create_connect(aiconfigtype, aiconfigpath, aisendfailure);
+    }
 
     virtual uint8_t type()
     {

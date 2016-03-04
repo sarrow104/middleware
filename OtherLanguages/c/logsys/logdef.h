@@ -5,12 +5,12 @@
 #define LOG_DEF_H
 
 
-/** 定义模块存储id的全局变量 */
+/** 瀹氫箟妯″潡瀛樺偍id鐨勫叏灞�鍙橀噺 */
 extern int g_log_socked_io_id;
 
 
- /** 为每个使用logsys模块的定义一个宏 */
- /** socket io模块 */
+ /** 涓烘瘡涓娇鐢╨ogsys妯″潡鐨勫畾涔変竴涓畯 */
+ /** socket io妯″潡 */
 #define LOG_SOCKET_IO_ID   ( g_log_socked_io_id )
 #define LOG_SOCKET_IO_STR  ( "socket_io"  )
 

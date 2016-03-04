@@ -268,8 +268,8 @@ namespace middleware{
           boost::mutex::scoped_lock lock(*m_lock);
 
           type_ump::iterator itor;
-          bool lbret1 = true;
-          bool lbret2 = true;
+          // bool lbret1 = true;
+          // bool lbret2 = true;
 
           if(  find_ump( itor , aiip ) )
           {

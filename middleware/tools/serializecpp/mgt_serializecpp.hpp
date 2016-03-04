@@ -41,15 +41,15 @@ namespace middleware {
 
       mgt_serializecpp() {}
 
-			mgt_serializecpp(uint32_t aiseri, const char* aipath)
-			{
-				read(aiseri,aipath);
-			}
+      mgt_serializecpp(uint32_t aiseri, const char* aipath)
+      {
+        read(aiseri,aipath);
+      }
 
-			mgt_serializecpp(uint32_t aiseri, const char* aiconfigtxt,uint32_t apconfigtxtlen)
-			{
-				reset(aiseri,(char*)(aiconfigtxt), apconfigtxtlen);
-			}
+      mgt_serializecpp(uint32_t aiseri, const char* aiconfigtxt,uint32_t apconfigtxtlen)
+      {
+        reset(aiseri,(char*)(aiconfigtxt), apconfigtxtlen);
+      }
 
       void reset( uint32_t aiseri, char* ap, uint32_t aplen )
       {
@@ -107,13 +107,13 @@ namespace middleware {
             throw 0;
         }
 
-		template <typename T>
-		T pop(const char* apkey = "")
-		{
-			T lt;
-			GET_POP_NOTRET_SERIALIZE(m_serialize_type, pop, apkey, lt)
-			return std::move(lt);
-		}
+    template <typename T>
+    T pop(const char* apkey = "")
+    {
+      T lt;
+      GET_POP_NOTRET_SERIALIZE(m_serialize_type, pop, apkey, lt)
+      return std::move(lt);
+    }
 
       template <typename T>
         void pop(const T* aivalues, uint32_t ailen, const char* apkey = "")
@@ -183,41 +183,41 @@ namespace middleware {
     }
     };
 
-		template <typename T>
-		void pop_ptr_fun(
-			middleware::tools::mgt_serializecpp& lp,
-			T*& aidata, 
-			const char* apkey)
-		{
-			aidata = new T;
-			try
-			{
-				lp.pop(aidata, apkey);
-			}
-			catch (...)
-			{
-				delete aidata;
-				aidata = nullptr;
-			}
-		}
+    template <typename T>
+    void pop_ptr_fun(
+      middleware::tools::mgt_serializecpp& lp,
+      T*& aidata, 
+      const char* apkey)
+    {
+      aidata = new T;
+      try
+      {
+        lp.pop(aidata, apkey);
+      }
+      catch (...)
+      {
+        delete aidata;
+        aidata = nullptr;
+      }
+    }
 
-		template <typename T>
-		void pop_struct_ptr_fun(
-			middleware::tools::mgt_serializecpp& lp,
-			T*& aidata, 
-			const char* apkey)
-		{
-			aidata = new T;
-			try
-			{
-				lp.pop_struct(aidata, apkey);
-			}
-			catch (...)
-			{
-				delete aidata;
-				aidata = nullptr;
-			}
-		}
+    template <typename T>
+    void pop_struct_ptr_fun(
+      middleware::tools::mgt_serializecpp& lp,
+      T*& aidata, 
+      const char* apkey)
+    {
+      aidata = new T;
+      try
+      {
+        lp.pop_struct(aidata, apkey);
+      }
+      catch (...)
+      {
+        delete aidata;
+        aidata = nullptr;
+      }
+    }
 
   } //namespace tools
 }  //namespace middleware

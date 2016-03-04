@@ -38,15 +38,15 @@ void test_middleware_asio_server()
     return true;
   };
 
-	middleware::middleware_asio_server::read_config(middleware::SERIALIZE_TYPE_XML, "config path");
-	uint32_t lpthread_num;
-	middleware::middleware_asio_server::get(lpthread_num, "pthread_num");
-	std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(lpthread_num);
+  middleware::middleware_asio_server::read_config(middleware::SERIALIZE_TYPE_XML, "config path");
+  uint32_t lpthread_num;
+  middleware::middleware_asio_server::get(lpthread_num, "pthread_num");
+  std::vector<boost::function<bool(const char*, uint32_t)> > ltemp(lpthread_num);
   for (uint32_t i = 0; i < 5; ++i)
   {
     ltemp[i] = boost::bind(apfun, i, _1, _2);
   }
-	
+  
   middleware::asio_server(&middleware::middleware_asio_server::get_single(ltemp));
   while (1)
   {

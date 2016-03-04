@@ -11,23 +11,25 @@
 extern "C"
 {
 #endif //__cplusplus
-	/**
-	*  ´´½¨ÈÕÖ¾
-	*/
-	uint32_t CLOG(int* LOG_ID, const char* LOG_NAME);
+  /**
+  *  åˆ›å»ºæ—¥å¿—
+  */
+  uint32_t CLOG(int* LOG_ID, const char* LOG_NAME);
 
-	/**
-	*  Ğ´ÈÕÖ¾
-	*/
-	uint32_t WLOG(uint32_t LOG_LEVEL, int* LOG_ID, const char* LOG_NAME, const char* ap);
+  /**
+  *  å†™æ—¥å¿—
+  */
+  uint32_t WLOG(uint32_t LOG_LEVEL, int* LOG_ID, const char* LOG_NAME, const char* ap);
 
-	/**
-	*  ÏñÈÕÖ¾Ë¢ĞÂÊı¾İ
-	*/
-	uint32_t WPLUSH(int LOG_ID);
+  /**
+  *  åƒæ—¥å¿—åˆ·æ–°æ•°æ®
+  */
+  uint32_t WPLUSH(int LOG_ID);
 #ifdef __cplusplus
 }
 #endif //__cplusplus
 
 
 #endif //LOG_SYS_H
+
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */
