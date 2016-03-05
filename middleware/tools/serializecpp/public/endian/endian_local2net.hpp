@@ -43,35 +43,19 @@ namespace middleware {
         return *this;
       }
 
-      endian_local2net& operator()(float& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(float aidata){ return *this; }
 
-      endian_local2net& operator()(double& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(double aidata){ return *this; }
 
-      endian_local2net& operator()(std::string& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(std::string aidata){ return *this; }
 
-      endian_local2net& operator()(uint8_t& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(uint8_t aidata){ return *this; }
 
-      endian_local2net& operator()(int8_t& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(int8_t aidata){ return *this; }
 
-      endian_local2net& operator()(char& aidata)
-      {
-        return *this;
-      }
+      endian_local2net& operator()(char aidata){ return *this; }
+
+	  endian_local2net& operator()(bool aidata){ return *this; }
 
       endian_local2net& operator()(uint16_t& aidata)
       {

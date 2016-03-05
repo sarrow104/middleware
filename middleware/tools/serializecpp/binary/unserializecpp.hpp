@@ -41,15 +41,16 @@ namespace middleware {
         typedef typename T_DATA::key_type   first_type;
         typedef typename T_DATA::mapped_type   second_type;
 
-        if (aplen < sizeof(uint16_t))
+        if (aplen < sizeof(uint32_t))
         {
           return 0;
         }
 
-        uint16_t larraysize;
-        pop(ap, aplen, larraysize);
-        ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(first_type) * larraysize + sizeof(second_type) * larraysize + sizeof(uint16_t);
+        uint32_t larraysize;
+       unserializecpp_base::pop(&larraysize, ap, sizeof(uint32_t));
+		endian(larraysize);
+        ap += sizeof(uint32_t);
+        uint32_t lsize = sizeof(first_type) * larraysize + sizeof(second_type) * larraysize + sizeof(uint32_t);
 
         std::pair<first_type, second_type> ltempkey;
         for (uint16_t i = 0; i < larraysize; ++i)
@@ -57,11 +58,9 @@ namespace middleware {
           unserializecpp_base::pop((void*)&(ltempkey.first), ap, sizeof(first_type));
           endian(ltempkey.first);
           ap += sizeof(first_type);
-          aplen -= sizeof(first_type);
           unserializecpp_base::pop((void*)&(ltempkey.second), ap, sizeof(second_type));
           endian(ltempkey.second);
           ap += sizeof(second_type);
-          aplen -= sizeof(second_type);
           aivaluesarr.insert(ltempkey);
         }
         return lsize;
@@ -73,18 +72,19 @@ namespace middleware {
       template <typename T_DATA>
       static uint32_t pop_set(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
       {
-        if (aplen < sizeof(uint16_t))
+        if (aplen < sizeof(uint32_t))
         {
           return 0;
         }
 
-        uint16_t larraysize;
-        pop(ap, aplen, larraysize);
-        ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(typename T_DATA::value_type);
+        uint32_t larraysize;
+        unserializecpp_base::pop(&larraysize, ap, sizeof(uint32_t));
+		endian(larraysize);
+        ap += sizeof(uint32_t);
+        uint32_t lsize = sizeof(uint32_t) + larraysize * sizeof(typename T_DATA::value_type);
 
         typename T_DATA::value_type ltemp;
-        for (uint16_t i = 0; i < larraysize; ++i)
+        for (uint32_t i = 0; i < larraysize; ++i)
         {
           unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(typename T_DATA::value_type));
           ap += sizeof(typename T_DATA::value_type);
@@ -99,11 +99,7 @@ namespace middleware {
  
 
       /**
-       * 内置类型
-       * int
-       * float
-       * double
-       * ....
+       * 基本类型
        */
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, T_DATA& aivalues)
@@ -113,40 +109,55 @@ namespace middleware {
         {
           return 0;
         }
-
-        unserializecpp_base::pop(&aivalues, ap, sizeof(T_DATA));
+		unserializecpp_base::pop(&aivalues, ap, sizeof(T_DATA));
+		endian(aivalues);
         return sizeof(T_DATA);
       }
 
       /**
        *  原始数组
        */
+	  static uint32_t get_arraysize(char* ap, uint32_t aplen)
+	  {
+		  if (aplen < sizeof(uint32_t))
+        {
+          return 0;
+        }
+		uint32_t larraysize;
+        pop(ap, aplen, larraysize);
+        endian(larraysize);
+		return larraysize;
+	  }
+
+	   template <typename T_DATA>
+	   static uint32_t get_arraydata(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+	  {
+		 uint32_t lsize = sizeof(uint32_t) + aivaluesarrsize * sizeof(T_DATA);
+
+        if(lsize > aplen)
+        {
+          return 0;
+        }
+
+        unserializecpp_base::pop((void*)aivaluesarr, ap, aivaluesarrsize * sizeof(T_DATA));
+
+        endian((typename std::remove_const<T_DATA>::type*)aivaluesarr, aivaluesarrsize);
+		return lsize;
+	  }
+
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
       {
 
-        if (aplen < sizeof(uint16_t))
+       uint32_t larraysize = get_arraysize(ap,aplen);
+
+       ap += sizeof(uint32_t);
+       if (larraysize > aivaluesarrsize )
         {
           return 0;
         }
-
-        uint16_t larraysize;
-        pop(ap, aplen, larraysize);
-        endian(larraysize);
-
-        ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(T_DATA);
-
-        if (larraysize > aivaluesarrsize || lsize > aplen)
-        {
-          return 0;
-        }
-
-        unserializecpp_base::pop((void*)(aivaluesarr), ap, larraysize * sizeof(T_DATA));
-
-        endian((typename std::remove_const<T_DATA>::type*)aivaluesarr, larraysize);
-
-        return lsize;
+	   
+        return get_arraydata(ap,aplen,aivaluesarr,larraysize);
       }
 
       /**
@@ -155,25 +166,10 @@ namespace middleware {
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, std::vector<T_DATA>& aivaluesarr)
       {
-        if (aplen < sizeof(uint16_t))
-        {
-          return 0;
-        }
-
-        uint16_t larraysize;
-        pop(ap, aplen, larraysize);
-        ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(uint16_t) + larraysize * sizeof(T_DATA);
-
-        if (lsize > aplen)
-        {
-          return 0;
-        }
-
-        aivaluesarr.resize(larraysize);
-
-        unserializecpp_base::pop((void*)(aivaluesarr.data()), ap, larraysize * sizeof(T_DATA));
-        return lsize;
+        uint32_t larraysize = get_arraysize(ap,aplen);
+       ap += sizeof(uint32_t);
+       aivaluesarr.resize(larraysize);
+        return  get_arraydata(ap,aplen,(T_DATA*)aivaluesarr.data(),larraysize);
       }
 
       /**
@@ -181,21 +177,15 @@ namespace middleware {
        */
       static uint32_t pop(char* ap, uint32_t aplen, std::string& aivaluesarr)
       {
-        if (aplen < sizeof(uint16_t))
-        {
-          return 0;
-        }
-
-        uint16_t larraysize;
-        pop(ap, aplen, larraysize);
-        ap += sizeof(uint16_t);
-        uint32_t lsize = sizeof(uint16_t) + larraysize;
+        uint32_t larraysize = get_arraysize(ap,aplen);
+        uint32_t lsize = sizeof(uint32_t) + larraysize;
 
         if (lsize > aplen)
         {
           return 0;
         }
 
+		ap += sizeof(uint32_t);
         aivaluesarr.resize(larraysize);
         unserializecpp_base::pop((void*)(aivaluesarr.data()), ap, larraysize);
         return lsize;

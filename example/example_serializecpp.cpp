@@ -289,7 +289,7 @@ void test_3()
   middleware::tools::mgt_serializecpp lsbuf(1024);
   lsbuf.reset(middleware::SERIALIZE_TYPE_BINARY);
 
-  char lcarray[13] = {
+ /* char lcarray[13] = {
     'a','b','c','d','e',
     'f','g','h','i','j',
     'k','l','m'
@@ -302,12 +302,12 @@ void test_3()
   lsbuf.push(lstr);
 
   std::vector<int> lvec(10,38);
-  lsbuf.push(lvec);
+  lsbuf.push(lvec);*/
 
   std::set<int> lset;
   for(uint32_t i = 0; i < 20 ;++i)
   {
-    lset.insert( rand() );
+    lset.insert( i );
   }
   lsbuf.push_set(lset);
 
@@ -329,7 +329,7 @@ void test_3()
   middleware::tools::mgt_serializecpp lsbufpop;
   lsbufpop.reset(middleware::SERIALIZE_TYPE_BINARY, (char*)lsbuf.get_buffer(), lsbuf.get_uselen());
 
-  char lcarray2[13];
+ /* char lcarray2[13];
   lsbufpop.pop( lcarray2, 13 );
   cout<<"lcarray[13]";
   cout<< ( ( memcmp( lcarray, lcarray2,13 ) == 0) ? "==" : "!=" );
@@ -351,7 +351,7 @@ void test_3()
   lsbufpop.pop(lvec2);
   cout<<"lvec";
   cout<< ( ( lvec == lvec2) ? "==" : "!=");
-  cout<<"lvec2"<<endl;
+  cout<<"lvec2"<<endl;*/
 
   std::set<int> lset2;
   lsbufpop.pop_set(lset2);
