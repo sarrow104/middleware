@@ -114,9 +114,7 @@ namespace middleware {
         return sizeof(T_DATA);
       }
 
-      /**
-       *  原始数组
-       */
+      
 	  static uint32_t get_arraysize(char* ap, uint32_t aplen)
 	  {
 		  if (aplen < sizeof(uint32_t))
@@ -145,6 +143,34 @@ namespace middleware {
 		return lsize;
 	  }
 
+	   template <typename T_DATA>
+	   static uint32_t SpecializationBasisTypeGetArraydata(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+	  {
+		 uint32_t lsize = sizeof(uint32_t) + aivaluesarrsize * sizeof(T_DATA);
+
+        if(lsize > aplen)
+        {
+          return 0;
+        }
+
+        unserializecpp_base::pop((void*)aivaluesarr, ap, aivaluesarrsize * sizeof(T_DATA));
+        return lsize;
+	  }
+	/** 原始数组特化宏 */
+	  #define SB_ARRAY_POP_TYPE(TYPE)  \
+		static uint32_t pop(char* ap, uint32_t aplen, TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
+		{\
+			uint32_t larraysize = get_arraysize(ap,aplen);\
+			ap += sizeof(uint32_t);\
+			if (larraysize > aivaluesarrsize )\
+			{\
+				return 0;\
+			}\
+			return SpecializationBasisTypeGetArraydata(ap,aplen,aivaluesarr,aivaluesarrsize);\
+		}
+	   /**
+       *  原始数组
+       */
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
       {
@@ -160,17 +186,39 @@ namespace middleware {
         return get_arraydata(ap,aplen,aivaluesarr,larraysize);
       }
 
+	  SB_ARRAY_POP_TYPE(uint8_t)
+	  SB_ARRAY_POP_TYPE(int8_t)
+	  SB_ARRAY_POP_TYPE(bool)
+	  SB_ARRAY_POP_TYPE(float)
+	  SB_ARRAY_POP_TYPE(double)
+
+	  /** vector特化宏 */
+	  #define SB_VECTOR_POP_TYPE(TYPE)  \
+		static uint32_t pop(char* ap, uint32_t aplen, std::vector<TYPE>& aivaluesarr)\
+		{\
+			uint32_t larraysize = get_arraysize(ap,aplen);\
+			ap += sizeof(uint32_t);\
+			aivaluesarr.resize(larraysize);\
+			return  SpecializationBasisTypeGetArraydata(ap,aplen,(TYPE*)aivaluesarr.data(),larraysize);\
+		}
       /**
        * vector 数组
        */
       template <typename T_DATA>
       static uint32_t pop(char* ap, uint32_t aplen, std::vector<T_DATA>& aivaluesarr)
       {
-        uint32_t larraysize = get_arraysize(ap,aplen);
-       ap += sizeof(uint32_t);
-       aivaluesarr.resize(larraysize);
+		uint32_t larraysize = get_arraysize(ap,aplen);
+		ap += sizeof(uint32_t);
+		aivaluesarr.resize(larraysize);
         return  get_arraydata(ap,aplen,(T_DATA*)aivaluesarr.data(),larraysize);
       }
+
+	  SB_VECTOR_POP_TYPE(uint8_t)
+	  SB_VECTOR_POP_TYPE(int8_t)
+	  //SB_VECTOR_POP_TYPE(bool)
+	  SB_VECTOR_POP_TYPE(float)
+	  SB_VECTOR_POP_TYPE(double)
+
 
       /**
        *  std::string

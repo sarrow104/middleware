@@ -163,17 +163,17 @@ namespace middleware{
 		serializecpp_base::push(ap, (void*)aivaluesarr, sizeof(T_DATA) * aivaluesarrsize);
         return lsize;\
 	  }
-#define SB_TYPE(TYPE)  \
+#define SB_PUSH_TYPE(TYPE)  \
 	  static uint32_t push(char* ap, uint32_t aplen, const TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
       {\
         return SpecializationBasisType(ap,aplen,aivaluesarr,aivaluesarrsize);\
       }
 
-	  SB_TYPE(uint8_t)
-	  SB_TYPE(int8_t)
-	  SB_TYPE(bool)
-	  SB_TYPE(float)
-	  SB_TYPE(double)
+	  SB_PUSH_TYPE(uint8_t)
+	  SB_PUSH_TYPE(int8_t)
+	  SB_PUSH_TYPE(bool)
+	  SB_PUSH_TYPE(float)
+	  SB_PUSH_TYPE(double)
 
       /**
        * vector数组
