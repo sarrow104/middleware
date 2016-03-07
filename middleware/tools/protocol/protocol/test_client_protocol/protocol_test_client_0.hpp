@@ -27,7 +27,7 @@ namespace middleware {
 		virtual uint32_t task(uint32_t aikey);												\
 		virtual void serialization();																	\
 		virtual void unserialization();																\
-		virtual protocol_cbase* new_own(){return new NAME();}					\
+		virtual protocol_cbase* new_own(uint32_t apthreadmax,uint32_t apos){return new NAME();}					\
 	};
 
 
