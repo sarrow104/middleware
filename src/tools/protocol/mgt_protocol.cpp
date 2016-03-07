@@ -11,7 +11,7 @@ namespace middleware {
     middleware_asio_server* create_server_protocol_mgt(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
-      type_server_protocol_map& apromap
+      type_sprotocol_map& apromap
       )
     {
 
@@ -35,7 +35,7 @@ namespace middleware {
     middleware_asio_client* create_client_protocol_mgt(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
-      type_client_protocol_map& apromap
+      type_cprotocol_map& apromap
       )
     {
       boost::function<bool(uint32_t,const char*, uint32_t)> lrecv =  boost::bind(
@@ -46,15 +46,27 @@ namespace middleware {
       return (new middleware::middleware_asio_client(aiconfigtype, aiconfigpath, lrecv));
     }
 
-    void connect_server(
+    uint32_t connect_server(
       middleware_asio_client* ap,
       uint32_t aiconfigtype,
       const char* aiconfigpath, 
       boost::function<bool(const char*, uint32_t)> aisendfailure
       )
     {
-      ap->create_connect(aiconfigtype, aiconfigpath,aisendfailure);
+      return ap->create_connect(aiconfigtype, aiconfigpath,aisendfailure);
     }
+
+		void sendto_server(
+			uint32_t aikey,
+			middleware_asio_client* ap,
+			protocol_base<cpack_head::protocol_head>* apb
+			)
+		{
+			//apb->run_task(aikey);
+			//apb->
+			//ap->send(aikey, apb);
+		}
+
 
   } //namespace tools
 } //namespace middleware

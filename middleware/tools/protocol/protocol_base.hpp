@@ -33,16 +33,22 @@ namespace middleware {
 				m_plocal2remote = aplocal2remote;
 			}
 
+			void set_data_buffer(char* apremote2local_buffer,char* aplocal2remote_buffer)
+			{
+				m_premote2local_buffer = apremote2local_buffer;
+				m_plocal2remote_buffer = aplocal2remote_buffer;
+			}
+
 			uint32_t m_protocol_num;
     protected:
 			type_uhp* m_premote2local;
 			type_php* m_plocal2remote;
+			char* m_premote2local_buffer;
+			char* m_plocal2remote_buffer;
 			
-
-
       virtual uint32_t task(uint32_t aikey) = 0;
-      virtual void serialization() = 0;
-      virtual void unserialization() = 0;
+      virtual void serialization();
+      virtual void unserialization();
       virtual type_own_base* new_own() = 0;
     public:
       protocol_base<T_PHP>(uint32_t aiprotocolnum):
@@ -59,7 +65,9 @@ namespace middleware {
       static type_map* new_protocol_base_map(
 				type_map& apromap,
 				type_uhp* apremote2local,
-				type_php* aplocal2remote
+				type_php* aplocal2remote,
+				char* apremote2local_buffer,
+				char* aplocal2remote_buffer
         )
       {
 				type_map* lret = new type_map();
@@ -70,7 +78,7 @@ namespace middleware {
         {
 					lptemp = itor->second->new_own();
 					lptemp->set_pack_head_process(apremote2local, aplocal2remote);
-
+					lptemp->set_data_buffer(apremote2local_buffer, aplocal2remote_buffer);
           lret->insert( std::make_pair( itor->first, lptemp) );
         }
         return lret;

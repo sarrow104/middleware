@@ -23,6 +23,8 @@ namespace middleware {
 			std::vector< type_map* > m_promap_arr;
 			std::vector< type_uhp* > m_premote2local_arr;
 			std::vector< type_php* > m_plocal2remote_arr;
+			std::vector< char* >  m_premote2local_buffer;
+			std::vector< char* >  m_plocal2remote_buffer;
 			std::vector< middleware_base*> m_middle_arr;
     public:
       mgt_protocol(
@@ -33,10 +35,14 @@ namespace middleware {
         m_promap_arr.resize(aimaxthreadnum);
         m_premote2local_arr.resize(aimaxthreadnum);
         m_plocal2remote_arr.resize(aimaxthreadnum);
+				m_premote2local_buffer.resize(aimaxthreadnum);
+				m_plocal2remote_buffer.resize(aimaxthreadnum);
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
         {
           m_premote2local_arr[i] = new type_uhp();
 					m_plocal2remote_arr[i] = new type_php(aieverybytes + T_PHP::END_POS);
+					m_premote2local_buffer[i] = new char[aieverybytes * 2];
+					m_plocal2remote_buffer[i] = new char[aieverybytes * 2];
         }
 
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
@@ -45,7 +51,9 @@ namespace middleware {
             protocol_base<T_PHP>::new_protocol_base_map(
               apromap,
               m_premote2local_arr[i],
-              m_plocal2remote_arr[i]
+              m_plocal2remote_arr[i],
+							m_premote2local_buffer[i],
+							m_plocal2remote_buffer[i]
               );
         }
       }
@@ -146,9 +154,9 @@ namespace middleware {
     typedef mgt_server_protocol  mgt_sprotocol;
     typedef mgt_protocol<cpack_head::protocol_head>  mgt_cprotocol;
     /** 服务器协议 map */
-    typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head>* >   type_server_protocol_map;
+    typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head>* >   type_sprotocol_map;
     /** 客户端协议 map */
-    typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head>* >   type_client_protocol_map;
+    typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head>* >   type_cprotocol_map;
 
   /**
    * 创建一个服务器
@@ -160,22 +168,27 @@ namespace middleware {
     middleware_asio_server* create_server_protocol_mgt(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
-      type_server_protocol_map& apromap
+      type_sprotocol_map& apromap
       );
 
 
     middleware_asio_client* create_client_protocol_mgt(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
-      type_client_protocol_map& apromap
+      type_cprotocol_map& apromap
       );
 
-   void connect_server(
+		uint32_t connect_server(
       middleware_asio_client* ap,
       uint32_t aiconfigtype,
       const char* aiconfigpath, 
       boost::function<bool(const char*, uint32_t)> aisendfailure
       );
+
+	 void sendto_server(
+		 middleware_asio_client* ap,
+		 protocol_base<cpack_head::protocol_head>* apb
+		 );
 
 
   } // namespace tools

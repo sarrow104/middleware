@@ -10,11 +10,37 @@
 #include <string>
 
 namespace middleware {
-  namespace tools {
+	namespace tools {
 
+
+
+
+#define CREATE_CPROTOCOL_BEG( NAME, PROTOCOL_NUM)									\
+	class NAME:																											\
+		public protocol_cbase																					\
+	{																																\
+		struct pop_data;																							\
+		struct push_data;																							\
+	public:																													\
+		NAME() :protocol_cbase(PROTOCOL_NUM){}												\
+		void init_data(char* aprecv,char* apsend);										\
+		virtual uint32_t task(uint32_t aikey);												\
+		virtual void serialization();																	\
+		virtual void unserialization();																\
+		virtual protocol_cbase* new_own(){return new NAME();}					\
+	};
+
+
+
+		CREATE_CPROTOCOL_BEG(protocol_test_client_0, E_TEST_CLIENT_0)
+#if 0
     class protocol_test_client_0 :
       public protocol_cbase
     {
+			STRUCT_DATA_RECV_VEG_BEG
+				STRUCT_MEMBER(std::string, mpop_ls);
+			STRUCT_DATA_RECV_VEG_END
+
       std::string mpop_ls;
     public:
       protocol_test_client_0() :
@@ -25,21 +51,23 @@ namespace middleware {
       {
         return 0;
       }
+
       virtual void serialization()
       {
+			}
 
-      }
       virtual void unserialization()
       {
         m_premote2local->pop(mpop_ls);
       }
+
       virtual protocol_cbase* new_own()
       {
         return new protocol_test_client_0();
       }
 
     };
-
+#endif
   } //namespace tools
 }//namespace middleware
 #endif //PROTOCOL_TEST_CLIENT_COUT
