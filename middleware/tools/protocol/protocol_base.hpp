@@ -15,26 +15,37 @@
 namespace middleware {
   namespace tools {
   
-    template <typename T_PHP1, typename T_PHP2>
+    template <typename T_PHP>
     class protocol_base
     {
+			typedef unpack_head_process<T_PHP>		type_uhp;
+			typedef pack_head_process<T_PHP>			type_php;
+			typedef protocol_base<T_PHP> type_own_base;
+			typedef std::unordered_map<uint32_t, protocol_base<T_PHP>* > type_map;
       //static std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* > m_promap;
-      protocol_base<T_PHP1, T_PHP2>()
+      protocol_base<T_PHP>()
       {}
       //protocol_base<T_PHP1, T_PHP2>(const protocol_base&);
-
+			void set_pack_head_process(type_uhp* apremote2local, type_php* aplocal2remote)
+			{
+				m_premote2local = apremote2local;
+				m_plocal2remote = aplocal2remote;
+			}
     protected:
-      unpack_head_process<T_PHP1>* m_premote2local;
-      pack_head_process<T_PHP2>* m_plocal2remote;
+			
+			type_uhp* m_premote2local;
+			type_php* m_plocal2remote;
       uint32_t m_protocol_num;
 
-      virtual bool task(uint32_t aikey) = 0;
+			
+
+      virtual uint32_t task(uint32_t aikey) = 0;
       virtual void serialization() = 0;
       virtual void unserialization() = 0;
-      virtual tools::protocol_base<T_PHP1, T_PHP2>* new_own() = 0;
+      virtual type_own_base* new_own() = 0;
       
     public:
-      protocol_base<T_PHP1,T_PHP2>(uint32_t aiprotocolnum):
+      protocol_base<T_PHP>(uint32_t aiprotocolnum):
         m_premote2local(nullptr),
         m_plocal2remote(nullptr),
         m_protocol_num(aiprotocolnum)
@@ -45,24 +56,26 @@ namespace middleware {
         return m_protocol_num;
       }
 
-      void set_pack_head_process(unpack_head_process<T_PHP1>* apremote2local, pack_head_process<T_PHP2>* aplocal2remote)
-      {
-        m_premote2local = apremote2local;
-        m_plocal2remote = aplocal2remote;
-      }
+      
 
 
-      static std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >* new_protocol_base_map(
-        std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >& apromap,
-        unpack_head_process<T_PHP1>* apremote2local, 
-        pack_head_process<T_PHP2>* aplocal2remote
+      static type_map* new_protocol_base_map(
+				type_map& apromap,
+				type_uhp* apremote2local,
+				type_php* aplocal2remote
         )
       {
-        std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >* lret 
-      = new std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >();
-    for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
+				type_map* lret
+      = new type_map();
+
+				type_own_base* lptemp;
+
+				for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
         {
-          lret->insert( std::make_pair( itor->first, itor->second->new_own() ) );
+					lptemp = itor->second->new_own();
+					lptemp->set_pack_head_process(apremote2local, aplocal2remote);
+
+          lret->insert( std::make_pair( itor->first, lptemp) );
         }
         return lret;
       }
@@ -70,10 +83,10 @@ namespace middleware {
       /**
       *  回调,服务器没有aikey 可以用bind随便绑定一个值
       */
-      bool run_task(uint32_t aikey)
+      uint32_t run_task(uint32_t aikey)
       {
         unserialization();
-        bool liret = task(aikey);
+        uint32_t liret = task(aikey);
         if (liret)
         {
           serialization();
@@ -85,8 +98,8 @@ namespace middleware {
 
     };
 
-    typedef protocol_base<spack_head::protocol_head, spack_head::protocol_head >  protocol_server_base;
-    typedef protocol_base<cpack_head::protocol_head, cpack_head::protocol_head >  protocol_client_base;
+    typedef protocol_base<spack_head::protocol_head>  protocol_server_base;
+    typedef protocol_base<cpack_head::protocol_head>  protocol_client_base;
   
   } //namespace tools
 } //namespace middleware

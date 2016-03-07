@@ -10,16 +10,21 @@
 namespace middleware {
   namespace tools {
 
-    template <typename T_PHP1, typename T_PHP2>
+    template <typename T_PHP>
     class mgt_protocol
     {
-      std::vector< std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>*>* > m_promap_arr;
-      std::vector< unpack_head_process<T_PHP1>* > m_premote2local_arr;
-      std::vector< pack_head_process<T_PHP2>* > m_plocal2remote_arr;
+			typedef unpack_head_process<T_PHP>		type_uhp;
+			typedef pack_head_process<T_PHP>			type_php;
+			typedef protocol_base<T_PHP> type_own_base;
+			typedef std::unordered_map<uint32_t, protocol_base<T_PHP>* > type_map;
+
+      std::vector< type_map* > m_promap_arr;
+      std::vector< type_uhp* > m_premote2local_arr;
+      std::vector< type_php* > m_plocal2remote_arr;
       std::vector< middleware_base*> m_middle_arr;
     public:
       mgt_protocol(
-        std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* >& apromap, 
+				type_map& apromap,
         uint32_t aimaxthreadnum, 
         uint32_t aieverybytes)
       {
@@ -28,15 +33,14 @@ namespace middleware {
         m_plocal2remote_arr.resize(aimaxthreadnum);
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
         {
-          m_premote2local_arr[i] = new unpack_head_process<T_PHP1>();
-      m_plocal2remote_arr[i] = new pack_head_process<T_PHP2>(aieverybytes);
+          m_premote2local_arr[i] = new type_uhp();
+					m_plocal2remote_arr[i] = new type_php(aieverybytes);
         }
 
         for (uint32_t i = 0; i < aimaxthreadnum; ++i)
         {
-
           m_promap_arr[i] =
-            protocol_base<T_PHP1, T_PHP2>::new_protocol_base_map(
+            protocol_base<T_PHP>::new_protocol_base_map(
               apromap,
               m_premote2local_arr[i],
               m_plocal2remote_arr[i]
@@ -47,7 +51,7 @@ namespace middleware {
       bool run_task(uint32_t aipos, uint32_t aikey, const char* ap, uint32_t aplen)
       {
         m_premote2local_arr[aipos]->reset(ap, aplen);
-        T_PHP1* lphp = m_premote2local_arr[aipos]->get_head();
+        T_PHP* lphp = m_premote2local_arr[aipos]->get_head();
         uint32_t lprotocolnum = lphp->get_protocol_num();
         auto ltempfind = m_promap_arr[aipos]->find(lprotocolnum);
 
@@ -58,7 +62,7 @@ namespace middleware {
         }
         else
         {
-          T_PHP2* lphp2 = m_plocal2remote_arr[aipos]->get_head();
+          T_PHP* lphp2 = m_plocal2remote_arr[aipos]->get_head();
           m_plocal2remote_arr[aipos]->set_pack_head(lphp);
           lphp2->get_error() = ltempfind->second->run_task(aikey);
           m_middle_arr[aipos]->send(lphp2->get_buffer(), lphp2->get_buffer_len());
@@ -69,13 +73,13 @@ namespace middleware {
 
     };
 
-
-    typedef mgt_protocol<spack_head::protocol_head, spack_head::protocol_head>  mgt_server_protocol;
-    typedef mgt_protocol<cpack_head::protocol_head, cpack_head::protocol_head>  mgt_client_protocol;
+		
+    typedef mgt_protocol<spack_head::protocol_head>  mgt_server_protocol;
+    typedef mgt_protocol<cpack_head::protocol_head>  mgt_client_protocol;
     /** 服务器协议 map */
-    typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head, spack_head::protocol_head>* >   type_server_protocol_map;
+    typedef std::unordered_map<uint32_t, protocol_base<spack_head::protocol_head>* >   type_server_protocol_map;
     /** 客户端协议 map */
-    typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head, cpack_head::protocol_head>* >   type_client_protocol_map;
+    typedef std::unordered_map<uint32_t, protocol_base<cpack_head::protocol_head>* >   type_client_protocol_map;
 
   /**
    * 创建一个服务器

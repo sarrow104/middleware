@@ -21,7 +21,7 @@ namespace middleware {
         protocol_client_base(E_TEST_CLIENT_0)
       {}
 
-      virtual bool task(uint32_t aikey)
+      virtual uint32_t task(uint32_t aikey)
       {
         return 0;
       }
