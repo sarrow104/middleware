@@ -13,12 +13,12 @@ namespace middleware {
   namespace tools {
 
     class protocol_test_server_0 :
-      public protocol_server_base
+      public protocol_sbase
     {
       std::string mpop_ls;
     public:
       protocol_test_server_0() :
-        protocol_server_base(E_TEST_SERVER_0)
+        protocol_sbase(E_TEST_SERVER_0)
       {}
 
       virtual uint32_t task(uint32_t aikey)
@@ -33,7 +33,7 @@ namespace middleware {
       {
         m_premote2local->pop(mpop_ls);
       }
-      virtual protocol_server_base* new_own()
+      virtual protocol_sbase* new_own()
       {
         return new protocol_test_server_0();
       }

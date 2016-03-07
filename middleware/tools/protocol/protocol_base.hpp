@@ -22,6 +22,7 @@ namespace middleware {
 			typedef pack_head_process<T_PHP>			type_php;
 			typedef protocol_base<T_PHP> type_own_base;
 			typedef std::unordered_map<uint32_t, protocol_base<T_PHP>* > type_map;
+		
       //static std::unordered_map<uint32_t, protocol_base<T_PHP1, T_PHP2>* > m_promap;
       protocol_base<T_PHP>()
       {}
@@ -31,19 +32,18 @@ namespace middleware {
 				m_premote2local = apremote2local;
 				m_plocal2remote = aplocal2remote;
 			}
+
+			uint32_t m_protocol_num;
     protected:
-			
 			type_uhp* m_premote2local;
 			type_php* m_plocal2remote;
-      uint32_t m_protocol_num;
-
 			
+
 
       virtual uint32_t task(uint32_t aikey) = 0;
       virtual void serialization() = 0;
       virtual void unserialization() = 0;
       virtual type_own_base* new_own() = 0;
-      
     public:
       protocol_base<T_PHP>(uint32_t aiprotocolnum):
         m_premote2local(nullptr),
@@ -55,18 +55,14 @@ namespace middleware {
       {
         return m_protocol_num;
       }
-
-      
-
-
+			
       static type_map* new_protocol_base_map(
 				type_map& apromap,
 				type_uhp* apremote2local,
 				type_php* aplocal2remote
         )
       {
-				type_map* lret
-      = new type_map();
+				type_map* lret = new type_map();
 
 				type_own_base* lptemp;
 
@@ -93,13 +89,32 @@ namespace middleware {
         }
         return liret;
       }
-
-
-
     };
 
-    typedef protocol_base<spack_head::protocol_head>  protocol_server_base;
-    typedef protocol_base<cpack_head::protocol_head>  protocol_client_base;
+
+		class protocol_server_base :
+			public protocol_base<spack_head::protocol_head>
+		{
+		protected:
+			uint32_t m_sperr;
+			std::vector< spack_head::session_infor > m_arr;
+		public:
+			protocol_server_base(uint32_t aiprotocolnum):
+				protocol_base<spack_head::protocol_head>(aiprotocolnum)
+			{}
+			uint32_t get_serr()const
+			{
+				return m_sperr;
+			}
+
+			std::vector< spack_head::session_infor >& get_session_list()
+			{
+				return m_arr;
+			}
+
+		};
+    typedef protocol_server_base  protocol_sbase;
+    typedef protocol_base<cpack_head::protocol_head>  protocol_cbase;
   
   } //namespace tools
 } //namespace middleware

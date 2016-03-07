@@ -22,8 +22,8 @@ namespace middleware {
       for (uint32_t i = 0; i < lpthread_num; ++i)
       {
         ltemp[i] = boost::bind(
-          &mgt_server_protocol::run_task,
-          new mgt_server_protocol(apromap, 5, 1024),
+          &mgt_sprotocol::run_task,
+          new mgt_sprotocol(apromap, 5, 1024),
           i, 0, _1, _2);
       }
 
@@ -39,8 +39,8 @@ namespace middleware {
       )
     {
       boost::function<bool(uint32_t,const char*, uint32_t)> lrecv =  boost::bind(
-        &mgt_client_protocol::run_task,
-        new mgt_client_protocol(apromap,1, 1024),
+        &mgt_cprotocol::run_task,
+        new mgt_cprotocol(apromap,1, 1024),
         0, _1, _2, _3);
 
       return (new middleware::middleware_asio_client(aiconfigtype, aiconfigpath, lrecv));
