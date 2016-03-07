@@ -49,6 +49,8 @@ namespace middleware {
         {
           m_promap_arr[i] =
             protocol_base<T_PHP>::new_protocol_base_map(
+				aimaxthreadnum,
+				i,
               apromap,
               m_premote2local_arr[i],
               m_plocal2remote_arr[i],

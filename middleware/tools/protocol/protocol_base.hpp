@@ -39,17 +39,31 @@ namespace middleware {
 				m_plocal2remote_buffer = aplocal2remote_buffer;
 			}
 
+			void set_maxpther_pos(uint32_t apthreadmax,uint32_t apos)
+			{
+				m_maxpther = apthreadmax;
+				m_pos = apos;
+			}
+
 			uint32_t m_protocol_num;
     protected:
-			type_uhp* m_premote2local;
-			type_php* m_plocal2remote;
-			char* m_premote2local_buffer;
-			char* m_plocal2remote_buffer;
-			
+		type_uhp* m_premote2local;
+		type_php* m_plocal2remote;
+		char* m_premote2local_buffer;
+		char* m_plocal2remote_buffer;
+		uint32_t m_pos;
+		uint32_t m_maxpther;
+
+		/** 逻辑函数 */
       virtual uint32_t task(uint32_t aikey) = 0;
-      virtual void serialization();
-      virtual void unserialization();
-      virtual type_own_base* new_own() = 0;
+      /** 序列化函数 */
+	  virtual void serialization();
+      /** 反序列化函数 */
+	  virtual void unserialization();
+      /** 获取类的实例 */
+	  virtual type_own_base* new_own() = 0;
+	  /** 初始化数据 */
+	  virtual void init_data();
     public:
       protocol_base<T_PHP>(uint32_t aiprotocolnum):
         m_premote2local(nullptr),
@@ -63,23 +77,26 @@ namespace middleware {
       }
 			
       static type_map* new_protocol_base_map(
-				type_map& apromap,
-				type_uhp* apremote2local,
-				type_php* aplocal2remote,
-				char* apremote2local_buffer,
-				char* aplocal2remote_buffer
+		uint32_t apthreadmax,
+		uint32_t apos,
+		type_map& apromap,
+		type_uhp* apremote2local,
+		type_php* aplocal2remote,
+		char* apremote2local_buffer,
+		char* aplocal2remote_buffer
         )
       {
-				type_map* lret = new type_map();
+		type_map* lret = new type_map();
 
-				type_own_base* lptemp;
+		type_own_base* lptemp;
 
-				for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
+		for (auto itor = apromap.begin(); itor != apromap.end(); ++itor)
         {
-					lptemp = itor->second->new_own();
-					lptemp->set_pack_head_process(apremote2local, aplocal2remote);
-					lptemp->set_data_buffer(apremote2local_buffer, aplocal2remote_buffer);
-          lret->insert( std::make_pair( itor->first, lptemp) );
+			lptemp = itor->second->new_own();
+			lptemp->set_pack_head_process(apremote2local, aplocal2remote);
+			lptemp->set_data_buffer(apremote2local_buffer, aplocal2remote_buffer);
+			lptemp->set_maxpther_pos( apthreadmax, apos);
+			lret->insert( std::make_pair( itor->first, lptemp) );
         }
         return lret;
       }

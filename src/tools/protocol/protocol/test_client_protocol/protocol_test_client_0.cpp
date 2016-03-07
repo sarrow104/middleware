@@ -10,11 +10,20 @@ namespace middleware {
 			std::string* m_str;
 		};
 
-		void protocol_test_client_0::init_data(char* aprecv, char* apsend)
+		void protocol_test_client_0::init_data()
 		{
-			static std::string* lpstr = new std::string();
-			((pop_data*)(aprecv))->m_str = lpstr;
-			
+			static std::string* lpstrarr = new std::string[m_maxpther];
+			m_popdata->m_str = &(lpstrarr[m_pos]);
+		}
+
+		void protocol_test_client_0::serialization()
+		{
+
+		}
+
+		void protocol_test_client_0::unserialization()
+		{
+			m_premote2local->pop(*m_popdata->m_str);
 		}
 
 	} //namespace tools
