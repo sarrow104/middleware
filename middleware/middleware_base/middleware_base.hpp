@@ -350,8 +350,9 @@ namespace middleware {
   class middleware_soio_client :
     public socket_middleware_base
   {
+		tools::mgt_serializecpp* m_mser;
     gateway_socket_client_con m_asi;
-    tools::mgt_serializecpp* m_mser;
+    
 
 		uint32_t create_connect(
 			boost::function<bool(const char*, uint32_t)> aisendfailure

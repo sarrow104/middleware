@@ -26,6 +26,11 @@ namespace middleware {
 			m_premote2local->pop(*m_popdata->m_str);
 		}
 
+		uint32_t protocol_test_client_0::task(uint32_t aikey)
+		{
+			return 0;
+		}
+
 	} //namespace tools
 } //namespace middleware
 

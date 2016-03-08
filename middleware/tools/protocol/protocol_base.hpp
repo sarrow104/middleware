@@ -53,18 +53,18 @@ namespace middleware {
 		char* m_plocal2remote_buffer;
 		uint32_t m_pos;
 		uint32_t m_maxpther;
-
-		/** 逻辑函数 */
-      virtual uint32_t task(uint32_t aikey) = 0;
-      /** 序列化函数 */
-	  virtual void serialization();
-      /** 反序列化函数 */
-	  virtual void unserialization();
-      /** 获取类的实例 */
-	  virtual type_own_base* new_own() = 0;
-	  /** 初始化数据 */
-	  virtual void init_data();
     public:
+			/** 逻辑函数 */
+			virtual uint32_t task(uint32_t aikey) = 0;
+			/** 序列化函数 */
+			virtual void serialization() {};
+			/** 反序列化函数 */
+			virtual void unserialization() {};
+			/** 获取类的实例 */
+			virtual type_own_base* new_own() = 0;
+			/** 初始化数据 */
+			virtual void init_data() {};
+
       protocol_base<T_PHP>(uint32_t aiprotocolnum):
         m_premote2local(nullptr),
         m_plocal2remote(nullptr),
