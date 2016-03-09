@@ -36,7 +36,7 @@ namespace middleware {
       m_mser->pop<std::string>("smname").c_str(),
       m_mser->pop<uint32_t>("client_byte_sum"),
       m_mser->pop<uint32_t>("server_byte_sum"),
-      m_mser->pop<uint32_t>("everyonemaxsize"),
+      m_mser->pop<uint32_t>("everymaxsize"),
       logic_fun, true)
   {
     delete m_mser;
@@ -53,7 +53,7 @@ namespace middleware {
       m_mser->pop<std::string>("smname").c_str(),
       m_mser->pop<uint32_t>("client_byte_sum"),
       m_mser->pop<uint32_t>("server_byte_sum"),
-      m_mser->pop<uint32_t>("everyonemaxsize"),
+      m_mser->pop<uint32_t>("everymaxsize"),
       logic_fun, false)
   {
     delete m_mser;
