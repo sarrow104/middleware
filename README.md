@@ -24,6 +24,13 @@ middleware-中间件
   * [日志](https://github.com/NingLeixueR/middleware/tree/master/src/tools/logsys)
   * [tcp分包](https://github.com/NingLeixueR/middleware/tree/master/src/tools/segmentation_pack)
 
+* **外部工具**
+  * [协议生成工具](https://github.com/NingLeixueR/middleware/tree/master/extern_tools)
+  
+
+#####配置文档
+  * [各模块配置文档](https://github.com/NingLeixueR/middleware/tree/master/config)
+
 #####支持接口[README.md](https://github.com/NingLeixueR/middleware/tree/master/src/middleware_base)
 * c++
 * c
