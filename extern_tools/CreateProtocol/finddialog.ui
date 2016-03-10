@@ -6,35 +6,46 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>60</height>
+    <width>273</width>
+    <height>69</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>搜索</string>
   </property>
-  <widget class="QLineEdit" name="FindEdit">
+  <widget class="QLineEdit" name="m_pSearchLineEdit">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>100</x>
      <y>20</y>
-     <width>211</width>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="FindButton">
+  <widget class="QPushButton" name="pSearchButton">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>20</x>
      <y>20</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>查找下一个</string>
+    <string/>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>50</y>
+     <width>160</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="pSearchLayout"/>
   </widget>
  </widget>
  <resources/>

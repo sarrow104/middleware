@@ -7,6 +7,8 @@ namespace Ui {
 class FindDialog;
 }
 
+class QLineEdit;
+
 class FindDialog : public QDialog
 {
     Q_OBJECT
@@ -14,9 +16,9 @@ class FindDialog : public QDialog
 public:
     explicit FindDialog(QWidget *parent = 0);
     ~FindDialog();
-
+    bool event(QEvent *e);
 private slots:
-    void enableFindButton(const QString& aitext);
+    void search();
 private:
     Ui::FindDialog *ui;
 };

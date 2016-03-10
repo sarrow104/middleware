@@ -18,11 +18,25 @@ MainWindow::~MainWindow()
 
 bool MainWindow::event(QEvent *e)
 {
-    QKeyEvent *event = static_cast<QKeyEvent*>(e);
-    if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_F)
+    if( e->type() == QEvent::KeyRelease )
     {
-        //pressed
-        fd->show();
+        QKeyEvent *event = static_cast<QKeyEvent*>(e);
+        if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_F)
+        {
+            static bool lshow = true;
+
+            if(lshow)
+            {
+                fd->show();
+                lshow = false;
+            }
+            else
+            {
+                fd->hide();
+                lshow = true;
+            }
+        }
     }
+    return true;
 }
 
