@@ -8,7 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     fd = new FindDialog(this);
+    QStringList header;
+    header<<"协议号"<<"协议名"<<"";
     sp = new showprotocol(this);
+    sp->set(2,header);
 }
 
 MainWindow::~MainWindow()

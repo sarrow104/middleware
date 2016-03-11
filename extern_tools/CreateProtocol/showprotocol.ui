@@ -14,11 +14,34 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="table">
+   <widget class="QPushButton" name="openfile">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>140</y>
+      <x>390</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>加载文件</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="filepath">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>40</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableView" name="table">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>170</y>
       <width>256</width>
       <height>192</height>
      </rect>
