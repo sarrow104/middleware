@@ -14,12 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    finddialog.cpp
+    finddialog.cpp \
+    addprotocol.cpp \
+    showprotocol.cpp
 
 HEADERS  += mainwindow.h \
-    finddialog.h
+    finddialog.h \
+    addprotocol.h \
+    showprotocol.h
 
 FORMS    += mainwindow.ui \
-    finddialog.ui
+    finddialog.ui \
+    addprotocol.ui \
+    showprotocol.ui
 
 DISTFILES +=

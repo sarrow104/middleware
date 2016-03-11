@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     fd = new FindDialog(this);
+    sp = new showprotocol(this);
 }
 
 MainWindow::~MainWindow()

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "finddialog.h"
+#include "showprotocol.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -21,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     FindDialog* fd;
+    showprotocol* sp;
 };
 
 #endif // MAINWINDOW_H

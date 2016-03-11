@@ -22,6 +22,7 @@ FindDialog::FindDialog(QWidget *parent) :
     ui->pSearchButton->setStyleSheet("QPushButton{border-image:url(../images/search1.png);}");
     /** 设置输入框无边框 */
     ui->m_pSearchLineEdit->setStyleSheet("QLineEdit{border-width:0;border-style:outset}");
+    //ui->m_pSearchLineEdit->setReadOnly(true);设置为只读
     /** 防止文本框输入内容位于按钮之下 */
     QMargins margins = ui->m_pSearchLineEdit->textMargins();
     ui->m_pSearchLineEdit->setTextMargins(margins.left(), margins.top(), ui->pSearchButton->width(), margins.bottom());
