@@ -19,7 +19,7 @@ FindDialog::FindDialog(QWidget *parent) :
     ui->pSearchButton->setCursor(Qt::PointingHandCursor);
     ui->pSearchButton->setFixedSize(22, 22);
     ui->pSearchButton->setToolTip(QStringLiteral(""));
-    ui->pSearchButton->setStyleSheet("QPushButton{border-image:url(../images/search1.png);}");
+    ui->pSearchButton->setStyleSheet("QPushButton{border-image:url(../CreateProtocol/images/search1.png);}");
     /** 设置输入框无边框 */
     ui->m_pSearchLineEdit->setStyleSheet("QLineEdit{border-width:0;border-style:outset}");
     //ui->m_pSearchLineEdit->setReadOnly(true);设置为只读

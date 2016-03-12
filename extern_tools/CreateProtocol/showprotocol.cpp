@@ -24,23 +24,23 @@ showprotocol::~showprotocol()
 
 void showprotocol::set(int acolumn, QStringList aheader)
 {
-   // ui->table->setRowCount(1);     //设置行数
+    ui->table->setRowCount(1);     //设置行数
     m_maxcolumn = acolumn;
     aheader << "";
-    //ui->table->setColumnCount(acolumn+1);   //设置列数
+    ui->table->setColumnCount(acolumn+1);   //设置列数
     ui->table->setHorizontalHeaderLabels(aheader);
 }
 
 void showprotocol::clieck_item(QTableWidgetItem* Item)
 {
-    //int r = Item->row();
+    int r = Item->row();
     int c = Item->column();
    if( c == m_maxcolumn)
     {
         //点击编辑按钮
         //Item->setFlags(Qt::ItemFlag);
 
-        this->setItemDelegateForColumn(2, new QPushButton());
+
     }
     else
     {
