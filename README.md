@@ -5,7 +5,7 @@ middleware-中间件
 * **方便两个模块间通信**
  * 线程间-循环数组实现
  * 进程间-共享内存实现
- * PC间-Socket实现
+ * PC间-socket实现
  * 服务器-asio实现
 
 * **其中需要引用到 [c++ boost库](http://www.boost.org/)(去官网下载编译)**
