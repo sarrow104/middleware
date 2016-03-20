@@ -45,8 +45,8 @@ void test_middleware_asio_client()
 
 int main()
 {
-  //test_middleware_asio_server();
-  test_middleware_asio_client();
+  test_middleware_asio_server();
+  //test_middleware_asio_client();
   return 0;
 }
 
