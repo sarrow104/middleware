@@ -1,5 +1,5 @@
 #include "sql_middleware.h"
-
+#include <ctime>
 
 
 
@@ -114,12 +114,12 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 	if(!row) //create table  
 	{  
 		char qbuf[2048]={0};  
-
+		//"DROP TABLE IF EXISTS `%s`;"
 		snprintf(qbuf,sizeof(qbuf),
-			"DROP TABLE IF EXISTS `%s`;"
 			"CREATE TABLE `%s` ("
 			"`id` int(11) NOT NULL,"
 			"`val` blob NOT NULL,"
+			"`update_time` int(11) NOT NULL,"
 			"PRIMARY KEY  (`id`)"
 			") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;",tabname,tabname);
 		if(mysql_query(mysql,qbuf)){  
@@ -132,41 +132,54 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 
 
 
-
+MYSQL* sql_middleware::key2db(dbtype_u32_key akey)
+{
+	dbtype_map_mysql::iterator litor_find = m_sql.find(akey);
+	if( litor_find == m_sql.end())
+	{
+		return NULL;
+	}
+	else
+	{
+		return &litor_find->second;
+	}
+}
 
 /** ²åÈë */
 bool sql_middleware::insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t aisize)
 {
-	dbtype_map_mysql::iterator litor_find = m_sql.find(akey);
-	if( litor_find == m_sql.end())
-	{
-		return false;
-	}
+	MYSQL* lmysql = key2db( akey);
 	char ltempbuf[1024];
 	char lsqlbuf[4096];
-	mysql_real_escape_string(&litor_find->second,ltempbuf,aibinary,aisize);
-	uint32_t lsize = snprintf(lsqlbuf, sizeof(lsqlbuf), "INSERT INTO %s(id, val) VALUE (%d,'%s'); ", aitabname.c_str() , aid, ltempbuf );
+	mysql_real_escape_string(lmysql,ltempbuf,aibinary,aisize);
+	uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"INSERT INTO %s(id, val, update_time) VALUE (%d,'%s',%d); ", 
+		aitabname.c_str() , 
+		aid, 
+		ltempbuf,
+		time(NULL)
+		);
 	
-	return (mysql_real_query(&litor_find->second, lsqlbuf, lsize) == 0)? true : false;
+	return (mysql_real_query(lmysql, lsqlbuf, lsize) == 0)? true : false;
 }
 
 bool sql_middleware::select(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t& aisize)
 {
-	dbtype_map_mysql::iterator litor_find = m_sql.find(akey);
-	if( litor_find == m_sql.end())
-	{
-		return false;
-	}
+	MYSQL* lmysql = key2db( akey);
 
 	char lsqlbuf[4096];
 	uint32_t lsize = snprintf(lsqlbuf, sizeof(lsqlbuf), "SELECT val FROM %s WHERE id = %d", aitabname.c_str(),aid);
 	
-	if( mysql_real_query(&litor_find->second, lsqlbuf, lsize) != 0 )
+	if( mysql_real_query(lmysql, lsqlbuf, lsize) != 0 )
 	{
 		return false;
 	}
 
-	MYSQL_RES * pRes = mysql_store_result(&litor_find->second);
+	MYSQL_RES * pRes = mysql_store_result(lmysql);
 	MYSQL_ROW stRow = mysql_fetch_row(pRes);
 	if( pRes != NULL )
 	{
@@ -180,4 +193,67 @@ bool sql_middleware::select(dbtype_u32_key akey, std::string aitabname,uint32_t 
 		return false;
 	}
 
+}
+
+
+enum
+{
+	E_GET_MAX,
+	E_GET_MIN,
+	E_GET_RAND,
+	E_SIZE,
+};
+char* glbuf[E_SIZE] = { "ASC","DESC","RAND()"};
+
+template <uint32_t BINART_SIZE>
+bool sql_middleware::select_id(
+	dbtype_u32_key akey, 
+	std::string aitabname,  
+	vector<SLECT_BINARY_DATA<BINART_SIZE>>& aivec,
+	uint32_t aigetsize,
+	uint32_t order
+	)
+{
+	MYSQL* lmysql = key2db( akey);
+
+	char lsqlbuf[4096];
+	uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf),
+		"SELECT val FROM %s ORDER BY id %s LIMIT %d;", 
+		aitabname.c_str(),
+		glbuf[E_GET_MAX],
+		aigetsize
+	);
+
+	if( mysql_real_query(lmysql, lsqlbuf, lsize) != 0 )
+	{
+		return false;
+	}
+
+	MYSQL_RES* pRes = mysql_store_result(lmysql);
+	MYSQL_ROW stRow = mysql_fetch_row(pRes);
+	if( pRes != NULL )
+	{
+		unsigned long* lengths = mysql_fetch_lengths(pRes);
+		memcpy( aibinary, stRow[0], *lengths);
+		aisize = *lengths;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+template <uint32_t BINART_SIZE>
+bool sql_middleware::select_update_time(
+	dbtype_u32_key akey, 
+	std::string aitabname,  
+	vector<SLECT_BINARY_DATA<BINART_SIZE>>& aivec,
+	uint32_t aigetsize,
+	uint32_t order
+	)
+{
+	return true;
 }
