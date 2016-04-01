@@ -6,13 +6,12 @@
 #include <list>
 #include <map>
 
-#include <mysql.h>
-
-
-#ifdef WIN32
-#define snprintf  sprintf_s
+#if WIN32
+# include<winsock2.h>
+# define snprintf  sprintf_s
 #endif //WIN32
 
+#include <mysql.h>
 
 struct connect_db_arg
 {

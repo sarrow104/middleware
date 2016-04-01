@@ -22,22 +22,18 @@ bool sql_middleware::create_connect(dbtype_u32_key akey, std::string aitabname ,
 			goto RETURN_FALSE;
 		}   
 
-		if( sql_middleware::check_db(&lmysql,aicarg.m_dbname.c_str()) )
+		if( !sql_middleware::check_db(&lmysql,aicarg.m_dbname.c_str()) )
 		{  
 			goto CLOSE_MYSQL;
 		}
 
-		if( sql_middleware::check_tab(&lmysql,aitabname.c_str()))
+		if( !sql_middleware::check_tab(&lmysql,aitabname.c_str()))
 		{ 
 			goto CLOSE_MYSQL;
 		}
 
 
-		if(mysql_select_db(&lmysql,aicarg.m_dbname.c_str())) //return 0 is success ,!0 is err  
-		{  
-			 
-			goto CLOSE_MYSQL;
-		} 
+		
 
 		litor_insert.first->second = lmysql;
 		return true;
@@ -88,6 +84,8 @@ bool sql_middleware::check_db(MYSQL *mysql,const char *db_name)
 			return false;
 		}  
 	}  
+
+	mysql_select_db(mysql,db_name);
 	return true;  
 } 
 
@@ -115,17 +113,18 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 	}  
 	if(!row) //create table  
 	{  
-		char qbuf[128]={0};  
+		char qbuf[2048]={0};  
 
 		snprintf(qbuf,sizeof(qbuf),
 			"DROP TABLE IF EXISTS `%s`;"
-			"CREATE TABLE `tab1` ("
+			"CREATE TABLE `%s` ("
 			"`id` int(11) NOT NULL,"
 			"`val` blob NOT NULL,"
-			"PRIMARY KEY  (`key`)"
-			") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;",tabname);
+			"PRIMARY KEY  (`id`)"
+			") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;",tabname,tabname);
 		if(mysql_query(mysql,qbuf)){  
 			return false;
+
 		}  
 	}  
 	return true;  
@@ -172,8 +171,6 @@ bool sql_middleware::select(dbtype_u32_key akey, std::string aitabname,uint32_t 
 	if( pRes != NULL )
 	{
 		unsigned long* lengths = mysql_fetch_lengths(pRes);
-		std::string ldata;
-
 		memcpy( aibinary, stRow[0], *lengths);
 		aisize = *lengths;
 		return true;

@@ -13,24 +13,9 @@ public:
 
 
 	/** 插入 */
-	bool insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t aisize)
-	{
-		dbtype_map_mysql::iterator litor_find = m_sql.find(akey);
-		if( litor_find == m_sql.end())
-		{
-			return false;
-		}
-		char ltempbuf[1024];
-		char lsqlbuf[4096];
-		mysql_real_escape_string(&litor_find->second,ltempbuf,aibinary,aisize);
-		snprintf(lsqlbuf, sizeof(lsqlbuf), "INSERT INTO %s(id, values) VALUE (%d,'%s'); ", aitabname.c_str() , aid, ltempbuf );
-		
-	}
+	bool insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t aisize);
 
-	bool select(dbtype_u32_key akey, std::string aitabname,uint32_t& aid, char* aibinary,uint32_t& aisize)
-	{
-		
-	}
+	bool select(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t& aisize);
 
 	/** 检查数据库是否存在,不存在则尝试创建 */
 	static bool check_db(MYSQL *mysql,const char *db_name); 
