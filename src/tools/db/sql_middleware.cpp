@@ -2,6 +2,10 @@
 #include <ctime>
 
 
+/** 排序方式 */
+char* g_field_sort[E_SORT_SIZE] = { "ASC","DESC","RAND()"};
+/** tab字段 */
+char* g_field[E_FIELD_SIZE] = {"s_id","s_val","s_uptime"};
 
 sql_middleware::dbtype_map_mysql sql_middleware::m_sql;
 
@@ -32,9 +36,6 @@ bool sql_middleware::create_connect(dbtype_u32_key akey, std::string aitabname ,
 			goto CLOSE_MYSQL;
 		}
 
-
-		
-
 		litor_insert.first->second = lmysql;
 		return true;
 		
@@ -50,22 +51,20 @@ RETURN_FALSE:
 	}
 }
 
-
-
 bool sql_middleware::check_db(MYSQL *mysql,const char *db_name)  
 {  
 	MYSQL_ROW row = NULL;  
 	MYSQL_RES *res = NULL;  
-
+	
 	res = mysql_list_dbs(mysql,NULL);  
 	if(res)  
 	{  
 		while((row = mysql_fetch_row(res))!=NULL)  
 		{  
-			printf("db is %s\n",row[0]);  
+			DBG_OUT("db is = [%s]\n",row[0]);  
 			if(strcmp(row[0],db_name)==0)  
 			{  
-				printf("find db %s\n",db_name);  
+				DBG_OUT("find db = [%s]\n",db_name);  
 				break;  
 			}  
 		}  
@@ -77,9 +76,7 @@ bool sql_middleware::check_db(MYSQL *mysql,const char *db_name)
 		char buf[128]={0};  
 		strcpy(buf,"CREATE DATABASE ");  
 		strcat(buf,db_name);  
-#ifdef DEBUG  
-		printf("%s\n",buf);  
-#endif  
+		DBG_OUT("SQL STR = [%s]\n",buf);  
 		if(mysql_query(mysql,buf)){  
 			return false;
 		}  
@@ -88,8 +85,6 @@ bool sql_middleware::check_db(MYSQL *mysql,const char *db_name)
 	mysql_select_db(mysql,db_name);
 	return true;  
 } 
-
-
 
 bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)  
 {  
@@ -102,10 +97,10 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 	{  
 		while((row = mysql_fetch_row(res))!=NULL)  
 		{  
-			printf("tables is %s\n",row[0]);  
+			DBG_OUT("tab is = [%s]\n",row[0]);  
 			if(strcmp(row[0],tabname) == 0)  
 			{  
-				printf("find the table !\n");  
+				DBG_OUT("find tab = [%s]\n",tabname);  
 				break;  
 			}  
 		}  
@@ -117,11 +112,20 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 		//"DROP TABLE IF EXISTS `%s`;"
 		snprintf(qbuf,sizeof(qbuf),
 			"CREATE TABLE `%s` ("
-			"`id` int(11) NOT NULL,"
-			"`val` blob NOT NULL,"
-			"`update_time` int(11) NOT NULL,"
-			"PRIMARY KEY  (`id`)"
-			") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;",tabname,tabname);
+			"`%s` int(11) NOT NULL,"
+			"`%s` blob NOT NULL,"
+			"`%s` int(11) NOT NULL,"
+			"PRIMARY KEY  (`%s`)"
+			") ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;",
+			tabname,
+			g_field[E_SQLID],
+			g_field[E_SQLBINARY],
+			g_field[E_SQLTIME],
+			g_field[E_SQLID]
+			);
+
+		DBG_OUT("SQL STR = [%s]\n",qbuf); 
+
 		if(mysql_query(mysql,qbuf)){  
 			return false;
 
@@ -129,8 +133,6 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 	}  
 	return true;  
 }  
-
-
 
 MYSQL* sql_middleware::key2db(dbtype_u32_key akey)
 {
@@ -146,72 +148,87 @@ MYSQL* sql_middleware::key2db(dbtype_u32_key akey)
 }
 
 /** 插入 */
-bool sql_middleware::insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t aisize)
+bool sql_middleware::_insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, void* aibinary,uint32_t aisize)
 {
 	MYSQL* lmysql = key2db( akey);
 	char ltempbuf[1024];
 	char lsqlbuf[4096];
-	mysql_real_escape_string(lmysql,ltempbuf,aibinary,aisize);
+	mysql_real_escape_string(lmysql,ltempbuf,(const char*)aibinary,aisize);
 	uint32_t lsize = 
 		snprintf
 		(
 		lsqlbuf, 
 		sizeof(lsqlbuf), 
-		"INSERT INTO %s(id, val, update_time) VALUE (%d,'%s',%d); ", 
-		aitabname.c_str() , 
+		"INSERT INTO %s(%s, %s, %s) VALUE (%d,'%s',%d); ", 
+		aitabname.c_str(), 
+		g_field[E_SQLID],
+		g_field[E_SQLBINARY],
+		g_field[E_SQLTIME],
 		aid, 
 		ltempbuf,
 		time(NULL)
 		);
-	
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+
 	return (mysql_real_query(lmysql, lsqlbuf, lsize) == 0)? true : false;
 }
 
-bool sql_middleware::select(dbtype_u32_key akey, std::string aitabname,uint32_t aid, char* aibinary,uint32_t& aisize)
+bool sql_middleware::_select(
+	dbtype_u32_key akey,			//key
+	std::string& aitabname,			//tabname
+	uint32_t aid,					//sqlid
+	MYSQL_ROW& aibinary,			//binary data
+	uint32_t& aisize					//T_BINARY所指的数组大小
+	)
 {
 	MYSQL* lmysql = key2db( akey);
 
 	char lsqlbuf[4096];
-	uint32_t lsize = snprintf(lsqlbuf, sizeof(lsqlbuf), "SELECT val FROM %s WHERE id = %d", aitabname.c_str(),aid);
-	
+	uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"SELECT %s, %s, %s FROM %s WHERE %s = %d",
+		g_field[E_SQLID],
+		g_field[E_SQLBINARY],
+		g_field[E_SQLTIME],
+		aitabname.c_str(),
+		g_field[E_SQLID],
+		aid);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+
 	if( mysql_real_query(lmysql, lsqlbuf, lsize) != 0 )
 	{
+		DBG_OUT("SQL FAIL = [mysql_real_query]\n");
 		return false;
 	}
 
-	MYSQL_RES * pRes = mysql_store_result(lmysql);
-	MYSQL_ROW stRow = mysql_fetch_row(pRes);
+	MYSQL_RES* pRes = mysql_store_result(lmysql);
 	if( pRes != NULL )
 	{
-		unsigned long* lengths = mysql_fetch_lengths(pRes);
-		memcpy( aibinary, stRow[0], *lengths);
-		aisize = *lengths;
+		aibinary = mysql_fetch_row(pRes);
+		//unsigned long* lengths = mysql_fetch_lengths(pRes);
+		aisize = mysql_fetch_lengths(pRes)[E_SQLBINARY];
+		
 		return true;
 	}
 	else
 	{
+		DBG_OUT("SQL FAIL = [mysql_store_result(lmysql) == NULL]\n");
 		return false;
 	}
 
 }
 
-
-enum
-{
-	E_GET_MAX,
-	E_GET_MIN,
-	E_GET_RAND,
-	E_SIZE,
-};
-char* glbuf[E_SIZE] = { "ASC","DESC","RAND()"};
-
-template <uint32_t BINART_SIZE>
-bool sql_middleware::select_id(
-	dbtype_u32_key akey, 
-	std::string aitabname,  
-	vector<SLECT_BINARY_DATA<BINART_SIZE>>& aivec,
-	uint32_t aigetsize,
-	uint32_t order
+bool sql_middleware::_select(
+	dbtype_u32_key akey,			//key
+	std::string aitabname,			//tabname
+	ENUM_SQLFIELD aiwhere,			//以哪个字段作为排序依据
+	ENUM_SORT aisort,				//排序方式
+	uint32_t aisize,				//选取条目数
+	std::vector<MYSQL_ROW>& aidata,
+	std::vector<uint32_t>& aibinarybytes
 	)
 {
 	MYSQL* lmysql = key2db( akey);
@@ -220,24 +237,38 @@ bool sql_middleware::select_id(
 	uint32_t lsize = snprintf(
 		lsqlbuf, 
 		sizeof(lsqlbuf),
-		"SELECT val FROM %s ORDER BY id %s LIMIT %d;", 
+		"SELECT s_id,s_val,s_uptime FROM %s ORDER BY %s %s LIMIT %d;", 
 		aitabname.c_str(),
-		glbuf[E_GET_MAX],
-		aigetsize
-	);
+		g_field[aiwhere],
+		g_field_sort[aisort],
+		aisize
+		);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
 
 	if( mysql_real_query(lmysql, lsqlbuf, lsize) != 0 )
 	{
 		return false;
 	}
 
-	MYSQL_RES* pRes = mysql_store_result(lmysql);
-	MYSQL_ROW stRow = mysql_fetch_row(pRes);
-	if( pRes != NULL )
+
+	MYSQL_RES* pRes = mysql_store_result(lmysql);//集合
+	if( pRes )
 	{
-		unsigned long* lengths = mysql_fetch_lengths(pRes);
-		memcpy( aibinary, stRow[0], *lengths);
-		aisize = *lengths;
+		uint32_t liTableRow = (uint32_t)mysql_num_rows(pRes);//行  
+		uint32_t liTableCol = (uint32_t)mysql_num_fields(pRes);//列  
+		aidata.resize(liTableRow);
+		aibinarybytes.resize(liTableRow);
+		for(uint32_t i=0; i<liTableRow; i++)
+		{
+			aidata[i] = mysql_fetch_row(pRes);
+			aibinarybytes[i] = mysql_fetch_lengths(pRes)[E_SQLBINARY];
+			//for(uint32_t j=0; j<liTableCol; j++)
+			//{
+			//	DBG_OUT("SQL STR = [%s]\n",stRow[j]); 
+			//}
+			//DBG_OUT("\n");
+		}
 		return true;
 	}
 	else
@@ -246,14 +277,4 @@ bool sql_middleware::select_id(
 	}
 }
 
-template <uint32_t BINART_SIZE>
-bool sql_middleware::select_update_time(
-	dbtype_u32_key akey, 
-	std::string aitabname,  
-	vector<SLECT_BINARY_DATA<BINART_SIZE>>& aivec,
-	uint32_t aigetsize,
-	uint32_t order
-	)
-{
-	return true;
-}
+
