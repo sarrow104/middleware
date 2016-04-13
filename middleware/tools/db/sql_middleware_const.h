@@ -37,6 +37,7 @@ struct connect_db_arg
 enum ENUM_SQLFIELD
 {
 	E_SQLID,			//ID
+	E_SQLGROUPID,			//组id
 	E_SQLBINARY,		//二进制数据
 	E_SQLTIME,			//最后更新时间
 	E_FIELD_SIZE,		//字段的数目
@@ -46,11 +47,14 @@ enum ENUM_SQLFIELD
 /** 排序的方式 */
 enum ENUM_SORT
 {
-	E_SORT_MAX,
 	E_SORT_MIN,
+	E_SORT_MAX,
 	E_SORT_RAND,
 	E_SORT_SIZE,
 };
 
+
+#define TAB_MIN_VALUES  (0x0)
+#define TAB_MAX_VALUES  (0x7fffffff)
 
 #endif //SQL_MIDDLEWARE_CONST_H

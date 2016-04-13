@@ -2,14 +2,144 @@
 #include <ctime>
 
 
+
+const char* _select_limt_str()
+{
+	static char lsqlbuf[4096];
+	static uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf),
+		"SELECT %s, %s, %s, %s FROM %s ORDER BY %s %s LIMIT %d;",
+		g_field[E_SQLID],
+		g_field[E_SQLGROUPID],
+		g_field[E_SQLBINARY],
+		g_field[E_SQLTIME],
+		"%s",
+		"%s %s LIMIT %d;"
+		);
+	return lsqlbuf;
+}
+
+const char* _insert_str()
+{
+	static char ltempbuf[256];
+	static uint32_t lsize = 
+		snprintf
+		(
+		ltempbuf, 
+		sizeof(ltempbuf), 
+		"INSERT INTO %s(%s, %s, %s, %s) VALUE %s; ", 
+		"%s",
+		g_field[E_SQLID],
+		g_field[E_SQLGROUPID],
+		g_field[E_SQLBINARY],
+		g_field[E_SQLTIME],
+		"(%d,%d,'%s',%d)"
+		);
+	return ltempbuf;
+}
+
+const char* _select_str()
+{
+	static char lsqlbuf[256];
+	static uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"SELECT %s, %s, %s, %s FROM %s WHERE %s",
+		g_field[E_SQLID],
+		g_field[E_SQLGROUPID],
+		g_field[E_SQLBINARY],
+		g_field[E_SQLTIME],
+		"%s",
+		"%s = %d AND %s = %d"
+		);
+	return lsqlbuf;
+}
+
+
+const char* _updata_str()
+{
+	static char lsqlbuf[4096];
+	static uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf),
+		"UPDATE %s SET %s = '%s', %s = '%s' WHERE %s = '%s'",
+		"%s",
+		g_field[E_SQLBINARY],
+		"%s",
+		g_field[E_SQLTIME],
+		"%d",
+		g_field[E_SQLID],
+		"%d"
+		);
+	return lsqlbuf;
+}
+
+const char* _deletes_str()
+{
+	static char lsqlbuf[256];
+	static uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"DELETE FROM %s WHERE %s = %s AND %s = %s;", 
+		"%s", 
+		g_field[E_SQLID],
+		"%d",
+		g_field[E_SQLGROUPID],
+		"%d"
+		);
+	return lsqlbuf;
+}
+
+const char* _deletes_more_str()
+{
+	static char lsqlbuf[256];
+	static uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"DELETE FROM %s WHERE %s = %s AND %s in ", 
+		"%s", 
+		g_field[E_SQLGROUPID],
+		"%d"		
+		);
+	return lsqlbuf;
+}
+
+const char* _deletes_blank_str()
+{
+	static char lsqlbuf[256];
+	static uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		"DELETE FROM %s WHERE %s = %s AND %s > %s AND %s < %s;", 
+		"%s", 
+		g_field[E_SQLGROUPID],
+		"%d",
+		"%s",
+		"%d",
+		"%s",
+		"%d"
+		);
+	return lsqlbuf;
+}
+
+
+
+
 /** 排序方式 */
 char* g_field_sort[E_SORT_SIZE] = { "ASC","DESC","RAND()"};
 /** tab字段 */
-char* g_field[E_FIELD_SIZE] = {"s_id","s_val","s_uptime"};
+char* g_field[E_FIELD_SIZE] = {"s_id","s_groupid","s_val","s_uptime"};
 
 sql_middleware::dbtype_map_mysql sql_middleware::m_sql;
 
-bool sql_middleware::create_connect(dbtype_u32_key akey, std::string aitabname ,connect_db_arg& aicarg)
+bool sql_middleware::create_connect(dbtype_u32_key akey, std::string& aitabname ,connect_db_arg& aicarg)
 {
 	std::pair<std::map<dbtype_u32_key,MYSQL>::iterator,bool> litor_insert = m_sql.insert( std::make_pair(akey,MYSQL()) );
 	if( litor_insert.second )
@@ -113,6 +243,7 @@ bool sql_middleware::check_tab(MYSQL* mysql,const char *tabname)
 		snprintf(qbuf,sizeof(qbuf),
 			"CREATE TABLE `%s` ("
 			"`%s` int(11) NOT NULL,"
+			"`%s` tinyint NOT NULL,"
 			"`%s` blob NOT NULL,"
 			"`%s` int(11) NOT NULL,"
 			"PRIMARY KEY  (`%s`)"
@@ -148,7 +279,14 @@ MYSQL* sql_middleware::key2db(dbtype_u32_key akey)
 }
 
 /** 插入 */
-bool sql_middleware::_insert(dbtype_u32_key akey, std::string aitabname,uint32_t aid, void* aibinary,uint32_t aisize)
+bool sql_middleware::_insert(
+	dbtype_u32_key akey, 
+	std::string& aitabname,
+	uint32_t aid,
+	uint8_t aigroupid, 
+	void* aibinary,
+	uint32_t aisize
+	)
 {
 	MYSQL* lmysql = key2db( akey);
 	char ltempbuf[1024];
@@ -159,12 +297,10 @@ bool sql_middleware::_insert(dbtype_u32_key akey, std::string aitabname,uint32_t
 		(
 		lsqlbuf, 
 		sizeof(lsqlbuf), 
-		"INSERT INTO %s(%s, %s, %s) VALUE (%d,'%s',%d); ", 
-		aitabname.c_str(), 
-		g_field[E_SQLID],
-		g_field[E_SQLBINARY],
-		g_field[E_SQLTIME],
+		_insert_str(),
+		aitabname.c_str(),
 		aid, 
+		aigroupid,
 		ltempbuf,
 		time(NULL)
 		);
@@ -174,10 +310,13 @@ bool sql_middleware::_insert(dbtype_u32_key akey, std::string aitabname,uint32_t
 	return (mysql_real_query(lmysql, lsqlbuf, lsize) == 0)? true : false;
 }
 
+
+
 bool sql_middleware::_select(
 	dbtype_u32_key akey,			//key
 	std::string& aitabname,			//tabname
 	uint32_t aid,					//sqlid
+	uint8_t aigroupid,				//group id
 	MYSQL_ROW& aibinary,			//binary data
 	uint32_t& aisize					//T_BINARY所指的数组大小
 	)
@@ -188,13 +327,13 @@ bool sql_middleware::_select(
 	uint32_t lsize = snprintf(
 		lsqlbuf, 
 		sizeof(lsqlbuf), 
-		"SELECT %s, %s, %s FROM %s WHERE %s = %d",
-		g_field[E_SQLID],
-		g_field[E_SQLBINARY],
-		g_field[E_SQLTIME],
+		_select_str(),
 		aitabname.c_str(),
 		g_field[E_SQLID],
-		aid);
+		aid,
+		g_field[E_SQLGROUPID],
+		aigroupid
+		);
 
 	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
 
@@ -221,6 +360,8 @@ bool sql_middleware::_select(
 
 }
 
+
+
 bool sql_middleware::_select(
 	dbtype_u32_key akey,			//key
 	std::string aitabname,			//tabname
@@ -237,7 +378,7 @@ bool sql_middleware::_select(
 	uint32_t lsize = snprintf(
 		lsqlbuf, 
 		sizeof(lsqlbuf),
-		"SELECT s_id,s_val,s_uptime FROM %s ORDER BY %s %s LIMIT %d;", 
+		_select_limt_str(),
 		aitabname.c_str(),
 		g_field[aiwhere],
 		g_field_sort[aisort],
@@ -278,3 +419,125 @@ bool sql_middleware::_select(
 }
 
 
+
+bool sql_middleware::_updata(
+	dbtype_u32_key akey,			//key
+	std::string aitabname,			//tabname
+	uint32_t aid,
+	void* apvoid,
+	uint32_t asize)
+{
+	MYSQL* lmysql = key2db( akey);
+	char ltempbuf[1024];
+	mysql_real_escape_string(lmysql,ltempbuf,(const char*)(apvoid),asize);
+
+	char lsqlbuf[4096];
+	uint32_t lsize = snprintf(
+		lsqlbuf, 
+		sizeof(lsqlbuf),
+		_updata_str(),
+		aitabname.c_str(),
+		ltempbuf,
+		(uint32_t)time(NULL),
+		aid
+		);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+
+	return (mysql_real_query(lmysql, lsqlbuf, lsize) != 0);
+}
+
+
+bool sql_middleware::deletes(
+	dbtype_u32_key akey,			//key
+	std::string aitabname,			//tabname
+	uint32_t aid,
+	uint8_t aigroupid
+	)
+{
+	MYSQL* lmysql = key2db( akey);
+	char lsqlbuf[4096];
+	uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		_deletes_str(), 
+		aitabname.c_str(), 
+		aid,
+		aigroupid
+		);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+	return (mysql_real_query(lmysql, lsqlbuf, lsize) == 0)? true : false;
+}
+
+
+bool sql_middleware::deletes(
+	dbtype_u32_key akey,			//key
+	std::string aitabname,			//tabname
+	ENUM_SQLFIELD aiwhere,			//以哪个字段作为依据
+	uint8_t aigroupid, 
+	std::vector<uint32_t> aidarr
+	)
+{
+	MYSQL* lmysql = key2db( akey);
+	char lsqlbuf[4096];
+	uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		_deletes_more_str(), 
+		aitabname.c_str(), 
+		aigroupid
+		);
+
+	char ltempbuf[1024] = {0};
+	uint32_t lpos = 1;
+	ltempbuf[0] = '(';
+	for(std::vector<uint32_t>::iterator itor = aidarr.begin(); itor != aidarr.end();++itor)
+	{
+		lpos += sprintf( &(ltempbuf[lpos]),"%d",*itor);
+		ltempbuf[lpos] = ',';
+		lpos += 1;
+	}
+	ltempbuf[lpos-1] = ')';
+	ltempbuf[lpos] = ';';
+
+	strcat(lsqlbuf,ltempbuf);
+	//char ltempbuf2[2048];
+	//sprintf(ltempbuf2,lsqlbuf,ltempbuf);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+	return (mysql_real_query(lmysql, lsqlbuf, lpos+lsize) == 0)? true : false;
+}
+
+bool sql_middleware::deletes(
+	dbtype_u32_key akey,			//key
+	std::string aitabname,			//tabname
+	ENUM_SQLFIELD aiwhere,			//以哪个字段作为依据
+	uint8_t aigroupid,
+	uint32_t abegid,
+	uint32_t aendid
+	)
+{
+	MYSQL* lmysql = key2db( akey);
+	char lsqlbuf[4096];
+	uint32_t lsize = 
+		snprintf
+		(
+		lsqlbuf, 
+		sizeof(lsqlbuf), 
+		_deletes_blank_str(), 
+		aitabname.c_str(),
+		aigroupid,
+		g_field[aiwhere],
+		abegid,
+		g_field[aiwhere],
+		aendid
+		);
+
+	DBG_OUT("SQL STR = [%s]\n",lsqlbuf); 
+	return (mysql_real_query(lmysql, lsqlbuf, lsize) == 0)? true : false;
+}
