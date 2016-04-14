@@ -10,42 +10,42 @@
 #include <string>
 
 namespace middleware {
-	namespace tools {
+  namespace tools {
 
 
 
 
-#define CREATE_CPROTOCOL_BEG( NAME, PROTOCOL_NUM)			\
-	class NAME:																					\
-		public protocol_cbase															\
-	{																										\
-		struct pop_data;																	\
-		struct push_data;																	\
-		pop_data* m_popdata;															\
-		push_data* m_pushdata;														\
-	public:																							\
-		NAME() :protocol_cbase(PROTOCOL_NUM)							\
-		{																									\
-			m_popdata = (pop_data*)m_premote2local_buffer;	\
-			m_pushdata = (push_data*)m_plocal2remote_buffer;\
-		}																									\
-		virtual void init_data();													\
-		virtual uint32_t task(uint32_t aikey);						\
-		virtual void serialization();											\
-		virtual void unserialization();										\
-		virtual protocol_cbase* new_own(){return new NAME();}	\
-	};
+#define CREATE_CPROTOCOL_BEG( NAME, PROTOCOL_NUM)     \
+  class NAME:                                         \
+    public protocol_cbase                             \
+  {                                                   \
+    struct pop_data;                                  \
+    struct push_data;                                 \
+    pop_data* m_popdata;                              \
+    push_data* m_pushdata;                            \
+  public:                                             \
+    NAME() :protocol_cbase(PROTOCOL_NUM)              \
+    {                                                 \
+      m_popdata = (pop_data*)m_premote2local_buffer;  \
+      m_pushdata = (push_data*)m_plocal2remote_buffer;\
+    }                                                 \
+    virtual void init_data();                         \
+    virtual uint32_t task(uint32_t aikey);            \
+    virtual void serialization();                     \
+    virtual void unserialization();                   \
+    virtual protocol_cbase* new_own(){return new NAME();} \
+  };
 
 
 
-		CREATE_CPROTOCOL_BEG(protocol_test_client_0, E_TEST_CLIENT_0)
+    CREATE_CPROTOCOL_BEG(protocol_test_client_0, E_TEST_CLIENT_0)
 #if 0
     class protocol_test_client_0 :
       public protocol_cbase
     {
-			STRUCT_DATA_RECV_VEG_BEG
-				STRUCT_MEMBER(std::string, mpop_ls);
-			STRUCT_DATA_RECV_VEG_END
+      STRUCT_DATA_RECV_VEG_BEG
+        STRUCT_MEMBER(std::string, mpop_ls);
+      STRUCT_DATA_RECV_VEG_END
 
       std::string mpop_ls;
     public:
@@ -60,7 +60,7 @@ namespace middleware {
 
       virtual void serialization()
       {
-			}
+      }
 
       virtual void unserialization()
       {

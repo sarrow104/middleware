@@ -50,7 +50,7 @@ namespace middleware{
         }
 
         /** 数组长度 */
-        endian(lsetsize);
+    endian(lsetsize);
         serializecpp_base::push(ap, &lsetsize, sizeof(uint32_t));
         ap += sizeof(uint32_t);
 
@@ -81,7 +81,7 @@ namespace middleware{
         }
 
         /** 数组长度 */
-        endian(lsetsize);
+    endian(lsetsize);
         serializecpp_base::push(ap, &lsetsize, sizeof(uint32_t));
         ap += sizeof(uint32_t);
 
@@ -129,7 +129,7 @@ namespace middleware{
         if (aplen < lsize)
         {
           return 0;
-        }
+    }
 
     /** 保存数组长度 */
     uint32_t ltempaivaluesarrsize = aivaluesarrsize;
@@ -162,18 +162,32 @@ namespace middleware{
     /** 保存数据 */
     serializecpp_base::push(ap, (void*)aivaluesarr, sizeof(T_DATA) * aivaluesarrsize);
         return lsize;\
+<<<<<<< HEAD
     }
-#define SB_PUSH_TYPE(TYPE)  \
+#define SB_TYPE(TYPE)  \
     static uint32_t push(char* ap, uint32_t aplen, const TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
+=======
+	  }
+#define SB_PUSH_TYPE(TYPE)  \
+	  static uint32_t push(char* ap, uint32_t aplen, const TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
+>>>>>>> nlx-master
       {\
         return SpecializationBasisType(ap,aplen,aivaluesarr,aivaluesarrsize);\
       }
 
-    SB_PUSH_TYPE(uint8_t)
-    SB_PUSH_TYPE(int8_t)
-    SB_PUSH_TYPE(bool)
-    SB_PUSH_TYPE(float)
-    SB_PUSH_TYPE(double)
+<<<<<<< HEAD
+    SB_TYPE(uint8_t)
+    SB_TYPE(int8_t)
+    SB_TYPE(bool)
+    SB_TYPE(float)
+    SB_TYPE(double)
+=======
+	  SB_PUSH_TYPE(uint8_t)
+	  SB_PUSH_TYPE(int8_t)
+	  SB_PUSH_TYPE(bool)
+	  SB_PUSH_TYPE(float)
+	  SB_PUSH_TYPE(double)
+>>>>>>> nlx-master
 
       /**
        * vector数组

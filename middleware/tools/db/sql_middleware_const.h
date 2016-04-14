@@ -16,50 +16,51 @@
 #include <mysql.h>
 
 namespace middleware{
-	namespace tools{
-		struct connect_db_arg
-		{
-			uint32_t		m_port;				/** ¶Ë¿Ú */
-			std::string		m_ip;				/** ip */
-			std::string     m_account;			/** ÕËºÅ */
-			std::string     m_passworld;		/** ÃÜÂë */
-			std::string     m_dbname;			/** Êı¾İ¿âÃû³Æ */
-		};
+  namespace tools{
+    struct connect_db_arg
+    {
+      uint32_t    m_port;       /** ç«¯å£ */
+      std::string   m_ip;       /** ip */
+      std::string     m_account;      /** è´¦å· */
+      std::string     m_passworld;    /** å¯†ç  */
+      std::string     m_dbname;     /** æ•°æ®åº“åç§° */
+    };
 
 
 #ifdef _DEBUG
 # define DBG_OUT(...)  \
-	printf(__VA_ARGS__);
+  printf(__VA_ARGS__);
 #else
 # define DBG_OUT(...)
 #endif //DEBUG
 
 
 
-		/** ±íµÄ×Ö¶Î¸÷¸ö×Ö¶Î */
-		enum ENUM_SQLFIELD
-		{
-			E_SQLID,			//ID
-			E_SQLGROUPID,			//×éid
-			E_SQLBINARY,		//¶ş½øÖÆÊı¾İ
-			E_SQLTIME,			//×îºó¸üĞÂÊ±¼ä
-			E_FIELD_SIZE,		//×Ö¶ÎµÄÊıÄ¿
-		};
+    /** è¡¨çš„å­—æ®µå„ä¸ªå­—æ®µ */
+    enum ENUM_SQLFIELD
+    {
+      E_SQLID,      //ID
+      E_SQLGROUPID,     //ç»„id
+      E_SQLBINARY,    //äºŒè¿›åˆ¶æ•°æ®
+      E_SQLTIME,      //æœ€åæ›´æ–°æ—¶é—´
+      E_FIELD_SIZE,   //å­—æ®µçš„æ•°ç›®
+    };
 
 
-		/** ÅÅĞòµÄ·½Ê½ */
-		enum ENUM_SORT
-		{
-			E_SORT_MIN,
-			E_SORT_MAX,
-			E_SORT_RAND,
-			E_SORT_SIZE,
-		};
+    /** æ’åºçš„æ–¹å¼ */
+    enum ENUM_SORT
+    {
+      E_SORT_MIN,
+      E_SORT_MAX,
+      E_SORT_RAND,
+      E_SORT_SIZE,
+    };
 
 #define TAB_MIN_VALUES  (0x0)
 #define TAB_MAX_VALUES  (0x7fffffff)
 
-	} //namespace tools
+  } //namespace tools
 } //namespace middleware
 
 #endif //SQL_MIDDLEWARE_CONST_H
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

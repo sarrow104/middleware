@@ -5,273 +5,276 @@
 #define SQL_MIDDLEWARE_H
 
 #include "sql_middleware_const.h"
+#include <stdlib.h>
+#include <string.h>
 
 namespace middleware{
-	namespace tools{
+  namespace tools{
 
-		/** ÅÅĞò·½Ê½ */
-		extern char* g_field_sort[E_SORT_SIZE];
-		/** tab×Ö¶Î */
-		extern char* g_field[E_FIELD_SIZE];
+    /** æ’åºæ–¹å¼ */
+    extern char* g_field_sort[E_SORT_SIZE];
+    /** tabå­—æ®µ */
+    extern char* g_field[E_FIELD_SIZE];
 
-		template <typename T_BINARY>
-		struct SLECT_BINARY_DATA
-		{
-			uint32_t m_id;
-			uint32_t  m_groupid;
-			time_t m_update_time;
-			T_BINARY m_binarydata;
-		};
+    template <typename T_BINARY>
+    struct SLECT_BINARY_DATA
+    {
+      uint32_t m_id;
+      uint32_t  m_groupid;
+      time_t m_update_time;
+      T_BINARY m_binarydata;
+    };
 
-		class sql_middleware
-		{
+    class sql_middleware
+    {
 
-		public:
-			typedef uint32_t dbtype_u32_key;
-			typedef std::map<dbtype_u32_key,MYSQL> dbtype_map_mysql;
-		private:
-			bool _select(
-				dbtype_u32_key akey,			//key
-				std::string& aitabname,			//tabname
-				dbtype_u32_key aid,					//sqlid
-				dbtype_u32_key aigroupid,				//group id
-				MYSQL_ROW& aibinary,			//binary data
-				uint32_t& aisize			//T_BINARYËùÖ¸µÄÊı×é´óĞ¡
-				);
+    public:
+      typedef uint32_t dbtype_u32_key;
+      typedef std::map<dbtype_u32_key,MYSQL> dbtype_map_mysql;
+    private:
+      bool _select(
+        dbtype_u32_key akey,      //key
+        std::string& aitabname,     //tabname
+        dbtype_u32_key aid,         //sqlid
+        dbtype_u32_key aigroupid,       //group id
+        MYSQL_ROW& aibinary,      //binary data
+        uint32_t& aisize      //T_BINARYæ‰€æŒ‡çš„æ•°ç»„å¤§å°
+        );
 
-			bool _insert(
-				dbtype_u32_key akey,
-				std::string& aitabname,
-				dbtype_u32_key aid, 
-				dbtype_u32_key aigroupid,
-				void* aibinary,
-				uint32_t aisize);
-			bool _select(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				ENUM_SQLFIELD aiwhere,			//ÒÔÄÄ¸ö×Ö¶Î×÷ÎªÅÅĞòÒÀ¾İ
-				ENUM_SORT aisort,				//ÅÅĞò·½Ê½
-				uint32_t aisize,				//Ñ¡È¡ÌõÄ¿Êı
-				std::vector<MYSQL_ROW>& aidata,
-				std::vector<uint32_t>& aibinarybytes);
+      bool _insert(
+        dbtype_u32_key akey,
+        std::string& aitabname,
+        dbtype_u32_key aid, 
+        dbtype_u32_key aigroupid,
+        void* aibinary,
+        uint32_t aisize);
+      bool _select(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        ENUM_SQLFIELD aiwhere,      //ä»¥å“ªä¸ªå­—æ®µä½œä¸ºæ’åºä¾æ®
+        ENUM_SORT aisort,       //æ’åºæ–¹å¼
+        uint32_t aisize,        //é€‰å–æ¡ç›®æ•°
+        std::vector<MYSQL_ROW>& aidata,
+        std::vector<uint32_t>& aibinarybytes);
 
-			bool _updata(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				uint32_t aid,
-				void* apvoid,
-				uint32_t asize);
+      bool _updata(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        uint32_t aid,
+        void* apvoid,
+        uint32_t asize);
 
-			void _str2id(const char* ap,uint32_t& aid){ aid = atoi(ap); }
+      void _str2id(const char* ap,uint32_t& aid){ aid = atoi(ap); }
 
-			void _str2uptime(const char* ap,time_t& auptime){auptime = atoi(ap);}
+      void _str2uptime(const char* ap,time_t& auptime){auptime = atoi(ap);}
 
-			void _str2groupid(const char* ap,uint32_t& agroupid){agroupid = atoi(ap);}
+      void _str2groupid(const char* ap,uint32_t& agroupid){agroupid = atoi(ap);}
 
-			template <typename T_BINARY>
-			void _memcpybinary(const char* ap,T_BINARY* apbinary,uint32_t lbinarysize);
+      template <typename T_BINARY>
+      void _memcpybinary(const char* ap,T_BINARY* apbinary,uint32_t lbinarysize);
 
-			template <typename T_BINARY>
-			void _memcpybinary(T_BINARY& aioutdata,const char* aiindata,uint32_t aiindatasize);
+      template <typename T_BINARY>
+      void _memcpybinary(T_BINARY& aioutdata,const char* aiindata,uint32_t aiindatasize);
 
-			template <typename T_BINARY>
-			void _copy2ret(SLECT_BINARY_DATA<T_BINARY>& aioutdata,MYSQL_ROW aiindata,uint32_t aiindatasize);
+      template <typename T_BINARY>
+      void _copy2ret(SLECT_BINARY_DATA<T_BINARY>& aioutdata,MYSQL_ROW aiindata,uint32_t aiindatasize);
 
-		public:
-			static MYSQL* key2db(dbtype_u32_key akey);
+    public:
+      static MYSQL* key2db(dbtype_u32_key akey);
 
-			static bool create_connect(dbtype_u32_key akey, std::string& aitabname ,connect_db_arg& aicarg);
+      static bool create_connect(dbtype_u32_key akey, std::string& aitabname ,connect_db_arg& aicarg);
 
-			/** ²åÈë */
-			//template <typedef T_BINARY>
-			template <typename T_BINARY>
-			bool insert(dbtype_u32_key akey, std::string& aitabname,uint32_t aid, std::vector<T_BINARY>& aibinary);
+      /** æ’å…¥ */
+      //template <typedef T_BINARY>
+      template <typename T_BINARY>
+      bool insert(dbtype_u32_key akey, std::string& aitabname,uint32_t aid, std::vector<T_BINARY>& aibinary);
 
-			template <typename T_BINARY>
-			bool insert(
-				dbtype_u32_key akey, 
-				std::string& aitabname,
-				dbtype_u32_key aid,
-				dbtype_u32_key aigroupid,
-				T_BINARY* aibinary,
-				uint32_t aisize);
+      template <typename T_BINARY>
+      bool insert(
+        dbtype_u32_key akey, 
+        std::string& aitabname,
+        dbtype_u32_key aid,
+        dbtype_u32_key aigroupid,
+        T_BINARY* aibinary,
+        uint32_t aisize);
 
-			/** ²éÑ¯ */
-			template <typename T_BINARY>
-			bool select(
-				dbtype_u32_key akey,			//key
-				std::string& aitabname,			//tabname
-				dbtype_u32_key aid,					//sqlid
-				dbtype_u32_key aigroupid,
-				SLECT_BINARY_DATA<T_BINARY>& aibinary,			//binary data
-				uint32_t& aisize					//T_BINARYËùÖ¸µÄÊı×é´óĞ¡
-				);
+      /** æŸ¥è¯¢ */
+      template <typename T_BINARY>
+      bool select(
+        dbtype_u32_key akey,      //key
+        std::string& aitabname,     //tabname
+        dbtype_u32_key aid,         //sqlid
+        dbtype_u32_key aigroupid,
+        SLECT_BINARY_DATA<T_BINARY>& aibinary,      //binary data
+        uint32_t& aisize          //T_BINARYæ‰€æŒ‡çš„æ•°ç»„å¤§å°
+        );
 
-			/** °´ÕÕÌõ¼ş²éÑ¯ */
-			template <typename T_BINARY>
-			bool select(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				ENUM_SQLFIELD aiwhere,			//ÒÔÄÄ¸ö×Ö¶Î×÷ÎªÅÅĞòÒÀ¾İ
-				ENUM_SORT aisort,				//ÅÅĞò·½Ê½
-				uint32_t aisize,				//Ñ¡È¡ÌõÄ¿Êı
-				std::vector<SLECT_BINARY_DATA<T_BINARY> >& aibinary	//binary data Ö¸Õë
-				);
-
-
-
-			template <typename T_BINARY>
-			bool updata( 
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				SLECT_BINARY_DATA<T_BINARY>& apdata
-				);
-
-			bool deletes(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				dbtype_u32_key aid,
-				dbtype_u32_key aigroupid
-				);
-
-			bool deletes(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				ENUM_SQLFIELD aiwhere,			//ÒÔÄÄ¸ö×Ö¶Î×÷ÎªÒÀ¾İ
-				dbtype_u32_key aigroupid,
-				std::vector<uint32_t> aidarr
-				);
-
-			bool deletes(
-				dbtype_u32_key akey,			//key
-				std::string aitabname,			//tabname
-				ENUM_SQLFIELD aiwhere,			//ÒÔÄÄ¸ö×Ö¶Î×÷ÎªÒÀ¾İ
-				dbtype_u32_key aigroupid,
-				dbtype_u32_key abegid,
-				dbtype_u32_key aendid
-				);
+      /** æŒ‰ç…§æ¡ä»¶æŸ¥è¯¢ */
+      template <typename T_BINARY>
+      bool select(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        ENUM_SQLFIELD aiwhere,      //ä»¥å“ªä¸ªå­—æ®µä½œä¸ºæ’åºä¾æ®
+        ENUM_SORT aisort,       //æ’åºæ–¹å¼
+        uint32_t aisize,        //é€‰å–æ¡ç›®æ•°
+        std::vector<SLECT_BINARY_DATA<T_BINARY> >& aibinary //binary data æŒ‡é’ˆ
+        );
 
 
-			/** ¼ì²éÊı¾İ¿âÊÇ·ñ´æÔÚ,²»´æÔÚÔò³¢ÊÔ´´½¨ */
-			static bool check_db(MYSQL *mysql,const char *db_name); 
-			/** ¼ì²éÊı¾İ±íÊÇ·ñ´æÔÚ,²»´æÔÚÔò³¢ÊÔ´´½¨ */
-			static bool check_tab(MYSQL* mysql,const char *tabname);  
-		private:
-			static dbtype_map_mysql m_sql;
 
-		};
+      template <typename T_BINARY>
+      bool updata( 
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        SLECT_BINARY_DATA<T_BINARY>& apdata
+        );
 
-		template <typename T_BINARY>
-		bool sql_middleware::insert(dbtype_u32_key akey, std::string& aitabname,uint32_t aid, std::vector<T_BINARY>& aibinary)
-		{
-			return _insert( akey, aitabname, aid, aibinary.data(), aibinary.size()*sizeof(T_BINARY));
-		}
+      bool deletes(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        dbtype_u32_key aid,
+        dbtype_u32_key aigroupid
+        );
 
+      bool deletes(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        ENUM_SQLFIELD aiwhere,      //ä»¥å“ªä¸ªå­—æ®µä½œä¸ºä¾æ®
+        dbtype_u32_key aigroupid,
+        std::vector<uint32_t> aidarr
+        );
 
-		template <typename T_BINARY>
-		void sql_middleware::_memcpybinary(const char* ap,T_BINARY* apbinary,uint32_t lbinarysize)
-		{
-			memset( apbinary, 0x0,sizeof(T_BINARY));
-			memcpy( apbinary, ap,lbinarysize);
-		}
-
-		template <typename T_BINARY>
-		void sql_middleware::_memcpybinary(T_BINARY& aioutdata,const char* aiindata,uint32_t aiindatasize)
-		{
-
-			uint32_t lbinarysize = (aiindatasize >= sizeof(T_BINARY) ? sizeof(T_BINARY) : aiindatasize);
-			_memcpybinary(aiindata,&aioutdata,lbinarysize);
-		}
-
-		template <typename T_BINARY>
-		void sql_middleware::_copy2ret(SLECT_BINARY_DATA<T_BINARY>& aioutdata,MYSQL_ROW aiindata,uint32_t aiindatasize)
-		{
-			_str2id(aiindata[E_SQLID],aioutdata.m_id);
-			_str2uptime(aiindata[E_SQLTIME],aioutdata.m_update_time);
-			_str2groupid(aiindata[E_SQLGROUPID],aioutdata.m_groupid);
-			_memcpybinary(aioutdata.m_binarydata,aiindata[E_SQLBINARY],aiindatasize);
-		}
-
-		template <typename T_BINARY>
-		bool sql_middleware::insert(
-			dbtype_u32_key akey, 
-			std::string& aitabname,
-			dbtype_u32_key aid,
-			dbtype_u32_key aigroupid,
-			T_BINARY* aibinary,
-			uint32_t aisize)
-		{
-			return _insert( akey, aitabname, aid, aigroupid, aibinary, aisize*sizeof(T_BINARY));
-		}
+      bool deletes(
+        dbtype_u32_key akey,      //key
+        std::string aitabname,      //tabname
+        ENUM_SQLFIELD aiwhere,      //ä»¥å“ªä¸ªå­—æ®µä½œä¸ºä¾æ®
+        dbtype_u32_key aigroupid,
+        dbtype_u32_key abegid,
+        dbtype_u32_key aendid
+        );
 
 
-		template <typename T_BINARY>
-		bool sql_middleware::select(
-			dbtype_u32_key akey,			//key
-			std::string& aitabname,			//tabname
-			dbtype_u32_key aid,					//sqlid
-			dbtype_u32_key aigroupid,
-			SLECT_BINARY_DATA<T_BINARY>& aibinary,			//binary data
-			uint32_t& aisize					//T_BINARYËùÖ¸µÄÊı×é´óĞ¡
-			)
-		{
-			MYSQL_ROW lvoid;
-			if( _select(akey,aitabname,aid,aigroupid,lvoid,aisize) )
-			{
-				_copy2ret(aibinary,lvoid,aisize);
-				return true;
-			}
-			else
-			{
-				DBG_OUT("SQL FAIL = [_select() == false]\n");
-				return false;
-			}
-		}
+      /** æ£€æŸ¥æ•°æ®åº“æ˜¯å¦å­˜åœ¨,ä¸å­˜åœ¨åˆ™å°è¯•åˆ›å»º */
+      static bool check_db(MYSQL *mysql,const char *db_name); 
+      /** æ£€æŸ¥æ•°æ®è¡¨æ˜¯å¦å­˜åœ¨,ä¸å­˜åœ¨åˆ™å°è¯•åˆ›å»º */
+      static bool check_tab(MYSQL* mysql,const char *tabname);  
+    private:
+      static dbtype_map_mysql m_sql;
+
+    };
+
+    template <typename T_BINARY>
+    bool sql_middleware::insert(dbtype_u32_key akey, std::string& aitabname,uint32_t aid, std::vector<T_BINARY>& aibinary)
+    {
+      return _insert( akey, aitabname, aid, aibinary.data(), aibinary.size()*sizeof(T_BINARY));
+    }
 
 
-		/** °´ÕÕÌõ¼ş²éÑ¯ */
-		template <typename T_BINARY>
-		bool sql_middleware::select(
-			dbtype_u32_key akey,			//key
-			std::string aitabname,			//tabname
-			ENUM_SQLFIELD aiwhere,			//ÒÔÄÄ¸ö×Ö¶Î×÷ÎªÅÅĞòÒÀ¾İ
-			ENUM_SORT aisort,				//ÅÅĞò·½Ê½
-			uint32_t aisize,				//Ñ¡È¡ÌõÄ¿Êı
-			std::vector<SLECT_BINARY_DATA<T_BINARY> >& aibinary	//binary data Ö¸Õë
-			)
-		{
-			std::vector<MYSQL_ROW> ldata;
-			std::vector<uint32_t> lbinarybytes;
-			bool lret = _select(akey,aitabname,aiwhere,aisort,aisize,ldata,lbinarybytes);
-			if(!lret || ldata.empty()||lbinarybytes.empty())
-			{
-				DBG_OUT("SQL FAIL = [_select()]\n");
-				return false;
-			}
-			else
-			{
-				uint32_t lsize = ldata.size();
-				aibinary.resize(lsize);
-				uint32_t lbinarysize = 0;
-				for (uint32_t i = 0;i<lsize;++i)
-				{
-					_copy2ret(aibinary[i],ldata[i],lbinarybytes[i]);
-				}
-				return true;
-			}
+    template <typename T_BINARY>
+    void sql_middleware::_memcpybinary(const char* ap,T_BINARY* apbinary,uint32_t lbinarysize)
+    {
+      memset( apbinary, 0x0,sizeof(T_BINARY));
+      memcpy( apbinary, ap,lbinarysize);
+    }
 
-		}
+    template <typename T_BINARY>
+    void sql_middleware::_memcpybinary(T_BINARY& aioutdata,const char* aiindata,uint32_t aiindatasize)
+    {
 
-		template <typename T_BINARY>
-		bool sql_middleware::updata( 
-			dbtype_u32_key akey,			//key
-			std::string aitabname,			//tabname
-			SLECT_BINARY_DATA<T_BINARY>& apdata
-			)
-		{	
-			return _updata(akey,aitabname,apdata.m_id,&apdata.m_binarydata,sizeof(T_BINARY));
-		}
+      uint32_t lbinarysize = (aiindatasize >= sizeof(T_BINARY) ? sizeof(T_BINARY) : aiindatasize);
+      _memcpybinary(aiindata,&aioutdata,lbinarysize);
+    }
 
-	} //namespace tools
+    template <typename T_BINARY>
+    void sql_middleware::_copy2ret(SLECT_BINARY_DATA<T_BINARY>& aioutdata,MYSQL_ROW aiindata,uint32_t aiindatasize)
+    {
+      _str2id(aiindata[E_SQLID],aioutdata.m_id);
+      _str2uptime(aiindata[E_SQLTIME],aioutdata.m_update_time);
+      _str2groupid(aiindata[E_SQLGROUPID],aioutdata.m_groupid);
+      _memcpybinary(aioutdata.m_binarydata,aiindata[E_SQLBINARY],aiindatasize);
+    }
+
+    template <typename T_BINARY>
+    bool sql_middleware::insert(
+      dbtype_u32_key akey, 
+      std::string& aitabname,
+      dbtype_u32_key aid,
+      dbtype_u32_key aigroupid,
+      T_BINARY* aibinary,
+      uint32_t aisize)
+    {
+      return _insert( akey, aitabname, aid, aigroupid, aibinary, aisize*sizeof(T_BINARY));
+    }
+
+
+    template <typename T_BINARY>
+    bool sql_middleware::select(
+      dbtype_u32_key akey,      //key
+      std::string& aitabname,     //tabname
+      dbtype_u32_key aid,         //sqlid
+      dbtype_u32_key aigroupid,
+      SLECT_BINARY_DATA<T_BINARY>& aibinary,      //binary data
+      uint32_t& aisize          //T_BINARYæ‰€æŒ‡çš„æ•°ç»„å¤§å°
+      )
+    {
+      MYSQL_ROW lvoid;
+      if( _select(akey,aitabname,aid,aigroupid,lvoid,aisize) )
+      {
+        _copy2ret(aibinary,lvoid,aisize);
+        return true;
+      }
+      else
+      {
+        DBG_OUT("SQL FAIL = [_select() == false]\n");
+        return false;
+      }
+    }
+
+
+    /** æŒ‰ç…§æ¡ä»¶æŸ¥è¯¢ */
+    template <typename T_BINARY>
+    bool sql_middleware::select(
+      dbtype_u32_key akey,      //key
+      std::string aitabname,      //tabname
+      ENUM_SQLFIELD aiwhere,      //ä»¥å“ªä¸ªå­—æ®µä½œä¸ºæ’åºä¾æ®
+      ENUM_SORT aisort,       //æ’åºæ–¹å¼
+      uint32_t aisize,        //é€‰å–æ¡ç›®æ•°
+      std::vector<SLECT_BINARY_DATA<T_BINARY> >& aibinary //binary data æŒ‡é’ˆ
+      )
+    {
+      std::vector<MYSQL_ROW> ldata;
+      std::vector<uint32_t> lbinarybytes;
+      bool lret = _select(akey,aitabname,aiwhere,aisort,aisize,ldata,lbinarybytes);
+      if(!lret || ldata.empty()||lbinarybytes.empty())
+      {
+        DBG_OUT("SQL FAIL = [_select()]\n");
+        return false;
+      }
+      else
+      {
+        uint32_t lsize = ldata.size();
+        aibinary.resize(lsize);
+        uint32_t lbinarysize = 0;
+        for (uint32_t i = 0;i<lsize;++i)
+        {
+          _copy2ret(aibinary[i],ldata[i],lbinarybytes[i]);
+        }
+        return true;
+      }
+
+    }
+
+    template <typename T_BINARY>
+    bool sql_middleware::updata( 
+      dbtype_u32_key akey,      //key
+      std::string aitabname,      //tabname
+      SLECT_BINARY_DATA<T_BINARY>& apdata
+      )
+    { 
+      return _updata(akey,aitabname,apdata.m_id,&apdata.m_binarydata,sizeof(T_BINARY));
+    }
+
+  } //namespace tools
 } //namespace middleware
 #endif //SQL_MIDDLEWARE_H
+ /* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

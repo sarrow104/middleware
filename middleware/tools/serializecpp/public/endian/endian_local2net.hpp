@@ -55,7 +55,7 @@ namespace middleware {
 
       endian_local2net& operator()(char aidata){ return *this; }
 
-	  endian_local2net& operator()(bool aidata){ return *this; }
+    endian_local2net& operator()(bool aidata){ return *this; }
 
       endian_local2net& operator()(uint16_t& aidata)
       {
