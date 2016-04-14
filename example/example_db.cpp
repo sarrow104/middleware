@@ -1,6 +1,9 @@
-
+///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
 
 #include "sql_middleware.h"
+
+using namespace middleware::tools;
 
 /** ²âÊÔµÄ½á¹¹ */
 struct binary_test
@@ -82,6 +85,8 @@ void test_updata(std::string& atabname,sql_middleware& alsm)
 
 void test_deletes(std::string& atabname,sql_middleware& alsm)
 {
+	alsm.deletes(0,atabname,4294967295,1);
+	
 	uint32_t arr[] = {1,3,4};
 	std::vector<uint32_t > lvecarr(arr,arr+sizeof(arr)/sizeof(uint32_t));
 	alsm.deletes(0,atabname,E_SQLID,1,lvecarr);
