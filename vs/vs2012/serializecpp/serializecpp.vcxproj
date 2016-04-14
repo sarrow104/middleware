@@ -26,7 +26,6 @@
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_buffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_serializecpp.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\public\xml_json\xmljson_unserializecpp.hpp" />
-    <ClInclude Include="..\..\..\middleware\tools\serializecpp\serializecpp_fun.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\xml\serializecpp_xml.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\xml\serializecpp_xmlbuffer.hpp" />
     <ClInclude Include="..\..\..\middleware\tools\serializecpp\xml\unserializecpp_xml.hpp" />

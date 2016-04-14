@@ -6,7 +6,7 @@
 namespace middleware {
   namespace tools {
 
-    extern type_client_protocol_map protocol_test_client_map;
+    extern type_cprotocol_map protocol_test_client_map;
 
     void init_protocol_test_client();
 

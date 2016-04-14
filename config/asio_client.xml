@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+ï»¿<?xml version="1.0" encoding="utf-8"?>
 
 <root> 
-  <!-- ipµØÖ·-->  
+  <!-- ipåœ°å€-->  
   <ip>127.0.0.1</ip>  
-  <!-- ¶Ë¿ÚºÅ-->  
+  <!-- ç«¯å£å·-->  
   <port>13140</port>  
   <!-- key -->  
   <key>0</key>  
-  <!-- Ñ­»·Êý×é×î´óbuffer -->  
-  <loopbuffermaxsize>10240</loopbuffermaxsize>  
-  <!-- ×î´óµ¥ÌõÊý¾Ý³¤¶È -->  
-  <everyoncemaxsize>1024</everyoncemaxsize> 
+  <!-- å¾ªçŽ¯æ•°ç»„æœ€å¤§buffer -->  
+  <buffersize>10240</buffersize>  
+  <!-- æœ€å¤§å•æ¡æ•°æ®é•¿åº¦ -->  
+  <everymaxsize>1024</everymaxsize> 
 </root>

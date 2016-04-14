@@ -350,8 +350,39 @@ namespace middleware {
   class middleware_soio_client :
     public socket_middleware_base
   {
-    gateway_socket_client_con m_asi;
     tools::mgt_serializecpp* m_mser;
+    gateway_socket_client_con m_asi;
+    
+
+    uint32_t create_connect(
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      uint32_t lkey = m_mser->pop<uint32_t>("key");
+      bool ret = m_asi.create_connect(
+        lkey,
+        (m_mser->pop<std::string>("ip")).c_str(),
+        m_mser->pop<uint32_t>("port"),
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret ? lkey : 0;
+    }
+
+    uint32_t create_connkey(
+      boost::function<bool(const char*, uint32_t)> aisendfailure
+      )
+    {
+      uint32_t lkey = m_mser->pop<uint32_t>("key");
+      bool ret = m_asi.create_conkey(
+        lkey,
+        (m_mser->pop<std::string>("ip")).c_str(),
+        m_mser->pop<uint32_t>("port"),
+        aisendfailure);
+      delete m_mser;
+      m_mser = nullptr;
+      return ret ? lkey : 0;
+    }
   public:
     middleware_soio_client(  
       boost::function<bool(uint32_t ,const char*, uint32_t)> logic_recv_callback,
@@ -396,24 +427,18 @@ namespace middleware {
       return m_asi.create_conkey(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-    bool create_connkey(
+  
+    uint32_t create_connkey(
       uint32_t aiconfigtype,
       const char* aiconfigpath, 
       boost::function<bool(const char*, uint32_t)> aisendfailure
       )
     {
       m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
-      bool ret = m_asi.create_conkey(
-        m_mser->pop<uint32_t>("key"), 
-        (m_mser->pop<std::string>("ip")).c_str(), 
-        m_mser->pop<uint32_t>("port"), 
-        aisendfailure);
-      delete m_mser;
-      m_mser = nullptr;
-      return ret;
+      return create_connkey(aisendfailure);
     }
 
-    bool create_connkey(
+    uint32_t create_connkey(
       uint32_t aiconfigtype,
       const char* apconfigtxt,
       uint32_t apconfigtxtlen,
@@ -421,17 +446,10 @@ namespace middleware {
       )
     {
       m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
-      bool ret = m_asi.create_conkey(
-        m_mser->pop<uint32_t>("key"),
-        (m_mser->pop<std::string>("ip")).c_str(),
-        m_mser->pop<uint32_t>("port"),
-        aisendfailure);
-      delete m_mser;
-      m_mser = nullptr;
-      return ret;
+      return create_connkey(aisendfailure);
     }
 
-    bool create_connect(uint32_t aikey,
+    uint32_t create_connect(uint32_t aikey,
       std::string aiserverip,
       uint32_t aiserverport,
       boost::function<bool(const char*, uint32_t)> aisendfailure
@@ -440,21 +458,14 @@ namespace middleware {
       return m_asi.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-    bool create_connect(
+    uint32_t create_connect(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
       boost::function<bool(const char*, uint32_t)> aisendfailure
       )
     {
       m_mser = new tools::mgt_serializecpp(aiconfigtype, aiconfigpath);
-      bool ret = m_asi.create_connect(
-        m_mser->pop<uint32_t>("key"),
-        (m_mser->pop<std::string>("ip")).c_str(),
-        m_mser->pop<uint32_t>("port"),
-        aisendfailure);
-      delete m_mser;
-      m_mser = nullptr;
-      return ret;
+      return create_connect(aisendfailure);
     }
 
     bool create_connect(
@@ -465,14 +476,7 @@ namespace middleware {
       )
     {
       m_mser = new tools::mgt_serializecpp(aiconfigtype, apconfigtxt, apconfigtxtlen);
-      bool ret = m_asi.create_connect(
-        m_mser->pop<uint32_t>("key"),
-        (m_mser->pop<std::string>("ip")).c_str(),
-        m_mser->pop<uint32_t>("port"),
-        aisendfailure);
-      delete m_mser;
-      m_mser = nullptr;
-      return ret;
+      return create_connect(aisendfailure);
     }
 
     virtual uint8_t type()
@@ -619,7 +623,7 @@ namespace middleware {
       return m_soio.close(aikey);
     }
 
-    bool create_connect(
+    uint32_t create_connect(
       uint32_t aikey,
       std::string aiserverip,
       uint32_t aiserverport,
@@ -629,7 +633,7 @@ namespace middleware {
       return m_soio.create_connect(aikey, aiserverip, aiserverport, aisendfailure);
     }
 
-    bool create_connect(
+    uint32_t create_connect(
       uint32_t aiconfigtype,
       const char* aiconfigpath,
       boost::function<bool(const char*, uint32_t)> aisendfailure

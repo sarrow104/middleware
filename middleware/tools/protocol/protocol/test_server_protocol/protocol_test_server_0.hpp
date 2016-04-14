@@ -12,33 +12,33 @@
 namespace middleware {
   namespace tools {
 
-    class protocol_test_server_0 :
-      public protocol_server_base
-    {
-      std::string mpop_ls;
-    public:
-      protocol_test_server_0() :
-        protocol_server_base(E_TEST_SERVER_0)
-      {}
+    //class protocol_test_server_0 :
+    //  public protocol_sbase
+    //{
+    //  std::string mpop_ls;
+    //public:
+    //  protocol_test_server_0() :
+    //    protocol_sbase(E_TEST_SERVER_0)
+    //  {}
 
-      virtual bool task(uint32_t aikey)
-      {
-        return 0;
-      }
-      virtual void serialization()
-      {
+    //  virtual uint32_t task(uint32_t aikey)
+    //  {
+    //    return 0;
+    //  }
+    //  virtual void serialization()
+    //  {
 
-      }
-      virtual void unserialization()
-      {
-        m_premote2local->pop(mpop_ls);
-      }
-      virtual protocol_server_base* new_own()
-      {
-        return new protocol_test_server_0();
-      }
+    //  }
+    //  virtual void unserialization()
+    //  {
+    //    m_premote2local->pop(mpop_ls);
+    //  }
+    //  virtual protocol_sbase* new_own()
+    //  {
+    //    return new protocol_test_server_0();
+    //  }
 
-    };
+    //};
 
   } //namespace tools
 }//namespace middleware
