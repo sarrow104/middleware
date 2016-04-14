@@ -50,7 +50,7 @@ namespace middleware{
         }
 
         /** 数组长度 */
-		endian(lsetsize);
+    endian(lsetsize);
         serializecpp_base::push(ap, &lsetsize, sizeof(uint32_t));
         ap += sizeof(uint32_t);
 
@@ -81,7 +81,7 @@ namespace middleware{
         }
 
         /** 数组长度 */
-		endian(lsetsize);
+    endian(lsetsize);
         serializecpp_base::push(ap, &lsetsize, sizeof(uint32_t));
         ap += sizeof(uint32_t);
 
@@ -114,9 +114,9 @@ namespace middleware{
       {                                                                                   
         return 0;                                                                         
       }     
-	  T_DATA ltemp(aivalues);
-	  endian( ltemp );
-	  push(ap, &ltemp, sizeof(T_DATA));
+    T_DATA ltemp(aivalues);
+    endian( ltemp );
+    push(ap, &ltemp, sizeof(T_DATA));
       return sizeof(T_DATA);
     }
       /**
@@ -129,51 +129,51 @@ namespace middleware{
         if (aplen < lsize)
         {
           return 0;
-		}
+    }
 
-		/** 保存数组长度 */
-		uint32_t ltempaivaluesarrsize = aivaluesarrsize;
-		endian( ltempaivaluesarrsize );
-		push( ap, aplen, ltempaivaluesarrsize );
-		ap += sizeof(uint32_t);
-		/** 保存数据 */
-		std::vector<char> lch;
-		lch.resize(aivaluesarrsize*sizeof(T_DATA));
-		memcpy(lch.data(), aivaluesarr, aivaluesarrsize*sizeof(T_DATA));
-		endian((typename std::remove_const<T_DATA>::type*)lch.data(), aivaluesarrsize);
-		serializecpp_base::push(ap, lch.data(), sizeof(T_DATA) * aivaluesarrsize);
+    /** 保存数组长度 */
+    uint32_t ltempaivaluesarrsize = aivaluesarrsize;
+    endian( ltempaivaluesarrsize );
+    push( ap, aplen, ltempaivaluesarrsize );
+    ap += sizeof(uint32_t);
+    /** 保存数据 */
+    std::vector<char> lch;
+    lch.resize(aivaluesarrsize*sizeof(T_DATA));
+    memcpy(lch.data(), aivaluesarr, aivaluesarrsize*sizeof(T_DATA));
+    endian((typename std::remove_const<T_DATA>::type*)lch.data(), aivaluesarrsize);
+    serializecpp_base::push(ap, lch.data(), sizeof(T_DATA) * aivaluesarrsize);
 
         return lsize;
       }
-	/** 特化基础类型SpecializationBasisType */ 
-	  template <typename T_DATA>
-	  static uint32_t SpecializationBasisType(char* ap, uint32_t aplen, const T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
-	  {
-		uint32_t lsize = sizeof(T_DATA) * aivaluesarrsize + sizeof(uint32_t);
+  /** 特化基础类型SpecializationBasisType */ 
+    template <typename T_DATA>
+    static uint32_t SpecializationBasisType(char* ap, uint32_t aplen, const T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+    {
+    uint32_t lsize = sizeof(T_DATA) * aivaluesarrsize + sizeof(uint32_t);
         if (aplen < lsize)
         {
           return 0;
-		}
-		/** 保存数组长度 */
-		uint32_t ltempaivaluesarrsize = aivaluesarrsize;
-		endian( ltempaivaluesarrsize );
-		serializecpp_base::push(ap, &ltempaivaluesarrsize, sizeof(uint32_t));
-		ap += sizeof(uint32_t);
-		/** 保存数据 */
-		serializecpp_base::push(ap, (void*)aivaluesarr, sizeof(T_DATA) * aivaluesarrsize);
+    }
+    /** 保存数组长度 */
+    uint32_t ltempaivaluesarrsize = aivaluesarrsize;
+    endian( ltempaivaluesarrsize );
+    serializecpp_base::push(ap, &ltempaivaluesarrsize, sizeof(uint32_t));
+    ap += sizeof(uint32_t);
+    /** 保存数据 */
+    serializecpp_base::push(ap, (void*)aivaluesarr, sizeof(T_DATA) * aivaluesarrsize);
         return lsize;\
-	  }
+    }
 #define SB_TYPE(TYPE)  \
-	  static uint32_t push(char* ap, uint32_t aplen, const TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
+    static uint32_t push(char* ap, uint32_t aplen, const TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
       {\
         return SpecializationBasisType(ap,aplen,aivaluesarr,aivaluesarrsize);\
       }
 
-	  SB_TYPE(uint8_t)
-	  SB_TYPE(int8_t)
-	  SB_TYPE(bool)
-	  SB_TYPE(float)
-	  SB_TYPE(double)
+    SB_TYPE(uint8_t)
+    SB_TYPE(int8_t)
+    SB_TYPE(bool)
+    SB_TYPE(float)
+    SB_TYPE(double)
 
       /**
        * vector数组
