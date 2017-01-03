@@ -23,7 +23,7 @@ AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/../src/middleware_base MIDDLEWARE_BAS
 set(MIDDLE_SRC ${LOGSYS_SRC} ${SQL_MIDDLEWARE_SRC} ${READCONFIG_SRC} ${SERIALIZECPP_FUN_SRC} ${SERIALIZECPP_FUN_ENDIAN_SRC} ${THREADPOLL_SRC} ${SOCKET_ASIO_SRC} ${SOCKET_IO_SRC} ${LOOPARRAY_SRC} ${MIDDLEWARE_BASE_SRC})
 
 
-#第三方库boost路径
+#μúèy·??aboost?·??
 INCLUDE_DIRECTORIES(../3part/boost/)
 INCLUDE_DIRECTORIES(../3part/)
 #LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/../../3part/boost_lib1)
@@ -37,7 +37,7 @@ else()
 FIND_EXTERBAL_LIB(Mysql mysql)
 endif()
 
-#生成boost lib
+#éú3éboost lib
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/../3part/libs/atomic/src boost_atomic_lib_src) 
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/../3part/libs/chrono/src boost_chrono_lib_src) 
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/../3part/libs/date_time/src/gregorian boost_date_time_lib_src1) 

@@ -1,0 +1,8 @@
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/ALL_BUILD.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/ZERO_CHECK.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/example_liblogsys.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/example_libreadconfig.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/example_libserializecpp_fun.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/example_libsql_middleware.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/example_libthreadpool.dir
+C:/Users/a/Documents/GitHub/mwarepp/build/obj/CMakeFiles/middle.dir
