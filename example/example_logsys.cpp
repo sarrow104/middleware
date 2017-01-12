@@ -21,8 +21,7 @@ int main()
   LOG_ERROR(ic, "全世界失眠 .", i++)
 
    
-  LOG_PLUSH(iz)
-  LOG_PLUSH(ic)
+  
 
 
   CREATE_LOG(LOG_SOCKET_IO_ID, LOG_SOCKET_IO_STR)
@@ -31,6 +30,8 @@ int main()
   while (1)
   {
     boost::this_thread::sleep(boost::posix_time::milliseconds(20));
+	//LOG_PLUSH(iz)
+	//LOG_PLUSH(ic)
   }
   return 0;
 }

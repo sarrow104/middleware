@@ -92,6 +92,7 @@ namespace middleware{
           }
           else
           {
+			flush();
             continue;
           }
 
