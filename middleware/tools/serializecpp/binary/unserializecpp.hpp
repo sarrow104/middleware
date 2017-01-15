@@ -1,0 +1,343 @@
+﻿///        Copyright 2016 libo. All rights reserved
+///   (Home at https://github.com/NingLeixueR/middleware/)
+
+#ifndef UNSERIALIZECPP_H
+#define UNSERIALIZECPP_H
+
+#include "middleware/tools/serializecpp/public/endian/endian_local2net.hpp"
+
+#include <cstdlib>
+
+namespace middleware {
+  namespace tools {
+    /**
+     *  反序列化基类
+     */
+    class unserializecpp_base
+    {
+      static void pop(void* aptarget, void* apsource, uint32_t aicopysize)
+      {
+        memcpy(aptarget, apsource, aicopysize);
+      }
+
+      template <typename T_DATA>
+      static void endian(T_DATA& aivalues)
+      {
+        gendian_local2net.endian(aivalues);
+      }
+
+      template <typename T_DATA>
+      static void endian(T_DATA* aivalues,uint32_t aplen)
+      {
+        gendian_local2net.endian(aivalues, aplen);
+      }
+    public:
+      /**
+       *  map pop
+       */
+      template <typename T_DATA>
+      static uint32_t pop_map(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
+      {
+        typedef typename T_DATA::key_type   first_type;
+        typedef typename T_DATA::mapped_type   second_type;
+
+        if (aplen < sizeof(uint32_t))
+        {
+          return 0;
+        }
+
+        uint32_t larraysize;
+       unserializecpp_base::pop(&larraysize, ap, sizeof(uint32_t));
+    endian(larraysize);
+        ap += sizeof(uint32_t);
+        uint32_t lsize = sizeof(first_type) * larraysize + sizeof(second_type) * larraysize + sizeof(uint32_t);
+
+        std::pair<first_type, second_type> ltempkey;
+        for (uint16_t i = 0; i < larraysize; ++i)
+        {
+          unserializecpp_base::pop((void*)&(ltempkey.first), ap, sizeof(first_type));
+          endian(ltempkey.first);
+          ap += sizeof(first_type);
+          unserializecpp_base::pop((void*)&(ltempkey.second), ap, sizeof(second_type));
+          endian(ltempkey.second);
+          ap += sizeof(second_type);
+          aivaluesarr.insert(ltempkey);
+        }
+        return lsize;
+      }
+
+      /**
+       *  set pop
+       */
+      template <typename T_DATA>
+      static uint32_t pop_set(char* ap, uint32_t aplen, T_DATA& aivaluesarr)
+      {
+        if (aplen < sizeof(uint32_t))
+        {
+          return 0;
+        }
+
+        uint32_t larraysize;
+        unserializecpp_base::pop(&larraysize, ap, sizeof(uint32_t));
+    endian(larraysize);
+        ap += sizeof(uint32_t);
+        uint32_t lsize = sizeof(uint32_t) + larraysize * sizeof(typename T_DATA::value_type);
+
+        typename T_DATA::value_type ltemp;
+        for (uint32_t i = 0; i < larraysize; ++i)
+        {
+          unserializecpp_base::pop((void*)(&ltemp), ap, sizeof(typename T_DATA::value_type));
+          ap += sizeof(typename T_DATA::value_type);
+
+          endian(ltemp);
+          aivaluesarr.insert(ltemp);
+        }
+
+        return lsize;
+      }
+
+ 
+
+      /**
+       * 基本类型
+       */
+      template <typename T_DATA>
+      static uint32_t pop(char* ap, uint32_t aplen, T_DATA& aivalues)
+      {
+
+        if (aplen < sizeof(T_DATA))
+        {
+          return 0;
+        }
+    unserializecpp_base::pop(&aivalues, ap, sizeof(T_DATA));
+    endian(aivalues);
+        return sizeof(T_DATA);
+      }
+
+      
+    static uint32_t get_arraysize(char* ap, uint32_t aplen)
+    {
+      if (aplen < sizeof(uint32_t))
+        {
+          return 0;
+        }
+    uint32_t larraysize;
+        pop(ap, aplen, larraysize);
+        endian(larraysize);
+    return larraysize;
+    }
+
+     template <typename T_DATA>
+     static uint32_t get_arraydata(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+    {
+     uint32_t lsize = sizeof(uint32_t) + aivaluesarrsize * sizeof(T_DATA);
+
+        if(lsize > aplen)
+        {
+          return 0;
+        }
+
+        unserializecpp_base::pop((void*)aivaluesarr, ap, aivaluesarrsize * sizeof(T_DATA));
+
+        endian((typename std::remove_const<T_DATA>::type*)aivaluesarr, aivaluesarrsize);
+    return lsize;
+    }
+
+     template <typename T_DATA>
+     static uint32_t SpecializationBasisTypeGetArraydata(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+    {
+     uint32_t lsize = sizeof(uint32_t) + aivaluesarrsize * sizeof(T_DATA);
+
+        if(lsize > aplen)
+        {
+          return 0;
+        }
+
+        unserializecpp_base::pop((void*)aivaluesarr, ap, aivaluesarrsize * sizeof(T_DATA));
+        return lsize;
+    }
+  /** 原始数组特化宏 */
+    #define SB_ARRAY_POP_TYPE(TYPE)  \
+    static uint32_t pop(char* ap, uint32_t aplen, TYPE* aivaluesarr, uint32_t aivaluesarrsize)\
+    {\
+      uint32_t larraysize = get_arraysize(ap,aplen);\
+      ap += sizeof(uint32_t);\
+      if (larraysize > aivaluesarrsize )\
+      {\
+        return 0;\
+      }\
+      return SpecializationBasisTypeGetArraydata(ap,aplen,aivaluesarr,aivaluesarrsize);\
+    }
+     /**
+       *  原始数组
+       */
+      template <typename T_DATA>
+      static uint32_t pop(char* ap, uint32_t aplen, T_DATA* aivaluesarr, uint32_t aivaluesarrsize)
+      {
+
+       uint32_t larraysize = get_arraysize(ap,aplen);
+
+       ap += sizeof(uint32_t);
+       if (larraysize > aivaluesarrsize )
+        {
+          return 0;
+        }
+     
+        return get_arraydata(ap,aplen,aivaluesarr,larraysize);
+      }
+
+    SB_ARRAY_POP_TYPE(uint8_t)
+    SB_ARRAY_POP_TYPE(int8_t)
+    SB_ARRAY_POP_TYPE(bool)
+    SB_ARRAY_POP_TYPE(float)
+    SB_ARRAY_POP_TYPE(double)
+
+    /** vector特化宏 */
+    #define SB_VECTOR_POP_TYPE(TYPE)  \
+    static uint32_t pop(char* ap, uint32_t aplen, std::vector<TYPE>& aivaluesarr)\
+    {\
+      uint32_t larraysize = get_arraysize(ap,aplen);\
+      ap += sizeof(uint32_t);\
+      aivaluesarr.resize(larraysize);\
+      return  SpecializationBasisTypeGetArraydata(ap,aplen,(TYPE*)aivaluesarr.data(),larraysize);\
+    }
+      /**
+       * vector 数组
+       */
+      template <typename T_DATA>
+      static uint32_t pop(char* ap, uint32_t aplen, std::vector<T_DATA>& aivaluesarr)
+      {
+    uint32_t larraysize = get_arraysize(ap,aplen);
+    ap += sizeof(uint32_t);
+    aivaluesarr.resize(larraysize);
+        return  get_arraydata(ap,aplen,(T_DATA*)aivaluesarr.data(),larraysize);
+      }
+
+    SB_VECTOR_POP_TYPE(uint8_t)
+    SB_VECTOR_POP_TYPE(int8_t)
+    //SB_VECTOR_POP_TYPE(bool)
+    SB_VECTOR_POP_TYPE(float)
+    SB_VECTOR_POP_TYPE(double)
+
+
+      /**
+       *  std::string
+       */
+      static uint32_t pop(char* ap, uint32_t aplen, std::string& aivaluesarr)
+      {
+        uint32_t larraysize = get_arraysize(ap,aplen);
+        uint32_t lsize = sizeof(uint32_t) + larraysize;
+
+        if (lsize > aplen)
+        {
+          return 0;
+        }
+
+    ap += sizeof(uint32_t);
+        aivaluesarr.resize(larraysize);
+        unserializecpp_base::pop((void*)(aivaluesarr.data()), ap, larraysize);
+        return lsize;
+      }
+
+
+    };
+
+    /**
+     *  反序列化类
+     */
+    class unserializecpp
+    {
+      /*
+       *  返回可用空间
+       */
+      static uint32_t get_have_len(serializecpp_buffer& mp_buffer_data)
+      {
+        return mp_buffer_data.get_len() - mp_buffer_data.get_uselen();
+      }
+      
+    public:
+      /*
+       * 基础
+       */
+      template <typename T_DATA>
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA& aivalues)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+    //指针
+    template <typename T_DATA>
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,T_DATA*& aivalues)
+      {
+        uint8_t lnull = 0u;
+        pop( mp_buffer_data, "",  lnull);
+        if(lnull == STRUCT_NOT_NULL)
+        {
+          return pop( mp_buffer_data, "",  *aivalues);
+        }
+        else
+        {
+          throw 0;
+        }
+      }
+
+      template <typename T_DATA>
+      static bool pop(serializecpp_buffer& mp_buffer_data, KeyPlaceholder/*apkey占位*/,const T_DATA* aivalues, uint32_t ailen)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues, ailen);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+    template <typename T_DATA>
+      static bool pop_set(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop_set(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+    template <typename T_DATA>
+      static bool pop_map(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues)
+      {
+        uint32_t lretvalues = unserializecpp_base::pop_map(mp_buffer_data.get_nowpos_buffer(), unserializecpp::get_have_len(mp_buffer_data), aivalues);
+        mp_buffer_data.get_uselen() += lretvalues;
+        return (lretvalues == 0) ? false : true;
+      }
+
+      /** 自定义struct 需要实现bool pop(serializecpp_buffer& mp_buffer_data)方法 */
+      template <typename T_DATA, typename T_DATA2>
+      static bool pop_struct(serializecpp_buffer& mp_buffer_data, KeyPlaceholder /*apkey占位*/,T_DATA& aivalues, T_DATA2& aipop)
+      {
+        return aivalues.pop(aipop);
+      }
+
+      template <typename T_DATA, typename T_DATA2>
+      static bool pop_struct(
+        serializecpp_buffer& mp_buffer_data, 
+        KeyPlaceholder /*apkey占位*/, 
+        T_DATA*& aivalues, 
+        T_DATA2& aipop)
+      {
+        uint8_t lnull = 0u;
+        pop(mp_buffer_data, "", lnull);
+        if (lnull == STRUCT_NOT_NULL)
+        {
+          return aivalues->pop(aipop);
+        }
+        else
+        {
+          throw 0;
+        }
+        
+      }
+
+    };
+
+  }  //namespace tools
+}  //namespace middleware 
+
+#endif //UNSERIALIZECPP_H
+/* vim: set expandtab ts=2 sw=2 sts=2 tw=100: */

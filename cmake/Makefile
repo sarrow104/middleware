@@ -1,9 +1,11 @@
 .PHONY: all release debug clean install clean-debug clean-release
 
+CMAKE_PREFIX_PATH=~/Qt56/5.6/gcc_64/lib/cmake/
+
 all: release
 release:
 	@mkdir -p Release
-	cd Release && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${PREFIX} .. && make
+	cd Release && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DCMAKE_INSTALL_PREFIX=${PREFIX} .. && make
 
 debug:
 	@mkdir -p Debug

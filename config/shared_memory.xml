@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <!-- shared_memory 名称 -->  
+  <smname>kk</smname>  
+  <!-- client最大buffer --> 
+  <client_byte_sum>10240</client_byte_sum> 
+  <!-- server最大buffer -->  
+  <server_byte_sum>10240</server_byte_sum>  
+  <!-- 最大单条数据长度 -->  
+  <everymaxsize>1024</everymaxsize> 
+</root>

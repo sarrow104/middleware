@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root> 
+  <port>13140</port>  
+  <buffersize>10240</buffersize>  
+  <everymaxsize>1024</everymaxsize> 
+</root>
